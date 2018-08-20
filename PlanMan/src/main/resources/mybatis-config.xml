@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="com.scit.doujo.vo.member" alias="Member"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="member.xml"/>
+		<mapper resource="study.xml"/>
+		<mapper resource="work.xml"/>
+		<mapper resource="health.xml"/>
+		<mapper resource="friend.xml"/>
+	</mappers>
+	
+</configuration>
