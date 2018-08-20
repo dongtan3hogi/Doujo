@@ -16,4 +16,17 @@ public class HomeController {
 		return "home";
 	}
 	
+	//회원가입 페이지로 이동
+	@RequestMapping(value = "gotoSignIn", method = RequestMethod.GET)
+	public String GotoSignIn() {
+	
+		return "singIn";
+	}
+	
+	//로그인 페이지로 이동
+	@RequestMapping(value = "gotoLogin", method = RequestMethod.GET)
+	public String GotoLogin() {
+	
+		return "login";
+	}
 }
