@@ -6,5 +6,8 @@
 
 <mapper namespace="com.scit.doujo.dao.memberDao">
 
+	<select id="doLogin" parameterType="Member" resultType="Member">
+		select * from member where id=#{id} and password=#{password}
+	</select>
 
 </mapper>

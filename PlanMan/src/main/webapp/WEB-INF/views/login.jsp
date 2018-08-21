@@ -30,13 +30,13 @@
   <div class="login-box-body">
     <p class="login-box-msg">로그인 하기</p>
 
-    <form action="" method="post">
+    <form action="doLogin" method="post" onsubmit="return loginChk()">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="ID">
+        <input type="text" class="form-control" name='id' id="id" placeholder="ID">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <input type="password" class="form-control" name='password' id="password" placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
@@ -63,7 +63,15 @@
 <script src="resources/main/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 <script>
- 
+	function loginChk(){
+		
+		if($('#id').val().length==0||$('#password').val().length==0){
+			alert('아이디나 비밀번호가 입력되지 않았습니다.');
+			return false;
+		}
+		
+		return true;
+	}
 </script>
 </body>
 </html>
