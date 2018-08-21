@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- SQL -->
+<mapper namespace="org.scit.dao.QuizDAO">
+	<!-- 1 -->
+	<insert id="insertMQuiz" parameterType="map">
+		INSERT INTO quiz
+		(quizseq, type, teg, question, answer1, answer2, answer3, answer4, answernumber, id)
+		VALUES
+		(quizseq.nextval, #{type}, #{teg}, #{question}, #{answer1}, #{answer2}, #{answer3}, #{answer4}, #{answernumber}, #{id})
+	</insert>
+	
+	<!-- 1 -->
+	<insert id="insertJQuiz" parameterType="map">
+		INSERT INTO quiz
+		(quizseq, type, teg, question, answer1, id)
+		VALUES
+		(quizseq.nextval, #{type}, #{teg}, #{question}, #{answer1}, #{id})
+	</insert>
+	
+	<!-- 3 -->
+	<insert id="insertTeg" parameterType="map">
+		INSERT INTO teg
+		(teg, belong, id)
+		VALUES
+		(#{teg}, #{belong}, #{id})
+	</insert>
+	
+	<!-- 4 -->
+	<select id="findTeg" parameterType="map" resultType="integer">
+		SELECT COUNT(*)
+		FROM teg
+		WHERE teg=#{teg}
+		AND id=#{id}
+	</select>
+	
+	
+	<!-- 5 -->
+	<update id="recountTeg" parameterType="map">
+		UPDATE teg
+		<if test="plus != null">
+    		SET count = count + 1
+  		</if>
+  		<if test="minus != null">
+    		SET count = count - 1
+  		</if>
+  		WHERE teg = #{teg}
+  		AND id=#{id}
+	</update>
+	
+	<!--  -->
+	<select id="selectAllQuizrecordlist" resultType="map" parameterType="string">
+		SELECT distinct quizrecordname name
+		FROM quizrecordlist
+		WHERE id=#{id}
+	</select>
+	
+	<!-- 7 -->
+	<select id="selectAllTeg" resultType="map" parameterType="string">
+		SELECT distinct teg, count num
+		FROM teg
+		WHERE id=#{id}
+	</select>
+	
+	<!-- 8 -->
+	<insert id="insertQuizrecordlist" parameterType="map">
+		INSERT INTO quizrecordlist
+		VALUES
+		(#{quizrecordcode}, #{id}, #{quizrecordname})
+	</insert>
+	
+	<!-- 9 -->
+	<insert id="insertQuizrecord" parameterType="map">
+		INSERT INTO quizrecord
+  		(quizrecordcode, quizseq)
+		VALUES
+		(#{quizrecordcode}, #{num})
+	</insert>
+	
+	
+	<!-- 10 -->
+	<select id="countQuizrecordlist" resultType="integer" parameterType="string">
+		SELECT COUNT(*)
+		FROM quizrecordlist
+		WHERE id=#{id}
+	</select>
+	
+	<!-- 11 -->
+	<select id="countTeg" resultType="integer" parameterType="string">
+		SELECT COUNT(*)
+		FROM Teg
+		WHERE id=#{id}
+	</select>
+	
+	<!-- 12 -->
+	<select id="selectTegQuiz" resultType="map" parameterType="map">
+  		SELECT
+  			TO_CHAR(q.quizseq) NUM
+  			,q.type type
+  			,q.teg teg
+  			,q.question question
+  			,q.answer1 answer1
+            ,q.answer2 answer2
+            ,q.answer3 answer3
+            ,q.answer4 answer4
+  			,TO_CHAR(q.answernumber) answernumber
+  			,q.id id
+  			,l.quizrecordname quizrecordname
+		FROM quiz q, quizrecord r , quizrecordlist l
+		WHERE teg like '%' ||  #{teg} || '%'
+		AND q.quizseq = r.quizseq
+		AND r.quizrecordcode = l.quizrecordcode
+		<if test="type != null">
+    		AND type = #{type}
+  		</if>
+		AND q.id=#{id}
+	</select>
+	
+	
+	<!-- 13 -->
+	<select id="countTegQuiz" resultType="integer" parameterType="map">
+  		SELECT count(*)
+		FROM quiz
+		WHERE  type = #{type}
+		AND teg like '%' ||  #{teg} || '%'
+		AND q.id=#{id}
+	</select>
+	
+	<!--  -->
+	<select id="selectOneQuiz" resultType="map" parameterType="integer">
+  		SELECT 
+			TO_CHAR(q.quizseq) NUM
+  			,q.type type
+  			,q.teg teg
+  			,q.question question
+  			,q.answer1 answer1
+            ,q.answer2 answer2
+            ,q.answer3 answer3
+            ,q.answer4 answer4
+  			,TO_CHAR(q.answernumber) answernumber
+  			,q.id id
+  			,l.quizrecordname quizrecordname
+		FROM quiz q, quizrecord r , quizrecordlist l
+		WHERE q.quizseq = r.quizseq
+		AND r.quizrecordcode = l.quizrecordcode
+		AND q.quizseq = #{num}
+	</select>
+	
+	<!-- 15 -->
+	<select id="findQuizrecord" resultType="integer" parameterType="map">
+  		SELECT count(*)
+		FROM quizrecord
+		WHERE quizrecordcode = #{quizrecordcode}
+		AND quizseq = #{quizseq}
+	</select>
+	
+	<!-- 16_1 -->
+	<update id="updateCQuizrecord" parameterType="map">
+		UPDATE quizrecord
+		SET correctcount = correctcount + 1
+  		WHERE quizrecordcode = #{quizrecordcode}
+  		AND quizseq = #{num}
+	</update>
+	
+	<!-- 16_2 -->
+	<update id="updateWQuizrecord" parameterType="Quiz">
+		UPDATE quizrecord
+		SET wrongcount = wrongcount + 1
+  		WHERE quizrecordcode = #{quizrecordcode}
+  		AND quizseq = #{num}
+	</update>
+	
+	<!-- 17 -->
+	<select id="findQuizrecordlist" resultType="integer" parameterType="string">
+  		SELECT count(*)
+		FROM quizrecordlist
+		WHERE quizrecordcode = #{quizrecordcode}
+	</select>
+	
+	<!-- 18 -->
+	<select id="findMaxQuizseq" resultType="integer" parameterType="map">
+  		SELECT MAX(quizseq)
+		FROM quiz
+		WHERE id=#{id}
+	</select>
+	
+	<!-- 19 -->
+	<select id="selectRecordQuiz" resultType="map" parameterType="map">
+  		SELECT 
+			TO_CHAR(q.quizseq) NUM
+  			,q.type type
+  			,q.teg teg
+  			,q.question question
+  			,q.answer1 answer1
+            ,q.answer2 answer2
+            ,q.answer3 answer3
+            ,q.answer4 answer4
+  			,TO_CHAR(q.answernumber) answernumber
+  			,q.id id
+  			,l.quizrecordname quizrecordname
+		FROM quiz q, quizrecord r , quizrecordlist l
+		WHERE q.quizseq = r.quizseq
+		AND r.quizrecordcode = l.quizrecordcode
+		AND l.quizrecordcode = #{quizrecordcode}
+		AND q.id=#{id}
+	</select>
+	
+	<!-- 20 -->
+	<select id="selectQuizrecordname" resultType="string" parameterType="map">
+  		SELECT quizrecordname
+		FROM quizrecord r , quizrecordlist l
+		WHERE r.quizrecordcode = l.quizrecordcode
+		AND r.quizseq = #{num}
+		AND l.id=#{id}
+	</select>
+	
+	
+	
+	
+
+	
+	
+
+</mapper>

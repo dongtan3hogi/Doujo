@@ -1,0 +1,69 @@
+-- CREATE ]==============================================================================
+
+--임시 사용자 TABLE
+CREATE TABLE member (
+    id VARCHAR2(20) PRIMARY KEY,
+    password VARCHAR2(20) NOT NULL
+);
+
+
+--TEG TABLE
+CREATE TABLE TEG(
+    	teg VARCHAR2(20) PRIMARY KEY,
+    	belong VARCHAR2(20) NOT NULL,
+    	count NUMBER DEFAULT 1,
+   	id VARCHAR2(20) REFERENCES member(id)
+);
+
+
+--퀴즈 테이블
+CREATE TABLE quiz(
+quizseq number PRIMARY KEY,
+	type VARCHAR2(20) CHECK(type in('multiplechoice','shortanswer')),
+	teg VARCHAR2(200),
+	question VARCHAR2(1000) NOT NULL,
+answer1 VARCHAR2(200) NOT NULL,
+   	answer2 VARCHAR2(200),
+    	answer3 VARCHAR2(200),
+    	answer4 VARCHAR2(200),
+	answernumber NUMBER,
+    	id VARCHAR2(20) REFERENCES member(id)
+);
+
+
+--문제폴더 목록
+CREATE TABLE quizrecordlist(
+quizrecordcode VARCHAR2(50) PRIMARY KEY,
+    	id VARCHAR2(20) REFERENCES member(id),
+    	quizrecordname VARCHAR2(30) NOT NULL
+);
+
+
+--문제풀이 진도현황 테이블
+CREATE TABLE quizrecord(
+	quizrecordcode VARCHAR2(50) REFERENCES quizrecordlist(quizrecordcode),
+	quizseq NUMBER REFERENCES quiz(quizseq),
+	correctcount NUMBER DEFAULT 0,
+	wrongcount NUMBER DEFAULT 0
+);
+
+
+--채팅방
+CREATE TABLE groups(
+    groupname VARCHAR2(20) NOT NULL,
+    groupseq NUMBER PRIMARY KEY,
+    groupleader VARCHAR2(20) REFERENCES member(id),
+    groupteg VARCHAR2(200),
+    groupsecret VARCHAR2(20) check(groupsecret in ('public','private')),
+    groupalert VARCHAR2(200)
+);
+
+
+--group에 가입되 있는 member나타내는 table
+CREATE TABLE groupmember(
+    groupseq NUMBER REFERENCES groups(groupseq),
+    id VARCHAR2(20) REFERENCES member(id)
+);
+
+CREATE SEQUENCE quizseq;
+CREATE SEQUENCE groupseq;
