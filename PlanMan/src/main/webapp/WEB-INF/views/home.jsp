@@ -29,7 +29,7 @@
     <!-- Logo -->
     <a href="redirect:/" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>Planman</b></span>
+      <span class="logo-mini"><b>Pm</b></span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>Planman</b></span>
     </a>

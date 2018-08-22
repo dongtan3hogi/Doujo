@@ -9,9 +9,9 @@ CREATE TABLE member (
 
 --TEG TABLE
 CREATE TABLE TEG(
-    	teg VARCHAR2(20) PRIMARY KEY,
-    	belong VARCHAR2(20) NOT NULL,
-    	count NUMBER DEFAULT 1,
+    teg VARCHAR2(20) PRIMARY KEY,
+    belong VARCHAR2(20) NOT NULL,
+   	count NUMBER DEFAULT 1,
    	id VARCHAR2(20) REFERENCES member(id)
 );
 
@@ -24,18 +24,18 @@ quizseq number PRIMARY KEY,
 	question VARCHAR2(1000) NOT NULL,
 answer1 VARCHAR2(200) NOT NULL,
    	answer2 VARCHAR2(200),
-    	answer3 VARCHAR2(200),
-    	answer4 VARCHAR2(200),
+    answer3 VARCHAR2(200),
+    answer4 VARCHAR2(200),
 	answernumber NUMBER,
-    	id VARCHAR2(20) REFERENCES member(id)
+    id VARCHAR2(20) REFERENCES member(id)
 );
 
 
 --문제폴더 목록
 CREATE TABLE quizrecordlist(
-quizrecordcode VARCHAR2(50) PRIMARY KEY,
-    	id VARCHAR2(20) REFERENCES member(id),
-    	quizrecordname VARCHAR2(30) NOT NULL
+	quizrecordcode VARCHAR2(50) PRIMARY KEY,
+    id VARCHAR2(20) REFERENCES member(id),
+	quizrecordname VARCHAR2(30) NOT NULL
 );
 
 
