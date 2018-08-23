@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.scit.doujo.dao.memberDao;
 import com.scit.doujo.vo.member;
+import com.scit.doujo.vo.schedule;
 
 
 @Controller
@@ -30,6 +32,31 @@ public class HomeController {
 	public String gotoSignIn() {
 	
 		return "singIn";
+	}
+	
+	//회원아이디 중복 확인
+	@RequestMapping(value = "idcheck", method=RequestMethod.GET)
+	public @ResponseBody String idcheck(String id){
+		System.out.println(id);
+		memberDao manager = sqlSession.getMapper(memberDao.class);
+		String result =manager.idDoubleCheck(id);
+			
+		return result;			
+	}
+		
+	//회원등록완료
+	@RequestMapping(value = "insertMember", method=RequestMethod.POST)
+	public String insertMember(member vo){
+		
+		if(vo.getNickname().length()==0) {			
+			String data=vo.getId();
+			vo.setNickname(data);
+		}
+		System.out.println(vo);
+		memberDao manager = sqlSession.getMapper(memberDao.class);
+		int result = manager.insertMember(vo);
+		System.out.println(result);
+		return "redirect:/";
 	}
 	
 	//로그인 페이지로 이동
@@ -54,4 +81,27 @@ public class HomeController {
 		}
 	}
 	
+	//회원가입 페이지로 이동
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "home";
+	}
+	
+	//스케쥴 입력하기
+	@RequestMapping(value = "addschdule", method = RequestMethod.POST)
+	public @ResponseBody String addschdule(schedule vo, HttpSession session) {
+		memberDao manager=sqlSession.getMapper(memberDao.class);
+		System.out.println(vo.toString());
+		int result=manager.addschdule(vo);
+		
+		if(result!=0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	
 }
+

@@ -22,7 +22,77 @@
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
+  <!-- Date Picker -->
+  <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
+  <!-- Time Picker -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.css">
+  
+  <style type="text/css">
+	 /* The Modal (background) */
+     .modal {
+         display: none; /* Hidden by default */
+         position: fixed; /* Stay in place */
+         z-index: 5; /* Sit on top */
+         left: 0;
+         top: 0;
+         width: 100%; /* Full width */
+         height: 100%; /* Full height */
+         overflow: auto; /* Enable scroll if needed */
+         background-color: rgb(0,0,0); /* Fallback color */
+         background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+     }
+ 
+     /* Modal Content/Box */
+     .modal-content {
+         background-color: #fefefe;
+         margin: 15% auto; /* 15% from the top and centered */
+         padding: 20px;
+         border: 1px solid #888;
+         width: 50%; /* Could be more or less, depending on screen size */                          
+     }
+     /* The Close Button */
+     .close {
+         color: #aaa;
+         float: right;
+         font-size: 28px;
+         font-weight: bold;
+     }
+     .close:hover,
+     .close:focus {
+         color: black;
+         text-decoration: none;
+         cursor: pointer;
+     }
+     
+     .event {
+  		display: none; 
+	 }
+	 
+	 label {
+	  	margin: 0 0 -1px;
+	  	padding: 5px 20px;
+   	    font-weight: 600;
+	    text-align: center;
+	    color: #708090;
+	    border: 1px solid transparent;
+	 }
+	
+	 .event:checked + label {
+	  	color: #d73925;
+	 } 
+	
+	 label:hover {
+	   color: #b0e0e6;
+	   cursor: pointer;
+	 }
+	 #datepicker{
+	   display: inline;
+	 }
+	 
+	 input[type="time"]{
+	 	display: inline;
+	 }
+  </style>	
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -148,7 +218,7 @@
                   <a href="#" class="btn btn-default btn-flat">개인정보</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                  <a href="logout" class="btn btn-default btn-flat">로그아웃</a>
                 </div>
               </li>
             </ul>
@@ -184,56 +254,64 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Study</span>
+            <i class="fa fa-edit"></i> <span>Study</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o"></i> Quiz</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Study Group</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Work</span>
+            <i class="fa fa-suitcase"></i> <span>Work</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o"></i> Work 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Work 2</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 1</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 2</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Health</span>
+            <i class="fa fa-heartbeat"></i> <span>Health</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o"></i> Health 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Health 2</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-red"></i> Health 1</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-red"></i> Health 2</a></li>
           </ul>
         </li>
-        <li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-users"></i> <span>Friend</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
+          </ul>
+        </li>
+        <!-- <li>
           <a href="widgets.html">
             <i class="fa fa-th"></i> <span>Widgets</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">new</small>
             </span>
           </a>
-        </li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+        </li>  -->
+        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>홈피 css설명서</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -245,77 +323,58 @@
     <section class="content-header">
       <h1>
         Calendar
-        <small>Control panel</small>
+        <small>${sessionScope.member.id}님의 스케쥴</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Calendar</li>
       </ol>
     </section>
+    
+	<!-- The Modal -->
+    <div id="myModal" class="modal">
+ 
+    	<!-- Modal content -->
+        <div class="modal-content">
+        	<span class="close">&times;</span>     
+        	<div>스케쥴 타입</div>
+        	<div>
+        		<input type="radio" id="event1" value="study" class="event" name="event">
+        		<label for="event1">Study</label>
+        		<input type="radio" id="event2" value="work" class="event" name="event">
+        		<label for="event2">Work</label>
+        		<input type="radio" id="event3" value="health" class="event" name="event">
+        		<label for="event3">Health</label>
+        		<input type="radio" id="event4" value="friend" class="event" name="event">
+        		<label for="event4">Friend</label>
+        		<input type="radio" id="event5" value="etc" class="event" name="event">
+        		<label for="event5">etc</label>
+        	</div>
+        	<br/>
+        	<div>
+        		시작일 <input type="text" style="width: 150px;" class="datepicker" id="startday" > 
+        	</div>
+        	<br/>
+        	<div>
+        		스케쥴 기간 지정    <input type="number" style="width: 40px; height: 30px;" id="endday" value="1"> 일간 진행
+        	</div>
+        	<br/>
+        	<div>시간대 <input id="timepicker" type="text" style="width: 120px;"> ~ <input id="timepicker2" type="text" style="width: 120px;"></div>
+        	<br/>
+        	<div>스케쥴명</div>
+        	<div><input type="text" class="form-control" id="eventtitle" name="eventtitle" /></div>
+        	<br/>
+        	<div>스케쥴내용</div>
+        	<div><textarea type="text" class="form-control" id="eventcontent" name="eventcontent" style="height: 200px;"></textarea></div>
+        	<br/>
+        	<div align="right"><input type="submit" id="eventAdd" style="width: 200px;" value="스케쥴 입력하기" class="btn btn-block btn-primary" onclick="return addevent()"/></div>
+        </div>
+    </div>
 
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-md-3">
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h4 class="box-title">Draggable Events</h4>
-            </div>
-            <div class="box-body">
-              <!-- the events -->
-              <div id="external-events">
-                <div class="external-event bg-green">Study</div>
-                <div class="external-event bg-yellow">Work</div>
-                <div class="external-event bg-aqua">Food</div>
-                <div class="external-event bg-light-blue">Sleep</div>
-                <div class="external-event bg-red"></div>
-                <div class="checkbox">
-                  <label for="drop-remove">
-                    <input type="checkbox" id="drop-remove">
-                    remove after drop
-                  </label>
-                </div>
-              </div>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /. box -->
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">Create Event</h3>
-            </div>
-            <div class="box-body">
-              <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
-                <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
-                <ul class="fc-color-picker" id="color-chooser">
-                  <li><a class="text-aqua" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-blue" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-light-blue" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-teal" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-yellow" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-orange" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-green" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-lime" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-red" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-purple" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-fuchsia" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-muted" href="#"><i class="fa fa-square"></i></a></li>
-                  <li><a class="text-navy" href="#"><i class="fa fa-square"></i></a></li>
-                </ul>
-              </div>
-              <!-- /btn-group -->
-              <div class="input-group">
-                <input id="new-event" type="text" class="form-control" placeholder="Event Title">
-
-                <div class="input-group-btn">
-                  <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Add</button>
-                </div>
-                <!-- /btn-group -->
-              </div>
-              <!-- /input-group -->
-            </div>
-          </div>
-        </div>
+        
         <!-- /.col -->
         <div class="col-md-9">
           <div class="box box-primary">
@@ -337,205 +396,11 @@
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
+      <b>Version</b> 0.0.1
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-    reserved.
+    <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Create the tabs -->
-    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <!-- Home tab content -->
-      <div class="tab-pane" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">Recent Activity</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                <p>Will be 23 on April 24th</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-user bg-yellow"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
-
-                <p>New phone +1(800)555-1234</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
-
-                <p>nora@example.com</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-file-code-o bg-green"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
-
-                <p>Execution time 5 seconds</p>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Custom Template Design
-                <span class="label label-danger pull-right">70%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Update Resume
-                <span class="label label-success pull-right">95%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Laravel Integration
-                <span class="label label-warning pull-right">50%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Back End Framework
-                <span class="label label-primary pull-right">68%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-      </div>
-      <!-- /.tab-pane -->
-      <!-- Stats tab content -->
-      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-      <!-- /.tab-pane -->
-      <!-- Settings tab content -->
-      <div class="tab-pane" id="control-sidebar-settings-tab">
-        <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Report panel usage
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Some information about this general settings option
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Allow mail redirect
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Other sets of options are available
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Expose author name in posts
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Allow the user to show his name in blog posts
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <h3 class="control-sidebar-heading">Chat Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Show me as online
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Turn off notifications
-              <input type="checkbox" class="pull-right">
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Delete chat history
-              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
-            </label>
-          </div>
-          <!-- /.form-group -->
-        </form>
-      </div>
-      <!-- /.tab-pane -->
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 
@@ -556,12 +421,30 @@
 <!-- fullCalendar -->
 <script src="resources/main/bower_components/moment/moment.js"></script>
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<!-- datepicker -->
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- timepicker -->
+<script type="text/javascript" src="resources/main/bower_components/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
-
+	$('.datepicker').datepicker({
+		dateFormat: 'yy-mm-dd'
+	});
+	
+	$('#timepicker').timepicker({
+		maxHours : 24,
+		showMeridian: false,
+		minuteStep: 10
+    });
+	
+	$('#timepicker2').timepicker({
+		maxHours : 24,
+		showMeridian: false,
+		minuteStep: 10
+    });
+	
     /* initialize the external events
-     -----------------------------------------------------------------*/
     function init_events(ele) {
       ele.each(function () {
 
@@ -600,49 +483,43 @@
         right : 'month,agendaWeek,agendaDay'
       },
       buttonText: {
-        today: 'today',
+        today: '오늘',
         month: 'month',
         week : 'week',
         day  : 'day'
       },
+      dayClick: function(date){
+    	
+    	// Get the modal
+        var modal = document.getElementById('myModal');
+ 
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];                                          
+ 
+        // When the user clicks on the button, open the modal 
+        modal.style.display = "block";
+        $('.datepicker').val(date.format());
+        
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+        	$('#eventtitle').val('');
+            $('#eventcontent').val('');
+            $('.event').prop('checked', false);  
+            modal.style.display = "none";
+        }
+ 
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+            	$('#eventtitle').val('');
+                $('#eventcontent').val('');
+                $('.event').prop('checked', false);  
+                modal.style.display = "none";
+            }
+        }
+      },
       //Random default events
-      events    : [
-        {
-          title          : 'All Day Event',
-          start          : new Date(y, m, 1),
-          backgroundColor: '#f56954', //red
-          borderColor    : '#f56954' //red
-        },
-        {
-          title          : 'Long Event',
-          start          : new Date(y, m, d - 5),
-          end            : new Date(y, m, d - 2),
-          backgroundColor: '#f39c12', //yellow
-          borderColor    : '#f39c12' //yellow
-        },
-        {
-          title          : 'Meeting',
-          start          : new Date(y, m, d, 10, 30),
-          allDay         : false,
-          backgroundColor: '#0073b7', //Blue
-          borderColor    : '#0073b7' //Blue
-        },
-        {
-          title          : 'Lunch',
-          start          : new Date(y, m, d, 12, 0),
-          end            : new Date(y, m, d, 14, 0),
-          allDay         : false,
-          backgroundColor: '#00c0ef', //Info (aqua)
-          borderColor    : '#00c0ef' //Info (aqua)
-        },
-        {
-          title          : 'Birthday Party',
-          start          : new Date(y, m, d + 1, 19, 0),
-          end            : new Date(y, m, d + 1, 22, 30),
-          allDay         : false,
-          backgroundColor: '#00a65a', //Success (green)
-          borderColor    : '#00a65a' //Success (green)
-        },
+      events:[
         {
           title          : 'Click for Google',
           start          : new Date(y, m, 28),
@@ -652,71 +529,71 @@
           borderColor    : '#3c8dbc' //Primary (light-blue)
         }
       ],
-      editable  : true,
-      droppable : true, // this allows things to be dropped onto the calendar !!!
-      drop      : function (date, allDay) { // this function is called when something is dropped
-
-        // retrieve the dropped element's stored Event Object
-        var originalEventObject = $(this).data('eventObject')
-
-        // we need to copy it, so that multiple events don't have a reference to the same object
-        var copiedEventObject = $.extend({}, originalEventObject)
-
-        // assign it the date that was reported
-        copiedEventObject.start           = date
-        copiedEventObject.allDay          = allDay
-        copiedEventObject.backgroundColor = $(this).css('background-color')
-        copiedEventObject.borderColor     = $(this).css('border-color')
-
-        // render the event on the calendar
-        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
-
-        // is the "remove after drop" checkbox checked?
-        if ($('#drop-remove').is(':checked')) {
-          // if so, remove the element from the "Draggable Events" list
-          $(this).remove()
-        }
-
-      }
+      editable  : true
+   	
     })
-
-    /* ADDING EVENTS */
-    var currColor = '#3c8dbc' //Red by default
-    //Color chooser button
-    var colorChooser = $('#color-chooser-btn')
-    $('#color-chooser > li > a').click(function (e) {
-      e.preventDefault()
-      //Save color
-      currColor = $(this).css('color')
-      //Add color effect to button
-      $('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor })
-    })
-    $('#add-new-event').click(function (e) {
-      e.preventDefault()
-      //Get value and make sure it is not null
-      var val = $('#new-event').val()
-      if (val.length == 0) {
-        return
-      }
-
-      //Create events
-      var event = $('<div />')
-      event.css({
-        'background-color': currColor,
-        'border-color'    : currColor,
-        'color'           : '#fff'
-      }).addClass('external-event')
-      event.html(val)
-      $('#external-events').prepend(event)
-
-      //Add draggable funtionality
-      init_events(event)
-
-      //Remove event from text input
-      $('#new-event').val('')
-    })
+    
   })
+
+  function addevent(){
+  		var event=$('.event:checked').val();
+  		var startday=$('#startday').val()+" "+$('#timepicker').val();
+  		var startdatetime=new Date(startday);
+  		var enddatetime=new Date();
+  		var plusday=$('#endday').val();
+  		plusday *= 1;
+  		plusday -= 1;
+  		enddatetime.setDate(startdatetime.getDate()+plusday);
+  		var end_date = enddatetime.getDate();
+  		var end_month = enddatetime.getMonth() + 1;
+  		var end_year = enddatetime.getFullYear();
+  		var endday=end_year+"-"+end_month+"-"+end_date+" "+$('#timepicker2').val();
+  		var eventtitle=$('#eventtitle').val();
+  		var eventcontent=$('#eventcontent').val();
+  		alert(startday);
+    	alert(endday);
+  		if($('.event:checked').val()==null){
+  			alert("이벤트 타입을 선택해 주세요.");
+  			return false;
+  		}
+  		
+  		if($('#timepicker').val()>$('#timepicker2').val()){
+  			alert("시간대를 다시 선택해주세요.");
+  			return false;
+  		}
+  		
+  		if($('#eventtitle').val().length==0){
+  			alert("이벤트 타이틀을 입력해주세요.");
+  			return false;
+  		}else{
+  			$.ajax({
+  				url:'addschdule'
+  				,type:'post'
+  				,data:{"id":"${sessionScope.member.id}"
+  					,"eventtype":event
+  					,"eventtitle":eventtitle
+  					,"eventcontent":eventcontent
+  					,"startday":startday
+  					,"endday":endday	
+  				}
+  				,success: function (data){
+					if(data=="success"){
+						alert("스케쥴을 입력했습니다.");
+						$('#eventtitle').val('');
+			            $('#eventcontent').val('');
+			            $('.event').prop('checked', false);
+			            var modal = document.getElementById('myModal');
+			            modal.style.display = "none";						
+			            return true;
+					}else{
+						alert("스케쥴  입력에 실패했습니다.");
+						return false;
+					}
+  				}
+  			});	
+  		}
+  		
+   }
 </script>
 </body>
 </html>

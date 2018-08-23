@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>AdminLTE 2 | Registration Page</title>
   <!-- Tell the browser to be responsive to screen width -->
@@ -31,28 +31,61 @@
   <div class="register-box-body">
     <p class="login-box-msg">회원가입</p>
 
-    <form action="" method="post">
+   <form action="insertMember" method="post" onsubmit="return insertChk()">
       <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="ID">
+        <input id="id" type="text" name="id"class="form-control" placeholder="ID">
+        <p id="result1" style="color: green;"></p>
+        <p id="result2" style="color: red;"></p>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Retype password">
-        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="text" class="form-control" placeholder="Full name">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       
+      <div class="form-group has-feedback">
+        <input id="password" type="password" name="password" class="form-control" placeholder="Password">
+        <p id="result3" style="color: red;"></p>
+        <p id="result4" style="color: green;"></p>
+        
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      
+      <div class="form-group has-feedback">
+        <input id="password2" type="password" class="form-control" placeholder="Retype password">
+        <p id="result5" style="color: green;"></p>
+        <p id="result6" style="color: red;"></p>
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      
+      <div class="form-group has-feedback">
+        <input id="name" type="text" class="form-control" name="name" placeholder="Name">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      
+      <div class="form-group has-feedback">
+   		 <div align="center">성별</div>
+     	      <select id="gender" name="gender" class="form-control">
+			  	<option value="male" selected="selected">남자</option>
+			  	<option value="female">여자</option>
+			  </select>
+      </div>
+      
+      <div class="form-group has-feedback">
+        <input id="age" type="text" class="form-control" name="age" placeholder="Age">
+      </div>
+      
+      <div class="form-group has-feedback" align="center" >
+        <div align="center">직업</div>
+			  <select id="job" name="job" class="form-control">
+			  	<option value="student" selected="selected">학생</option>
+			  	<option value="worker">회사원</option>
+			  </select>	  
+      </div>
+      
+      <p align="center">[선택 사항]</p>
+      <div class="form-group has-feedback">
+        <input id="nickname" type="text" class="form-control" name="nickname" placeholder="Nick name">
+      </div>
+      <div class="form-group has-feedback">
+        <input id="hobby" type="text" class="form-control" name="hobby" placeholder="Hobby">
+      </div>
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
@@ -82,13 +115,113 @@
 <!-- iCheck -->
 <script src="resources/main/dist/js/icheck.min.js"></script>
 <script>
+  var flag='';
+  var flag2='';	
+
   $(function () {
     $('input').iCheck({
       checkboxClass: 'icheckbox_square-blue',
       radioClass: 'iradio_square-blue',
       increaseArea: '20%' /* optional */
     });
+    
+    $('#id').on('keyup', function(){
+		var userid = $('#id').val();
+		
+		$.ajax({
+			method : 'GET'
+			, url : 'idcheck'
+			, data : {"id":userid}
+			, success : function(resp){
+				if(resp.length == 0){	
+					$('#result1').text("중복하지 않은 아이디입니다.");
+					$('#result2').text('');
+					flag=true;
+				}
+				if(resp.length != 0){
+					$('#result1').text('');
+					$('#result2').text("이미 사용중인 아이디입니다.");
+					flag=false;
+				}
+			}
+		});
+	});
+	
+	$('#password').keyup(function(){
+		var password = $('#password').val();		
+		
+		if(password.length <3 || password.length > 15){
+			$('#result4').text('');
+			$('#result3').text("비밀번호 길이는 3~15 사이 입니다.");
+			flag2=false;
+		}else{
+			$('#result3').text('');	
+			$('#result4').text("사용 가능합니다.");
+			flag2=true;
+		}
+	});
+	
+	$('#password2').keyup(function(){
+		var password = $('#password').val();
+		var password2 = $('#password2').val();
+		
+		if(password == password2){
+			$('#result6').text('');
+			$('#result5').text("비밀번호가 일치합니다.");
+			flag2=true;
+		}else{
+			$('#result5').text('');
+			$('#result6').text("비밀번호가 일치하지 않습니다.");
+			flag2=false;
+		}		
+	});
+	
   });
+  
+  function insertChk(){
+	  
+	  if($('#id').val().length==0){
+		  alert("아이디를 입력해 주세요");
+		  return false;
+	  }
+	  
+	  if($('#id').val().length < 3 || $('#id').val().length > 15){
+		  alert("아이디 길이는 3~15 사이로 입력해주세요.");
+		  return false;
+	  }
+	  
+	  if(!flag){
+		  alert("중복된 아이디로는 가입이 불가능 합니다.");
+		  return false;
+	  }
+	  
+	  if(!flag2){
+		  alert("잘못된 비밀번호 입니다. 다시 입력해주세요.");
+		  return false;
+	  }
+	  
+	  if($('#password').val().length==0){
+		  alert("비밀번호를 입력해 주세요");
+		  return false;
+	  }
+	  
+	  if($('#password2').val().length==0){
+		  alert("비밀번호 확인을 입력해 주세요");
+		  return false;
+	  }
+	  
+	  if($('#name').val().length==0){
+		  alert("이름을 입력해 주세요");
+		  return false;
+	  }
+	  
+	  if($('#age').val().length==0){
+		  alert("나이를 입력해 주세요");
+		  return false;
+	  }
+	  
+	  return true;
+  }
 </script>
 </body>
 </html>

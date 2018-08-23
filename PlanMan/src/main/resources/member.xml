@@ -5,9 +5,22 @@
 
 
 <mapper namespace="com.scit.doujo.dao.memberDao">
-
+	<!-- 로그인 -->
 	<select id="doLogin" parameterType="Member" resultType="Member">
 		select * from member where id=#{id} and password=#{password}
 	</select>
 
+	<!-- 스케쥴 등록 -->
+	<insert id="addschdule" parameterType="Schedule">
+		insert into schedule values(#{id},#{eventtype},#{eventtitle},#{eventcontent},to_date(#{startday}, 'YYYY-MM-DD HH24:MI'),to_date(#{endday}, 'YYYY-MM-DD HH24:MI'))
+	</insert>
+	
+	<insert id="insertMember" parameterType="Member">
+  		insert into member(id, password, name, nickname, gender, age, job, hobby)
+  		values(#{id}, #{password}, #{name}, #{nickname}, #{gender}, #{age}, #{job}, #{hobby})
+  	</insert>
+  	
+  	<select id="idDoubleCheck" resultType="String" parameterType="String">
+  		select id from member where id = #{id}  			
+  	</select>
 </mapper>

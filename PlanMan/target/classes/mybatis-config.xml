@@ -4,6 +4,7 @@
 
 	<typeAliases>
 		<typeAlias type="com.scit.doujo.vo.member" alias="Member"/>
+		<typeAlias type="com.scit.doujo.vo.schedule" alias="Schedule"/>
 	</typeAliases>
 	
 	<mappers>
