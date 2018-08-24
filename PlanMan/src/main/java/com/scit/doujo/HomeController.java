@@ -1,5 +1,10 @@
 package com.scit.doujo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
@@ -88,11 +93,42 @@ public class HomeController {
 		return "home";
 	}
 	
+	//스케쥴 달력에 보여주기selectSchdule
+	@RequestMapping(value = "selectSchdule", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<schedule> selectSchdule(HttpSession session) {
+		memberDao manager=sqlSession.getMapper(memberDao.class);
+		member vo=(member) session.getAttribute("member");
+		String id=vo.getId();
+		ArrayList<schedule> result=new ArrayList<>();
+		result=manager.selectSchdule(id);
+		
+	    for(int i=0; i<result.size(); i++) {
+	        try {
+	        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				Date endDate = formatter.parse(result.get(i).getEndday());
+				Date startDate = formatter.parse(result.get(i).getStartday());
+				long diff=endDate.getTime()-startDate.getTime();
+				int diffDays =(int) (diff/(24*60*60*1000));
+				result.get(i).setDiffDay(diffDays);
+	        } catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	       
+	    }
+	    
+	    if(result==null) {
+			return null;
+		}
+		
+		return result;
+	}
+	
 	//스케쥴 입력하기
 	@RequestMapping(value = "addschdule", method = RequestMethod.POST)
 	public @ResponseBody String addschdule(schedule vo, HttpSession session) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
-		System.out.println(vo.toString());
+		System.out.println("스케쥴 입력용:"+vo.toString());
 		int result=manager.addschdule(vo);
 		
 		if(result!=0) {
@@ -102,6 +138,33 @@ public class HomeController {
 		}
 	}
 	
+	//스케쥴 변경하기
+	@RequestMapping(value = "updateschdule", method = RequestMethod.POST)
+	public @ResponseBody String updateschdule(schedule vo, HttpSession session) {
+		memberDao manager=sqlSession.getMapper(memberDao.class);
+		System.out.println("스케쥴 변경용:"+vo.toString());
+		int result=manager.updateschdule(vo);
+		
+		if(result!=0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
+	
+	//스케쥴 삭제하기
+	@RequestMapping(value = "deleteschdule", method = RequestMethod.POST)
+	public @ResponseBody String deleteschdule(int schseq, HttpSession session) {
+		memberDao manager=sqlSession.getMapper(memberDao.class);
+		System.out.println("스케쥴 삭제용:"+schseq);
+		int result=manager.deleteschdule(schseq);
+		
+		if(result!=0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 	
 }
 

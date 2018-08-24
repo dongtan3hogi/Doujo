@@ -1,5 +1,7 @@
 package com.scit.doujo.dao;
 
+import java.util.ArrayList;
+
 import com.scit.doujo.vo.member;
 import com.scit.doujo.vo.schedule;
 
@@ -11,7 +13,13 @@ public interface memberDao {
 	public String idDoubleCheck(String id);
 	//로그인하기
 	public member doLogin(member vo);
+	//스케쥴 가져오기
+	public ArrayList<schedule> selectSchdule(String id);
 	//스케쥴 추가하기
 	public int addschdule(schedule vo);
+	//스케쥴 변경하기
+	public int updateschdule(schedule vo);
+	//스케쥴 삭제하기
+	public int deleteschdule(int schseq);
 	
 }

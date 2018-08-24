@@ -101,7 +101,6 @@
         <!-- /.col -->
       </div>
     </form>
-
     <a href="gotoLogin" class="text-center">로그인으로 가기</a>
   </div>
   <!-- /.form-box -->
@@ -148,9 +147,8 @@
 	});
 	
 	$('#password').keyup(function(){
-		var password = $('#password').val();		
 		
-		if(password.length <3 || password.length > 15){
+		if($('#password').val().length <3 || $('#password').val().length > 15){
 			$('#result4').text('');
 			$('#result3').text("비밀번호 길이는 3~15 사이 입니다.");
 			flag2=false;

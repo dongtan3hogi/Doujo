@@ -2,26 +2,38 @@ package com.scit.doujo.vo;
 
 public class schedule {
 
+	private int schseq;
 	private String id;
 	private String eventtype;
 	private String eventtitle;
 	private String eventcontent;
 	private String startday;
 	private String endday;
+	private int diffDay;
 
-	public schedule(String id, String eventtype, String eventtitle, String eventcontent, String startday,
-			String endday) {
+	public schedule(int schseq, String id, String eventtype, String eventtitle, String eventcontent, String startday,
+			String endday, int diffDay) {
 		super();
+		this.schseq = schseq;
 		this.id = id;
 		this.eventtype = eventtype;
 		this.eventtitle = eventtitle;
 		this.eventcontent = eventcontent;
 		this.startday = startday;
 		this.endday = endday;
+		this.diffDay = diffDay;
 	}
 
 	public schedule() {
 		super();
+	}
+
+	public int getSchseq() {
+		return schseq;
+	}
+
+	public void setSchseq(int schseq) {
+		this.schseq = schseq;
 	}
 
 	public String getId() {
@@ -72,10 +84,19 @@ public class schedule {
 		this.endday = endday;
 	}
 
+	public int getDiffDay() {
+		return diffDay;
+	}
+
+	public void setDiffDay(int diffDay) {
+		this.diffDay = diffDay;
+	}
+
 	@Override
 	public String toString() {
-		return "schedule [id=" + id + ", eventtype=" + eventtype + ", eventtitle=" + eventtitle + ", eventcontent="
-				+ eventcontent + ", startday=" + startday + ", endday=" + endday + "]";
+		return "schedule [schseq=" + schseq + ", id=" + id + ", eventtype=" + eventtype + ", eventtitle=" + eventtitle
+				+ ", eventcontent=" + eventcontent + ", startday=" + startday + ", endday=" + endday + ", diffDay="
+				+ diffDay + "]";
 	}
 
 }

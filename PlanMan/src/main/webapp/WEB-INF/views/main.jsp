@@ -336,7 +336,8 @@
  
     	<!-- Modal content -->
         <div class="modal-content">
-        	<span class="close">&times;</span>     
+        	<span class="close">&times;</span>
+        	<input type="hidden" id="seq" />     
         	<div>스케쥴 타입</div>
         	<div>
         		<input type="radio" id="event1" value="study" class="event" name="event">
@@ -367,9 +368,11 @@
         	<div>스케쥴내용</div>
         	<div><textarea type="text" class="form-control" id="eventcontent" name="eventcontent" style="height: 200px;"></textarea></div>
         	<br/>
-        	<div align="right"><input type="submit" id="eventAdd" style="width: 200px;" value="스케쥴 입력하기" class="btn btn-block btn-primary" onclick="return addevent()"/></div>
+        	<div id="sch-button" align="right"><input type="submit" id="eventAdd" style="width: 200px;" value="스케쥴 입력하기" class="btn btn-block btn-primary" onclick="return addevent()"/></div>
         </div>
     </div>
+    
+    
 
     <!-- Main content -->
     <section class="content">
@@ -444,38 +447,7 @@
 		minuteStep: 10
     });
 	
-    /* initialize the external events
-    function init_events(ele) {
-      ele.each(function () {
 
-        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-        // it doesn't need to have a start or end
-        var eventObject = {
-          title: $.trim($(this).text()) // use the element's text as the event title
-        }
-
-        // store the Event Object in the DOM element so we can get to it later
-        $(this).data('eventObject', eventObject)
-
-        // make the event draggable using jQuery UI
-        $(this).draggable({
-          zIndex        : 1070,
-          revert        : true, // will cause the event to go back to its
-          revertDuration: 0  //  original position after the drag
-        })
-
-      })
-    }
-
-    init_events($('#external-events div.external-event'))
-
-    /* initialize the calendar
-     -----------------------------------------------------------------*/
-    //Date for the calendar events (dummy data)
-    var date = new Date()
-    var d    = date.getDate(),
-        m    = date.getMonth(),
-        y    = date.getFullYear()
     $('#calendar').fullCalendar({
       header    : {
         left  : 'prev,next today',
@@ -497,14 +469,28 @@
         var span = document.getElementsByClassName("close")[0];                                          
  
         // When the user clicks on the button, open the modal 
+        $('#sch-button').text('');
+        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='스케쥴 입력하기' class='btn btn-block btn-primary' onclick='return addevent()'/>");      	  
         modal.style.display = "block";
-        $('.datepicker').val(date.format());
+        $('#startday').val(date.format());
         
         // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
         	$('#eventtitle').val('');
             $('#eventcontent').val('');
-            $('.event').prop('checked', false);  
+            $('.event').prop('checked', false);
+            $('#timepicker').timepicker({
+          		maxHours : 24,
+        		showMeridian: false,
+        		minuteStep: 10,
+        		setTime: new Date()
+              });
+              $('#timepicker2').timepicker({
+            		maxHours : 24,
+            		showMeridian: false,
+            		minuteStep: 10,
+            		setTime: new Date()
+              });
             modal.style.display = "none";
         }
  
@@ -514,50 +500,150 @@
             	$('#eventtitle').val('');
                 $('#eventcontent').val('');
                 $('.event').prop('checked', false);  
+                $('#timepicker').timepicker({
+              		maxHours : 24,
+            		showMeridian: false,
+            		minuteStep: 10,
+            		setTime: new Date()
+                  });
+                  $('#timepicker2').timepicker({
+                		maxHours : 24,
+                		showMeridian: false,
+                		minuteStep: 10,
+                		setTime: new Date()
+                  });
                 modal.style.display = "none";
             }
         }
       },
-      //Random default events
-      events:[
-        {
-          title          : 'Click for Google',
-          start          : new Date(y, m, 28),
-          end            : new Date(y, m, 29),
-          url            : 'http://google.com/',
-          backgroundColor: '#3c8dbc', //Primary (light-blue)
-          borderColor    : '#3c8dbc' //Primary (light-blue)
-        }
-      ],
-      editable  : true
+      events:function(start,end, timezone, callback){
+    	  $.ajax({
+    		  url:"selectSchdule"
+    		  ,type:'post'
+    		  ,success:function(data){
+    			var events = [];
+    			$(data).each(function(index, item) {
+   				  events.push({
+   					schseq: item.schseq,
+   					id: item.id,	
+   		            title: item.eventtitle,
+   		            start: item.startday,
+   		          	end: item.endday,
+   		          	content: item.eventcontent,
+   		          	event: item.eventtype,
+   		         	diffDay : item.diffDay
+   				  });
+   		        });
+   		        callback(events);
+  			  }
+    	  });
+      },
+      editable  : true,
+      eventClick: function(calEvent) {
+		  
+		  var schseq=calEvent.schseq;
+		  alert(schseq);
+		  var eventtype=calEvent.event;
+		  var startday = new Date(calEvent.start);
+		  var s_date = startday.getDate();
+	  	  var s_month = startday.getMonth() + 1;
+	  	  var s_year = startday.getFullYear();
+	  	  var start= s_year+"-"+s_month+"-"+s_date
+    	  var modal = document.getElementById('myModal');
+          var span = document.getElementsByClassName("close")[0];                                          
+   		  
+          $('#seq').val(schseq);
+          if(eventtype==$('#event1').val()){
+        	  $('#event1').prop('checked', true);
+          }else if(eventtype==$('#event2').val()){
+        	  $('#event2').prop('checked', true);
+          }else if(eventtype==$('#event3').val()){
+        	  $('#event3').prop('checked', true);
+          }else if(eventtype==$('#event4').val()){
+        	  $('#event4').prop('checked', true);
+          }else if(eventtype==$('#event5').val()){
+        	  $('#event5').prop('checked', true);
+          }
+          $('#eventtitle').val(calEvent.title);
+          $('#eventcontent').val(calEvent.content);
+          $('#startday').val(start);
+          $('#endday').val(calEvent.diffDay);
+          $('#sch-button').text('');
+          $('#sch-button').append("<input type='submit' id='eventUpdate' style='width: 200px;' value='스케쥴 수정하기' class='btn btn-block btn-primary' onclick='return updateevent()'/><input type='submit' id='eventDel' style='width: 200px;' value='스케쥴 삭제하기' class='btn btn-block btn-primary' onclick='return deleteevent()'/>");      	
+          modal.style.display = "block";
+          
+          
+          span.onclick = function() {
+          	  $('#eventtitle').val('');
+              $('#eventcontent').val('');
+              $('#endday').val(1);
+              $('.event').prop('checked', false);
+              $('#timepicker').timepicker({
+          		maxHours : 24,
+        		showMeridian: false,
+        		minuteStep: 10
+              });
+              $('#timepicker2').timepicker({
+            		maxHours : 24,
+            		showMeridian: false,
+            		minuteStep: 10
+              });
+              modal.style.display = "none";
+          }
+
+          window.onclick = function(event) {
+              if (event.target == modal) {
+              	$('#eventtitle').val('');
+                $('#eventcontent').val('');
+                $('#endday').val(1);
+                $('.event').prop('checked', false);  
+                $('#timepicker').timepicker({
+             		maxHours : 24,
+           			showMeridian: false,
+           			minuteStep: 10
+                });
+                $('#timepicker2').timepicker({
+               		maxHours : 24,
+               		showMeridian: false,
+               		minuteStep: 10
+                });
+                modal.style.display = "none";
+              }
+          } 
+      }
    	
     })
     
   })
-
+  
   function addevent(){
-  		var event=$('.event:checked').val();
-  		var startday=$('#startday').val()+" "+$('#timepicker').val();
-  		var startdatetime=new Date(startday);
-  		var enddatetime=new Date();
-  		var plusday=$('#endday').val();
-  		plusday *= 1;
-  		plusday -= 1;
-  		enddatetime.setDate(startdatetime.getDate()+plusday);
-  		var end_date = enddatetime.getDate();
-  		var end_month = enddatetime.getMonth() + 1;
-  		var end_year = enddatetime.getFullYear();
-  		var endday=end_year+"-"+end_month+"-"+end_date+" "+$('#timepicker2').val();
-  		var eventtitle=$('#eventtitle').val();
-  		var eventcontent=$('#eventcontent').val();
-  		alert(startday);
-    	alert(endday);
-  		if($('.event:checked').val()==null){
+		
+		var event=$('.event:checked').val();
+		var startday=$('#startday').val()+" "+$('#timepicker').val();
+		var startdatetime=new Date(startday);
+		var enddatetime=new Date();
+		var plusday=$('#endday').val();
+		plusday *= 1;
+		plusday -= 1;
+		enddatetime.setDate(startdatetime.getDate()+plusday);
+		var end_date = enddatetime.getDate();
+		var end_month = enddatetime.getMonth() + 1;
+		var end_year = enddatetime.getFullYear();
+		var endday=end_year+"-"+end_month+"-"+end_date+" "+$('#timepicker2').val();
+		var eventtitle=$('#eventtitle').val();
+		var eventcontent=$('#eventcontent').val();    
+  		
+		if($('.event:checked').val()==null){
   			alert("이벤트 타입을 선택해 주세요.");
   			return false;
   		}
   		
-  		if($('#timepicker').val()>$('#timepicker2').val()){
+  		if($('#endday').val()<=0){
+  			alert("기간을 다시 선택해주세요.");
+  			return false;
+  		}
+		
+  		if($('#timepicker').val()>=$('#timepicker2').val()){
   			alert("시간대를 다시 선택해주세요.");
   			return false;
   		}
@@ -581,9 +667,11 @@
 						alert("스케쥴을 입력했습니다.");
 						$('#eventtitle').val('');
 			            $('#eventcontent').val('');
+			            $('#endday').val(1);
 			            $('.event').prop('checked', false);
 			            var modal = document.getElementById('myModal');
-			            modal.style.display = "none";						
+			            modal.style.display = "none";
+			            location.reload(); 
 			            return true;
 					}else{
 						alert("스케쥴  입력에 실패했습니다.");
@@ -593,6 +681,99 @@
   			});	
   		}
   		
+   }
+  
+   function updateevent(){
+
+	   var schseq=$('#seq').val();
+	   var event=$('.event:checked').val();
+	   var startday=$('#startday').val()+" "+$('#timepicker').val();
+	   var startdatetime=new Date(startday);
+	   var enddatetime=new Date();
+	   var plusday=$('#endday').val();
+	   plusday *= 1;
+	   plusday -= 1;
+	   enddatetime.setDate(startdatetime.getDate()+plusday);
+	   var end_date = enddatetime.getDate();
+	   var end_month = enddatetime.getMonth() + 1;
+	   var end_year = enddatetime.getFullYear();
+	   var endday=end_year+"-"+end_month+"-"+end_date+" "+$('#timepicker2').val();
+	   var eventtitle=$('#eventtitle').val();
+	   var eventcontent=$('#eventcontent').val();  
+   
+	   if($('.event:checked').val()==null){
+ 			alert("이벤트 타입을 선택해 주세요.");
+ 			return false;
+ 		}
+ 		
+	    if($('#endday').val()<=0){
+			alert("기간을 다시 선택해주세요.");
+			return false;
+		}
+	   
+	    if($('#timepicker').val()>=$('#timepicker2').val()){
+ 			alert("시간대를 다시 선택해주세요.");
+ 			return false;
+ 		}
+ 		
+ 		if($('#eventtitle').val().length==0){
+ 			alert("이벤트 타이틀을 입력해주세요.");
+ 			return false;
+ 		}else{
+ 			$.ajax({
+ 				url:'updateschdule'
+ 				,type:'post'
+ 				,data:{"id":"${sessionScope.member.id}"
+ 					,"schseq": schseq
+ 					,"eventtype":event
+ 					,"eventtitle":eventtitle
+ 					,"eventcontent":eventcontent
+ 					,"startday":startday
+ 					,"endday":endday	
+ 				}
+ 				,success: function (data){
+					if(data=="success"){
+						alert("스케쥴을 변경했습니다.");
+						$('#eventtitle').val('');
+			            $('#eventcontent').val('');
+			            $('#endday').val(1);
+			            $('.event').prop('checked', false);
+			            var modal = document.getElementById('myModal');
+			            modal.style.display = "none";
+			            location.reload(); 
+			            return true;
+					}else{
+						alert("스케쥴  변경에 실패했습니다.");
+						return false;
+					}
+ 				}
+ 			});	
+ 		}
+   }
+   
+   function deleteevent(){
+	   var schseq=$('#seq').val();
+	   $.ajax({
+			url:'deleteschdule'
+			,type:'post'
+			,data:{"schseq": schseq}
+			,success: function (data){
+				if(data=="success"){
+					alert("스케쥴을 삭제했습니다.");
+					$('#eventtitle').val('');
+		            $('#eventcontent').val('');
+		            $('#endday').val(1);
+		            $('.event').prop('checked', false);
+		            var modal = document.getElementById('myModal');
+		            modal.style.display = "none";
+		            location.reload(); 
+		            return true;
+				}else{
+					alert("스케쥴  삭제에 실패했습니다.");
+					return false;
+				}
+			}
+	   });	
    }
 </script>
 </body>

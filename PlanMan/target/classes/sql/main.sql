@@ -20,13 +20,17 @@ CREATE TABLE member (
 insert into member values('abc123', 'abc123', 'abc123', '도우조', 'male', '30', '학생', null, null, null);
 
 CREATE TABLE schedule(
+    schseq NUMBER NOT NULL,
 	id VARCHAR2(20) NOT NULL,
 	eventtype VARCHAR2(20) NOT NULL CHECK (eventtype in ('study', 'work', 'health', 'friend', 'etc')),
 	eventtitle VARCHAR2(100) NOT NULL,
 	eventcontent VARCHAR2(2000),
 	startday DATE NOT NULL,
 	endday DATE NOT NULL,
+    
 	
 	constraint fk_schdule foreign key (id)
     references member (id)
 )
+
+CREATE SEQUENCE schseq;
