@@ -82,6 +82,7 @@ public class HomeController {
 		}else {
 			//로그인 성공시 세션에 member로 회원정보 저장
 			session.setAttribute("member", result);
+			session.setAttribute("memberID", result.getId());
 			return "main";
 		}
 	}
