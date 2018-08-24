@@ -28,12 +28,12 @@
 
 	<!-- 스케쥴 등록 -->
 	<insert id="addschdule" parameterType="Schedule">
-		insert into schedule values(schseq.nextVal, #{id},#{eventtype},#{eventtitle},#{eventcontent},to_date(#{startday}, 'YYYY-MM-DD HH24:MI'),to_date(#{endday}, 'YYYY-MM-DD HH24:MI'))
+		insert into schedule values(schseq.nextVal, #{id},#{eventtype},#{eventtitle},#{eventcontent},to_date(#{startday}, 'YYYY-MM-DD HH24:MI'),to_date(#{endday}, 'YYYY-MM-DD HH24:MI'), #{starttime}, #{endtime})
 	</insert>
   	
   	<!-- 스케쥴 변경하기 -->
   	<update id="updateschdule" parameterType="Schedule">
-  		update schedule set eventtype=#{eventtype}, eventtitle=#{eventtitle}, eventcontent=#{eventcontent}, startday=to_date(#{startday}, 'YYYY-MM-DD HH24:MI'), endday=to_date(#{endday}, 'YYYY-MM-DD HH24:MI')
+  		update schedule set eventtype=#{eventtype}, eventtitle=#{eventtitle}, eventcontent=#{eventcontent}, startday=to_date(#{startday}, 'YYYY-MM-DD HH24:MI'), endday=to_date(#{endday}, 'YYYY-MM-DD HH24:MI', starttime=#{starttime}, endtime=#{endtime})
   		where schseq=#{schseq}
   	</update>
   	
@@ -42,4 +42,9 @@
 		delete from schedule where schseq=#{schseq}
   	</delete>
   	
+  	<!-- 오늘 스케쥴 가져오기 -->
+	<select id="selectTodaySch" parameterType="Schedule" resultType="Schedule">
+		select * from schedule where id=#{id} and to_date(#{enddaytime},'YYYY-MM-DD HH24:MI') >= startday and endday >= to_date(#{startdaytime},'YYYY-MM-DD HH24:MI') order by starttime
+	</select>  	
+	
 </mapper>

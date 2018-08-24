@@ -73,7 +73,7 @@ public class HomeController {
 
 	//로그인 페이지로 이동
 	@RequestMapping(value = "doLogin", method = RequestMethod.POST)
-	public String doLogin(member vo, HttpSession session) {
+	public String doLogin(member vo, HttpSession session, Model model) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
 		member result=manager.doLogin(vo);
 		if(result==null) {
@@ -82,8 +82,35 @@ public class HomeController {
 		}else {
 			//로그인 성공시 세션에 member로 회원정보 저장
 			session.setAttribute("member", result);
-			return "main";
+			Date date = new Date();
+		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		    String today=sdf.format(date);
+		    String startdaytime=today+" 00:00";
+		    String enddaytime=today+" 23:59";
+		    schedule vo2=new schedule();
+		    vo2.setId(result.getId());
+		    vo2.setStartdaytime(startdaytime);
+		    vo2.setEnddaytime(enddaytime);
+		    System.out.println(vo2.toString());
+		    ArrayList<schedule> schList=new ArrayList<>();
+		    schList=manager.selectTodaySch(vo2);
+		    if(schList.size()==0) {
+		    	return "main";
+		    }else {
+		    	model.addAttribute("today", today);
+		    	model.addAttribute("schList", schList);
+		    	return "timeline";
+		    }
+			
 		}
+	}
+	
+	//로그인 페이지로 이동
+	@RequestMapping(value = "gotoCalendar", method = RequestMethod.GET)
+	public String gotoCalendar(HttpSession session) {
+		memberDao manager=sqlSession.getMapper(memberDao.class);
+
+		return "main";
 	}
 	
 	//회원가입 페이지로 이동
@@ -104,9 +131,9 @@ public class HomeController {
 		
 	    for(int i=0; i<result.size(); i++) {
 	        try {
-	        	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-				Date endDate = formatter.parse(result.get(i).getEndday());
-				Date startDate = formatter.parse(result.get(i).getStartday());
+	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date endDate = sdf.parse(result.get(i).getEndday());
+				Date startDate = sdf.parse(result.get(i).getStartday());
 				long diff=endDate.getTime()-startDate.getTime();
 				int diffDays =(int) (diff/(24*60*60*1000));
 				result.get(i).setDiffDay(diffDays);
@@ -116,10 +143,6 @@ public class HomeController {
 			}
 	       
 	    }
-	    
-	    if(result==null) {
-			return null;
-		}
 		
 		return result;
 	}
