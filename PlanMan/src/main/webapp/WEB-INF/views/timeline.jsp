@@ -184,56 +184,64 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Study</span>
+            <i class="fa fa-edit"></i> <span>Study</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o"></i> Quiz</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Study Group</a></li>
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li>
+            <li><a href="gotoQuizMake"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Work</span>
+            <i class="fa fa-suitcase"></i> <span>Work</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o"></i> Work 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Work 2</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 1</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 2</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Health</span>
+            <i class="fa fa-heartbeat"></i> <span>Health</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o"></i> Health 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Health 2</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-red"></i> Health 1</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-red"></i> Health 2</a></li>
           </ul>
         </li>
-        <li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-users"></i> <span>Friend</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
+          </ul>
+        </li>
+        <!-- <li>
           <a href="widgets.html">
             <i class="fa fa-th"></i> <span>Widgets</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">new</small>
             </span>
           </a>
-        </li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+        </li>  -->
+        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>홈피 css설명서</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -249,7 +257,7 @@
     <section class="content-header">
       <h1>
         Timeline
-        <small>설명이 설명설명</small>
+        <small>${sessionScope.member.id}님의 스케쥴 <span id="clock"></span> / <a href="gotoCalendar">Calendar</a></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -260,8 +268,6 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <a href="gotoCalendar" class="btn btn-primary btn-block margin-bottom" style="width: 200px;">달력 보기</a>
-       		
        		 <ul class="timeline">
 
 			    <!-- timeline time label -->
@@ -276,7 +282,21 @@
 			    <c:forEach var="schList" items="${schList}">	
 			    <li>
 			        <!-- timeline icon -->
-			        <i class="fa fa-envelope bg-blue"></i>
+			        <c:if test="${schList.eventtype=='health'}">
+			        	<i class="fa fa-heartbeat"></i>
+			        </c:if>
+			        <c:if test="${schList.eventtype=='work'}">
+			        	<i class="fa fa-suitcase"></i>
+			        </c:if>
+			        <c:if test="${schList.eventtype=='study'}">
+			        	<i class="fa fa-edit"></i>
+			        </c:if>
+			        <c:if test="${schList.eventtype=='friend'}">
+			        	<i class="fa fa-users"></i>
+			        </c:if>
+			        <c:if test="${schList.eventtype=='etc'}">
+			        	<i class=""></i>
+			        </c:if>
 			        <div class="timeline-item">
 			            <span class="time"><i class="fa fa-clock-o"></i>${schList.starttime}~${schList.endtime}</span>
 			
@@ -287,14 +307,11 @@
 			            </div>
 			
 			            <div class="timeline-footer">
-			                <a class="btn btn-primary btn-xs">...</a>
 			            </div>
 			        </div>
 			    </li>
 			    </c:forEach>
-			    <!-- END timeline item -->
-			
-			    ...
+			    
 			
 			</ul>
 			
@@ -340,8 +357,18 @@
 <!-- Page specific script -->
 <script>
   $(function () {
-
-   
+	  var time='';
+	  setInterval(function(){
+		  var currentDate = new Date(); // 현재시간
+		  var currentHours = currentDate.getHours(); 
+		  var currentMinute = currentDate.getMinutes();
+		  time=currentHours+":"+currentMinute;
+		  $('#clock').text('');
+		  $('#clock').append(time);
+	  },1000);
+	  
+	  
+	  
   })
 </script>
 </body>

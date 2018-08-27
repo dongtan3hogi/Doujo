@@ -105,6 +105,30 @@ public class HomeController {
 		}
 	}
 	
+	//타임라인 페이지로 이동
+	@RequestMapping(value = "gotoTimeline", method = RequestMethod.GET)
+	public String gotoTimeline(HttpSession session, Model model) {
+		memberDao manager=sqlSession.getMapper(memberDao.class);
+		Date date = new Date();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    String today=sdf.format(date);
+	    String startdaytime=today+" 00:00";
+	    String enddaytime=today+" 23:59";
+	    schedule vo2=new schedule();
+	    vo2.setId((String) session.getAttribute("memberID"));
+	    vo2.setStartdaytime(startdaytime);
+	    vo2.setEnddaytime(enddaytime);
+	    ArrayList<schedule> schList=new ArrayList<>();
+	    schList=manager.selectTodaySch(vo2);
+	    if(schList.size()==0) {
+	    	return "main";
+	    }else {
+	    	model.addAttribute("today", today);
+	    	model.addAttribute("schList", schList);
+	    	return "timeline";
+	    }
+	}
+	
 	//로그인 페이지로 이동
 	@RequestMapping(value = "gotoCalendar", method = RequestMethod.GET)
 	public String gotoCalendar(HttpSession session) {
