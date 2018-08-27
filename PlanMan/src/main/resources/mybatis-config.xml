@@ -9,7 +9,7 @@
 	
 	<mappers>
 		<mapper resource="member.xml"/>
-		<mapper resource="study.xml"/>
+		<mapper resource="mappers/study.xml"/>
 		<mapper resource="work.xml"/>
 		<mapper resource="health.xml"/>
 		<mapper resource="friend.xml"/>
