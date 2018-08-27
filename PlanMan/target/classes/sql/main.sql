@@ -27,8 +27,9 @@ CREATE TABLE schedule(
 	eventcontent VARCHAR2(2000),
 	startday DATE NOT NULL,
 	endday DATE NOT NULL,
+    starttime VARCHAR2(20),
+    endtime VARCHAR2(20),
     
-	
 	constraint fk_schdule foreign key (id)
     references member (id)
 )

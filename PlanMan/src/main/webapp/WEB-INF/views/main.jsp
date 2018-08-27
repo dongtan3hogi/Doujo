@@ -660,7 +660,9 @@
   					,"eventtitle":eventtitle
   					,"eventcontent":eventcontent
   					,"startday":startday
-  					,"endday":endday	
+  					,"endday":endday
+  					,"starttime": $('#timepicker').val()
+  					,"endtime": $('#timepicker2').val()
   				}
   				,success: function (data){
 					if(data=="success"){
@@ -729,7 +731,9 @@
  					,"eventtitle":eventtitle
  					,"eventcontent":eventcontent
  					,"startday":startday
- 					,"endday":endday	
+ 					,"endday":endday
+  					,"starttime": $('#timepicker').val()
+  					,"endtime": $('#timepicker2').val()
  				}
  				,success: function (data){
 					if(data=="success"){
