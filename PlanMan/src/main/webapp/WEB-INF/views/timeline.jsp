@@ -217,7 +217,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-red"></i> Health 1</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-red"></i> Health Main</a></li>
             <li><a href=""><i class="fa fa-circle-o text-red"></i> Health 2</a></li>
           </ul>
         </li>
@@ -279,7 +279,8 @@
 			    <!-- /.timeline-label -->
 				
 			    <!-- timeline item -->
-			    <c:forEach var="schList" items="${schList}">	
+			    <c:forEach var="schList" items="${schList}">
+			    	<input type="hidden" class="scheduleChk" value="${schList.starttime}@${schList.endtime}@${schList.eventtype}">	
 			    <li>
 			        <!-- timeline icon -->
 			        <c:if test="${schList.eventtype=='health'}">
@@ -295,7 +296,7 @@
 			        	<i class="fa fa-users"></i>
 			        </c:if>
 			        <c:if test="${schList.eventtype=='etc'}">
-			        	<i class=""></i>
+			        	<i class="fa fa-slack"></i>
 			        </c:if>
 			        <div class="timeline-item">
 			            <span class="time"><i class="fa fa-clock-o"></i>${schList.starttime}~${schList.endtime}</span>
@@ -357,19 +358,61 @@
 <!-- Page specific script -->
 <script>
   $(function () {
-	  var time='';
+	  showtime();
+	  
 	  setInterval(function(){
-		  var currentDate = new Date(); // 현재시간
-		  var currentHours = currentDate.getHours(); 
-		  var currentMinute = currentDate.getMinutes();
-		  time=currentHours+":"+currentMinute;
-		  $('#clock').text('');
-		  $('#clock').append(time);
-	  },1000);
+		  showtime();
+	  },60000);
 	  
-	  
-	  
+	  setTimeout(function(){
+		  $('.scheduleChk').each(function(){
+			 var schList=$(this).val();
+			 var currentDate = new Date(); // 현재시간
+			 var currentHours = addZeros(currentDate.getHours(),2); 
+			 var currentMinute = addZeros(currentDate.getMinutes(),2);
+			 time=parseInt(currentHours+currentMinute);
+			 
+			 var sList=schList.split('@');
+			 var starttime=parseInt(sList[0].replace(/:/g,''));
+			 var endtime=parseInt(sList[1].replace(/:/g,''));
+			 var eventtype=sList[2];
+			 
+			 if(time >= starttime && time <= endtime){
+				 if(eventtype=='study'){
+					 alert(eventtype);
+				 }else if(eventtype=='work'){
+					 alert(eventtype);
+				 }else if(eventtype=='health'){
+					 alert("페이지이동하시겠습니까");
+				 }else if(eventtype=='friend'){
+					 alert(eventtype);
+				 }else if(eventtype=='etc'){
+					 alert(eventtype);
+				 }
+			 }
+		  });
+	  },3000);
   })
+  
+  function showtime(){
+	  var currentDate = new Date(); // 현재시간
+	  var currentHours = addZeros(currentDate.getHours(),2); 
+	  var currentMinute = addZeros(currentDate.getMinutes(),2);
+	  var time=currentHours+":"+currentMinute;
+	  $('#clock').text('');
+	  $('#clock').append(time);
+  }
+  
+  function addZeros(num, digit) { // 자릿수 맞춰주기
+	  var zero = '';
+	  num = num.toString();
+	  if (num.length < digit) {
+	    for (i = 0; i < digit - num.length; i++) {
+	      zero += '0';
+	    }
+	  }
+	  return zero + num;
+  }
 </script>
 </body>
 </html>
