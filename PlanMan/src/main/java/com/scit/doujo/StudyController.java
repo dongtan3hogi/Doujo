@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap; 
 import java.util.Map; 
  
-import javax.servlet.http.HttpSession; 
- 
+import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession; 
-import com.scit.doujo.dao.studyDao; 
+import com.scit.doujo.dao.studyDao;
+import com.scit.doujo.util.PageNavigator;
+
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Controller; 
 import org.springframework.ui.Model; 
@@ -150,44 +153,110 @@ public class StudyController {
 	 
 	 
 	/*문제리스트를 가지고 문제풀기 페이지로 이동하자===================================================================*/ 
-	@RequestMapping(value = "/gotoTegSolve", method = RequestMethod.POST) 
-	public String gotegsolve(@RequestParam(value="type", defaultValue="none") String type, 
-			Model model, HttpSession hs, String teg) { 
-		studyDao dao = sqlSession.getMapper(studyDao.class);		 
-		String id = (String) hs.getAttribute("memberID"); 
-		Map<String, String> quiz = new HashMap<>(); 
-		quiz.put("teg", teg); 
-		quiz.put("id", id); 
-		if(type.equals("none")) { 
-			 
-		} else { 
-			quiz.put("type", type); 
-		} 
-		 
-		ArrayList<Map<String, String>> quizList = dao.selectTegQuiz(quiz); 
-		 
-		model.addAttribute("quizcount", quizList.size()); 
-		model.addAttribute("quizList", quizList); 
-		return "study/quizsolve"; 
-	} 
 	 
 	 
-	@RequestMapping(value = "/gotoRecordSolve", method = RequestMethod.POST) 
+	@RequestMapping(value = "/gotoQuizSolve", method = RequestMethod.GET) 
 	public String gorecordsolve(Model model, HttpSession hs, String quizrecordname) { 
 		studyDao dao = sqlSession.getMapper(studyDao.class); 
-		String id = (String)hs.getAttribute("memberID"); 
-		Map<String, String> quiz = new HashMap<>(); 
-		quiz.put("id", id); 
-		quiz.put("quizrecordname", quizrecordname); 
-		quiz.put("quizrecordcode", id+quizrecordname); 
-		ArrayList<Map<String, String>> quizList = dao.selectRecordQuiz(quiz); 
+		String id = (String)hs.getAttribute("memberID");
 		 
-		model.addAttribute("quizcount", quizList.size()); 
-		model.addAttribute("quizList", quizList); 
-		return "study/quizsolve"; 
+		Map<String,ArrayList<Map<String, String>>> allMap = new HashMap<>(); 
+		 
+		ArrayList<Map<String, String>> recordList = dao.selectAllQuizrecordlist(id); 
+		Map<String,Map<String, String>> recordMap = new HashMap<>(); 
+		 
+		ArrayList<Map<String, String>> tegList = dao.selectAllTeg(id);  
+		Map<String, Map<String, String>> tegMap = new HashMap<>(); 
+		 
+		//일단 태그와 레코드목록 불러온다.
+		
+		if(dao.countQuizrecordlist(id)>0) {
+			for (Map<String, String> map : recordList) { 
+				recordMap.put(map.get("NAME"), map);
+				//System.out.println(map.toString());
+			} 
+		} 
+		if(dao.countTeg(id)>0) {
+			for (Map<String, String> map : tegList) { 
+				tegMap.put(map.get("TEG"), map); 
+				//System.out.println(map.toString());
+			} 
+		}
+		//allMap.put("recordMap", recordMap); 
+		//allMap.put("tegMap", tegMap);
+		allMap.put("recordList", recordList);
+		allMap.put("tegList", tegList);
+		
+		model.addAttribute("allMap",allMap);
+		
+		return "study/quizSolve"; 
 	} 
 	 
-	 
+	
+	
+	/*퀴즈들 가져오기, JSON사용===================================================================*/ 
+	@RequestMapping(value = "/getQuizSet", method = RequestMethod.POST) 
+	public @ResponseBody Map<String, Map<String,String>> getQuizSet(@RequestBody Map<String, String> quizSet, HttpSession hs,
+			@RequestParam(value="page", defaultValue="1") int page) { 
+		studyDao dao = sqlSession.getMapper(studyDao.class);	 
+		ArrayList<Map<String,String>> quizList = new ArrayList<>(); 
+		Map<String, Map<String,String>> quizMap = new HashMap<>(); 
+		
+		//필요한 변수 선언
+		String set = ""; 
+		String name = ""; 
+		String id = "";
+		int countPerPage = 1;
+		int pagePerGroup = 1;
+		int total = 0;
+		id = (String)hs.getAttribute("memberID"); 
+		if(quizSet.containsKey("select")||quizSet.get("select")!=null) {
+			String select = quizSet.get("select");
+			set = select.substring(0, 1); 
+			name = select.substring(1); 
+		} else {
+			set = quizSet.get("set");
+			name = quizSet.get("name");
+			page = Integer.parseInt(quizSet.get("page"))+1;
+		}
+		quizSet.put("id", id);
+		System.out.println(set +", "+ name +", "+ page);
+		//teg타입인지 record타입인지 먼저 확인한다. 
+		//type이 teg이면 태그를 사용해서 불러온다. 
+		
+		
+		if(set.equals("t")||set.equals("teg")) { 
+			quizSet.put("teg", name);
+			total = dao.countTegQuiz(quizSet);
+			System.out.println("total"+total);
+			PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
+			RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
+			quizList = dao.selectTegQuiz(quizSet, rb);
+			
+		//type이 record이면 아이디와 레코드코드를 사용해서 불러온다. 
+		} else if(set.equals("r")||set.equals("record")) { 
+			quizSet.put("quizrecordcode", id+name); 
+			total = dao.countRecordQuiz(quizSet);
+			System.out.println("total"+total);
+			PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
+			RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
+			quizList = dao.selectRecordQuiz(quizSet, rb); 
+		} 
+		System.out.println("total"+total);
+		int count = 0;
+		for (Map<String, String> map : quizList) { 
+			map.put("name", name);
+			map.put("set", set);
+			map.put("page", ""+page);
+			quizMap.put(""+count, map);
+			count++;
+		} 
+		 
+		System.out.println("[getQuizSet]quizMap.size: "+quizMap.size()); 
+		return quizMap; 
+	} 
+	
+	
 	 
 	/*체점하기====================================================================================================================================*/ 
 	@RequestMapping(value = "/grading", method = RequestMethod.POST) 
@@ -195,16 +264,15 @@ public class StudyController {
 		Map<String, String> resultMap = new HashMap<>(); 
 		String result = ""; 
 		String id = (String)hs.getAttribute("memberID"); 
-		int num = Integer.parseInt(solveSet.get("num")); 
+		int num = Integer.parseInt(solveSet.get("num"));
 		String yourAns = solveSet.get("answer"); 
-		studyDao dao = sqlSession.getMapper(studyDao.class);	 
-		System.out.println("num:"+num); 
+		studyDao dao = sqlSession.getMapper(studyDao.class);	  
 		Map<String, String> quiz = dao.selectOneQuiz(num); 
 		 
 		/*정답오답 판정*/ 
 		//주관식일 경우 
 		if(quiz.get("TYPE").equals("shortanswer")) { 
-			if(quiz.get("ANSWER").equals(yourAns)) { 
+			if(quiz.get("ANSWER1").equals(yourAns)) { 
 				result = "CORRECT"; 
 			} else { 
 				result = "WRONG"; 
@@ -220,7 +288,7 @@ public class StudyController {
 			 
 		} 
 		 
-		System.out.println("2"); 
+		
 		/*정오답 결과 기록*/ 
 		//만약 문제를 푼게 최초일 경우 기록을 위한 기본 record생성한다. 
 		//추후 회원가입때 발동하는 것 고려. 일단 회원가입안만들었으니 유저아이디는 직접기입 
@@ -239,7 +307,7 @@ public class StudyController {
 			dao.insertQuizrecordlist(quiz); 
 		}*/ 
 		 
-		System.out.println("3"); 
+		
 		/*퀴즈레코드에 내가 푼 문제가 등록되있는지 확인해서 최초로 푼 문제라면 추가, 이미 풀어봤다면 업데이트를 하자.*/ 
 		//먼저 정답일 경우 corr~증가, 오답일 경우 wor~증가. 
 		if(result.equals("CORRECT")) { 

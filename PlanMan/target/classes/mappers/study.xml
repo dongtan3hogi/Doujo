@@ -82,10 +82,13 @@
 			WHERE groupseq = #{num}
 		</select>
 		
-		<!-- === -->
-		<!-- === -->
-		<!-- === -->
-		<!-- === -->
+		<!-- ====================================================== -->
+		<!-- ====================================================== -->
+		<!-- ====================================================== -->
+		<!-- ====================================================== -->
+		<!-- ====================================================== -->
+		
+		
 		
 		<!-- 1 -->
 	<insert id="insertMQuiz" parameterType="map">
@@ -177,7 +180,7 @@
 		WHERE id=#{id}
 	</select>
 	
-	<!-- 12 -->
+	<!-- 12_1 -->
 	<select id="selectTegQuiz" resultType="map" parameterType="map">
   		SELECT
   			TO_CHAR(q.quizseq) NUM
@@ -202,7 +205,7 @@
 	</select>
 	
 	
-	<!-- 13 -->
+	<!-- 12_2 -->
 	<select id="countTegQuiz" resultType="integer" parameterType="map">
   		SELECT count(*)
 		FROM quiz
@@ -269,7 +272,7 @@
 		WHERE id=#{id}
 	</select>
 	
-	<!-- 19 -->
+	<!-- 19_1 -->
 	<select id="selectRecordQuiz" resultType="map" parameterType="map">
   		SELECT 
 			TO_CHAR(q.quizseq) NUM
@@ -283,6 +286,17 @@
   			,TO_CHAR(q.answernumber) answernumber
   			,q.id id
   			,l.quizrecordname quizrecordname
+  			,l.quizrecordcode quizrecordcode
+		FROM quiz q, quizrecord r , quizrecordlist l
+		WHERE q.quizseq = r.quizseq
+		AND r.quizrecordcode = l.quizrecordcode
+		AND l.quizrecordcode = #{quizrecordcode}
+		AND q.id=#{id}
+	</select>
+	
+	<!-- 19_2 -->
+	<select id="countRecordQuiz" resultType="integer" parameterType="map">
+  		SELECT count(*)
 		FROM quiz q, quizrecord r , quizrecordlist l
 		WHERE q.quizseq = r.quizseq
 		AND r.quizrecordcode = l.quizrecordcode
