@@ -4,15 +4,17 @@ import java.util.ArrayList;
 
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
+
 public interface studyDao {
 
-	// 1. insert -�׷� ����
+	// 1. insert - making the ChatRoom
 	public int insertGroup(Map<String, String> group);
 	
-	// 2. update -�˸� ���
+	// 2. update - alert
 	public int alert(Map<String, String> group);
 	
-	// 3. insert -�׷쿡 �ɹ� �߰�
+	// 3. insert - insert member to ChatRoom
 	public int insertGroupMember(Map<String, String> groupmember);
 	
 	// 4. select -�׷�˻�
@@ -73,11 +75,11 @@ public interface studyDao {
 	//11.count-�±� �� ��
 	public int countTeg(String id);
 	
-	//select
+	//12_1.select
 	//id�� teg(type�� ���û���)���� quiz �����´�.
-	public ArrayList<Map<String, String>> selectTegQuiz(Map<String, String> quiz);
+	public ArrayList<Map<String, String>> selectTegQuiz(Map<String, String> quiz, RowBounds rb);
 	
-	//13.count-12¬���� ���ڸ� ���°�
+	//12_2.count
 	public int countTegQuiz(Map<String, String> quiz);
 	
 	//select-����� ������ȣ�� ����ؼ� ���� �ϳ� ��������
@@ -99,10 +101,12 @@ public interface studyDao {
 	//18.find-���� �����ֱٿ� ���� ���� �ҷ�����
 	public int findMaxQuizseq(Map<String, String> quiz);
 	
-	//select
+	//19_1.select
 	//record�� ����ؼ� ����� ���ϴ� ������ ��������
-	public ArrayList<Map<String, String>> selectRecordQuiz(Map<String, String> quiz);
+	public ArrayList<Map<String, String>> selectRecordQuiz(Map<String, String> quiz, RowBounds rb);
 	
+	//19_1. COUNT
+	public int countRecordQuiz(Map<String, String> quiz);
 	
 	//20.selectQuizrecordname��������
 	public String selectQuizrecordname(Map<String, String> quiz);

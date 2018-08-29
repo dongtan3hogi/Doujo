@@ -277,7 +277,7 @@
                 <li class="active"><a href="#"><i class="fa fa-inbox"></i> QUIZ 
                   <span class="label label-primary pull-right">12</span></a></li> 
                 <li><a href="gotoQuizMake"><i class="fa fa-envelope-o"></i> MAKE</a></li> 
-                <li><a href="#"><i class="fa fa-file-text-o"></i> SOLVE</a></li> 
+                <li><a href="gotoQuizSolve"><i class="fa fa-file-text-o"></i> SOLVE</a></li> 
                 <li><a href="#"><i class="fa fa-filter"></i> RECORD <span class="label label-warning pull-right">65</span></a> 
                 </li> 
               </ul> 

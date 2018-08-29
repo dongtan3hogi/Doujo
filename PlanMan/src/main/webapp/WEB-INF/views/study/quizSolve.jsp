@@ -26,123 +26,7 @@
 <!-- head --> 
 </head> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
-<script type="text/javascript"> 
- 
-$(function(){ 
-	$(document).ready(function (){ 
-		$('#quiztypeinput').on("click", function(){ 
-			var qt = document.getElementById("quiztypeinput").value; 
-			if(qt == "shortanswer"){ 
-				document.getElementById("quiztypeinput").value = "multiplechoice"; 
-				document.getElementById("type").value = "multiplechoice"; 
-				 
-				var contentAnswerDIV = '<div>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="1" class="minimal" checked>1번'; 
-				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer1" id="answer1"><br/>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="2" class="minimal">2번'; 
-				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer2" id="answer2"><br/>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="3" class="minimal">3번'; 
-				contentAnswerDIV += ' </label><input type="text" class="form-control" name="answer3" id="answer3"><br/>'; 
-				contentAnswerDIV += '<label> <input type="radio" name="answernumber" value="4" class="minimal">4번'; 
-				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer4" id="answer4">'; 
-				contentAnswerDIV += '</div>'; 
-				 
-				$("#answerDIV > div").remove(); 
-				$("#answerDIV").append(contentAnswerDIV);		 
-			} else if(qt == "multiplechoice"){	 
-				document.getElementById("quiztypeinput").value = "shortanswer"; 
-				document.getElementById("type").value = "shortanswer"; 
-				$("#answerDIV > div").remove(); 
-				$("#answerDIV").append('<div><label>정답</label><input type="text" class="form-control" name="answer1" id="answer1"></div>'); 
-				 
-			} 
-		}); 
-	}); 
-}); 
- 
- 
-function changeSelect(){ 
-	var select = document.getElementById("quizrecordname").value; 
-	if(select == 'new'){ 
-		document.getElementById("forNewName").innerHTML = '<input type="text" class="form-control" id="newrecord" name="newrecord">'; 
-	} else{ 
-		document.getElementById("forNewName").innerHTML = ''; 
-	} 
-} 
- 
-function check() { 
-	var q = document.getElementsByName("question")[0]; 
-	var a = document.getElementsByName("answer1")[0]; 
-	var selecter = document.getElementById("quizrecordname"); 
-	 
-	if(selecter.value == 'new' && document.getElementById("newrecord").value.length <= 0){ 
-		alert("새로운 폴더명을 입력하세요."); 
-		document.getElementById("newrecord").focus(); 
-		document.getElementById("newrecord").select(); 
-		return false; 
-	} else if(q.value.length <= 0){ 
-		alert("질문을 입력하세요."); 
-		q.focus(); 
-		q.select(); 
-		return false; 
-	} else if(a.value.length <= 0){ 
-		alert("정답을 입력하세요."); 
-		a.focus(); 
-		a.select(); 
-		return false; 
-	} 
-	 
-	/* alert(a + q); */ 
-	var radioVal = $('input[name="answernumber"]:checked').val(); 
-	//alert(radioVal); 
-	var quiz = { 
-			"quizrecordname" : $("#quizrecordname").val() 
-			, "newrecord" : $("#newrecord").val() 
-			, "type" : $("#type").val() 
-			, "teg" : $("#teg").val() 
-			, "question" : $("#question").val() 
-			, "answer1" : $("#answer1").val() 
-			, "answer2" : $("#answer2").val() 
-			, "answer3" : $("#answer3").val() 
-			, "answer4" : $("#answer4").val() 
-			, "answernumber" : radioVal 
-			, "id" :  $("#id").val() 
-	}; 
-	alert("quizrecordname:" +quiz.quizrecordname + ", newrecord:" + quiz.newrecord + ", type:" + quiz.type  
-			+ "\n, teg:" + quiz.teg + ", question:" + quiz.question  
-			+ "\n, answer1:" + quiz.answer1 + ", answer2:" + quiz.answer2  
-			+ ",\n answer3:" + quiz.answer3 + ", answer4:" + quiz.answer4 
-			+ ",\n answernumber:" + quiz.answernumber + ",\n id:" + quiz.id);
-	$.ajax({ 
-		method   : 'post' 
-		, url    : 'quizInsert' 
-		, data   : JSON.stringify(quiz) 
-		, dataType : 'json' 
-		, contentType : 'application/json; charset=UTF-8' 
-		, success: function (data){ 
-			alert('[0] '+data.success + ', ' + data.newRecordName); 
-			$("form").each(function() {   
-	            this.reset(); 
-	        }); 
-			 
-			var frm = document.getElementById('quizrecordname'); 
-	        var op = new Option(); 
-	        op.value = data.newRecordName; // 값 설정 
-	        op.text = data.newRecordName; // 텍스트 설정 
-	  
-	        op.selected = true; // 선택된 상태 설정 (기본값은 false이며 선택된 상태로 만들 경우에만 사용) 
-	  
-	        frm.options.add(op); // 옵션 추가 
-			//$('#quizrecordname').append(data.newRecordName); 
-		} 
-		, error: function(request,status,error){ 
-	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
-	    } 
-			 
-	}); 
-	 
-} 
-</script> 
+<script src="resources/study/quizSolve.js"></script>  
 <body class="hold-transition skin-blue sidebar-mini"> 
 <div class="wrapper"> 
  
@@ -414,85 +298,47 @@ function check() {
         <!-- /.col --> 
         <div class="col-md-9"> 
            
-      	  <!-- general form elements disabled --> 
+      	  <!-- Select the quiz --> 
           <div class="box box-primary"> 
             <div class="box-header with-border"> 
-              <h3 class="box-title">Insert the Quiz</h3> 
+              <h3 class="box-title">select the quiz</h3> 
+              <div class="box-tools"> 
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> 
+                </button> 
+            </div> 
             </div> 
             <!-- /.box-header --> 
             <div class="box-body"> 
               <form role="form"> 
-                 
                 <input type="hidden" id="id" value="${sessionScope.ID}"> 
-			     
-			    <!-- TEG --> 
-               <div class="form-group"> 
-                  <label>문제 타입</label> 
-                  <input type="text" class="form-control" id="quiztypeinput" value="multiplechoice" readonly="readonly"> 
-                  <input type="hidden" id="type" name="type" value="multiplechoice"> 
-               </div> 
-                
-                <!-- Quiz folder --> 
-                <div class="form-group"> 
-                  <label>Quiz folder</label> 
-                  <select class="form-control" id="quizrecordname" name="quizrecordname" onchange="changeSelect()"> 
-                    <option value="normal">normal</option> 
-					<option value="new">Create new folder</option> 
-                    <c:forEach var="record" items="${recordList}"> 
-						<option value="${record.NAME}">${record.NAME}</option> 
-					</c:forEach> 
-                  </select> 
-                  <div id="forNewName"> 
-				  </div> 
-                </div> 
-                 
-                 
-               <!-- TEG --> 
-               <div class="form-group"> 
-                  <label>태그</label> 
-                  <input type="text" class="form-control" name="teg" id="teg" placeholder="#JPT450#listen"> 
-               </div> 
-				 
-				 
-				<!-- Question --> 
-               <div class="form-group"> 
-                  <label>질문</label> 
-                  <input type="text" class="form-control" id="question" name="question"> 
-               </div> 
+			    <div class="form-group">
+                  <select class="form-control" id="quizchoice"> 
+                    <option>==[ FOLDER ]==</option>
+                    <c:forEach var="record" items="${allMap.recordList}"> 
+						<option value="r${record.NAME}"> ${record.NAME}</option>
+					</c:forEach>
+					<option>===[ TEG ]===</option>
+                    <c:forEach var="record" items="${allMap.tegList}"> 
+						<option value="t${record.TEG}"> ${record.TEG} </option>
+					</c:forEach>
+                  </select>
+                 </div>
+                 <a href="#" class="btn btn-primary btn-block margin-bottom" id="quizchoiceBtn">Select</a>
+              </form> 
+            </div> 
+            <!-- /.box-body --> 
+          </div>
+          
+          <!-- solve the quiz --> 
+          <div class="box box-primary"> 
+            <div class="box-header with-border"> 
+              <h3 class="box-title">Solve</h3> 
+            </div> 
+            <!-- /.box-header --> 
+            <div class="box-body"> 
+              <form role="form" id="quizSolveBoard">
                 
                 
-               <!-- Answer --> 
-               <div class="form-group" id="answerDIV"> 
-                
-                 <div> 
-                   <br/> 
-                   <label> 
-	                 <input type="radio" name="answernumber" value="1" class="minimal" checked>1번 
-	               </label> 
-	               <input type="text" class="form-control" name="answer1" id="answer1">	 
-	               <br/>	 
-	               <label> 
-	                 <input type="radio" name="answernumber" value="2" class="minimal">2번 
-	               </label> 
-	               <input type="text" class="form-control" name="answer2" id="answer2"> 
-	               <br/> 
-	               <label> 
-	                 <input type="radio" name="answernumber" value="3" class="minimal">3번 
-	               </label> 
-	               <input type="text" class="form-control" name="answer3" id="answer3"> 
-	               <br/> 
-	               <label> 
-	                 <input type="radio" name="answernumber" value="4" class="minimal">4번 
-	               </label> 
-	               <input type="text" class="form-control" name="answer4" id="answer4"> 
-	             </div> 
-               </div> 
-			    
-			    
-              <a href="" class="btn btn-primary btn-block margin-bottom" onclick="check()">Button</a> 
-				     
-               
-                 
               </form> 
             </div> 
             <!-- /.box-body --> 
