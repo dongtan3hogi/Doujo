@@ -5,6 +5,11 @@
 
 
 <mapper namespace="com.scit.doujo.dao.healthDao">
-
-
+	<!-- 음식api입력 테이블 
+	<insert id="insertInputFood" parameterType="Food">
+		insert into food values(#{NUTR_CONT3}, #{NUTR_CONT2}, #{NUTR_CONT1}, #{BGN_YEAR}, #{NUTR_CONT9}, #{NUTR_CONT8}, #{FOOD_CD}, #{NUTR_CONT7}, #{NUTR_CONT6}, #{NUTR_CONT5}, #{NUTR_CONT4}, #{DESC_KOR}, #{SERVING_WT}, #{FDGRP_NM}, #{NUM}, #{ANIMAL_PLANT})
+	</insert>
+	-->
+	
+	
 </mapper>

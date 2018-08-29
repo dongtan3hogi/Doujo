@@ -218,7 +218,11 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoHealth"><i class="fa fa-circle-o text-red"></i> Health Main</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-red"></i> Health 2</a></li>
+            <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
+            <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
+            <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
+            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
+            <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -256,8 +260,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Timeline
-        <small>${sessionScope.member.id}님의 스케쥴 <span id="clock"></span> / <a href="gotoCalendar">Calendar</a></small>
+        Add Meal
+        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -267,55 +271,8 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-       		 <ul class="timeline">
-
-			    <!-- timeline time label -->
-			    <li class="time-label">
-			        <span class="bg-red">
-			            ${today}
-			        </span>
-			    </li>
-			    <!-- /.timeline-label -->
-				
-			    <!-- timeline item -->
-			    <c:forEach var="schList" items="${schList}">
-			    	<input type="hidden" class="scheduleChk" value="${schList.starttime}@${schList.endtime}@${schList.eventtype}@${schList.eventtitle}">	
-			    <li>
-			        <!-- timeline icon -->
-			        <c:if test="${schList.eventtype=='health'}">
-			        	<i class="fa fa-heartbeat"></i>
-			        </c:if>
-			        <c:if test="${schList.eventtype=='work'}">
-			        	<i class="fa fa-suitcase"></i>
-			        </c:if>
-			        <c:if test="${schList.eventtype=='study'}">
-			        	<i class="fa fa-edit"></i>
-			        </c:if>
-			        <c:if test="${schList.eventtype=='friend'}">
-			        	<i class="fa fa-users"></i>
-			        </c:if>
-			        <c:if test="${schList.eventtype=='etc'}">
-			        	<i class="fa fa-slack"></i>
-			        </c:if>
-			        <div class="timeline-item">
-			            <span class="time"><i class="fa fa-clock-o"></i>${schList.starttime}~${schList.endtime}</span>
-			
-			            <h3 class="timeline-header"><a href="#">${schList.eventtitle}</a> ...</h3>
-			
-			            <div class="timeline-body">
-			                ${schList.eventcontent}
-			            </div>
-			
-			            <div class="timeline-footer">
-			            </div>
-			        </div>
-			    </li>
-			    </c:forEach>
-			    
-			
-			</ul>
-			
+      <div class="row"> 
+			<a href="goSearch">데이터입력하기</a>
       </div>
       <!-- /.row -->
     </section>
@@ -364,55 +321,8 @@
 		  showtime();
 	  },60000);
 	  
-	  setTimeout(function(){
-		  $('.scheduleChk').each(function(){
-			 var schList=$(this).val();
-			 var currentDate = new Date(); // 현재시간
-			 var currentHours = addZeros(currentDate.getHours(),2); 
-			 var currentMinute = addZeros(currentDate.getMinutes(),2);
-			 time=parseInt(currentHours+currentMinute);
-			 
-			 var sList=schList.split('@');
-			 var starttime=parseInt(sList[0].replace(/:/g,''));
-			 var endtime=parseInt(sList[1].replace(/:/g,''));
-			 var eventtype=sList[2];
-			 var eventtitle=sList[3];
-			 	
-			 if(time >= starttime && time <= endtime){
-				 if(eventtype=='study'){
-					 if(confirm("study 페이지로 이동하시겠습니까?")){
-						 
-					 }else{
-						 alert(eventtype); 
-					 }
-				 }else if(eventtype=='work'){
-					 if(confirm("work 페이지로 이동하시겠습니까?")){
-						 
-					 }else{
-						 alert(eventtype); 
-					 }
-				 }else if(eventtype=='health'){
-					 if(confirm("health 페이지로 이동하시겠습니까?")){
-						location.href="gotoHealth?eventtitle="+ eventtitle;
-					 }else{
-						alert(eventtype);
-					 }
-				 }else if(eventtype=='friend'){
-					 if(confirm("friend 페이지로 이동하시겠습니까?")){
-						 
-					 }else{
-						 alert(eventtype); 
-					 }
-				 }else if(eventtype=='etc'){
-					 if(confirm("기타 페이지로 이동하시겠습니까?")){
-						 
-					 }else{
-						 alert(eventtype);
-					 }
-				 }
-			 }
-		  });
-	  },3000);
+	  
+	  
   })
   
   function showtime(){
