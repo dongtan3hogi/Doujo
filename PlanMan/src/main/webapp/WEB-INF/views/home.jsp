@@ -77,6 +77,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
+          <li><a href="studyMAIN"><i class="fa fa-circle-o text-aqua"></i> StudyMAIN</a></li>
             <li><a href=""><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li>
             <li><a href=""><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>

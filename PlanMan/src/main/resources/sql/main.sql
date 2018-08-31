@@ -1,4 +1,4 @@
-CREATE TABLE job (
+﻿CREATE TABLE job (
     job VARCHAR2(20) PRIMARY KEY
 );
 
@@ -14,7 +14,8 @@ CREATE TABLE member (
     job VARCHAR2(100) REFERENCES job(job),
     hobby VARCHAR2(2000),
     height NUMBER,
-    weight NUMBER
+    weight NUMBER,
+    daykacl NUMBER
 );
 
 insert into member values('abc123', 'abc123', 'abc123', '도우조', 'male', '30', '학생', null, null, null);

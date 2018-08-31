@@ -262,7 +262,8 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu">
+          <ul class="treeview-menu"> 
+          <li><a href="studyMAIN"><i class="fa fa-circle-o text-aqua"></i> StudyMAIN</a></li>
             <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li>
             <li><a href="gotoQuizMake"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>

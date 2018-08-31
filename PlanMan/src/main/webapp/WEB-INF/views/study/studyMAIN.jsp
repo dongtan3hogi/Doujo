@@ -33,128 +33,31 @@
 <!-- Google Font -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
+<script src="https://www.gstatic.com/charts/loader.js"></script>	
+<script>
+	google.charts.load('current',{'packages':['corechart']});
+	google.charts.setOnLoadCallback(drawChart);
+	
+	function drawChart(){
+		
+		var data = google.visualization.arrayToDataTable([
+			['Task', 'Hours per Day'],
+			['성공', 5],
+			['실패', 5]
+			
+		]);
+		
+		var options = {
+				title : 'My Daily Activities'
+		};
+		
+		var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+		
+		chart.draw(data, options);
+	}
+</script>
 <!-- head -->
 </head>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script type="text/javascript"> 
- 
-$(function(){ 
-	$(document).ready(function (){ 
-		$('#quiztypeinput').on("click", function(){ 
-			var qt = document.getElementById("quiztypeinput").value; 
-			if(qt == "shortanswer"){ 
-				document.getElementById("quiztypeinput").value = "multiplechoice"; 
-				document.getElementById("type").value = "multiplechoice"; 
-				 
-				var contentAnswerDIV = '<div>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="1" class="minimal" checked>1번'; 
-				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer1" id="answer1"><br/>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="2" class="minimal">2번'; 
-				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer2" id="answer2"><br/>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="3" class="minimal">3번'; 
-				contentAnswerDIV += ' </label><input type="text" class="form-control" name="answer3" id="answer3"><br/>'; 
-				contentAnswerDIV += '<label> <input type="radio" name="answernumber" value="4" class="minimal">4번'; 
-				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer4" id="answer4">'; 
-				contentAnswerDIV += '</div>'; 
-				 
-				$("#answerDIV > div").remove(); 
-				$("#answerDIV").append(contentAnswerDIV);		 
-			} else if(qt == "multiplechoice"){	 
-				document.getElementById("quiztypeinput").value = "shortanswer"; 
-				document.getElementById("type").value = "shortanswer"; 
-				$("#answerDIV > div").remove(); 
-				$("#answerDIV").append('<div><label>정답</label><input type="text" class="form-control" name="answer1" id="answer1"></div>'); 
-				 
-			} 
-		}); 
-	}); 
-}); 
- 
- 
-function changeSelect(){ 
-	var select = document.getElementById("quizrecordname").value; 
-	if(select == 'new'){ 
-		document.getElementById("forNewName").innerHTML = '<input type="text" class="form-control" id="newrecord" name="newrecord">'; 
-	} else{ 
-		document.getElementById("forNewName").innerHTML = ''; 
-	} 
-} 
- 
-function check() { 
-	var q = document.getElementsByName("question")[0]; 
-	var a = document.getElementsByName("answer1")[0]; 
-	var selecter = document.getElementById("quizrecordname"); 
-	 
-	if(selecter.value == 'new' && document.getElementById("newrecord").value.length <= 0){ 
-		alert("새로운 폴더명을 입력하세요."); 
-		document.getElementById("newrecord").focus(); 
-		document.getElementById("newrecord").select(); 
-		return false; 
-	} else if(q.value.length <= 0){ 
-		alert("질문을 입력하세요."); 
-		q.focus(); 
-		q.select(); 
-		return false; 
-	} else if(a.value.length <= 0){ 
-		alert("정답을 입력하세요."); 
-		a.focus(); 
-		a.select(); 
-		return false; 
-	} 
-	 
-	/* alert(a + q); */ 
-	var radioVal = $('input[name="answernumber"]:checked').val(); 
-	//alert(radioVal); 
-	var quiz = { 
-			"quizrecordname" : $("#quizrecordname").val() 
-			, "newrecord" : $("#newrecord").val() 
-			, "type" : $("#type").val() 
-			, "teg" : $("#teg").val() 
-			, "question" : $("#question").val() 
-			, "answer1" : $("#answer1").val() 
-			, "answer2" : $("#answer2").val() 
-			, "answer3" : $("#answer3").val() 
-			, "answer4" : $("#answer4").val() 
-			, "answernumber" : radioVal 
-			, "id" :  $("#id").val() 
-	}; 
-	alert("quizrecordname:" +quiz.quizrecordname + ", newrecord:" + quiz.newrecord + ", type:" + quiz.type  
-			+ "\n, teg:" + quiz.teg + ", question:" + quiz.question  
-			+ "\n, answer1:" + quiz.answer1 + ", answer2:" + quiz.answer2  
-			+ ",\n answer3:" + quiz.answer3 + ", answer4:" + quiz.answer4 
-			+ ",\n answernumber:" + quiz.answernumber + ",\n id:" + quiz.id);
-	$.ajax({ 
-		method   : 'post' 
-		, url    : 'quizInsert' 
-		, data   : JSON.stringify(quiz) 
-		, dataType : 'json' 
-		, contentType : 'application/json; charset=UTF-8' 
-		, success: function (data){ 
-			alert('[0] '+data.success + ', ' + data.newRecordName); 
-			$("form").each(function() {   
-	            this.reset(); 
-	        }); 
-			 
-			var frm = document.getElementById('quizrecordname'); 
-	        var op = new Option(); 
-	        op.value = data.newRecordName; // 값 설정 
-	        op.text = data.newRecordName; // 텍스트 설정 
-	  
-	        op.selected = true; // 선택된 상태 설정 (기본값은 false이며 선택된 상태로 만들 경우에만 사용) 
-	  
-	        frm.options.add(op); // 옵션 추가 
-			//$('#quizrecordname').append(data.newRecordName); 
-		} 
-		, error: function(request,status,error){ 
-	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
-	    } 
-			 
-	}); 
-	 
-} 
-</script>
 <body class="hold-transition skin-blue sidebar-mini">
 	<div class="wrapper">
 
@@ -169,7 +72,7 @@ function check() {
 			<nav class="navbar navbar-static-top">
 				<!-- Sidebar toggle button-->
 				<a href="#" class="sidebar-toggle" data-toggle="push-menu"
-					role="button"> <span class="sr-only">Toggle navigation</span> <!--   <span class="icon-bar"></span> 
+					role="button"> <span class="sr-only">Toggle navigation</span> <!--   <span class="icon-bar"></span>
         <span class="icon-bar"></span> -->
 				</a>
 
@@ -317,6 +220,7 @@ function check() {
 						</span>
 					</a>
 						<ul class="treeview-menu">
+						<li><a href="studyMAIN"><i class="fa fa-circle-o text-aqua"></i> StudyMAIN</a></li>
 							<li><a href=""><i class="fa fa-circle-o"></i> Quiz</a></li>
 							<li><a href=""><i class="fa fa-circle-o"></i> Study
 									Group</a></li>
@@ -358,14 +262,9 @@ function check() {
 			<!-- /.sidebar -->
 		</aside>
 
-
 		<!-- ========================================================================================================== -->
 		<!-- ========================================================================================================== -->
 		<!-- ========================================================================================================== -->
-		<!-- ========================================================================================================== -->
-		<!-- ========================================================================================================== -->
-		<!-- ========================================================================================================== -->
-
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
@@ -400,16 +299,13 @@ function check() {
 							</div>
 							<div class="box-body no-padding">
 								<ul class="nav nav-pills nav-stacked">
-									<ul class="nav nav-pills nav-stacked">
-										<li><a href="#"><i class="fa fa-inbox"></i> QUIZ <span
-												class="label label-primary pull-right">12</span></a></li>
-										<li class="active"><a href=""><i
-												class="fa fa-envelope-o"></i> MAKE</a></li>
-										<li><a href="#"><i class="fa fa-file-text-o"></i>
-												SOLVE</a></li>
-										<li><a href="#"><i class="fa fa-filter"></i> RECORD <span
-												class="label label-warning pull-right">65</span></a></li>
-									</ul>
+									<li class="active"><a href="#"><i class="fa fa-inbox"></i>
+											MAKE <span class="label label-primary pull-right">12</span></a></li>
+									<li><a href="#"><i class="fa fa-envelope-o"></i> SOLVE</a></li>
+									<li><a href="#"><i class="fa fa-file-text-o"></i>
+											RECORD</a></li>
+									<li><a href="#"><i class="fa fa-filter"></i> Junk <span
+											class="label label-warning pull-right">65</span></a></li>
 								</ul>
 							</div>
 							<!-- /.box-body -->
@@ -418,94 +314,30 @@ function check() {
 					</div>
 					<!-- /.col -->
 					<div class="col-md-9">
-
+						
 						<!-- general form elements disabled -->
-						<div class="box box-primary">
-							<div class="box-header with-border">
-								<h3 class="box-title">Insert the Quiz</h3>
-							</div>
-							<!-- /.box-header -->
-							<div class="box-body">
-								<form role="form">
-
-									<input type="hidden" id="id" value="${sessionScope.ID}">
-
-									<!-- TEG -->
-									<div class="form-group">
-										<label>문제 타입</label> <input type="text" class="form-control"
-											id="quiztypeinput" value="multiplechoice" readonly="readonly">
-										<input type="hidden" id="type" name="type"
-											value="multiplechoice">
-									</div>
-
-									<!-- Quiz folder -->
-									<div class="form-group">
-										<label>Quiz folder</label> <select class="form-control"
-											id="quizrecordname" name="quizrecordname"
-											onchange="changeSelect()">
-											<option value="normal">normal</option>
-											<option value="new">Create new folder</option>
-											<c:forEach var="record" items="${recordList}">
-												<option value="${record.NAME}">${record.NAME}</option>
-											</c:forEach>
-										</select>
-										<div id="forNewName"></div>
-									</div>
-
-
-									<!-- TEG -->
-									<div class="form-group">
-										<label>태그</label> <input type="text" class="form-control"
-											name="teg" id="teg" placeholder="#JPT450#listen">
-									</div>
-
-
-									<!-- Question -->
-									<div class="form-group">
-										<label>질문</label> <input type="text" class="form-control"
-											id="question" name="question">
-									</div>
-
-
-									<!-- Answer -->
-									<div class="form-group" id="answerDIV">
-
-										<div>
-											<br /> <label> <input type="radio"
-												name="answernumber" value="1" class="minimal" checked>1번
-											</label> <input type="text" class="form-control" name="answer1"
-												id="answer1"> <br /> <label> <input
-												type="radio" name="answernumber" value="2" class="minimal">2번
-											</label> <input type="text" class="form-control" name="answer2"
-												id="answer2"> <br /> <label> <input
-												type="radio" name="answernumber" value="3" class="minimal">3번
-											</label> <input type="text" class="form-control" name="answer3"
-												id="answer3"> <br /> <label> <input
-												type="radio" name="answernumber" value="4" class="minimal">4번
-											</label> <input type="text" class="form-control" name="answer4"
-												id="answer4">
-										</div>
-									</div>
-
-
-									<a href="" class="btn btn-primary btn-block margin-bottom"
-										onclick="check()">Button</a>
-
-
-
-								</form>
-							</div>
-							<!-- /.box-body -->
-						</div>
+						<table border="2"  >
+							<tr>
+								<td > <input id="schedule" type="button" value="완료">
+							<c:forEach var="i" items="">
+								<td><input id="schedule" type="button" value="완료"></td>
+							</c:forEach>
+								</td>
+								
+						</table>
+						<div id="piechart" style="width:900px; height: 500px;"></div>
+					
 
 					</div>
-					<!-- /. box -->
+
 				</div>
-				<!-- /.col -->
+				<!-- /. box -->
 		</div>
-		<!-- /.row -->
-		</section>
-		<!-- /.content -->
+		<!-- /.col -->
+	</div>
+	<!-- /.row -->
+	</section>
+	<!-- /.content -->
 	</div>
 	<!-- /.content-wrapper -->
 
@@ -513,9 +345,7 @@ function check() {
 	<!-- ========================================================================================================== -->
 	<!-- ========================================================================================================== -->
 	<!-- ========================================================================================================== -->
-	<!-- ========================================================================================================== -->
-	<!-- ========================================================================================================== -->
-	<!-- ========================================================================================================== -->
+
 
 	<footer class="main-footer">
 		<div class="pull-right hidden-xs">
@@ -695,7 +525,7 @@ function check() {
 		</div>
 	</aside>
 	<!-- /.control-sidebar -->
-	<!-- Add the sidebar's background. This div must be placed 
+	<!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
 	<div class="control-sidebar-bg"></div>
 	</div>
@@ -724,166 +554,166 @@ function check() {
 	<script
 		src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 	<!-- Page specific script -->
-	<script> 
-  $(function () { 
- 
-    /* initialize the external events 
-     -----------------------------------------------------------------*/ 
-    function init_events(ele) { 
-      ele.each(function () { 
- 
-        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/) 
-        // it doesn't need to have a start or end 
-        var eventObject = { 
-          title: $.trim($(this).text()) // use the element's text as the event title 
-        } 
- 
-        // store the Event Object in the DOM element so we can get to it later 
-        $(this).data('eventObject', eventObject) 
- 
-        // make the event draggable using jQuery UI 
-        $(this).draggable({ 
-          zIndex        : 1070, 
-          revert        : true, // will cause the event to go back to its 
-          revertDuration: 0  //  original position after the drag 
-        }) 
- 
-      }) 
-    } 
- 
-    init_events($('#external-events div.external-event')) 
- 
-    /* initialize the calendar 
-     -----------------------------------------------------------------*/ 
-    //Date for the calendar events (dummy data) 
-    var date = new Date() 
-    var d    = date.getDate(), 
-        m    = date.getMonth(), 
-        y    = date.getFullYear() 
-    $('#calendar').fullCalendar({ 
-      header    : { 
-        left  : 'prev,next today', 
-        center: 'title', 
-        right : 'month,agendaWeek,agendaDay' 
-      }, 
-      buttonText: { 
-        today: 'today', 
-        month: 'month', 
-        week : 'week', 
-        day  : 'day' 
-      }, 
-      //Random default events 
-      events    : [ 
-        { 
-          title          : 'All Day Event', 
-          start          : new Date(y, m, 1), 
-          backgroundColor: '#f56954', //red 
-          borderColor    : '#f56954' //red 
-        }, 
-        { 
-          title          : 'Long Event', 
-          start          : new Date(y, m, d - 5), 
-          end            : new Date(y, m, d - 2), 
-          backgroundColor: '#f39c12', //yellow 
-          borderColor    : '#f39c12' //yellow 
-        }, 
-        { 
-          title          : 'Meeting', 
-          start          : new Date(y, m, d, 10, 30), 
-          allDay         : false, 
-          backgroundColor: '#0073b7', //Blue 
-          borderColor    : '#0073b7' //Blue 
-        }, 
-        { 
-          title          : 'Lunch', 
-          start          : new Date(y, m, d, 12, 0), 
-          end            : new Date(y, m, d, 14, 0), 
-          allDay         : false, 
-          backgroundColor: '#00c0ef', //Info (aqua) 
-          borderColor    : '#00c0ef' //Info (aqua) 
-        }, 
-        { 
-          title          : 'Birthday Party', 
-          start          : new Date(y, m, d + 1, 19, 0), 
-          end            : new Date(y, m, d + 1, 22, 30), 
-          allDay         : false, 
-          backgroundColor: '#00a65a', //Success (green) 
-          borderColor    : '#00a65a' //Success (green) 
-        }, 
-        { 
-          title          : 'Click for Google', 
-          start          : new Date(y, m, 28), 
-          end            : new Date(y, m, 29), 
-          url            : 'http://google.com/', 
-          backgroundColor: '#3c8dbc', //Primary (light-blue) 
-          borderColor    : '#3c8dbc' //Primary (light-blue) 
-        } 
-      ], 
-      editable  : true, 
-      droppable : true, // this allows things to be dropped onto the calendar !!! 
-      drop      : function (date, allDay) { // this function is called when something is dropped 
- 
-        // retrieve the dropped element's stored Event Object 
-        var originalEventObject = $(this).data('eventObject') 
- 
-        // we need to copy it, so that multiple events don't have a reference to the same object 
-        var copiedEventObject = $.extend({}, originalEventObject) 
- 
-        // assign it the date that was reported 
-        copiedEventObject.start           = date 
-        copiedEventObject.allDay          = allDay 
-        copiedEventObject.backgroundColor = $(this).css('background-color') 
-        copiedEventObject.borderColor     = $(this).css('border-color') 
- 
-        // render the event on the calendar 
-        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/) 
-        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true) 
- 
-        // is the "remove after drop" checkbox checked? 
-        if ($('#drop-remove').is(':checked')) { 
-          // if so, remove the element from the "Draggable Events" list 
-          $(this).remove() 
-        } 
- 
-      } 
-    }) 
- 
-    /* ADDING EVENTS */ 
-    var currColor = '#3c8dbc' //Red by default 
-    //Color chooser button 
-    var colorChooser = $('#color-chooser-btn') 
-    $('#color-chooser > li > a').click(function (e) { 
-      e.preventDefault() 
-      //Save color 
-      currColor = $(this).css('color') 
-      //Add color effect to button 
-      $('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor }) 
-    }) 
-    $('#add-new-event').click(function (e) { 
-      e.preventDefault() 
-      //Get value and make sure it is not null 
-      var val = $('#new-event').val() 
-      if (val.length == 0) { 
-        return 
-      } 
- 
-      //Create events 
-      var event = $('<div />') 
-      event.css({ 
-        'background-color': currColor, 
-        'border-color'    : currColor, 
-        'color'           : '#fff' 
-      }).addClass('external-event') 
-      event.html(val) 
-      $('#external-events').prepend(event) 
- 
-      //Add draggable funtionality 
-      init_events(event) 
- 
-      //Remove event from text input 
-      $('#new-event').val('') 
-    }) 
-  }) 
+	<script>
+  $(function () {
+
+    /* initialize the external events
+     -----------------------------------------------------------------*/
+    function init_events(ele) {
+      ele.each(function () {
+
+        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+        // it doesn't need to have a start or end
+        var eventObject = {
+          title: $.trim($(this).text()) // use the element's text as the event title
+        }
+
+        // store the Event Object in the DOM element so we can get to it later
+        $(this).data('eventObject', eventObject)
+
+        // make the event draggable using jQuery UI
+        $(this).draggable({
+          zIndex        : 1070,
+          revert        : true, // will cause the event to go back to its
+          revertDuration: 0  //  original position after the drag
+        })
+
+      })
+    }
+
+    init_events($('#external-events div.external-event'))
+
+    /* initialize the calendar
+     -----------------------------------------------------------------*/
+    //Date for the calendar events (dummy data)
+    var date = new Date()
+    var d    = date.getDate(),
+        m    = date.getMonth(),
+        y    = date.getFullYear()
+    $('#calendar').fullCalendar({
+      header    : {
+        left  : 'prev,next today',
+        center: 'title',
+        right : 'month,agendaWeek,agendaDay'
+      },
+      buttonText: {
+        today: 'today',
+        month: 'month',
+        week : 'week',
+        day  : 'day'
+      },
+      //Random default events
+      events    : [
+        {
+          title          : 'All Day Event',
+          start          : new Date(y, m, 1),
+          backgroundColor: '#f56954', //red
+          borderColor    : '#f56954' //red
+        },
+        {
+          title          : 'Long Event',
+          start          : new Date(y, m, d - 5),
+          end            : new Date(y, m, d - 2),
+          backgroundColor: '#f39c12', //yellow
+          borderColor    : '#f39c12' //yellow
+        },
+        {
+          title          : 'Meeting',
+          start          : new Date(y, m, d, 10, 30),
+          allDay         : false,
+          backgroundColor: '#0073b7', //Blue
+          borderColor    : '#0073b7' //Blue
+        },
+        {
+          title          : 'Lunch',
+          start          : new Date(y, m, d, 12, 0),
+          end            : new Date(y, m, d, 14, 0),
+          allDay         : false,
+          backgroundColor: '#00c0ef', //Info (aqua)
+          borderColor    : '#00c0ef' //Info (aqua)
+        },
+        {
+          title          : 'Birthday Party',
+          start          : new Date(y, m, d + 1, 19, 0),
+          end            : new Date(y, m, d + 1, 22, 30),
+          allDay         : false,
+          backgroundColor: '#00a65a', //Success (green)
+          borderColor    : '#00a65a' //Success (green)
+        },
+        {
+          title          : 'Click for Google',
+          start          : new Date(y, m, 28),
+          end            : new Date(y, m, 29),
+          url            : 'http://google.com/',
+          backgroundColor: '#3c8dbc', //Primary (light-blue)
+          borderColor    : '#3c8dbc' //Primary (light-blue)
+        }
+      ],
+      editable  : true,
+      droppable : true, // this allows things to be dropped onto the calendar !!!
+      drop      : function (date, allDay) { // this function is called when something is dropped
+
+        // retrieve the dropped element's stored Event Object
+        var originalEventObject = $(this).data('eventObject')
+
+        // we need to copy it, so that multiple events don't have a reference to the same object
+        var copiedEventObject = $.extend({}, originalEventObject)
+
+        // assign it the date that was reported
+        copiedEventObject.start           = date
+        copiedEventObject.allDay          = allDay
+        copiedEventObject.backgroundColor = $(this).css('background-color')
+        copiedEventObject.borderColor     = $(this).css('border-color')
+
+        // render the event on the calendar
+        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
+
+        // is the "remove after drop" checkbox checked?
+        if ($('#drop-remove').is(':checked')) {
+          // if so, remove the element from the "Draggable Events" list
+          $(this).remove()
+        }
+
+      }
+    })
+
+    /* ADDING EVENTS */
+    var currColor = '#3c8dbc' //Red by default
+    //Color chooser button
+    var colorChooser = $('#color-chooser-btn')
+    $('#color-chooser > li > a').click(function (e) {
+      e.preventDefault()
+      //Save color
+      currColor = $(this).css('color')
+      //Add color effect to button
+      $('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor })
+    })
+    $('#add-new-event').click(function (e) {
+      e.preventDefault()
+      //Get value and make sure it is not null
+      var val = $('#new-event').val()
+      if (val.length == 0) {
+        return
+      }
+
+      //Create events
+      var event = $('<div />')
+      event.css({
+        'background-color': currColor,
+        'border-color'    : currColor,
+        'color'           : '#fff'
+      }).addClass('external-event')
+      event.html(val)
+      $('#external-events').prepend(event)
+
+      //Add draggable funtionality
+      init_events(event)
+
+      //Remove event from text input
+      $('#new-event').val('')
+    })
+  })
 </script>
 </body>
 </html>
