@@ -214,6 +214,30 @@
 		AND q.id=#{id}
 	</select>
 	
+	<!-- 12_3 -->
+	<select id="selectAllTegQuiz" resultType="map" parameterType="map">
+  		SELECT
+  			TO_CHAR(q.quizseq) NUM
+  			,q.type type
+  			,q.teg teg
+  			,q.question question
+  			,q.answer1 answer1
+            ,q.answer2 answer2
+            ,q.answer3 answer3
+            ,q.answer4 answer4
+  			,TO_CHAR(q.answernumber) answernumber
+  			,q.id id
+  			,l.quizrecordname quizrecordname
+		FROM quiz q, quizrecord r , quizrecordlist l
+		WHERE teg like '%' ||  #{teg} || '%'
+		AND q.quizseq = r.quizseq
+		AND r.quizrecordcode = l.quizrecordcode
+		<if test="type != null">
+    		AND type = #{type}
+  		</if>
+		AND q.id=#{id}
+	</select>
+	
 	<!--  -->
 	<select id="selectOneQuiz" resultType="map" parameterType="integer">
   		SELECT 
@@ -297,6 +321,28 @@
 	<!-- 19_2 -->
 	<select id="countRecordQuiz" resultType="integer" parameterType="map">
   		SELECT count(*)
+		FROM quiz q, quizrecord r , quizrecordlist l
+		WHERE q.quizseq = r.quizseq
+		AND r.quizrecordcode = l.quizrecordcode
+		AND l.quizrecordcode = #{quizrecordcode}
+		AND q.id=#{id}
+	</select>
+	
+	<!-- 19_3 -->
+	<select id="selectAllRecordQuiz" resultType="map" parameterType="map">
+  		SELECT 
+			TO_CHAR(q.quizseq) NUM
+  			,q.type type
+  			,q.teg teg
+  			,q.question question
+  			,q.answer1 answer1
+            ,q.answer2 answer2
+            ,q.answer3 answer3
+            ,q.answer4 answer4
+  			,TO_CHAR(q.answernumber) answernumber
+  			,q.id id
+  			,l.quizrecordname quizrecordname
+  			,l.quizrecordcode quizrecordcode
 		FROM quiz q, quizrecord r , quizrecordlist l
 		WHERE q.quizseq = r.quizseq
 		AND r.quizrecordcode = l.quizrecordcode
