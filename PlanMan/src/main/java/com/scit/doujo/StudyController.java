@@ -579,14 +579,22 @@ public class StudyController {
 	
 	
 	/* 그룹 검색 */
-	@RequestMapping(value = "/groupSearch", method = RequestMethod.POST)
-	public @ResponseBody Map<String, String> inviteGroup(@RequestBody Map<String, String> search, HttpSession hs) {
+	@RequestMapping(value = "/searchGroup", method = RequestMethod.POST)
+	public @ResponseBody Map searchGroup(@RequestBody Map<String, String> searching, HttpSession hs) {
 		studyDao gdao = sqlSession.getMapper(studyDao.class);
+		ArrayList<Map<String, String>> groupList = new ArrayList<>();
+		Map<String,Map<String, String>> groupMap = new HashMap<>();
+		Map<String, String> search = new HashMap<>();
 		
+		System.out.println(searching.toString());
+		search.put(searching.get("type"), searching.get("search"));
 		
-		
-		
-		Map<String, String> result = new HashMap<>();
-		return result;
+		groupList = gdao.selectGroup(search);
+		System.out.println(groupList.toString());
+		for (Map<String, String> map : groupList) {
+			groupMap.put(""+map.get("NUM"), map);
+		}
+		System.out.println(groupMap.toString());
+		return groupMap;
 	}
 } 

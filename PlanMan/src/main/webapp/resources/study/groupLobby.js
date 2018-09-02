@@ -100,3 +100,79 @@ function showMyGroup() {
 		});
 	});
 }
+
+
+
+
+
+function showSearchGroup() {
+	var result = '';
+		result += '<div class="input-group input-group-lg">';
+		result += '<div class="input-group-btn">';
+		result += '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">type';
+		result += '<span class="fa fa-caret-down"></span></button>';
+		result += '<ul class="dropdown-menu">';
+		result += '<li><a id="SBGN">Group name</a></li>';
+		result += '<li><a id="SBGC">Group code</a></li>';
+		result += '<li><a id="SBLI">leader id</a></li>';
+		result += '<li><a id="SBTG">TEG</a></li>';
+		result += '</ul>';
+		result += '</div>';
+		result += '<input type="text" class="form-control" id="search" placeholder="Search...">';
+		result += '</div>';
+		
+	document.getElementById("functionboard").innerHTML = result;
+	
+	
+	
+	$(document).ready(function (){
+		var type = "";
+		$('#SBGN').on('click', function makegroup() {
+			type = "groupname";
+			searchGroup();
+		});
+		
+		$('#SBGC').on('click', function makegroup() {
+			type = "groupseq";
+			searchGroup();
+		});
+		
+		$('#SBLI').on('click', function makegroup() {
+			type = "groupleader";
+			searchGroup();
+		});
+		
+		$('#SBTG').on('click', function makegroup() {
+			type = "groupteg";
+			searchGroup();
+		});
+		
+		
+		function searchGroup() {
+			var searching = {
+				"type" : type
+				,"search" : $("#search").val()
+			};
+			
+			$.ajax({
+				method   : 'post'
+				, url    : 'searchGroup'
+				, data   : JSON.stringify(searching)
+				, dataType : 'json'
+				, contentType : 'application/json; charset=UTF-8'
+				, success: function (data){
+					var smgresult = '';
+					$.each(data, function(index, item){
+						smgresult += '<a class="btn btn-block btn-success" href="goGroup?num=' +item.NUM+ '&name=' +item.NAME+ '">' + item.NAME + "[" +item.NUM+ "]" + '</a><br/>';
+					});
+					
+					document.getElementById("functionboard").innerHTML = smgresult;
+				}
+				, error: function(request,status,error){
+			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			    }
+					
+			});
+		}
+	});
+}

@@ -303,7 +303,7 @@
             <div class="box-body"> 
               <form role="form">
                 <a href="#" class="btn btn-primary btn-block margin-bottom" id="showmakegroup" onclick="showMakeGroup()">make</a> 
-                <a href="#" class="btn btn-primary btn-block margin-bottom" id="showsearchgroup" onclick="">Search</a> 
+                <a href="#" class="btn btn-primary btn-block margin-bottom" id="showsearchgroup" onclick="showSearchGroup()">Search</a> 
                 <a href="#" class="btn btn-primary btn-block margin-bottom" id="showmygroup" onclick="showMyGroup()">My Group</a>
               </form> 
             </div>
@@ -316,6 +316,10 @@
             <div class="box-body"> 
               <form role="form"> 
                 <div id="functionboard">
+                  
+                  
+                  
+                  
                   
                 </div>
               </form> 

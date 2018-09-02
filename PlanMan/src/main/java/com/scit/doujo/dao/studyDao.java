@@ -17,7 +17,7 @@ public interface studyDao {
 	// 3. insert - insert member to ChatRoom
 	public int insertGroupMember(Map<String, String> groupmember);
 	
-	// 4. select -�׷�˻�
+	// 4. select - 그룹검색
 	public ArrayList<Map<String, String>> selectGroup(Map<String, String> group);
 	
 	// 5. select -�� �׷��� ��������

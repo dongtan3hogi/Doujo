@@ -33,21 +33,21 @@
 		
 		<!-- 4 -->
 		<select id="selectGroup" parameterType="map" resultType="map">
-			SELECT groupname, groupseq, groupleader, groupteg
+			SELECT groupname name, TO_CHAR(groupseq) num, groupleader, groupteg
 			FROM groups
-			WHERE groupsecret == 'public'
+			WHERE groupsecret = 'public'
 			AND
 			<if test="groupname != null">
-				groupname = #{groupname}
+				groupname like '%' ||  #{groupname} || '%'
 			</if>
 			<if test="groupseq != null">
-				groupseq = #{groupseq}
+				groupseq like '%' ||  #{groupseq} || '%'
 			</if>
 			<if test="groupleader != null">
-				groupleader = #{groupleader}
+				groupleader like  '%' ||  #{groupleader} || '%'
 			</if>
 			<if test="groupteg != null">
-				groupteg = #{groupteg}
+				groupteg like '%' ||  #{groupteg} || '%'
 			</if>
 		</select>
 		
