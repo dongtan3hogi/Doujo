@@ -263,9 +263,8 @@
             </span>
           </a>
           <ul class="treeview-menu"> 
-          <li><a href="studyMAIN"><i class="fa fa-circle-o text-aqua"></i> StudyMAIN</a></li>
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li>
-            <li><a href="gotoQuizMake"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">

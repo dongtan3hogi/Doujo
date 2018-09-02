@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 
 public interface studyDao {
 
-	// 1. insert - making the ChatRoom
+	// 1. insert - Group생성
 	public int insertGroup(Map<String, String> group);
 	
 	// 2. update - alert

@@ -501,7 +501,7 @@ public class StudyController {
 	
 	
 	/* 그룹로비로 이동 */
-	@RequestMapping(value = "/gogrouplobby", method = RequestMethod.GET)
+	@RequestMapping(value = "/gotoGroupLobby", method = RequestMethod.GET)
 	public  String gogrouplobby() {
 		return "study/groupLobby";
 	}
@@ -548,8 +548,8 @@ public class StudyController {
 	}
 	
 	/* 그룹 방으로 이동 */	
-	@RequestMapping(value = "/goGroup", method = RequestMethod.GET)
-	public String goGroup(int num, String name, HttpSession hs, Model model) {
+	@RequestMapping(value = "/gotoGroup", method = RequestMethod.GET)
+	public String gotoGroup(int num, String name, HttpSession hs, Model model) {
 		studyDao gdao = sqlSession.getMapper(studyDao.class);
 		String id = (String) hs.getAttribute("memberID");
 		System.out.println(id+num+name);

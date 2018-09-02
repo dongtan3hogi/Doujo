@@ -317,10 +317,10 @@ function check() {
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li><a href=""><i class="fa fa-circle-o"></i> Quiz</a></li>
-							<li><a href=""><i class="fa fa-circle-o"></i> Study
-									Group</a></li>
-						</ul></li>
+							<li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
+            				<li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
+						</ul>
+					</li>
 					<li class="treeview"><a href="#"> <i
 							class="fa fa-dashboard"></i> <span>Work</span> <span
 							class="pull-right-container"> <i
@@ -389,7 +389,7 @@ function check() {
 
 						<div class="box box-solid">
 							<div class="box-header with-border">
-								<h3 class="box-title">Title02</h3>
+								<h3 class="box-title">STUDY</h3>
 
 								<div class="box-tools">
 									<button type="button" class="btn btn-box-tool"
@@ -401,14 +401,32 @@ function check() {
 							<div class="box-body no-padding">
 								<ul class="nav nav-pills nav-stacked">
 									<ul class="nav nav-pills nav-stacked">
-										<li><a href="#"><i class="fa fa-inbox"></i> QUIZ <span
-												class="label label-primary pull-right">12</span></a></li>
-										<li class="active"><a href=""><i
-												class="fa fa-envelope-o"></i> MAKE</a></li>
-										<li><a href="#"><i class="fa fa-file-text-o"></i>
-												SOLVE</a></li>
-										<li><a href="#"><i class="fa fa-filter"></i> RECORD <span
-												class="label label-warning pull-right">65</span></a></li>
+										<li>
+											<a href="gotoQuiz">
+												<i class="fa fa-inbox"></i>
+												QUIZ
+												<span class="label label-primary pull-right">12</span>
+											</a>
+										</li>
+										<li class="active">
+											<a href="#">
+												<i class="fa fa-envelope-o"></i>
+												MAKE
+											</a>
+										</li>
+										<li>
+											<a href="gotoQuizSolve">
+												<i class="fa fa-file-text-o"></i>
+												SOLVE
+											</a>
+										</li>
+										<li>
+											<a href="gotoGroup">
+												<i class="fa fa-filter"></i>
+												GROUP
+												<span class="label label-warning pull-right">65</span>
+											</a>
+										</li>
 									</ul>
 								</ul>
 							</div>
