@@ -193,8 +193,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-          	<li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
-            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
+          	<li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -218,7 +218,11 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoHealth"><i class="fa fa-circle-o text-red"></i> Health Main</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-red"></i> Health 2</a></li>
+            <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
+            <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
+            <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
+            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
+            <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -233,15 +237,18 @@
             <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
           </ul>
         </li>
-        <!-- <li>
-          <a href="widgets.html">
-            <i class="fa fa-th"></i> <span>Widgets</span>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-calendar"></i> <span>Schdule</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-green">new</small>
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-        </li>  -->
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>홈피 css설명서</span></a></li>
+          <ul class="treeview-menu">
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-orange"></i> Calendar</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-orange"></i> Timeline</a></li>
+          </ul>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -257,7 +264,7 @@
     <section class="content-header">
       <h1>
         Timeline
-        <small>${sessionScope.member.id}님의 스케쥴 <span id="clock"></span> / <a href="gotoCalendar">Calendar</a></small>
+        <small>${sessionScope.member.id}님의 스케쥴 <span id="clock"></span></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>

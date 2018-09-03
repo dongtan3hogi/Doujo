@@ -209,18 +209,22 @@
             <li><a href=""><i class="fa fa-circle-o"></i> Work 2</a></li> 
           </ul> 
         </li> 
-        <li class="treeview"> 
-          <a href="#"> 
-            <i class="fa fa-dashboard"></i> <span>Health</span> 
-            <span class="pull-right-container"> 
-              <i class="fa fa-angle-left pull-right"></i> 
-            </span> 
-          </a> 
-          <ul class="treeview-menu"> 
-            <li><a href=""><i class="fa fa-circle-o"></i> Health 1</a></li> 
-            <li><a href=""><i class="fa fa-circle-o"></i> Health 2</a></li> 
-          </ul> 
-        </li> 
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-heartbeat"></i> <span>Health</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="gotoHealth"><i class="fa fa-circle-o text-red"></i> Health Main</a></li>
+            <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
+            <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
+            <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
+            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
+            <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
+          </ul>
+        </li>
         <li> 
           <a href="widgets.html"> 
             <i class="fa fa-th"></i> <span>Widgets</span> 

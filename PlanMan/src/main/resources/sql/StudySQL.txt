@@ -1,11 +1,5 @@
 -- CREATE ]==============================================================================
 
---임시 사용자 TABLE
-CREATE TABLE member (
-    id VARCHAR2(20) PRIMARY KEY,
-    password VARCHAR2(20) NOT NULL
-);
-
 
 --TEG TABLE
 CREATE TABLE TEG(

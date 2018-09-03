@@ -68,7 +68,7 @@ public class HomeController {
 	@RequestMapping(value = "gotoLogin", method = RequestMethod.GET)
 	public String gotoLogin() {
 	
-		return "login";
+		return "home";
 	}
 
 	//로그인 페이지로 이동
