@@ -204,7 +204,7 @@
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
+   <section class="sidebar">
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
@@ -236,9 +236,9 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li>
-            <li><a href="gotoQuizMake"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
+          <ul class="treeview-menu"> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -249,8 +249,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 2</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -281,15 +280,18 @@
             <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
           </ul>
         </li>
-        <!-- <li>
-          <a href="widgets.html">
-            <i class="fa fa-th"></i> <span>Widgets</span>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-calendar"></i> <span>Schdule</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-green">new</small>
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-        </li>  -->
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>홈피 css설명서</span></a></li>
+          <ul class="treeview-menu">
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-green"></i> Calendar</a></li>
+            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-green"></i> Timeline</a></li>
+          </ul>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->

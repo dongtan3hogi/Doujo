@@ -6,18 +6,13 @@
 		<typeAlias type="com.scit.doujo.vo.member" alias="Member"/>
 		<typeAlias type="com.scit.doujo.vo.schedule" alias="Schedule"/>
 		<typeAlias type="com.scit.doujo.vo.food" alias="Food"/>
-<<<<<<< HEAD
 		<typeAlias type="com.scit.doujo.vo.eatfood" alias="Eatfood"/>
 		<typeAlias type="com.scit.doujo.vo.mynut" alias="Mynut"/>
 		<typeAlias type="com.scit.doujo.vo.activity" alias="Activity"/>
-=======
 		<typeAlias type="com.scit.doujo.vo.work.memo" alias="memo"/>
-		<typeAlias alias="user" type="com.scit.doujo.vo.work.User"/>
-		<typeAlias alias="keylist" type="com.scit.doujo.vo.work.keylist"/>
-		<typeAlias alias="friend" type="com.scit.doujo.vo.work.friend"/>
-		<typeAlias alias="fquery" type="com.scit.doujo.vo.work.friendquery"/>
-	
->>>>>>> work
+		<typeAlias type="com.scit.doujo.vo.work.keylist" alias="keylist"/>
+		<typeAlias type="com.scit.doujo.vo.work.friend" alias="friend"/>
+		<typeAlias type="com.scit.doujo.vo.work.friendquery" alias="fquery"/>
 	</typeAliases>
 	
 	<mappers>

@@ -429,21 +429,13 @@ public class StudyController {
 		//type이 teg이면 태그를 사용해서 불러온다. 
 		if(type.equals("t")) { 
 			selectSet.put("teg", name); 
-<<<<<<< HEAD
 			quizList = dao.selectAllTegQuiz(selectSet); 			 
-=======
-			quizList = dao.selectTegQuiz(selectSet, null); 
-			 
->>>>>>> work
+
 		//type이 record이면 아이디와 레코드코드를 사용해서 불러온다. 
 		} else if(type.equals("r")) { 
 			selectSet.put("quizrecordcode", id+name); 
 			System.out.println(selectSet.get("quizrecordcode") + ", " + selectSet.get("id")); 
-<<<<<<< HEAD
 			quizList = dao.selectAllRecordQuiz(selectSet); 
-=======
-			quizList = dao.selectRecordQuiz(selectSet, null); 
->>>>>>> work
 		} 
 		System.out.println("3."+quizList.size()); 
 		for (Map<String, String> map : quizList) { 

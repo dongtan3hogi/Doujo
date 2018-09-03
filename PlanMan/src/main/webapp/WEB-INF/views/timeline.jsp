@@ -192,9 +192,9 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu">
-          	<li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li> 
-            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
+          <ul class="treeview-menu"> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -205,8 +205,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 2</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -245,8 +244,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-orange"></i> Calendar</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-orange"></i> Timeline</a></li>
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-green"></i> Calendar</a></li>
+            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-green"></i> Timeline</a></li>
           </ul>
         </li>
       </ul>
@@ -394,7 +393,7 @@
 					 }
 				 }else if(eventtype=='work'){
 					 if(confirm("work 페이지로 이동하시겠습니까?")){
-						 
+						 location.href="goWork1?eventtitle="+ eventtitle;
 					 }else{
 						 alert(eventtype); 
 					 }
@@ -406,13 +405,13 @@
 					 }
 				 }else if(eventtype=='friend'){
 					 if(confirm("friend 페이지로 이동하시겠습니까?")){
-						 
+						 location.href="gotoHealth?eventtitle="+ eventtitle;
 					 }else{
 						 alert(eventtype); 
 					 }
 				 }else if(eventtype=='etc'){
 					 if(confirm("기타 페이지로 이동하시겠습니까?")){
-						 
+						 location.href="gotoHealth?eventtitle="+ eventtitle;
 					 }else{
 						 alert(eventtype);
 					 }

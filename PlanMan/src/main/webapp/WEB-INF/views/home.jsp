@@ -42,16 +42,16 @@
       <div class="row">
        
         <!-- /.col -->
-        <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">로그인</button>
+        <div align="right">
+          <button type="submit" style="width: 120px;" class="btn btn-primary btn-block btn-flat">로그인</button>
         </div>
         <!-- /.col -->
       </div>
     </form>
-	
+	<div align="right">
     <a href="#">비밀번호 찾기</a><br>
     <a href="gotoSignIn" class="text-center">회원가입 하기</a>
-
+	</div>
   </div>
   <!-- /.login-box-body -->
 </div>

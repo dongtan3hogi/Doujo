@@ -25,7 +25,9 @@ public class WorkController {
 	SqlSession sqlSession;
 
 	@RequestMapping(value = "/goWork1", method = RequestMethod.GET)
-	public String goWork1() {
+	public String goWork1(String eventtitle, HttpSession session) {
+		System.out.println(eventtitle);
+		session.setAttribute("eventtitle", eventtitle);
 		return "/work/work";
 	}
 	@RequestMapping(value = "/goNews", method = RequestMethod.GET)
