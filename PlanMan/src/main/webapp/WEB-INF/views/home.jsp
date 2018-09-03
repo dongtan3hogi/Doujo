@@ -101,8 +101,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-red"></i> Health 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-red"></i> Health 2</a></li>
+            <li><a href="gotoHealth"><i class="fa fa-circle-o text-red"></i>Health Main</a></li>
           </ul>
         </li>
         <li class="treeview">

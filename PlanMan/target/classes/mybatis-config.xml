@@ -6,6 +6,9 @@
 		<typeAlias type="com.scit.doujo.vo.member" alias="Member"/>
 		<typeAlias type="com.scit.doujo.vo.schedule" alias="Schedule"/>
 		<typeAlias type="com.scit.doujo.vo.food" alias="Food"/>
+		<typeAlias type="com.scit.doujo.vo.eatfood" alias="Eatfood"/>
+		<typeAlias type="com.scit.doujo.vo.mynut" alias="Mynut"/>
+		<typeAlias type="com.scit.doujo.vo.activity" alias="Activity"/>
 	</typeAliases>
 	
 	<mappers>

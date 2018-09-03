@@ -27,45 +27,6 @@
   <!-- Date Picker -->
   <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
 
- <style type="text/css">
-	 /* The Modal (background) */
-     .modal {
-         display: none; /* Hidden by default */
-         position: fixed; /* Stay in place */
-         z-index: 999; /* Sit on top */
-         left: 0;
-         top: 0;
-         width: 100%; /* Full width */
-         height: 100%; /* Full height */
-         overflow: auto; /* Enable scroll if needed */
-         background-color: rgb(0,0,0); /* Fallback color */
-         background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
-     }
- 
-     /* Modal Content/Box */
-     .modal-content {
-         background-color: #fefefe;
-         margin: 15% auto; /* 15% from the top and centered */
-         padding: 20px;
-         border: 1px solid #888;
-         width: 30%; /* Could be more or less, depending on screen size */                          
-     }
-     /* The Close Button */
-     .close {
-         color: #aaa;
-         float: right;
-         font-size: 28px;
-         font-weight: bold;
-     }
-     .close:hover,
-     .close:focus {
-         color: black;
-         text-decoration: none;
-         cursor: pointer;
-     }
-   
-     
-  </style>	
 
 <!-- head -->
 </head>
@@ -312,128 +273,12 @@
         <li class="active">Timeline</li>
       </ol>
     </section>
-	
-	<!-- The Modal -->
-    <div id="myModal" class="modal">
- 
-    	<!-- Modal content -->
-        <div class="modal-content">
-        	<span class="close">&times;</span>
-        	
-        	<div>
-        		<input type="hidden" id="foodnum">
-        	</div>
-        	<br/>
-        	<div>
-        		음식이름  :  <span id="fName"></span> 
-        	</div>
-        	<br/>
-        	<div>
-        		섭취량    <input type="number" style="width: 50px; height: 30px;" id="fGram" >g
-        	</div>
-        	<br/>
-        	<div>
-        		섭취일 <input type="text" style="width: 150px;" class="datepicker" id="eatday" > 
-        	</div>
-        	<br/>
-        	<div id="sch-button" align="right"><input type="submit" id="addMeal" style="width: 200px;" value="음식 입력하기" class="btn btn-block btn-primary" onclick="return addMealChk()"/></div>
-        </div>
-    </div>
 
     <!-- Main content -->
     <section class="content">
       <div class="row">
-      	<div> 
-      	<br/>
-      	<form action="gotoMeal" method="get">
-      	<div>식품군
-      	<select name="FDGRP_NM">
-      		<option selected="selected">${foodgroup}</option>
-      		<option value="가공유류">가공유류</option>\
-      		<option value="감자 및 전분류">감자 및 전분류</option>
-      		<option value="견과류">견과류</option>
-      		<option value="곡류 및 그 제품">곡류 및 그 제품</option>
-      		<option value="곡류, 서류 제품">곡류, 서류 제품</option>
-      		<option value="과실류">과실류</option>
-      		<option value="과일·채소류음료">과일·채소류음료</option>
-      		<option value="과일류">과일류</option>
-      		<option value="과자">과자</option>
-      		<option value="과자류">과자류</option>
-      		<option value="구이류">구이류</option>
-      		<option value="국 및 탕류">국 및 탕류</option>
-      		<option value="기타">기타</option>
-      		<option value="기타음료">기타음료</option>
-      		<option value="김치류">김치류</option>
-      		<option value="나물/숙채류">나물/숙채류</option>
-      		<option value="난류">난류</option>
-      		<option value="농축유류">농축유류</option>
-      		<option value="다류">다류</option>
-      		<option value="당류">당류</option>
-      		<option value="당류 및 그 제품">당류 및 그 제품</option>
-      		<option value="두류 및 그 제품">두류 및 그 제품</option>
-      		<option value="두류, 견과 및 종실류">두류, 견과 및 종실류</option>
-      		<option value="두유류">두유류</option>
-      		<option value="면 및 만두류">면 및 만두류</option>
-      		<option value="면류">면류</option>
-      		<option value="발효유류">발효유류</option>
-      		<option value="발효음료류">발효음료류</option>
-      		<option value="밥류">밥류</option>
-      		<option value="버섯류">버섯류</option>
-      		<option value="볶음류">볶음류</option>
-      		<option value="분식">분식</option>
-      		<option value="분유류">분유류</option>
-      		<option value="빵 또는 떡류">빵 또는 떡류</option>
-      		<option value="빵 및 과자류">빵 및 과자류</option>
-      		<option value="생채/무침류">생채/무침류</option>
-      		<option value="소스류">소스류</option>
-      		<option value="수조어육류">수조어육류</option>
-      		<option value="시리얼류">시리얼류</option>
-      		<option value="식물성크림">식물성크림</option>
-      		<option value="아이스크림">아이스크림</option>
-      		<option value="아이스크림류">아이스크림류</option>
-      		<option value="어패류">어패류</option>
-      		<option value="영·유아용 곡류조제식">영·유아용 곡류조제식</option>
-      		<option value="우유 및 유제품">우유 및 유제품</option>
-      		<option value="우유류">우유류</option>
-      		<option value="유지류">유지류</option>
-      		<option value="육류 및 그 제품">육류 및 그 제품</option>
-      		<option value="음료">음료</option>
-      		<option value="음료 및 주류">음료 및 주류</option>
-      		<option value="음료 및 차류">음료 및 차류</option>
-      		<option value="인삼·홍삼음료">인삼·홍삼음료</option>
-      		<option value="장기보존식품">장기보존식품</option>
-      		<option value="장아찌/절임류">장아찌/절임류</option>
-      		<option value="전/ 적 및 부침류">전/ 적 및 부침류</option>
-      		<option value="젓갈류">젓갈류</option>
-      		<option value="제빵">제빵</option>
-      		<option value="조리가공식품류">조리가공식품류</option>
-      		<option value="조림류">조림류</option>
-      		<option value="조미료류">조미료류</option>
-      		<option value="죽 및 스프류">죽 및 스프류</option>
-      		<option value="즉석섭취·편의식품류">즉석섭취·편의식품류</option>
-      		<option value="찌개 및 전골류">찌개 및 전골류</option>
-      		<option value="찜류">찜류</option>
-      		<option value="채소류">채소류</option>
-      		<option value="체중조절용 조제식품">체중조절용 조제식품</option>
-      		<option value="카레">카레</option>
-      		<option value="커피">커피</option>
-      		<option value="코코아가공품류 또는 초콜릿류">코코아가공품류 또는 초콜릿류</option>
-      		<option value="탄산음료류">탄산음료류</option>
-      		<option value="특수의료용도등식품">특수의료용도등식품</option>
-      		<option value="피자">피자</option>
-      		<option value="해조류">해조류</option>
-      		<option value="햄버거">햄버거</option>
-      	</select>
-      		<input type="submit" value="식품군 보기" class="btn btn-primary"/>
-      	</form>
-      	</div>
-      	<div>
-      		<form action="showtoMeal" method="get" onsubmit="return eatTable()">
-      			날짜 선택 : <input type="text" style="width: 150px;" class="datepicker" name="countday" id="eatTableDay" > 
-      			<input type="submit" value="식단표 보기" class="btn btn-primary"/>
-      		</form>
-      	</div>
       	
+      	<div>${eatfoodList[0].countday}일의 식단표</div>
 		<table width="100%" class="display" id="example" cellspacing="0">
         <thead>
             <tr>
@@ -449,29 +294,27 @@
                 <th>콜레스테롤(mg)</th>
                 <th>포화지방산(g)</th>
                 <th>트랜스지방(g)</th>
-                <th>가공업체명</th>
-                <th>구축년도</th>
-                <th style="display: none;">번호</th>
+                <th>삭제</th>
             </tr>
         </thead>
         <tbody>
-        	<c:forEach var="foodList" items="${foodList}" varStatus="status" >
+        	<c:forEach var="eatfoodList" items="${eatfoodList}" varStatus="status" >
         	<tr>
 				<td>${status.count}</td>
-				<td>${foodList.DESC_KOR}</td>
-				<td>${foodList.SERVING_WT}</td>
-				<td>${foodList.NUTR_CONT1}</td>
-				<td>${foodList.NUTR_CONT2}</td>
-				<td>${foodList.NUTR_CONT3}</td>
-				<td>${foodList.NUTR_CONT4}</td>
-				<td>${foodList.NUTR_CONT5}</td>
-				<td>${foodList.NUTR_CONT6}</td>
-				<td>${foodList.NUTR_CONT7}</td>
-				<td>${foodList.NUTR_CONT8}</td>
-				<td>${foodList.NUTR_CONT9}</td>
-				<td>${foodList.ANIMAL_PLANT}</td>
-				<td>${foodList.BGN_YEAR}</td>
-				<td style="display: none;">${foodList.NUM}</td>
+				<td>${eatfoodList.DESC_KOR}</td>
+				<td>${eatfoodList.SERVING_WT}</td>
+				<td>${eatfoodList.NUTR_CONT1}</td>
+				<td>${eatfoodList.NUTR_CONT2}</td>
+				<td>${eatfoodList.NUTR_CONT3}</td>
+				<td>${eatfoodList.NUTR_CONT4}</td>
+				<td>${eatfoodList.NUTR_CONT5}</td>
+				<td>${eatfoodList.NUTR_CONT6}</td>
+				<td>${eatfoodList.NUTR_CONT7}</td>
+				<td>${eatfoodList.NUTR_CONT8}</td>
+				<td>${eatfoodList.NUTR_CONT9}</td>
+				<form action="deleteMeal" method="get">
+				<td><input type="submit" id="deleteMeal" value="삭제"/><input type="hidden" name="eatnum" value="${eatfoodList.eatnum}"><input type="hidden" name="countday" value="${eatfoodList.countday}"></td>
+				</form>
             </tr>
 		</c:forEach>
         </tbody>
@@ -525,12 +368,6 @@
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- Page specific script -->
 <script>
-//Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
   $(function () {
 	  
 	  $('.datepicker').datepicker({
@@ -546,35 +383,8 @@ var span = document.getElementsByClassName("close")[0];
 	  
 	  var table = $('#example').DataTable({
 		  "scrollX": true
-		  ,"select": true
 	  });
 	
-	  $('#example tbody').on('click', 'tr', function(){
-		    
-		  	$('#foodnum').val(table.row( this ).data()[14]);
-			$('#fName').append(table.row( this ).data()[1]);
-			$('#fGram').val(table.row( this ).data()[2]);
-		  	modal.style.display = "block";
-		  	//When the user clicks on <span> (x), close the modal
-		  	span.onclick = function() {
-				$('#eatday').val('');
-				$('#fName').text('');
-				$('#fGram').val('');
-		  	    modal.style.display = "none";
-		  	}
-
-		  	// When the user clicks anywhere outside of the modal, close it
-		  	window.onclick = function(event) {
-		  	    if (event.target == modal) {
-		  	    	$('#eatday').val('');
-		  	    	$('#fName').text('');
-		  	    	$('#fGram').val('');
-		  	        modal.style.display = "none";
-		  	    }
-		  	}
-		  	
-	  });
-	  
   })
   
   function showtime(){
@@ -596,59 +406,7 @@ var span = document.getElementsByClassName("close")[0];
 	  }
 	  return zero + num;
   }
-  
-  function addMealChk(){
-	  
-	  if($('#eatday').val().length==0){
-		  alert("날짜를 선택 해주세요.");
-		  return false;
-	  }
-	  
-	  if($('#fGram').val().length==0||$('#fGram').val()<=0){
-		  alert("잘못된 섭취량 입니다.");
-		  return false;
-	  }
-	  
-	  $.ajax({
-			 url:"addMeal"
-			 ,type:"post"
-			 ,data:{
-				 "NUM":$('#foodnum').val()
-			     ,"countday":$('#eatday').val()
-			     ,"SERVING_WT":$('#fGram').val()
-			 }
-		     ,success:function(data){
-		    	 if(data=="success"){
-		    	 	alert("음식 입력이 완료되었습니다.");
-		    	 	$('#eatday').val('');
-		  	    	$('#fName').text('');
-		  	    	$('#fGram').val('');
-		  	        modal.style.display = "none";
-		  	        return true;
-		    	 }else{
-		    		alert("입력에 실패했습니다.");
-		    		$('#eatday').val('');
-		  	    	$('#fName').text('');
-		  	    	$('#fGram').val('');
-		  	        modal.style.display = "none";
-		  	        return false;
-		    	 }
-		     }
-		     ,error:function(){
-		    	 
-		     }
-	  });
-	  
-	  return true;
-  }
-  
-  function eatTable(){
-	  if($('#eatTableDay').val().length==0){
-		  alert("날짜를 선택해주세요");
-		  return false;
-	  }
-	  return true;
-  }
+ 
 </script>
 </body>
 </html>
