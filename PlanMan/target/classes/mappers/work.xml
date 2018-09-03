@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.scit.doujo.dao.workDao">
+
+	<select id="keyList" parameterType="String" resultType="keylist">
+	SELECT keyword, searchDate 
+        from (select keyword, searchdate, 
+        ROW_NUMBER() OVER(PARTITION BY searchdate ORDER BY searchDate, keyword DESC) rn
+		FROM work_word where  id= #{param1}  group by searchdate, keyword)
+		where  rn <![CDATA[ < ]]>=10 and rownum <![CDATA[ < ]]>=30 order by searchdate desc
+		
+	</select>
+	
+	<select id="friendKeyword" parameterType="String" resultType="keylist">
+	select keyword
+	from work_word
+	where id= #{param1} order by searchDate desc
+	</select>
+	<select id="findKeyword" parameterType="String" resultType="String">
+		SELECT keyword
+		FROM work_word 
+		where id= #{param1} and keyword= #{param2} order by searchDate desc
+	 	
+	</select>
+	<insert id="insertWord" parameterType="String">
+		insert into work_word (id, keyword)
+		values(
+		#{param1},
+		#{param2}
+		)
+	</insert>
+	<select id="findFriend" parameterType="fquery" resultType="friend">
+	select id,count(id) cc 
+	from (select a.id, keyword,sex,age,name from work_word a left join member b
+	on a.id=b.id where  a.id not in #{id})
+	<where> 
+	<if test='sex.equals("남")'>
+       sex = '남'</if>
+       <if test='sex.equals("여")'>
+       sex = '여'</if>
+		<if test='sex.equals("둘다")'>
+		1=1
+      </if>
+		and 
+		<if test='age ==10'>
+	age <![CDATA[ < ]]>=19 and age <![CDATA[ > ]]>=10</if>
+		<if test='age ==20'>
+		age <![CDATA[ < ]]>=29 and age <![CDATA[ > ]]>=20</if>
+		<if test='age ==30'>
+		age <![CDATA[ < ]]>=39 and age <![CDATA[ > ]]>=30</if>
+		<if test='age ==40'>
+		age <![CDATA[ < ]]>=49 and age <![CDATA[ > ]]>=40</if>
+		<if test='age ==50'>
+		 age <![CDATA[ > ]]>=50</if>
+		 <if test='age ==0'>
+		 age<![CDATA[ > ]]>=0</if>
+		 </where>
+		 and keyword in (select keyword from work_word where id=#{id})
+		  and rownum <![CDATA[ < ]]>=20
+		 
+  group by id 
+  order by cc desc</select>
+  <insert id="insertMemo" parameterType="memo">
+  	insert into work_memo values(
+  	#{id},
+  	#{memo},
+  	#{startdate},
+  	#{enddate}
+  	)
+  	
+  </insert>
+  <select id="findMemo" parameterType="memo" resultType="memo">
+  select * from work_memo where id=#{id} and startdate=#{startdate}
+  </select>
+  <select id="allMemo" parameterType="String" resultType="memo">
+  select * from work_memo where id=#{param1} 
+  </select>
+  <update id="updateMemo" parameterType="memo">
+  update work_memo set memo=#{memo} where id=#{id} and startdate=#{startdate}</update>
+  <delete id="deleteMemo" parameterType="memo">
+  delete from work_memo where id=#{id} and startdate=#{startdate} </delete>
+  <delete id="deleteKeyword" parameterType="String">
+  delete from work_word where id=#{param1} and keyword=#{param2} </delete>
+</mapper>

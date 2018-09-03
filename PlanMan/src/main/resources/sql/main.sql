@@ -1,4 +1,4 @@
-CREATE TABLE job (
+﻿CREATE TABLE job (
     job VARCHAR2(20) PRIMARY KEY
 );
 

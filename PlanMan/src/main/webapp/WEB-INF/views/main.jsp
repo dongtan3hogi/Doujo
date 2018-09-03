@@ -275,7 +275,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 1</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work 1</a></li>
             <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 2</a></li>
           </ul>
         </li>
