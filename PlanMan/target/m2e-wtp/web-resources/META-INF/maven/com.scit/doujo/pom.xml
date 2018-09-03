@@ -160,6 +160,7 @@
     		<artifactId>jackson-databind</artifactId>
     		<version>2.9.2</version>
 		</dependency>
+<<<<<<< HEAD
 
         <dependency>
   	         <groupId>org.codehaus.jackson</groupId>
@@ -179,6 +180,41 @@
       		<version>4.1.6.RELEASE</version>
    		</dependency>
 
+=======
+		
+		<dependency>
+         <groupId>com.fasterxml.jackson.core</groupId>
+         <artifactId>jackson-databind</artifactId>
+         <version>2.9.2</version>
+      </dependency>
+      <dependency>
+         <groupId>org.codehaus.jackson</groupId>
+         <artifactId>jackson-mapper-asl</artifactId>
+         <version>1.9.13</version>
+      </dependency>  
+      <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
+<dependency>
+    <groupId>com.googlecode.json-simple</groupId>
+    <artifactId>json-simple</artifactId>
+    <version>1.1.1</version>
+</dependency>
+		<!-- work 구역 --> 
+		<dependency>
+   <groupId>org.seleniumhq.selenium</groupId>
+   <artifactId>selenium-java</artifactId>
+   <version>3.5.3</version>
+</dependency>
+<dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-server</artifactId>
+      <version>3.5.3</version>
+</dependency>
+<dependency>
+     <groupId>org.seleniumhq.selenium</groupId>
+     <artifactId>selenium-chrome-driver</artifactId>
+     <version>3.5.3</version>
+</dependency>      
+>>>>>>> work
 	</dependencies>
     <build>
         <plugins>

@@ -29,7 +29,10 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
+	<session-config>
+        <session-timeout>600</session-timeout>
+    </session-config>
+
     <filter>
    	 <filter-name>encodingFilter</filter-name>
     	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
