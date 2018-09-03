@@ -22,7 +22,9 @@
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css"> 
   <!-- Google Font --> 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> 
- 
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+  <script src="resources/study/groupLobby.js"></script>    
 <!-- head --> 
 </head> 
 <body class="hold-transition skin-blue sidebar-mini"> 
@@ -240,12 +242,8 @@
   </aside> 
    
   <!-- ========================================================================================================== --> 
-  <!-- ========================================================================================================== -->
-  
-  <!-- ========================================================================================================== -->
-  
-  <!-- ========================================================================================================== -->
-  <!-- ========================================================================================================== -->
+  <!-- ========================================================================================================== --> 
+  <!-- ========================================================================================================== --> 
    
   <!-- Content Wrapper. Contains page content --> 
   <div class="content-wrapper"> 
@@ -262,7 +260,7 @@
     </section> 
  
     <!-- Main content --> 
-	<section class="content"> 
+    <section class="content"> 
       <div class="row"> 
         <div class="col-md-3"> 
           <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Button</a> 
@@ -277,11 +275,11 @@
             </div> 
             <div class="box-body no-padding"> 
               <ul class="nav nav-pills nav-stacked"> 
-                <li class="active"><a href="#"><i class="fa fa-inbox"></i> QUIZ 
+                <li class="active"><a href="gotoQuiz"><i class="fa fa-inbox"></i> QUIZ 
                   <span class="label label-primary pull-right">12</span></a></li> 
                 <li><a href="gotoQuizMake"><i class="fa fa-envelope-o"></i> MAKE</a></li> 
                 <li><a href="gotoQuizSolve"><i class="fa fa-file-text-o"></i> SOLVE</a></li> 
-                <li><a href="gotoGroupLobby"><i class="fa fa-filter"></i> Group <span class="label label-warning pull-right">65</span></a> 
+                <li class="active"><a href="#"><i class="fa fa-filter"></i> Group <span class="label label-warning pull-right">65</span></a> 
                 </li> 
               </ul> 
             </div> 
@@ -293,11 +291,41 @@
         <div class="col-md-9"> 
            
       	  <!-- general form elements disabled --> 
-           
+          <div class="box box-primary"> 
+            <div class="box-header with-border"> 
+              <h3 class="box-title">GROUP MENU</h3>
+              <div class="box-tools"> 
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse" id="showmakegroup"><i class="fa fa-minus"></i> 
+                  </button> 
+              </div>
+            </div> 
+            <!-- /.box-header --> 
+            <div class="box-body"> 
+              <form role="form">
+                <a href="#" class="btn btn-primary btn-block margin-bottom" id="showmakegroup" onclick="showMakeGroup()">make</a> 
+                <a href="#" class="btn btn-primary btn-block margin-bottom" id="showsearchgroup" onclick="showSearchGroup()">Search</a> 
+                <a href="#" class="btn btn-primary btn-block margin-bottom" id="showmygroup" onclick="showMyGroup()">My Group</a>
+              </form> 
+            </div>
+            
+            <div class="box box-primary"> 
+            <div class="box-header with-border"> 
+              <h3 class="box-title"></h3> 
+            </div> 
+            <!-- /.box-header --> 
+            <div class="box-body"> 
+              <form role="form"> 
+                <div id="functionboard">
+                  
+                  
+                  
+                  
+                  
+                </div>
+              </form> 
+            </div>
             <!-- /.box-body --> 
-          </div> 
-             
-          </div> 
+          </div>
           <!-- /. box --> 
         </div> 
         <!-- /.col --> 
@@ -309,11 +337,9 @@
   <!-- /.content-wrapper --> 
    
  
-  <!-- ========================================================================================================== -->
-  <!-- ========================================================================================================== -->
-  <!-- ========================================================================================================== -->
-  <!-- ========================================================================================================== -->
-  <!-- ========================================================================================================== -->
+  <!-- ========================================================================================================== --> 
+  <!-- ========================================================================================================== --> 
+  <!-- ========================================================================================================== --> 
    
    
   <footer class="main-footer"> 

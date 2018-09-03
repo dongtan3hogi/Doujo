@@ -193,8 +193,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li>
-            <li><a href="gotoQuizMake"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
+          	<li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -381,7 +381,7 @@
 			 if(time >= starttime && time <= endtime){
 				 if(eventtype=='study'){
 					 if(confirm("study 페이지로 이동하시겠습니까?")){
-						 
+						 location.href="studyMAIN?eventtitle="+ eventtitle;
 					 }else{
 						 alert(eventtype); 
 					 }

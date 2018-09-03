@@ -1,13 +1,15 @@
 package com.scit.doujo; 
  
 import java.util.ArrayList; 
+
 import java.util.HashMap; 
 import java.util.Map; 
  
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.RowBounds;
-import org.apache.ibatis.session.SqlSession; 
+import org.apache.ibatis.session.SqlSession;
+
 import com.scit.doujo.dao.studyDao;
 import com.scit.doujo.util.PageNavigator;
 
@@ -377,7 +379,7 @@ public class StudyController {
 		 
 		Map<String,Map<String, Map<String, String>>> maps = new HashMap<>(); 
 		 
-		ArrayList<Map<String, String>> recordList = null; 
+		ArrayList<Map<String, String>> recordList = null;
 		Map<String,Map<String, String>> recordMap = new HashMap<>(); 
 		 
 		ArrayList<Map<String, String>> tegList = null; 
@@ -427,13 +429,21 @@ public class StudyController {
 		//type이 teg이면 태그를 사용해서 불러온다. 
 		if(type.equals("t")) { 
 			selectSet.put("teg", name); 
+<<<<<<< HEAD
 		//	quizList = dao.selectTegQuiz(selectSet); 
+=======
+			quizList = dao.selectAllTegQuiz(selectSet); 
+>>>>>>> master
 			 
 		//type이 record이면 아이디와 레코드코드를 사용해서 불러온다. 
 		} else if(type.equals("r")) { 
 			selectSet.put("quizrecordcode", id+name); 
 			System.out.println(selectSet.get("quizrecordcode") + ", " + selectSet.get("id")); 
+<<<<<<< HEAD
 		//	quizList = dao.selectRecordQuiz(selectSet); 
+=======
+			quizList = dao.selectAllRecordQuiz(selectSet); 
+>>>>>>> master
 		} 
 		System.out.println("3."+quizList.size()); 
 		for (Map<String, String> map : quizList) { 
@@ -482,5 +492,117 @@ public class StudyController {
 		return "study/quizSelect"; 
 	} 
 	 
-	 
+	
+	
+	
+	
+	
+	
+	
+	//
+	//
+	//
+	/*  ChatRoom   */
+	//
+	//
+	//
+	
+	
+	/* 그룹로비로 이동 */
+	@RequestMapping(value = "/gotoGroupLobby", method = RequestMethod.GET)
+	public  String gogrouplobby() {
+		return "study/groupLobby";
+	}
+
+	
+	
+	
+	/* 그룹생성 */
+	@RequestMapping(value = "/makingGroup", method = RequestMethod.POST)
+	public @ResponseBody Map<String, String> makingGroup(@RequestBody Map<String, String> group, HttpSession hs) {
+		studyDao gdao = sqlSession.getMapper(studyDao.class);
+		String id = (String)hs.getAttribute("memberID");
+		group.put("id", id);
+		
+		//그룹생성
+		int ig = gdao.insertGroup(group);
+		int slmg =  gdao.selectLastMakeGroupseq(id);
+		
+		//그룹에 리더를 맴버로 등록
+		group.put("groupseq", ""+slmg);
+		gdao.insertGroupMember(group);
+		
+		return group;
+	}
+
+	
+	
+	
+	/* 내 가입그룹 목록 가져오기 */
+	@RequestMapping(value = "/showMyGroup", method = RequestMethod.POST)
+	public @ResponseBody Map showMyGroup(@RequestBody Map<String, String> lists, HttpSession hs) {
+		studyDao gdao = sqlSession.getMapper(studyDao.class);
+		String id = (String) hs.getAttribute("memberID");
+		System.out.println("흠?");
+		ArrayList<Map<String,String>> groupList = gdao.selectMyGroup(id);
+		
+		Map<String, Map<String,String>> groups = new HashMap<>();
+		for (Map<String, String> map : groupList) {
+			groups.put(map.get("NAME"), map);
+		}
+		
+		System.out.println("흠"+groups.size());
+		return groups;
+	}
+	
+	/* 그룹 방으로 이동 */	
+	@RequestMapping(value = "/gotoGroup", method = RequestMethod.GET)
+	public String gotoGroup(int num, String name, HttpSession hs, Model model) {
+		studyDao gdao = sqlSession.getMapper(studyDao.class);
+		String id = (String) hs.getAttribute("memberID");
+		System.out.println(id+num+name);
+		
+		//검색용 groupmember 만든다.
+		Map<String, String> groupmember = new HashMap<>();
+		groupmember.put("id", id);
+		groupmember.put("groupseq", ""+num);
+		groupmember.put("name", name);
+		
+		//id와 groupseq를 사용, 그룹에 유저가 등록되있는지 확인한다.
+		int result = gdao.selectGroupmember(groupmember);
+		
+		//등록되있지 않을시 로비로 이동
+		if(result<=0) {
+			return "group/grouplobby";
+		}
+		
+		//leaderID groupmember에 넣는다.
+		String leaderId = gdao.selectOneGroup(num).get("GROUPLEADER");
+		System.out.println("리더아이디"+leaderId);
+		groupmember.put("leaderId", leaderId);
+		
+		model.addAttribute("groupmember", groupmember);
+		return "study/groupRoom";
+	}
+	
+	
+	/* 그룹 검색 */
+	@RequestMapping(value = "/searchGroup", method = RequestMethod.POST)
+	public @ResponseBody Map searchGroup(@RequestBody Map<String, String> searching, HttpSession hs) {
+		studyDao gdao = sqlSession.getMapper(studyDao.class);
+		ArrayList<Map<String, String>> groupList = new ArrayList<>();
+		Map<String,Map<String, String>> groupMap = new HashMap<>();
+		Map<String, String> search = new HashMap<>();
+		
+		System.out.println(searching.toString());
+		search.put(searching.get("type"), searching.get("search"));
+		
+		groupList = gdao.selectGroup(search);
+		System.out.println(groupList.toString());
+		for (Map<String, String> map : groupList) {
+			groupMap.put(""+map.get("NUM"), map);
+		}
+		System.out.println(groupMap.toString());
+		return groupMap;
+	}
 } 
