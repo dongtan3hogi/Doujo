@@ -35,14 +35,14 @@
 	</insert>
 	<select id="findFriend" parameterType="fquery" resultType="friend">
 	select id,count(id) cc 
-	from (select a.id, keyword,sex,age,name from work_word a left join member b
+	from (select a.id, keyword,gender,age,name from work_word a left join member b
 	on a.id=b.id where  a.id not in #{id})
 	<where> 
-	<if test='sex.equals("남")'>
-       sex = '남'</if>
-       <if test='sex.equals("여")'>
-       sex = '여'</if>
-		<if test='sex.equals("둘다")'>
+	<if test='gender.equals("남")'>
+       gender = '남'</if>
+       <if test='gender.equals("여")'>
+       gender = '여'</if>
+		<if test='gender.equals("둘다")'>
 		1=1
       </if>
 		and 

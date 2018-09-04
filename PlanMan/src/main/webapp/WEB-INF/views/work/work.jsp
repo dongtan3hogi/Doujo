@@ -310,7 +310,7 @@
               </div>
             </div>
             <div class="box-body no-padding">
-            <h5 class="box-title">오늘의 메모</h5>
+            <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>
            
            <textarea id ="memo"rows="20" value="text"  style="min-width: 95%;"></textarea> <br/>
            <input type="button" value="저장" id="saveMemo">
@@ -328,11 +328,18 @@
       	  <!-- general form elements disabled -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">General Elements</h3>
+              <h3 class="box-title">Schedule list</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <form role="form">
+            <div id="calendar"></div>
+              
+            </div>
+            <div class="box-header with-border">
+              <h3 class="box-title">Friend recommendation</h3>
+             </div>
+             <div class="box-body">
+          
                 
                 <!-- text input -->
                 <div class="form-group">
@@ -346,80 +353,7 @@
                   <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
                 </div>
 
-                
-                <!-- checkbox -->
-                <div class="form-group">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox">
-                      Checkbox 1
-                    </label>
-                  </div>
-
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox">
-                      Checkbox 2
-                    </label>
-                  </div>
-
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" disabled>
-                      Checkbox disabled
-                    </label>
-                  </div>
-                </div>
-
-                <!-- radio -->
-                <div class="form-group">
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                      Option one is this and that&mdash;be sure to include why it's great
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                      Option two can be something else and selecting it will deselect option one
-                    </label>
-                  </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled>
-                      Option three is disabled
-                    </label>
-                  </div>
-                </div>
-
-                <!-- select -->
-                <div class="form-group">
-                  <label>Select</label>
-                  <select class="form-control">
-                    <option>option 1</option>
-                    <option>option 2</option>
-                    <option>option 3</option>
-                    <option>option 4</option>
-                    <option>option 5</option>
-                  </select>
-                </div>
-               
-
-                <!-- Select multiple-->
-                <div class="form-group">
-                  <label>Select Multiple</label>
-                  <select multiple class="form-control">
-                    <option>option 1</option>
-                    <option>option 2</option>
-                    <option>option 3</option>
-                    <option>option 4</option>
-                    <option>option 5</option>
-                  </select>
-                </div>
-                
-              </form>
-            </div>
+             <div class="box-body">
             <!-- /.box-body -->
           </div>
             
@@ -664,101 +598,138 @@
 <!-- Page specific script -->
 <script>
   $(function () {
+	  
+	  var today = new Date();
+		var mm= today.getMonth()+1; 
+		var dd =today.getDate();
+		var yy = today.getFullYear();
+		if(dd<10) {
+		    dd='0'+dd;
+		} 
+		if(mm<10) {
+		    mm='0'+mm;
+		} 
+		var td=yy+'-'+mm+'-'+dd;
+		var temp=td;
+		var mlist = [];
+		<c:forEach items="${mlist}" var="item1">
+		mlist.push(JSON.stringify(${item1}));
+		</c:forEach>
 
-    /* initialize the external events
-     -----------------------------------------------------------------*/
-    function init_events(ele) {
-      ele.each(function () {
+		var eData = [];
+		 for(var i = 0; i < mlist.length; i++)  {
+			 var catact = JSON.parse(mlist[i]);
+		      eData.push({
+		        title : "메모O",
+		        start : catact.startdate,
+		        end : catact.enddate
+		      });
+		     
+		    }
+		 
+   $('#calendar').fullCalendar({
+	      header: {
+	        left: 'prev,next today',
+	        center: 'title',
+	        right: 'month'
+	      },
+	      defaultDate: td,
+	      navLinks: false,
+	      selectable: true,
+	      selectHelper: true,
+	      select: function(start, end) {
+	    	  var title = $('#memo').val();
+	    	  var check = confirm("메모를 저장 또는 수정 하시겠습니까?");	  
+	          var eventData;
+	          if (check  ) {
+	        	  if(title!=""){	
+	      	      	$.ajax({
+	      	    		  url:'insertmemo',
+	      	    		    type: 'post',
+	      	    		    data: {
+	      	    		    	'id': '${sessionScope.member.id}','memo': title, 'startdate': start.format(),'enddate':end.format()
+	      	    		    },
+	      	    		    success: function(data){
+	      	    				if(data==1)	{
+	      	    					alert("저장 되었습니다.");
+	      	    				eventData = {
+	      	    		              title: "메모",
+	      	    		              start: start,
+	      	    		              end: end     
+	      	    		            };
+	      	    		            $('#calendar').fullCalendar('renderEvent', eventData, true);
+	      	    				}
+	      	    				else if(data==3) alert("수정 되었습니다");
+	      	    				else alert("다시 시도해주세요");
+	      	    				},
+	      	    		    error: function() {
+	      	    		      alert('there was an error while fetching events!');
+	      	    		    }
+	        		  });
+	            
+	        	  }else{
+		            	alert("메모를 입력해 주세요");
+		            }// stick? = true
+	          }
+	          $('#calendar').fullCalendar('unselect');
+	        },// can click day/week names to navigate views
+	      editable: false,
+	      eventLimit: false, // allow "more" link when too many events
+	      events: eData,
+	      eventClick: function(event) {
+	    	   	var del= confirm("삭제 ->yes, 불러오기 -> no");
+	    	   	if(del){
+	    	   		
+	    	   		$.ajax({
+	    	    		  url:'deletememo',
+	    	    		    type: 'post',
+	    	    		    data: {
+	    	    		    	'id': '${sessionScope.member.id}', 'startdate': event.start.format()
+	    	    		    },
+	    	    		    success: function(data){
+	    	    				if(data==1)	{
+	    	    					alert("삭제 완료");
+	    	    					
+	    	    					$('#calendar').fullCalendar('removeEvents', event._id);
+	    	    		            }else{
+	    	    		            	alert("다시 시도해주세요");
+	    	    		            	location.href="goNews"; 
+	    	    		            }
+	    	    				},
+	    	    		    error: function() {
+	    	    		      alert('there was an error while fetching events!');
+	    	    		    }
+	      		  });
+	    	   	}else{
+	    	   	$.ajax({
+    	    		  url:'findmemo',
+    	    		    type: 'post',
+    	    		    data: {
+    	    		    	'id': '${sessionScope.member.id}', 'startdate': event.start.format()
+    	    		    },
+    	    		    success: function(data){
+    	    				if(data==null)	{
+    	    					alert("오류 발생");
+    	    				
+    	    		            }else{
+    	    		            	if(event.start.format()==td){
+        	    		            	$('#memoTitle').html("오늘의 메모");
 
-        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-        // it doesn't need to have a start or end
-        var eventObject = {
-          title: $.trim($(this).text()) // use the element's text as the event title
-        }
-
-        // store the Event Object in the DOM element so we can get to it later
-        $(this).data('eventObject', eventObject)
-
-        // make the event draggable using jQuery UI
-        $(this).draggable({
-          zIndex        : 1070,
-          revert        : true, // will cause the event to go back to its
-          revertDuration: 0  //  original position after the drag
-        })
-
-      })
-    }
-
-    init_events($('#external-events div.external-event'))
-
-    /* initialize the calendar
-     -----------------------------------------------------------------*/
-    //Date for the calendar events (dummy data)
-    var date = new Date()
-    var d    = date.getDate(),
-        m    = date.getMonth(),
-        y    = date.getFullYear()
-    $('#calendar').fullCalendar({
-      header    : {
-        left  : 'prev,next today',
-        center: 'title',
-        right : 'month,agendaWeek,agendaDay'
-      },
-      buttonText: {
-        today: 'today',
-        month: 'month',
-        week : 'week',
-        day  : 'day'
-      },
-      //Random default events
-      events    : [
-        {
-          title          : 'All Day Event',
-          start          : new Date(y, m, 1),
-          backgroundColor: '#f56954', //red
-          borderColor    : '#f56954' //red
-        },
-        {
-          title          : 'Long Event',
-          start          : new Date(y, m, d - 5),
-          end            : new Date(y, m, d - 2),
-          backgroundColor: '#f39c12', //yellow
-          borderColor    : '#f39c12' //yellow
-        },
-        {
-          title          : 'Meeting',
-          start          : new Date(y, m, d, 10, 30),
-          allDay         : false,
-          backgroundColor: '#0073b7', //Blue
-          borderColor    : '#0073b7' //Blue
-        },
-        {
-          title          : 'Lunch',
-          start          : new Date(y, m, d, 12, 0),
-          end            : new Date(y, m, d, 14, 0),
-          allDay         : false,
-          backgroundColor: '#00c0ef', //Info (aqua)
-          borderColor    : '#00c0ef' //Info (aqua)
-        },
-        {
-          title          : 'Birthday Party',
-          start          : new Date(y, m, d + 1, 19, 0),
-          end            : new Date(y, m, d + 1, 22, 30),
-          allDay         : false,
-          backgroundColor: '#00a65a', //Success (green)
-          borderColor    : '#00a65a' //Success (green)
-        },
-        {
-          title          : 'Click for Google',
-          start          : new Date(y, m, 28),
-          end            : new Date(y, m, 29),
-          url            : 'http://google.com/',
-          backgroundColor: '#3c8dbc', //Primary (light-blue)
-          borderColor    : '#3c8dbc' //Primary (light-blue)
-        }
-      ],
-      editable  : true,
-      droppable : true, // this allows things to be dropped onto the calendar !!!
+    	    		            	}else{
+        	    		            	$('#memoTitle').html(event.start.format()+"의 메모");
+        	    		            		
+    	    		            	}
+    	    		            	temp=event.start.format();
+    	    		            	$('#memo').val(data.memo);
+    	    		            }
+    	    				},
+    	    		    error: function() {
+    	    		      alert('there was an error while fetching events!');
+    	    		    }
+      		  });}
+	    	      return false;
+	    	    },  
+      /* droppable : true, // this allows things to be dropped onto the calendar !!!
       drop      : function (date, allDay) { // this function is called when something is dropped
 
         // retrieve the dropped element's stored Event Object
@@ -783,45 +754,36 @@
           $(this).remove()
         }
 
-      }
-    })
-
-    /* ADDING EVENTS */
-    var currColor = '#3c8dbc' //Red by default
-    //Color chooser button
-    var colorChooser = $('#color-chooser-btn')
-    $('#color-chooser > li > a').click(function (e) {
-      e.preventDefault()
-      //Save color
-      currColor = $(this).css('color')
-      //Add color effect to button
-      $('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor })
-    })
-    $('#add-new-event').click(function (e) {
-      e.preventDefault()
-      //Get value and make sure it is not null
-      var val = $('#new-event').val()
-      if (val.length == 0) {
-        return
-      }
-
-      //Create events
-      var event = $('<div />')
-      event.css({
-        'background-color': currColor,
-        'border-color'    : currColor,
-        'color'           : '#fff'
-      }).addClass('external-event')
-      event.html(val)
-      $('#external-events').prepend(event)
-
-      //Add draggable funtionality
-      init_events(event)
-
-      //Remove event from text input
-      $('#new-event').val('')
-    })
-  })
+      } */
+    });
+   $('#saveMemo').click(function(){
+		var memo = $('#memo').val();
+		var today = new Date();
+		var mm= today.getMonth()+1; 
+		var dd =today.getDate();
+		var yy = today.getFullYear();
+		if(dd<10) {
+		    dd='0'+dd;
+		} 
+		if(mm<10) {
+		    mm='0'+mm;
+		} 
+		var td=yy+'-'+mm+'-'+dd;
+		$.ajax({
+			url:"saveMemo",
+			type:"post",
+			//client에서 server로 가는 값
+			data:{"userid": memo, "text":memo,"startDate":temp},
+			success: function(data){
+			if(data=="1"||data=="3"){
+				alert("저장 되었습니다");
+			}else{'오류 발생'};
+			},fail: function(){
+				alert("다음에 다시 시도해주세요");
+			}
+		});
+		});
+  });
 </script>
 </body>
 </html>
