@@ -160,88 +160,106 @@
   <!-- Left side column. contains the logo and sidebar --> 
   <aside class="main-sidebar"> 
     <!-- sidebar: style can be found in sidebar.less --> 
-    <section class="sidebar"> 
-      <!-- Sidebar user panel --> 
-      <div class="user-panel"> 
-        <div class="pull-left image"> 
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> 
-        </div> 
-        <div class="pull-left info"> 
-          <p>${sessionScope.member.id}</p> 
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a> 
-        </div> 
-      </div> 
-      <!-- search form --> 
-      <form action="#" method="get" class="sidebar-form"> 
-        <div class="input-group"> 
-          <input type="text" name="q" class="form-control" placeholder="Searchresources."> 
-          <span class="input-group-btn"> 
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i> 
-                </button> 
-              </span> 
-        </div> 
-      </form> 
-      <!-- /.search form --> 
-      <!-- sidebar menu: : style can be found in sidebar.less --> 
-      <ul class="sidebar-menu" data-widget="tree"> 
-        <li class="header">MAIN NAVIGATION</li> 
-        <li class="treeview"> 
-          <a href="#"> 
-            <i class="fa fa-dashboard"></i> <span>Study</span> 
-            <span class="pull-right-container"> 
-              <i class="fa fa-angle-left pull-right"></i> 
-            </span> 
-          </a> 
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>${sessionScope.member.id}</p>
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>
+      </div>
+      <!-- search form -->
+      <form action="#" method="get" class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
+          <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      </form>
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">MENU</li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-edit"></i> <span>Study</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
           <ul class="treeview-menu"> 
-            <li><a href=""><i class="fa fa-circle-o"></i> Quiz</a></li> 
-            <li><a href=""><i class="fa fa-circle-o"></i> Study Group</a></li> 
-          </ul> 
-        </li> 
-        <li class="treeview"> 
-          <a href="#"> 
-            <i class="fa fa-dashboard"></i> <span>Work</span> 
-            <span class="pull-right-container"> 
-              <i class="fa fa-angle-left pull-right"></i> 
-            </span> 
-          </a> 
-          <ul class="treeview-menu"> 
-            <li><a href=""><i class="fa fa-circle-o"></i> Work 1</a></li> 
-            <li><a href=""><i class="fa fa-circle-o"></i> Work 2</a></li> 
-          </ul> 
-        </li> 
-        <li class="treeview"> 
-          <a href="#"> 
-            <i class="fa fa-dashboard"></i> <span>Health</span> 
-            <span class="pull-right-container"> 
-              <i class="fa fa-angle-left pull-right"></i> 
-            </span> 
-          </a> 
-          <ul class="treeview-menu"> 
-            <li><a href=""><i class="fa fa-circle-o"></i> Health 1</a></li> 
-            <li><a href=""><i class="fa fa-circle-o"></i> Health 2</a></li> 
-          </ul> 
-        </li> 
-        <li> 
-          <a href="widgets.html"> 
-            <i class="fa fa-th"></i> <span>Widgets</span> 
-            <span class="pull-right-container"> 
-              <small class="label pull-right bg-green">new</small> 
-            </span> 
-          </a> 
-        </li> 
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li> 
-        <li class="header">LABELS</li> 
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li> 
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li> 
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li> 
-      </ul> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-suitcase"></i> <span>Work</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-heartbeat"></i> <span>Health</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="gotoHealth"><i class="fa fa-circle-o text-red"></i> Health Main</a></li>
+            <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
+            <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
+            <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
+            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
+            <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-users"></i> <span>Friend</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-calendar"></i> <span>Schdule</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-green"></i> Calendar</a></li>
+            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-green"></i> Timeline</a></li>
+          </ul>
+        </li>
+      </ul>
     </section> 
     <!-- /.sidebar --> 
   </aside> 
    
   <!-- ========================================================================================================== --> 
-  <!-- ========================================================================================================== --> 
-  <!-- ========================================================================================================== --> 
+  <!-- ========================================================================================================== -->
+  
+  <!-- ========================================================================================================== -->
+  
+  <!-- ========================================================================================================== -->
+  <!-- ========================================================================================================== -->
    
   <!-- Content Wrapper. Contains page content --> 
   <div class="content-wrapper"> 
@@ -258,15 +276,14 @@
     </section> 
  
     <!-- Main content --> 
-    <section class="content"> 
+	<section class="content"> 
       <div class="row"> 
         <div class="col-md-3"> 
           <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Button</a> 
  
           <div class="box box-solid"> 
             <div class="box-header with-border"> 
-              <h3 class="box-title">Title02</h3> 
- 
+              <h3 class="box-title">STUDY</h3> 
               <div class="box-tools"> 
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> 
                 </button> 
@@ -278,7 +295,7 @@
                   <span class="label label-primary pull-right">12</span></a></li> 
                 <li><a href="gotoQuizMake"><i class="fa fa-envelope-o"></i> MAKE</a></li> 
                 <li><a href="gotoQuizSolve"><i class="fa fa-file-text-o"></i> SOLVE</a></li> 
-                <li><a href="#"><i class="fa fa-filter"></i> RECORD <span class="label label-warning pull-right">65</span></a> 
+                <li><a href="gotoGroupLobby"><i class="fa fa-filter"></i> Group <span class="label label-warning pull-right">65</span></a> 
                 </li> 
               </ul> 
             </div> 
@@ -290,100 +307,7 @@
         <div class="col-md-9"> 
            
       	  <!-- general form elements disabled --> 
-          <div class="box box-primary"> 
-            <div class="box-header with-border"> 
-              <h3 class="box-title">General Elements</h3> 
-            </div> 
-            <!-- /.box-header --> 
-            <div class="box-body"> 
-              <form role="form"> 
-                 
-                <!-- text input --> 
-                <div class="form-group"> 
-                  <label>Text</label> 
-                  <input type="text" class="form-control" placeholder="Enter ..."> 
-                </div> 
- 
-                <!-- textarea --> 
-                <div class="form-group"> 
-                  <label>Textarea</label> 
-                  <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea> 
-                </div> 
- 
-                 
-                <!-- checkbox --> 
-                <div class="form-group"> 
-                  <div class="checkbox"> 
-                    <label> 
-                      <input type="checkbox"> 
-                      Checkbox 1 
-                    </label> 
-                  </div> 
- 
-                  <div class="checkbox"> 
-                    <label> 
-                      <input type="checkbox"> 
-                      Checkbox 2 
-                    </label> 
-                  </div> 
- 
-                  <div class="checkbox"> 
-                    <label> 
-                      <input type="checkbox" disabled> 
-                      Checkbox disabled 
-                    </label> 
-                  </div> 
-                </div> 
- 
-                <!-- radio --> 
-                <div class="form-group"> 
-                  <div class="radio"> 
-                    <label> 
-                      <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> 
-                      Option one is this and that&mdash;be sure to include why it's great 
-                    </label> 
-                  </div> 
-                  <div class="radio"> 
-                    <label> 
-                      <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> 
-                      Option two can be something else and selecting it will deselect option one 
-                    </label> 
-                  </div> 
-                  <div class="radio"> 
-                    <label> 
-                      <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled> 
-                      Option three is disabled 
-                    </label> 
-                  </div> 
-                </div> 
- 
-                <!-- select --> 
-                <div class="form-group"> 
-                  <label>Select</label> 
-                  <select class="form-control"> 
-                    <option>option 1</option> 
-                    <option>option 2</option> 
-                    <option>option 3</option> 
-                    <option>option 4</option> 
-                    <option>option 5</option> 
-                  </select> 
-                </div> 
-                
- 
-                <!-- Select multiple--> 
-                <div class="form-group"> 
-                  <label>Select Multiple</label> 
-                  <select multiple class="form-control"> 
-                    <option>option 1</option> 
-                    <option>option 2</option> 
-                    <option>option 3</option> 
-                    <option>option 4</option> 
-                    <option>option 5</option> 
-                  </select> 
-                </div> 
-                 
-              </form> 
-            </div> 
+           
             <!-- /.box-body --> 
           </div> 
              
@@ -399,9 +323,11 @@
   <!-- /.content-wrapper --> 
    
  
-  <!-- ========================================================================================================== --> 
-  <!-- ========================================================================================================== --> 
-  <!-- ========================================================================================================== --> 
+  <!-- ========================================================================================================== -->
+  <!-- ========================================================================================================== -->
+  <!-- ========================================================================================================== -->
+  <!-- ========================================================================================================== -->
+  <!-- ========================================================================================================== -->
    
    
   <footer class="main-footer"> 

@@ -10,6 +10,75 @@
 		insert into food values(#{NUTR_CONT3}, #{NUTR_CONT2}, #{NUTR_CONT1}, #{BGN_YEAR}, #{NUTR_CONT9}, #{NUTR_CONT8}, #{FOOD_CD}, #{NUTR_CONT7}, #{NUTR_CONT6}, #{NUTR_CONT5}, #{NUTR_CONT4}, #{DESC_KOR}, #{SERVING_WT}, #{FDGRP_NM}, #{NUM}, #{ANIMAL_PLANT})
 	</insert>
 	-->
-	
-	
+	<!-- 키 몸무게 값 입력여부 확인하기 -->
+	<select id="selectBodyInfo" parameterType="String" resultType="int">
+		select count(*) from member where id=#{id} and weight is null and height is null
+	</select>
+	<!-- 키 몸무게 추가하기 -->
+	<update id="updateBodyInfo" parameterType="Member">
+		update member set weight=#{weight}, height=#{height}, daykacl=#{daykacl} where id=#{id}	
+	</update>
+	<!-- 음식 리스트 불러오기 (식품군에 따라)-->
+	<select id="selectFood" resultType="Food" parameterType="String">
+		select * from health_Food where FDGRP_NM=#{FDGRP_NM} order by NUM
+	</select>
+	<!-- 음식 한개 불러오기 -->
+	<select id="selectOneFood" parameterType="int" resultType="Food">
+		select * from health_Food where NUM=#{NUM}
+	</select>
+	<!-- 식사한 음식 입력하기 --> 
+	<insert id="insertEatfood" parameterType="Eatfood">
+		insert into health_Eatfood values(#{id},health_Eatseq.nextVal,#{DESC_KOR},to_date(#{countday},'YYYY-MM-DD'),#{SERVING_WT},#{NUTR_CONT1},#{NUTR_CONT2},#{NUTR_CONT3},#{NUTR_CONT4},#{NUTR_CONT5},#{NUTR_CONT6},#{NUTR_CONT7},#{NUTR_CONT8},#{NUTR_CONT9})
+	</insert>
+	<!-- 식사한 음식 테이블 가져오기 -->
+	<select id="selectEatfood" parameterType="Eatfood" resultType="Eatfood">
+		select id, EATNUM, DESC_KOR, to_char(COUNTDAY, 'YYYY-MM-DD') COUNTDAY, SERVING_WT, NUTR_CONT1, NUTR_CONT2, NUTR_CONT3, NUTR_CONT4, NUTR_CONT5, NUTR_CONT6, NUTR_CONT7, NUTR_CONT8, NUTR_CONT9
+		from health_Eatfood where id=#{id} and countday=to_date(#{countday},'YYYY-MM-DD')
+	</select>
+	<!-- 식단표 음식 삭제하기 -->
+	<delete id="deleteOneMeal" parameterType="int">
+		delete from health_Eatfood where EATNUM=#{eatnum}
+	</delete>
+	<!-- 할동 입력하기 -->
+	<insert id="insertActKacl" parameterType="Activity">
+		insert into health_Activity values(health_actseq.nextVal, #{id}, to_date(#{countday},'YYYY-MM-DD'), #{act}, #{kacl})
+	</insert>
+	<!-- 활동 가져오기 -->
+	<select id="selectActList" parameterType="Eatfood" resultType="Activity">
+		select * from health_Activity where id=#{id} and COUNTDAY=to_date(#{countday},'YYYY-MM-DD')
+	</select>
+	<!-- 하루 음식 영양분 모두 더한 값 가져오기  -->
+	<select id="sumDayNut" parameterType="Eatfood" resultType="Eatfood">
+		select sum(NUTR_CONT1) NUTR_CONT1, sum(NUTR_CONT2) NUTR_CONT2, sum(NUTR_CONT3) NUTR_CONT3, sum(NUTR_CONT4) NUTR_CONT4, sum(NUTR_CONT5) NUTR_CONT5, sum(NUTR_CONT6) NUTR_CONT6, sum(NUTR_CONT7) NUTR_CONT7, sum(NUTR_CONT8) NUTR_CONT8, sum(NUTR_CONT9) NUTR_CONT9
+		from health_Eatfood
+		where id=#{id} and COUNTDAY=to_date(#{countday},'YYYY-MM-DD')
+	</select>
+ 	<!-- 오늘의 영양소 가져오기 -->
+ 	<select id="selectTodayMynut" parameterType="Mynut" resultType="Mynut">
+ 		select * from health_Mynut where id=#{id} and COUNTDAY=to_date(#{countday},'YYYY-MM-DD')
+ 	</select>
+ 	<!-- MyNut 오늘의 영양소 입력하기 -->
+ 	<insert id="insertMyNut" parameterType="Mynut">
+ 		insert into health_Mynut values(#{id}, to_date(#{countday},'YYYY-MM-DD'), #{kacl} , #{carbo}, #{protein}, #{fat}, #{sugar}, #{sodium}, #{cholesterol}, #{fatty}, #{transfat})
+ 	</insert>
+ 	<!-- MyNut 오늘의 영양소 업데이트 하기 --> 	
+ 	<update id="updateMyNut" parameterType="Mynut">
+ 		update health_Mynut set kacl=#{kacl}, carbo=#{carbo}, protein=#{protein}, fat=#{fat}, sugar=#{sugar}, sodium=#{sodium}, cholesterol=#{cholesterol}, fatty=#{fatty}, transfat=#{transfat}
+ 		where id=#{id} and COUNTDAY=to_date(#{countday},'YYYY-MM-DD')
+ 	</update>
+ 	<!-- 나의 칼로리 가져오기 -->
+ 	<select id="selectMyKacl" parameterType="String" resultType="int">
+ 		select daykacl from member where id=#{id}
+ 	</select>
+ 	<!-- 이번주 영양정보 가져오기 -->
+ 	<select id="selectWeekNut" parameterType="Mynut" resultType="Mynut">
+ 		select avg(kacl) kacl, avg(carbo) carbo, avg(protein) protein, avg(fat) fat, avg(sugar) sugar, avg(sodium) sodium, avg(cholesterol) cholesterol, avg(fatty) fatty, avg(transfat) transfat
+ 		from health_Mynut where id=#{id} and COUNTDAY between to_date(#{weekMonday},'YYYY-MM-DD') and to_date(#{weekSunday},'YYYY-MM-DD')
+ 	</select>
+ 	<!-- 이번달 영양정보 가져오기 -->
+ 	<select id="selectMonthNut" parameterType="Mynut" resultType="Mynut">
+ 		select avg(kacl) kacl, avg(carbo) carbo, avg(protein) protein, avg(fat) fat, avg(sugar) sugar, avg(sodium) sodium, avg(cholesterol) cholesterol, avg(fatty) fatty, avg(transfat) transfat
+ 		from health_Mynut where id=#{id} and COUNTDAY between to_date(#{monthstartday},'YYYY-MM-DD') and to_date(#{monthendday},'YYYY-MM-DD')
+ 	</select>
+ 	
 </mapper>

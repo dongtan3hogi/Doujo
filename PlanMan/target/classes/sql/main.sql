@@ -2,7 +2,7 @@
     job VARCHAR2(20) PRIMARY KEY
 );
 
-insert into job values('학생');
+insert into job values('student');
 
 CREATE TABLE member (
     id VARCHAR2(20) PRIMARY KEY,
@@ -14,11 +14,15 @@ CREATE TABLE member (
     job VARCHAR2(100) REFERENCES job(job),
     hobby VARCHAR2(2000),
     height NUMBER,
-    weight NUMBER
+    weight NUMBER,
+    daykacl NUMBER
 );
 
+<<<<<<< HEAD
+=======
 insert into member values('abc123', 'abc123', 'abc123', '도우조', 'male', '30', '학생', null, null, null,null);
 
+>>>>>>> work
 CREATE TABLE schedule(
     schseq NUMBER NOT NULL,
 	id VARCHAR2(20) NOT NULL,
@@ -32,6 +36,6 @@ CREATE TABLE schedule(
     
 	constraint fk_schdule foreign key (id)
     references member (id)
-)
+);
 
 CREATE SEQUENCE schseq;

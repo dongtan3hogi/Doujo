@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 
 public interface studyDao {
 
-	// 1. insert - making the ChatRoom
+	// 1. insert - Group생성
 	public int insertGroup(Map<String, String> group);
 	
 	// 2. update - alert
@@ -17,7 +17,7 @@ public interface studyDao {
 	// 3. insert - insert member to ChatRoom
 	public int insertGroupMember(Map<String, String> groupmember);
 	
-	// 4. select -�׷�˻�
+	// 4. select - 그룹검색
 	public ArrayList<Map<String, String>> selectGroup(Map<String, String> group);
 	
 	// 5. select -�� �׷��� ��������
@@ -82,6 +82,9 @@ public interface studyDao {
 	//12_2.count
 	public int countTegQuiz(Map<String, String> quiz);
 	
+	//12_3. SELECT
+	public ArrayList<Map<String, String>> selectAllTegQuiz(Map<String, String> quiz);
+	
 	//select-����� ������ȣ�� ����ؼ� ���� �ϳ� ��������
 	//select-����� ������ȣ�� ����ؼ� ���� �ϳ� ��������
 	public Map<String, String> selectOneQuiz(int num);
@@ -105,8 +108,11 @@ public interface studyDao {
 	//record�� ����ؼ� ����� ���ϴ� ������ ��������
 	public ArrayList<Map<String, String>> selectRecordQuiz(Map<String, String> quiz, RowBounds rb);
 	
-	//19_1. COUNT
+	//19_2. COUNT
 	public int countRecordQuiz(Map<String, String> quiz);
+	
+	//19_3. SELECT
+	public ArrayList<Map<String, String>> selectAllRecordQuiz(Map<String, String> quiz);
 	
 	//20.selectQuizrecordname��������
 	public String selectQuizrecordname(Map<String, String> quiz);

@@ -289,56 +289,70 @@ $('#translate').on('click',function(){
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Study</span>
+            <i class="fa fa-edit"></i> <span>Study</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu"> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-suitcase"></i> <span>Work</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o"></i> Quiz</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Study Group</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Work</span>
+            <i class="fa fa-heartbeat"></i> <span>Health</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o"></i> Work 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Work 2</a></li>
+            <li><a href="gotoHealth"><i class="fa fa-circle-o text-red"></i> Health Main</a></li>
+            <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
+            <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
+            <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
+            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
+            <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Health</span>
+            <i class="fa fa-users"></i> <span>Friend</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o"></i> Health 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Health 2</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
           </ul>
         </li>
-        <li>
-          <a href="widgets.html">
-            <i class="fa fa-th"></i> <span>Widgets</span>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-calendar"></i> <span>Schdule</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-green">new</small>
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
+          <ul class="treeview-menu">
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-green"></i> Calendar</a></li>
+            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-green"></i> Timeline</a></li>
+          </ul>
         </li>
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-        <li class="header">LABELS</li>
-        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -353,8 +367,8 @@ $('#translate').on('click',function(){
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        WORK
-        <small>설명이 설명설명</small>
+        Work
+        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -365,6 +379,7 @@ $('#translate').on('click',function(){
     <!-- Main content -->
     <section class="content">
       <div class="row">
+        
         <div class="col-md-3">
           <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Button</a>
 
@@ -391,7 +406,7 @@ $('#translate').on('click',function(){
           </div>
           <!-- /. box -->
           
-           <div class="box box-solid">
+          <div class="box box-solid">
             <div class="box-header with-border">
               <h3 class="box-title"><a href="goMemo">MEMO</a></h3>
 
@@ -423,17 +438,17 @@ $('#translate').on('click',function(){
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-    <!--The div element for the map -->
-    <input type="text" id="search"  >&nbsp<input type="button" onclick="goSearch()"value="검색">&nbsp <select id='src'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>-->
+		    <!--The div element for the map -->
+ 		   <input type="text" id="search"  >&nbsp<input type="button" onclick="goSearch()"value="검색">&nbsp <select id='src'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>-->
         <select id='target'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>
         &nbsp<input type="button" id="translate" value="번역"><br>
         <c:if test="${!empty result}">
-<c:forEach var="news" items="${result }">
-<ul>
-<li><a href="${news[1] }" target="_blank">${news[0] }</a>
-</ul>
-</c:forEach>
-<div class="boardfooter">
+		<c:forEach var="news" items="${result }">
+		<ul>
+		<li><a href="${news[1] }" target="_blank">${news[0] }</a>
+		</ul>
+		</c:forEach>
+		<div class="boardfooter">
 		<c:if test="${navi.currentPage <= 5 }">
 		◁◁
 		</c:if>
@@ -468,11 +483,11 @@ $('#translate').on('click',function(){
 		<c:if test="${navi.currentPage > navi.totalPageCount-5 }">
 		▷▷
 		</c:if>
-	</div>
-</c:if>
+		</div>
+		</c:if>
             </div>
             <!-- /.box-body -->
-          </div>
+          
             
           </div>
           <!-- /. box -->

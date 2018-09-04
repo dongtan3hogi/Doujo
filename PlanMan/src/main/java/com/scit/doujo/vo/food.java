@@ -1,26 +1,26 @@
 package com.scit.doujo.vo;
 
 public class food {
-	private String NUTR_CONT3;
-	private String NUTR_CONT2;
-	private String NUTR_CONT1;
-	private String BGN_YEAR;
-	private String NUTR_CONT9;
-	private String NUTR_CONT8;
-	private String FOOD_CD;
-	private String NUTR_CONT7;
-	private String NUTR_CONT6;
-	private String NUTR_CONT5;
-	private String NUTR_CONT4;
+	private double NUTR_CONT3;
+	private double NUTR_CONT2;
+	private double NUTR_CONT1;
+	private int BGN_YEAR;
+	private double NUTR_CONT9;
+	private double NUTR_CONT8;
+	private double FOOD_CD;
+	private double NUTR_CONT7;
+	private double NUTR_CONT6;
+	private double NUTR_CONT5;
+	private double NUTR_CONT4;
 	private String DESC_KOR;
-	private String SERVING_WT;
+	private int SERVING_WT;
 	private String FDGRP_NM;
-	private String NUM;
+	private int NUM;
 	private String ANIMAL_PLANT;
 
-	public food(String nUTR_CONT3, String nUTR_CONT2, String nUTR_CONT1, String bGN_YEAR, String nUTR_CONT9,
-			String nUTR_CONT8, String fOOD_CD, String nUTR_CONT7, String nUTR_CONT6, String nUTR_CONT5,
-			String nUTR_CONT4, String dESC_KOR, String sERVING_WT, String fDGRP_NM, String nUM, String aNIMAL_PLANT) {
+	public food(double nUTR_CONT3, double nUTR_CONT2, double nUTR_CONT1, int bGN_YEAR, double nUTR_CONT9,
+			double nUTR_CONT8, double fOOD_CD, double nUTR_CONT7, double nUTR_CONT6, double nUTR_CONT5,
+			double nUTR_CONT4, String dESC_KOR, int sERVING_WT, String fDGRP_NM, int nUM, String aNIMAL_PLANT) {
 		super();
 		NUTR_CONT3 = nUTR_CONT3;
 		NUTR_CONT2 = nUTR_CONT2;
@@ -44,93 +44,91 @@ public class food {
 		super();
 	}
 
-	public String getNUTR_CONT3() {
+	public double getNUTR_CONT3() {
 		return NUTR_CONT3;
 	}
 
-	public void setNUTR_CONT3(String nUTR_CONT3) {
+	public void setNUTR_CONT3(double nUTR_CONT3) {
 		NUTR_CONT3 = nUTR_CONT3;
 	}
 
-	public String getNUTR_CONT2() {
+	public double getNUTR_CONT2() {
 		return NUTR_CONT2;
 	}
 
-	public void setNUTR_CONT2(String nUTR_CONT2) {
+	public void setNUTR_CONT2(double nUTR_CONT2) {
 		NUTR_CONT2 = nUTR_CONT2;
 	}
 
-	public String getNUTR_CONT1() {
+	public double getNUTR_CONT1() {
 		return NUTR_CONT1;
 	}
 
-	public void setNUTR_CONT1(String nUTR_CONT1) {
+	public void setNUTR_CONT1(double nUTR_CONT1) {
 		NUTR_CONT1 = nUTR_CONT1;
 	}
 
-	public String getBGN_YEAR() {
+	public int getBGN_YEAR() {
 		return BGN_YEAR;
 	}
 
-	public void setBGN_YEAR(String bGN_YEAR) {
+	public void setBGN_YEAR(int bGN_YEAR) {
 		BGN_YEAR = bGN_YEAR;
 	}
 
-	public String getNUTR_CONT9() {
+	public double getNUTR_CONT9() {
 		return NUTR_CONT9;
 	}
 
-	public void setNUTR_CONT9(String nUTR_CONT9) {
-		
+	public void setNUTR_CONT9(double nUTR_CONT9) {
 		NUTR_CONT9 = nUTR_CONT9;
-		
 	}
 
-	public String getNUTR_CONT8() {
+	public double getNUTR_CONT8() {
 		return NUTR_CONT8;
 	}
 
-	public void setNUTR_CONT8(String nUTR_CONT8) {
+	public void setNUTR_CONT8(double nUTR_CONT8) {
 		NUTR_CONT8 = nUTR_CONT8;
 	}
 
-	public String getFOOD_CD() {
+	public double getFOOD_CD() {
 		return FOOD_CD;
 	}
 
-	public void setFOOD_CD(String fOOD_CD) {
+	public void setFOOD_CD(double fOOD_CD) {
 		FOOD_CD = fOOD_CD;
 	}
 
-	public String getNUTR_CONT7() {
+	public double getNUTR_CONT7() {
 		return NUTR_CONT7;
 	}
 
-	public void setNUTR_CONT7(String nUTR_CONT7) {
+	public void setNUTR_CONT7(double nUTR_CONT7) {
 		NUTR_CONT7 = nUTR_CONT7;
 	}
 
-	public String getNUTR_CONT6() {
+	public double getNUTR_CONT6() {
 		return NUTR_CONT6;
 	}
 
-	public void setNUTR_CONT6(String nUTR_CONT6) {
+	public void setNUTR_CONT6(double nUTR_CONT6) {
 		NUTR_CONT6 = nUTR_CONT6;
 	}
 
-	public String getNUTR_CONT5() {
+	public double getNUTR_CONT5() {
 		return NUTR_CONT5;
 	}
 
-	public void setNUTR_CONT5(String nUTR_CONT5) {
+	public void setNUTR_CONT5(double nUTR_CONT5) {
 		NUTR_CONT5 = nUTR_CONT5;
 	}
 
-	public String getNUTR_CONT4() {
+	public double getNUTR_CONT4() {
 		return NUTR_CONT4;
 	}
 
-	public void setNUTR_CONT4(String nUTR_CONT4) {
+	public void setNUTR_CONT4(double nUTR_CONT4) {
 		NUTR_CONT4 = nUTR_CONT4;
 	}
 
@@ -142,11 +140,11 @@ public class food {
 		DESC_KOR = dESC_KOR;
 	}
 
-	public String getSERVING_WT() {
+	public int getSERVING_WT() {
 		return SERVING_WT;
 	}
 
-	public void setSERVING_WT(String sERVING_WT) {
+	public void setSERVING_WT(int sERVING_WT) {
 		SERVING_WT = sERVING_WT;
 	}
 
@@ -158,11 +156,11 @@ public class food {
 		FDGRP_NM = fDGRP_NM;
 	}
 
-	public String getNUM() {
+	public int getNUM() {
 		return NUM;
 	}
 
-	public void setNUM(String nUM) {
+	public void setNUM(int nUM) {
 		NUM = nUM;
 	}
 

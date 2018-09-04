@@ -22,7 +22,46 @@
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
+  
+   <style type="text/css">
+	 /* The Modal (background) */
+     .modal {
+         display: none; /* Hidden by default */
+         position: fixed; /* Stay in place */
+         z-index: 999; /* Sit on top */
+         left: 0;
+         top: 0;
+         width: 100%; /* Full width */
+         height: 100%; /* Full height */
+         overflow: auto; /* Enable scroll if needed */
+         background-color: rgb(0,0,0); /* Fallback color */
+         background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+     }
+ 
+     /* Modal Content/Box */
+     .modal-content {
+         background-color: #fefefe;
+         margin: 15% auto; /* 15% from the top and centered */
+         padding: 20px;
+         border: 1px solid #888;
+         width: 30%; /* Could be more or less, depending on screen size */                          
+     }
+     /* The Close Button */
+     .close {
+         color: #aaa;
+         float: right;
+         font-size: 28px;
+         font-weight: bold;
+     }
+     .close:hover,
+     .close:focus {
+         color: black;
+         text-decoration: none;
+         cursor: pointer;
+     }
+     
+  </style>	
+  	
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -192,9 +231,9 @@
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-          <ul class="treeview-menu">
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li>
-            <li><a href="gotoQuizMake"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
+          <ul class="treeview-menu"> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -205,8 +244,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-yellow"></i> Work 2</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -237,15 +275,18 @@
             <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
           </ul>
         </li>
-        <!-- <li>
-          <a href="widgets.html">
-            <i class="fa fa-th"></i> <span>Widgets</span>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-calendar"></i> <span>Schdule</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-green">new</small>
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
-        </li>  -->
-        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>홈피 css설명서</span></a></li>
+          <ul class="treeview-menu">
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-green"></i> Calendar</a></li>
+            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-green"></i> Timeline</a></li>
+          </ul>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -255,6 +296,28 @@
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
   
+  	<!-- The Modal -->
+    <div id="myModal" class="modal">
+ 
+    	<!-- Modal content -->
+    	<form action="addHeightWeight" method="post">
+        <div class="modal-content">
+        	<div>${sessionScope.member.id}님 환영합니다.</div>
+        	<div>키와 몸무게를 입력해주세요.</div>
+        	<br/>
+        	<br/>
+        	<div>키</div> 
+        	<div><input type="number" style="width: 100px; height: 30px;" name="height" id="height">cm</div>
+        	<br/>
+        	<div>몸무게</div>  
+        	<div><input type="number" style="width: 100px; height: 30px;" name="weight" id="weight">kg</div>
+        	<br/>
+        	<div id="sch-button" align="right"><input type="submit" id="addbodyInfo" style="width: 200px;" value="입력하기" class="btn btn-block btn-primary" onclick="return addbodyInfo()"/></div>
+        </div>
+    </div>
+  	</form>
+  	
+  	
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -314,8 +377,26 @@
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 <!-- Page specific script -->
 <script>
+// Get the modal
+var modal = document.getElementById('myModal');
+
   $(function () {
 	  showtime();
+	  
+	  $.ajax({
+			 url:"chkBodyInfo"
+			 ,type:"get"
+			 ,success: function(data){
+				 
+				 if(data=="empty"){
+					modal.style.display = "block";
+				 }
+			 }
+		     ,error: function(){
+		    	 alert("통신실패");
+		     }
+	  });
+	  
 	  
 	  setInterval(function(){
 		  showtime();
@@ -341,6 +422,20 @@
 	    }
 	  }
 	  return zero + num;
+  }
+  
+  function addbodyInfo(){
+	  if($('#height').val().length==0){
+		  alert("키를 입력하세요.")
+		  return false;
+	  }
+	  
+	  if($('#weight').val().length==0){
+		  alert("몸무게를 입력하세요.")
+		  return false;
+	  }
+	  
+	  return true;
   }
 </script>
 </body>

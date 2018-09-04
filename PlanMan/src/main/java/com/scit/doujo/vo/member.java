@@ -12,9 +12,10 @@ public class member {
 	private String hobby;
 	private double height;
 	private double weight;
+	private double daykacl;
 
 	public member(String id, String password, String nickname, String name, String gender, int age, String job,
-			String hobby, double height, double weight) {
+			String hobby, double height, double weight, double daykacl) {
 		super();
 		this.id = id;
 		this.password = password;
@@ -26,6 +27,7 @@ public class member {
 		this.hobby = hobby;
 		this.height = height;
 		this.weight = weight;
+		this.daykacl = daykacl;
 	}
 
 	public member() {
@@ -112,11 +114,19 @@ public class member {
 		this.weight = weight;
 	}
 
+	public double getDaykacl() {
+		return daykacl;
+	}
+
+	public void setDaykacl(double daykacl) {
+		this.daykacl = daykacl;
+	}
+
 	@Override
 	public String toString() {
-		return "id=" + id + ", password=" + password + ", nickname=" + nickname + ", name=" + name + ", gender="
+		return "member [id=" + id + ", password=" + password + ", nickname=" + nickname + ", name=" + name + ", gender="
 				+ gender + ", age=" + age + ", job=" + job + ", hobby=" + hobby + ", height=" + height + ", weight="
-				+ weight;
+				+ weight + ", daykacl=" + daykacl + "]";
 	}
 
 }

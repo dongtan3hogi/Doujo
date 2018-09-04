@@ -33,21 +33,21 @@
 		
 		<!-- 4 -->
 		<select id="selectGroup" parameterType="map" resultType="map">
-			SELECT groupname, groupseq, groupleader, groupteg
+			SELECT groupname name, TO_CHAR(groupseq) num, groupleader, groupteg
 			FROM groups
-			WHERE groupsecret == 'public'
+			WHERE groupsecret = 'public'
 			AND
 			<if test="groupname != null">
-				groupname = #{groupname}
+				groupname like '%' ||  #{groupname} || '%'
 			</if>
 			<if test="groupseq != null">
-				groupseq = #{groupseq}
+				groupseq like '%' ||  #{groupseq} || '%'
 			</if>
 			<if test="groupleader != null">
-				groupleader = #{groupleader}
+				groupleader like  '%' ||  #{groupleader} || '%'
 			</if>
 			<if test="groupteg != null">
-				groupteg = #{groupteg}
+				groupteg like '%' ||  #{groupteg} || '%'
 			</if>
 		</select>
 		
@@ -214,6 +214,30 @@
 		AND q.id=#{id}
 	</select>
 	
+	<!-- 12_3 -->
+	<select id="selectAllTegQuiz" resultType="map" parameterType="map">
+  		SELECT
+  			TO_CHAR(q.quizseq) NUM
+  			,q.type type
+  			,q.teg teg
+  			,q.question question
+  			,q.answer1 answer1
+            ,q.answer2 answer2
+            ,q.answer3 answer3
+            ,q.answer4 answer4
+  			,TO_CHAR(q.answernumber) answernumber
+  			,q.id id
+  			,l.quizrecordname quizrecordname
+		FROM quiz q, quizrecord r , quizrecordlist l
+		WHERE teg like '%' ||  #{teg} || '%'
+		AND q.quizseq = r.quizseq
+		AND r.quizrecordcode = l.quizrecordcode
+		<if test="type != null">
+    		AND type = #{type}
+  		</if>
+		AND q.id=#{id}
+	</select>
+	
 	<!--  -->
 	<select id="selectOneQuiz" resultType="map" parameterType="integer">
   		SELECT 
@@ -297,6 +321,28 @@
 	<!-- 19_2 -->
 	<select id="countRecordQuiz" resultType="integer" parameterType="map">
   		SELECT count(*)
+		FROM quiz q, quizrecord r , quizrecordlist l
+		WHERE q.quizseq = r.quizseq
+		AND r.quizrecordcode = l.quizrecordcode
+		AND l.quizrecordcode = #{quizrecordcode}
+		AND q.id=#{id}
+	</select>
+	
+	<!-- 19_3 -->
+	<select id="selectAllRecordQuiz" resultType="map" parameterType="map">
+  		SELECT 
+			TO_CHAR(q.quizseq) NUM
+  			,q.type type
+  			,q.teg teg
+  			,q.question question
+  			,q.answer1 answer1
+            ,q.answer2 answer2
+            ,q.answer3 answer3
+            ,q.answer4 answer4
+  			,TO_CHAR(q.answernumber) answernumber
+  			,q.id id
+  			,l.quizrecordname quizrecordname
+  			,l.quizrecordcode quizrecordcode
 		FROM quiz q, quizrecord r , quizrecordlist l
 		WHERE q.quizseq = r.quizseq
 		AND r.quizrecordcode = l.quizrecordcode

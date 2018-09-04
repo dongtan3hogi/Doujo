@@ -83,9 +83,7 @@
       <div class="form-group has-feedback">
         <input id="nickname" type="text" class="form-control" name="nickname" placeholder="Nick name">
       </div>
-      <div class="form-group has-feedback">
-        <input id="hobby" type="text" class="form-control" name="hobby" placeholder="Hobby">
-      </div>
+      
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
