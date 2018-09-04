@@ -59,7 +59,7 @@ public class Selenium {
         	for(int j=0; j<4; j++) {
         		body.sendKeys(Keys.PAGE_DOWN);
         		try {
-					Thread.sleep((long) 300);
+					Thread.sleep((long) 200);
 				} catch (InterruptedException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -69,7 +69,7 @@ public class Selenium {
         }catch(Exception e) {
         	body.sendKeys(Keys.PAGE_DOWN);
         	try {
-				Thread.sleep((long) 300);
+				Thread.sleep((long) 200);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

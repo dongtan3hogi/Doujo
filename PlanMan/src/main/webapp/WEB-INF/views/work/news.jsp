@@ -60,7 +60,7 @@ function goSearch(){
 	if("${type}"=="naver"){
 		location.href="search?value="+search;
 	}else{
-	location.href="crawling?search="+search+"&type=${type}";;
+	location.href="crawling?search="+search+"&type=${type}";
 	}
 	/* var blank_pattern = /[\s]/g;
 	if(blank_pattern.test(search)==true){
@@ -68,7 +68,14 @@ function goSearch(){
 		return false;
 	} */
 	}
-	
+function goSearch2(key){
+	var search=	key.innerHTML;
+	if("${type}"=="naver"){
+		location.href="search?value="+search;
+	}else{
+	location.href="crawling?search="+search+"&type=${type}";
+	}
+	}	
 $(document).ready(function(){
 $('#saveMemo').click(function(){
 	var memo = $('#memo').val();
@@ -114,11 +121,109 @@ $('#translate').on('click',function(){
 		  }
 });
 });
+$('#keylist').on('click',function(){
+	$.ajax({		
+		url:"keylist",
+		type:"get",
+		//client에서 server로 가는 값
+		data:{"userid": "${sessionScope.member.id}"},
+		success: function(data){
+			var today = new Date();
+			var result = "";
+			var dates=[];
+			var yy= today.getFullYear();
+			var mm= today.getMonth()+1; 
+			var dd =today.getDate();
+			if(dd<10) {
+			    dd='0'+dd;
+			} 
+			if(mm<10) {
+			    mm='0'+mm;
+			} 
+			today= yy+'-'+mm+'-'+dd;	
+			var cnt=-1;		
+			var da="";
+			var temp="";
+			for(var i=0; i<data.length;i++){	
+				da=data[i].searchDate;
+				if(da!=temp){
+					if(cnt>=0){
+						$('#list'+cnt).html(result);
+						result="";
+					}else if(cnt>=4) return;
+					cnt++;
+					temp=da;
+					if(da==today){
+						result += "<div>오늘</div>";
+					}else{
+						result += "<div>"+da+"</div>";
+					}
+					}
+				result += "<a class='goSearch' href='javascript:void(0)' onclick='goSearch2(this)'>"+data[i].keyword+"</a> ";
+				result += "<input class='deleteBtn' type='button' value='삭제' onclick=\'return deleteKey(" + "\""+data[i].keyword+"\""+ ")\' style ='display:none'> &nbsp";
+			}
+			if(cnt<4){
+				$('#list'+cnt).html(result);
+			}
+			
+		},
+		error:function(){
+			alert("실패");
+		}
+	});	
 });
+$('#ff').on('submit',function(){
+	event.preventDefault();
+	var sex = $(this).find('[name=sex]').val();
+	var age = $(this).find('[name=age]').val();
 	
-	
-
-
+	$.ajax({
+		url:"findFriend",
+		type:"get",
+		//client에서 server로 가는 값
+		data:{"userid": "${userid}","sex": sex, "age" : age},
+		success: function(data){
+			if(data.length==0){
+				$('#flist').html("");
+				$('#friendlist').html("키워드가 부족하여 친구를 검색할 수 없습니다 ㅠㅠ 좀 더 이용해 주세요");
+			return;
+			}
+		
+			var result="";
+			for(var i=0; i<data.length;i++){	
+			result += "<a href='javascript:void(0)' class='friendBtn'>"+data[i].id+"</a> &nbsp";
+		}
+		$('#friendlist').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
+		},
+		error:function(){
+			alert("실패");
+		}
+	});	
+	});
+$(document).on("click",".friendBtn",function(){
+	var name = $(this).html();
+	$.ajax({
+		url:"friendKey",
+		type:"get",
+		//client에서 server로 가는 값
+		data:{"id": name},
+		success: function(data){
+			if(data.length==0){
+				$('#flist0').html("다시 시도해 주세요");
+			return;
+			}
+			var result="<div>"+name+"</div>";
+			for(var i=0; i<data.length;i++){	
+				result += "<a  href='javascript:void(0)' onclick='goSearch2(this)'>"+data[i].keyword+"</a> &nbsp";
+		}
+		$('#flist0').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
+		},
+		error:function(){
+			alert("실패");
+		}
+	});	
+});
+});
 </script>
   <style>
       /* Set the size of the div element that contains the map */
@@ -471,9 +576,43 @@ $('#translate').on('click',function(){
 	</div>
 </c:if>
             </div>
+            
+            
             <!-- /.box-body -->
           </div>
-            
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title"><a id="keylist" href="javascript:;">내가 검색한 단어들</a></h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+            <div class="row">
+
+        <div class="col-md-3 col-sm-6 mb-4" id="list0">
+          
+        </div>
+        <div class="col-md-3 col-sm-6 mb-4" id="list1">         
+        </div>
+        <div class="col-md-3 col-sm-6 mb-4" id="list2">
+        </div>
+        <div class="col-md-3 col-sm-6 mb-4" id="list3">          
+        </div>
+      </div>
+            </div>  
+            <div class="box-header with-border">
+              <h3 class="box-title"><a href="javascript:;">다른 사람들 키워드 검색	</a></h3>
+            </div>
+            <div class="row2">
+     <form id= "ff"  method="post">
+		성별:&nbsp<select name="sex"><option value="둘다">상관없음</option><option value="남">남자</option><option value="여">여자</option></select>
+  나이:&nbsp<select name="age"><option value="0">상관없음</option><option value="10">10대</option><option value="20">20대</option><option value="30">30대</option><option value="40">40대</option><option value="50">50대 이상</option></select>
+&nbsp<input type="submit" value="찾기" >
+</form>
+<div class="col-md-3 col-sm-6 mb-4" id="friendlist"></div>
+  <div class="col-md-3 col-sm-6 mb-4" id="flist0">
+        </div>
+
+      </div>
           </div>
           <!-- /. box -->
         </div>
