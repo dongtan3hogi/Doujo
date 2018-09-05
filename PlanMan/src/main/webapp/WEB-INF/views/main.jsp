@@ -276,7 +276,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Calendar</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -309,7 +310,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-calendar"></i> <span>Schdule</span>
+            <i class="fa fa-calendar"></i> <span>Schedule</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -364,7 +365,7 @@
         	</div>
         	<br/>
         	<div>
-        		스케쥴 기간 지정    <input type="number" style="width: 40px; height: 30px;" id="endday" value="1"> 일간 진행
+        		스케쥴 기간 지정 &nbsp;&nbsp; <input type = "radio" class='sType' name='sType'value='sometimes' >이 시간대만 &nbsp; <input type = "radio" class='sType' name='sType'value='always'>쭉 &nbsp;  <input type="number" style="width: 40px; height: 30px;" id="endday" value="1"> 일간 진행
         	</div>
         	<br/>
         	<div>시간대 <input id="timepicker" type="text" style="width: 120px;"> ~ <input id="timepicker2" type="text" style="width: 120px;"></div>
@@ -530,6 +531,16 @@
     		  ,success:function(data){
     			var events = [];
     			$(data).each(function(index, item) {
+    				var col="";
+    				if(item.eventtype=='study'){
+   		         		col="#FF0000";
+   		         	}else if(item.eventtype=='health'){
+   		         		col="#008000";
+   		         	}else if(item.eventtype=='work'){
+   		         		col="#0000FF";
+   		         	}else if(item.eventtype=='friend'){
+   		         		col="#FFFF00";
+   		         	}
    				  events.push({
    					schseq: item.schseq,
    					id: item.id,	
@@ -538,7 +549,8 @@
    		          	end: item.endday,
    		          	content: item.eventcontent,
    		          	event: item.eventtype,
-   		         	diffDay : item.diffDay
+   		         	diffDay : item.diffDay,
+   		         	color : col
    				  });
    		        });
    		        callback(events);
@@ -549,16 +561,31 @@
       eventClick: function(calEvent) {
 		  
 		  var schseq=calEvent.schseq;
-		  alert(schseq);
 		  var eventtype=calEvent.event;
+		  
 		  var startday = new Date(calEvent.start);
+		  alert(startday);
+		  var endday = new Date(calEvent.end);
 		  var s_date = startday.getDate();
 	  	  var s_month = startday.getMonth() + 1;
 	  	  var s_year = startday.getFullYear();
-	  	  var start= s_year+"-"+s_month+"-"+s_date
+	  	 var start = s_year+"-"+s_month+"-"+s_date;
+	  		var e_date = endday.getDate();
+	  	  var e_month = endday.getMonth() + 1;
+	  	  var e_year = endday.getFullYear();
+	  	  var end = e_year+"-"+e_month+"-"+e_date;
+	  	  var hour = (startday.getHours()+15)%24;
+	  	  var minute = startday.getMinutes();
+	  	  var s_time = hour+':'+minute;
+	  	  	s_time = new Date(start+" "+s_time);
+
+	  	  	hour = (endday.getHours()+15)%24;	
+	  	  	minute = endday.getMinutes();
+	  	  	var e_time = hour+':'+minute;
+	  	  	e_time = new Date(end+" "+e_time);
     	  var modal = document.getElementById('myModal');
           var span = document.getElementsByClassName("close")[0];                                          
-   		  
+   		  alert(s_time+e_time);
           $('#seq').val(schseq);
           if(eventtype==$('#event1').val()){
         	  $('#event1').prop('checked', true);
@@ -574,8 +601,23 @@
           $('#eventtitle').val(calEvent.title);
           $('#eventcontent').val(calEvent.content);
           $('#startday').val(start);
-          $('#endday').val(calEvent.diffDay);
+          $('#endday').val(calEvent.diffDay+1);
           $('#sch-button').text('');
+          $('#timepicker').timepicker({
+        		maxHours : 24,
+      		showMeridian: false,
+      		minuteStep: 10,
+      		setTime: startday
+
+            });
+          $('#timepicker').timepicker('setTime', s_time);
+            $('#timepicker2').timepicker({
+          		maxHours : 24,
+          		showMeridian: false,
+          		minuteStep: 10,
+            });
+            $('#timepicker2').timepicker('setTime', e_time);
+
           $('#sch-button').append("<input type='submit' id='eventUpdate' style='width: 200px;' value='스케쥴 수정하기' class='btn btn-block btn-primary' onclick='return updateevent()'/><input type='submit' id='eventDel' style='width: 200px;' value='스케쥴 삭제하기' class='btn btn-block btn-primary' onclick='return deleteevent()'/>");      	
           modal.style.display = "block";
           
@@ -589,6 +631,7 @@
           		maxHours : 24,
         		showMeridian: false,
         		minuteStep: 10
+
               });
               $('#timepicker2').timepicker({
             		maxHours : 24,
@@ -608,6 +651,7 @@
              		maxHours : 24,
            			showMeridian: false,
            			minuteStep: 10
+           			
                 });
                 $('#timepicker2').timepicker({
                		maxHours : 24,
@@ -639,7 +683,9 @@
 		var endday=end_year+"-"+end_month+"-"+end_date+" "+$('#timepicker2').val();
 		var eventtitle=$('#eventtitle').val();
 		var eventcontent=$('#eventcontent').val();    
-  		
+	    var stype = $('input[name="sType"]:checked').val();
+
+  		alert(stype);
 		if($('.event:checked').val()==null){
   			alert("이벤트 타입을 선택해 주세요.");
   			return false;
@@ -658,7 +704,41 @@
   		if($('#eventtitle').val().length==0){
   			alert("이벤트 타이틀을 입력해주세요.");
   			return false;
-  		}else{
+  		}else if(stype=='sometimes'){
+  			endday=$('#startday').val()+" "+$('#timepicker2').val();
+  			$.ajax({
+  				url:'addschdule2'
+  				,type:'post'
+  				,data:{"id":"${sessionScope.member.id}"
+  					,"eventtype":event
+  					,"eventtitle":eventtitle
+  					,"eventcontent":eventcontent
+  					,"startday":startday
+  					,"endday":endday
+  					,"starttime": $('#timepicker').val()
+  					,"endtime": $('#timepicker2').val()
+  					,"plusday": plusday
+  				}
+  				,success: function (data){
+					if(data=="success"){
+						alert("스케쥴을 입력했습니다.");
+						$('#eventtitle').val('');
+			            $('#eventcontent').val('');
+			            $('#endday').val(1);
+			            $('.event').prop('checked', false);
+			            var modal = document.getElementById('myModal');
+			            modal.style.display = "none";
+			            location.reload(); 
+			            return true;
+					}else{
+						alert("스케쥴  입력에 실패했습니다.");
+						return false;
+					}
+  				}
+  			});	
+  		}
+  		
+  		else{
   			$.ajax({
   				url:'addschdule'
   				,type:'post'

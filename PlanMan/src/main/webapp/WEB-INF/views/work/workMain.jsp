@@ -23,216 +23,6 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-function goPage(a){
-	if("${type}"=='naver'){
-		location.href="goPage?value="+a;
-	}else{
-	location.href="goPaging?value="+a;
-	}
-}
-function goSearch(){
-	var search=	document.getElementById("search").value;
-	if(search==""){
-		alert("검색어 입력해주세요 ");
-		return;
-	}
-	var special_pattern = /[`~!@#$%^&*|\\\";:\/]/gi;
-	if(special_pattern.test(search)==true){
-		alert("특수문자는 사용할 수 없습니다.");
-		return false;
-	}
-	
-	$.ajax({
-		url: 'findKeyword',
-		data: {"search" : search},
-		type: "POST",
-		error: function (res) {
-		    alert("error: "+ res);
-		},
-		success: function (res) {
-			alert(res);
-			
-		} 
-	});	
-	if("${type}"=="naver"){
-		location.href="search?value="+search;
-	}else{
-	location.href="crawling?search="+search+"&type=${type}";
-	}
-	/* var blank_pattern = /[\s]/g;
-	if(blank_pattern.test(search)==true){
-		alert("공백은 사용할 수 없습니다");
-		return false;
-	} */
-	}
-function goSearch2(key){
-	var search=	key.innerHTML;
-	if("${type}"=="naver"){
-		location.href="search?value="+search;
-	}else{
-	location.href="crawling?search="+search+"&type=${type}";
-	}
-	}	
-$(document).ready(function(){
-$('#saveMemo').click(function(){
-	var memo = $('#memo').val();
-	var today = new Date();
-	var mm= today.getMonth()+1; 
-	var dd =today.getDate();
-	var yy = today.getFullYear();
-	if(dd<10) {
-	    dd='0'+dd;
-	} 
-	if(mm<10) {
-	    mm='0'+mm;
-	} 
-	var td=yy+'-'+mm+'-'+dd;
-	$.ajax({
-		url:"saveMemo",
-		type:"post",
-		//client에서 server로 가는 값
-		data:{"userid": memo, "text":memo,"startDate":td},
-		success: function(data){
-		if(data=="success"){
-			alert("저장 되었습니다");
-		}
-		},fail: function(){
-			alert("다음에 다시 시도해주세요");
-		}
-	});
-	});
-$('#translate').on('click',function(){
-	  $.ajax({
-		  url:"translate",
-		  type:'post',
-		  data:{'text': $('#search').val(),  'src': $('#src').val(), 'target':$('#target').val()},
-		  success: function(data){
-			  alert(data);
-			  $('#search').val(data);
-		  },error:function(request,status,error){
-			  if(decodeURIComponent(request.responseText)=="undefined"){
-				  alert("잘못된 문자입니다");
-				  return;
-			  }
-			  $('#search').val(decodeURIComponent(request.responseText));
-		  }
-});
-});
-$('#keylist').on('click',function(){
-	$.ajax({		
-		url:"keylist",
-		type:"get",
-		//client에서 server로 가는 값
-		data:{"userid": "${sessionScope.member.id}"},
-		success: function(data){
-			var today = new Date();
-			var result = "";
-			var dates=[];
-			var yy= today.getFullYear();
-			var mm= today.getMonth()+1; 
-			var dd =today.getDate();
-			if(dd<10) {
-			    dd='0'+dd;
-			} 
-			if(mm<10) {
-			    mm='0'+mm;
-			} 
-			today= yy+'-'+mm+'-'+dd;	
-			var cnt=-1;		
-			var da="";
-			var temp="";
-			for(var i=0; i<data.length;i++){	
-				da=data[i].searchDate;
-				if(da!=temp){
-					if(cnt>=0){
-						$('#list'+cnt).html(result);
-						result="";
-					}else if(cnt>=4) return;
-					cnt++;
-					temp=da;
-					if(da==today){
-						result += "<div>오늘</div>";
-					}else{
-						result += "<div>"+da+"</div>";
-					}
-					}
-				result += "<a class='goSearch' href='javascript:void(0)' onclick='goSearch2(this)'>"+data[i].keyword+"</a> ";
-				result += "<input class='deleteBtn' type='button' value='삭제' onclick=\'return deleteKey(" + "\""+data[i].keyword+"\""+ ")\' style ='display:none'> &nbsp";
-			}
-			if(cnt<4){
-				$('#list'+cnt).html(result);
-			}
-			
-		},
-		error:function(){
-			alert("실패");
-		}
-	});	
-});
-$('#ff').on('submit',function(){
-	event.preventDefault();
-	var sex = $(this).find('[name=sex]').val();
-	var age = $(this).find('[name=age]').val();
-	
-	$.ajax({
-		url:"findFriend",
-		type:"get",
-		//client에서 server로 가는 값
-		data:{"userid": "${userid}","sex": sex, "age" : age},
-		success: function(data){
-			if(data.length==0){
-				$('#flist').html("");
-				$('#friendlist').html("키워드가 부족하여 친구를 검색할 수 없습니다 ㅠㅠ 좀 더 이용해 주세요");
-			return;
-			}
-		
-			var result="";
-			for(var i=0; i<data.length;i++){	
-			result += "<a href='javascript:void(0)' class='friendBtn'>"+data[i].id+"</a> &nbsp";
-		}
-		$('#friendlist').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
-		},
-		error:function(){
-			alert("실패");
-		}
-	});	
-	});
-$(document).on("click",".friendBtn",function(){
-	var name = $(this).html();
-	$.ajax({
-		url:"friendKey",
-		type:"get",
-		//client에서 server로 가는 값
-		data:{"id": name},
-		success: function(data){
-			if(data.length==0){
-				$('#flist0').html("다시 시도해 주세요");
-			return;
-			}
-			var result="<div>"+name+"</div>";
-			for(var i=0; i<data.length;i++){	
-				result += "<a  href='javascript:void(0)' onclick='goSearch2(this)'>"+data[i].keyword+"</a> &nbsp";
-		}
-		$('#flist0').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
-		},
-		error:function(){
-			alert("실패");
-		}
-	});	
-});
-});
-</script>
-  <style>
-      /* Set the size of the div element that contains the map */
-      #map {
-        height: 400px;  /* The height is 400 pixels */
-        width: 100%;  /* The width is the width of the web page */
-       }
-    </style>
-
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -403,9 +193,8 @@ $(document).on("click",".friendBtn",function(){
             </span>
           </a>
           <ul class="treeview-menu"> 
-            <li><a href="gotoStudy"><i class="fa fa-circle-o text-aqua"></i> Study Main</a></li> 
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li> 
-            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -416,8 +205,8 @@ $(document).on("click",".friendBtn",function(){
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-          </ul>
+<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Calendar</a></li>          </ul>
         </li>
         <li class="treeview">
           <a href="#">
@@ -477,7 +266,7 @@ $(document).on("click",".friendBtn",function(){
         <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="goWorkMain"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">title</li>
       </ol>
     </section>
@@ -485,13 +274,10 @@ $(document).on("click",".friendBtn",function(){
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        
         <div class="col-md-3">
-          <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Button</a>
-
           <div class="box box-solid">
             <div class="box-header with-border">
-              <h3 class="box-title">Title02</h3>
+              <h3 class="box-title">MENU</h3>
 
               <div class="box-tools">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -504,17 +290,17 @@ $(document).on("click",".friendBtn",function(){
                   <span class="label label-primary pull-right">12</span></a></li>
                 <li><a href="goNewsMap"><i class="fa fa-envelope-o"></i> NEWS</a></li>
                 <li><a href="#"><i class="fa fa-file-text-o"></i> MAILS</a></li>
-                
-                </li>
+              
               </ul>
             </div>
+            
+            
             <!-- /.box-body -->
           </div>
           <!-- /. box -->
-          
-          <div class="box box-solid">
+         <div class="box box-solid">
             <div class="box-header with-border">
-              <h3 class="box-title"><a href="goMemo">MEMO</a></h3>
+              <h3 class="box-title">MEMO</h3>
 
               <div class="box-tools">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -522,9 +308,9 @@ $(document).on("click",".friendBtn",function(){
               </div>
             </div>
             <div class="box-body no-padding">
-            <h5 class="box-title">오늘의 메모</h5>
+            <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>
            
-           <textarea id ="memo" value="text" style="min-width: 95%;"></textarea> <br/>
+           <textarea id ="memo"rows="20" value="text"  style="min-width: 95%;"></textarea> <br/>
            <input type="button" value="저장" id="saveMemo">
            
             </div>
@@ -538,103 +324,71 @@ $(document).on("click",".friendBtn",function(){
         <div class="col-md-9">
           
       	  <!-- general form elements disabled -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">뉴스를 검색해 주세요 (${type })</h3>
+          <div class="box box-primary" style="width: 40%; float:left;margin-right:20px;">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+
+              <h3 class="box-title">Work Schedule</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-		    <!--The div element for the map -->
- 		   <input type="text" id="search"  >&nbsp<input type="button" onclick="goSearch()"value="검색">&nbsp <select id='src'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>-->
-        <select id='target'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>
-        &nbsp<input type="button" id="translate" value="번역"><br>
-        <c:if test="${!empty result}">
-		<c:forEach var="news" items="${result }">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              <ul class="todo-list">
+                <c:forEach var="schList" items="${schList}">
+                <li>
+                  <!-- drag handle -->
+                  <span class="handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <!-- checkbox -->
+                  <input type="checkbox" value="">
+                  <!-- todo text -->
+                  <span class="text">${schList.eventtitle}//${schList.startday}</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.starttime}~${schList.endtime}</small>
+                  <!-- General tools such as edit or delete-->
+                  <div class="tools">
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
+                  </div>
+                </li>
+                </c:forEach>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+              <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
+            </div>
+          </div>
+         
+          <!-- /.box -->
+          <div class="box box-primary" style="width: 50%; float:left; ">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Main News</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              
+              <c:if test="${empty article}">
+              <h3> 주요 뉴스가 없습니다.</h3>
+              </c:if>
+              <c:if test="${!empty article}">
+		<c:forEach var="news" items="${article }">
 		<ul>
 		<li><a href="${news[1] }" target="_blank">${news[0] }</a><br>
 		<span>${news[2] }</span></li>
 		</ul>
 		</c:forEach>
-		<div class="boardfooter">
-		<c:if test="${navi.currentPage <= 5 }">
-		◁◁
-		</c:if>
-		<c:if test="${navi.currentPage > 5 }">
-		<a href="javascript:void(0);" onclick="goPage(${navi.currentPage-navi.pagePerGroup})">
-		◁◁</a>
-		</c:if>
-		<c:if test="${navi.currentPage > 1}">
-		<a href="javascript:void(0);" onclick="goPage(${navi.currentPage-1 })">◀</a>		</c:if>
-		<c:if test="${navi.currentPage <= 1 }">
-		◀
-		</c:if>
-		
-		<c:forEach var="page" begin = "${navi.startPageGroup}" end="${navi.endPageGroup}">
-		<c:if test="${navi.currentPage == page}">
-		<a href="javascript:void(0);" onclick="goPage(${page })" style="color : red">${page}</a> &nbsp;
-		</c:if>
-		<c:if test="${navi.currentPage != page}">
-		<a href="javascript:void(0);" onclick="goPage(${page })">${page }</a> &nbsp;
-		</c:if>	<!-- &nbsp;한칸 띄어주는 거  -->
-		</c:forEach>
-		<c:if test="${navi.currentPage < navi.totalPageCount }">
-		<a href="javascript:void(0);" onclick="goPage(${navi.currentPage+1 })">▶</a>
-		</c:if>
-		<c:if test="${navi.currentPage >= navi.totalPageCount }">
-		▶
-		</c:if>
-		<c:if test="${navi.currentPage <= navi.totalPageCount-5 }">
-		<a href="javascript:void(0);" onclick="goPage(${navi.currentPage+navi.pagePerGroup})">
-		▷▷</a>
-		</c:if>
-		<c:if test="${navi.currentPage > navi.totalPageCount-5 }">
-		▷▷
-		</c:if>
-		</div>
 		</c:if>
             </div>
-            
-            
             <!-- /.box-body -->
           </div>
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title"><a id="keylist" href="javascript:;">내가 검색한 단어들</a></h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-            <div class="row">
-
-        <div class="col-md-3 col-sm-6 mb-4" id="list0">
-          
-        </div>
-        <div class="col-md-3 col-sm-6 mb-4" id="list1">         
-        </div>
-        <div class="col-md-3 col-sm-6 mb-4" id="list2">
-        </div>
-        <div class="col-md-3 col-sm-6 mb-4" id="list3">          
-        </div>
-      </div>
-            </div>  
-            <div class="box-header with-border">
-              <h3 class="box-title"><a href="javascript:;">다른 사람들 키워드 검색	</a></h3>
-            </div>
-            <div class="row2">
-     <form id= "ff"  method="post">
-		성별:&nbsp<select name="sex"><option value="둘다">상관없음</option><option value="남">남자</option><option value="여">여자</option></select>
-  나이:&nbsp<select name="age"><option value="0">상관없음</option><option value="10">10대</option><option value="20">20대</option><option value="30">30대</option><option value="40">40대</option><option value="50">50대 이상</option></select>
-&nbsp<input type="submit" value="찾기" >
-</form>
-<div class="col-md-3 col-sm-6 mb-4" id="friendlist"></div>
-  <div class="col-md-3 col-sm-6 mb-4" id="flist0">
-        </div>
-
-      </div>
-          </div>
-          <!-- /. box -->
-        </div>
         <!-- /.col -->
       </div>
+  	
       <!-- /.row -->
     </section>
     <!-- /.content -->
@@ -869,6 +623,169 @@ $(document).on("click",".friendBtn",function(){
 <script src="resources/main/bower_components/moment/moment.js"></script>
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 <!-- Page specific script -->
+<script>
+  $(function () {
+	  
+	  var today = new Date();
+		var mm= today.getMonth()+1; 
+		var dd =today.getDate();
+		var yy = today.getFullYear();
+		if(dd<10) {
+		    dd='0'+dd;
+		} 
+		if(mm<10) {
+		    mm='0'+mm;
+		} 
+		var td=yy+'-'+mm+'-'+dd;
+		var temp=td;
+		var mlist = [];
+		<c:forEach items="${mlist}" var="item1">
+		mlist.push(JSON.stringify(${item1}));
+		</c:forEach>
 
+		var eData = [];
+		 for(var i = 0; i < mlist.length; i++)  {
+			 var catact = JSON.parse(mlist[i]);
+		      eData.push({
+		        title : "메모O",
+		        start : catact.startdate,
+		        end : catact.enddate
+		      });
+		     
+		    }
+		 
+   $('#calendar').fullCalendar({
+	      header: {
+	        left: 'prev,next today',
+	        center: 'title',
+	        right: 'month'
+	      },
+	      defaultDate: td,
+	      navLinks: false,
+	      selectable: true,
+	      selectHelper: true,
+	      select: function(start, end) {
+	    	  var title = $('#memo').val();
+	    	  var check = confirm("메모를 저장 또는 수정 하시겠습니까?");	  
+	          var eventData;
+	          if (check  ) {
+	        	  if(title!=""){	
+	      	      	$.ajax({
+	      	    		  url:'insertmemo',
+	      	    		    type: 'post',
+	      	    		    data: {
+	      	    		    	'id': '${sessionScope.member.id}','memo': title, 'startdate': start.format(),'enddate':end.format()
+	      	    		    },
+	      	    		    success: function(data){
+	      	    				if(data==1)	{
+	      	    					alert("저장 되었습니다.");
+	      	    				eventData = {
+	      	    		              title: "메모",
+	      	    		              start: start,
+	      	    		              end: end     
+	      	    		            };
+	      	    		            $('#calendar').fullCalendar('renderEvent', eventData, true);
+	      	    				}
+	      	    				else if(data==3) alert("수정 되었습니다");
+	      	    				else alert("다시 시도해주세요");
+	      	    				},
+	      	    		    error: function() {
+	      	    		      alert('there was an error while fetching events!');
+	      	    		    }
+	        		  });
+	            
+	        	  }else{
+		            	alert("메모를 입력해 주세요");
+		            }// stick? = true
+	          }
+	          $('#calendar').fullCalendar('unselect');
+	        },// can click day/week names to navigate views
+	      editable: false,
+	      eventLimit: false, // allow "more" link when too many events
+	      events: eData,
+	      eventClick: function(event) {
+	    	   	var del= confirm("삭제 ->yes, 불러오기 -> no");
+	    	   	if(del){
+	    	   		
+	    	   		$.ajax({
+	    	    		  url:'deletememo',
+	    	    		    type: 'post',
+	    	    		    data: {
+	    	    		    	'id': '${sessionScope.member.id}', 'startdate': event.start.format()
+	    	    		    },
+	    	    		    success: function(data){
+	    	    				if(data==1)	{
+	    	    					alert("삭제 완료");
+	    	    					
+	    	    					$('#calendar').fullCalendar('removeEvents', event._id);
+	    	    		            }else{
+	    	    		            	alert("다시 시도해주세요");
+	    	    		            	location.href="goNews"; 
+	    	    		            }
+	    	    				},
+	    	    		    error: function() {
+	    	    		      alert('there was an error while fetching events!');
+	    	    		    }
+	      		  });
+	    	   	}else{
+	    	   	$.ajax({
+    	    		  url:'findmemo',
+    	    		    type: 'post',
+    	    		    data: {
+    	    		    	'id': '${sessionScope.member.id}', 'startdate': event.start.format()
+    	    		    },
+    	    		    success: function(data){
+    	    				if(data==null)	{
+    	    					alert("오류 발생");
+    	    				
+    	    		            }else{
+    	    		            	if(event.start.format()==td){
+        	    		            	$('#memoTitle').html("오늘의 메모");
+
+    	    		            	}else{
+        	    		            	$('#memoTitle').html(event.start.format()+"의 메모");
+        	    		            		
+    	    		            	}
+    	    		            	temp=event.start.format();
+    	    		            	$('#memo').val(data.memo);
+    	    		            }
+    	    				},
+    	    		    error: function() {
+    	    		      alert('there was an error while fetching events!');
+    	    		    }
+      		  });}
+	    	      return false;
+	    	    },  
+    
+    });
+   $('#saveMemo').click(function(){
+		var memo = $('#memo').val();
+		var today = new Date();
+		var mm= today.getMonth()+1; 
+		var dd =today.getDate();
+		var yy = today.getFullYear();
+		if(dd<10) {
+		    dd='0'+dd;
+		} 
+		if(mm<10) {
+		    mm='0'+mm;
+		} 
+		var td=yy+'-'+mm+'-'+dd;
+		$.ajax({
+			url:"saveMemo",
+			type:"post",
+			//client에서 server로 가는 값
+			data:{"userid": memo, "text":memo,"startDate":temp},
+			success: function(data){
+			if(data=="1"||data=="3"){
+				alert("저장 되었습니다");
+			}else{'오류 발생'};
+			},fail: function(){
+				alert("다음에 다시 시도해주세요");
+			}
+		});
+		});
+  });
+</script>
 </body>
 </html>

@@ -2,7 +2,7 @@ package com.scit.doujo.vo.work;
 
 public class friendquery {
 	String id;
-	String sex;
+	String gender;
 	int age;
 	public String getId() {
 		return id;
@@ -10,11 +10,11 @@ public class friendquery {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getSex() {
-		return sex;
+	public String getgender() {
+		return gender;
 	}
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setgender(String gender) {
+		this.gender = gender;
 	}
 	public int getAge() {
 		return age;
@@ -22,15 +22,15 @@ public class friendquery {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	public friendquery(String id, String sex, int age) {
+	public friendquery(String id, String gender, int age) {
 		super();
 		this.id = id;
-		this.sex = sex;
+		this.gender = gender;
 		this.age = age;
 	}
 	@Override
 	public String toString() {
-		return "friendquery [id=" + id + ", sex=" + sex + ", age=" + age + "]";
+		return "friendquery [id=" + id + ", gender=" + gender + ", age=" + age + "]";
 	}
 	
 }

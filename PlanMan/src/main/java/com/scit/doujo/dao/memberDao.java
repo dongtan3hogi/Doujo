@@ -18,6 +18,7 @@ public interface memberDao {
 	//스케쥴 추가하기
 	public int addschdule(schedule vo);
 	//스케쥴 변경하기
+	
 	public int updateschdule(schedule vo);
 	//스케쥴 삭제하기
 	public int deleteschdule(int schseq);
@@ -29,5 +30,7 @@ public interface memberDao {
 	public int didschdule(int schseq);
 	//스케쥴 완료 해제하기
 	public int didnotschdule(int schseq);
+	
+	public ArrayList<schedule> selectEventByType(schedule vo);
 	
 }

@@ -45,6 +45,7 @@
   	<!-- 오늘 스케쥴 가져오기 -->
 	<select id="selectTodaySch" parameterType="Schedule" resultType="Schedule">
 		select * from schedule where id=#{id} and to_date(#{enddaytime},'YYYY-MM-DD HH24:MI') >= startday and endday >= to_date(#{startdaytime},'YYYY-MM-DD HH24:MI') order by startday
+<<<<<<< HEAD
 	</select>
 	
 	<!-- 이번주 스케쥴 가져오기(이벤트 타입별로) -->
@@ -63,4 +64,11 @@
 		update schedule set doornot=0 where schseq=#{schseq}
 	</update> 	
 	
+=======
+	</select>  	
+	 <select id="selectEventByType" parameterType="Schedule" resultType="Schedule">
+      select * from schedule
+       where id=#{id} and eventtype=#{eventtype} and startday >= to_date(#{weekMonday},'YYYY-MM-DD') and to_date(#{weekSunday},'YYYY-MM-DD') >= startday order by startday
+   </select>
+>>>>>>> work
 </mapper>

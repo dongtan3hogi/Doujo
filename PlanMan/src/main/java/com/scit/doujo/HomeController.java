@@ -3,6 +3,7 @@ package com.scit.doujo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.http.HttpSession;
@@ -176,15 +177,50 @@ public class HomeController {
 	public @ResponseBody String addschdule(schedule vo, HttpSession session) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
 		System.out.println("스케쥴 입력용:"+vo.toString());
-		int result=manager.addschdule(vo);
-		
+		int result=manager.addschdule(vo);	
 		if(result!=0) {
 			return "success";
 		}else {
 			return "fail";
 		}
 	}
-	
+	@RequestMapping(value = "addschdule2", method = RequestMethod.POST)
+	public @ResponseBody String addschdule2(schedule vo, HttpSession session, int plusday) {
+		memberDao manager=sqlSession.getMapper(memberDao.class);
+		System.out.println("스케쥴 입력용:"+vo.toString());
+		int result=0;
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+		for(int i= 0; i<plusday; i++) {
+			result=manager.addschdule(vo);	
+			try {
+				Date date = format.parse(vo.getEndday());
+				Calendar cal = Calendar.getInstance();
+	            cal.setTime(date);
+	            cal.add(Calendar.DATE, 1);	
+	            date=cal.getTime();
+	            System.out.println(date.toString());
+	            vo.setEndday( format.format(date));
+	             date = format.parse(vo.getStartday());
+				 cal = Calendar.getInstance();
+	            cal.setTime(date);
+	            cal.add(Calendar.DATE, 1);	
+	            date=cal.getTime();
+	            System.out.println(date.toString());
+	            vo.setStartday( format.format(date));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		result=manager.addschdule(vo);	
+
+		if(result!=0) {
+			return "success";
+		}else {
+			return "fail";
+		}
+	}
 	//스케쥴 변경하기
 	@RequestMapping(value = "updateschdule", method = RequestMethod.POST)
 	public @ResponseBody String updateschdule(schedule vo, HttpSession session) {

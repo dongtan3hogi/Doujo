@@ -206,8 +206,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-          </ul>
+<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Calendar</a></li>
+                      </ul>
         </li>
         <li class="treeview">
           <a href="#">
