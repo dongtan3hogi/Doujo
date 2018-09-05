@@ -205,9 +205,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-                      <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Calendar</a></li>
-          </ul>
+<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Calendar</a></li>          </ul>
         </li>
         <li class="treeview">
           <a href="#">
@@ -276,11 +275,9 @@
     <section class="content">
       <div class="row">
         <div class="col-md-3">
-          <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Button</a>
-
           <div class="box box-solid">
             <div class="box-header with-border">
-              <h3 class="box-title">Title02</h3>
+              <h3 class="box-title">MENU</h3>
 
               <div class="box-tools">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -327,42 +324,71 @@
         <div class="col-md-9">
           
       	  <!-- general form elements disabled -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">Work Memo list</h3>
+          <div class="box box-primary" style="width: 40%; float:left;margin-right:20px;">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+
+              <h3 class="box-title">Work Schedule</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-            <div id="calendar" ></div>
-              
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              <ul class="todo-list">
+                <c:forEach var="schList" items="${schList}">
+                <li>
+                  <!-- drag handle -->
+                  <span class="handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <!-- checkbox -->
+                  <input type="checkbox" value="">
+                  <!-- todo text -->
+                  <span class="text">${schList.eventtitle}//${schList.startday}</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.starttime}~${schList.endtime}</small>
+                  <!-- General tools such as edit or delete-->
+                  <div class="tools">
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
+                  </div>
+                </li>
+                </c:forEach>
+              </ul>
             </div>
-            <div class="box-header with-border">
-              <h3 class="box-title">Friend recommendation</h3>
-             </div>
-             <div class="box-body">
-          
-                
-                <!-- text input -->
-                <div class="form-group">
-                  <label>Text</label>
-                  <input type="text" class="form-control" placeholder="Enter ...">
-                </div>
-
-                <!-- textarea -->
-                <div class="form-group">
-                  <label>Textarea</label>
-                  <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                </div>
-
-             <div class="box-body">
+            <!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+              <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
+            </div>
+          </div>
+         
+          <!-- /.box -->
+          <div class="box box-primary" style="width: 50%; float:left; ">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Main News</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              
+              <c:if test="${empty article}">
+              <h3> 주요 뉴스가 없습니다.</h3>
+              </c:if>
+              <c:if test="${!empty article}">
+		<c:forEach var="news" items="${article }">
+		<ul>
+		<li><a href="${news[1] }" target="_blank">${news[0] }</a><br>
+		<span>${news[2] }</span></li>
+		</ul>
+		</c:forEach>
+		</c:if>
+            </div>
             <!-- /.box-body -->
           </div>
-            
-          
-          <!-- /. box -->
-        </div>
         <!-- /.col -->
       </div>
+  	
       <!-- /.row -->
     </section>
     <!-- /.content -->
@@ -730,32 +756,7 @@
       		  });}
 	    	      return false;
 	    	    },  
-      /* droppable : true, // this allows things to be dropped onto the calendar !!!
-      drop      : function (date, allDay) { // this function is called when something is dropped
-
-        // retrieve the dropped element's stored Event Object
-        var originalEventObject = $(this).data('eventObject')
-
-        // we need to copy it, so that multiple events don't have a reference to the same object
-        var copiedEventObject = $.extend({}, originalEventObject)
-
-        // assign it the date that was reported
-        copiedEventObject.start           = date
-        copiedEventObject.allDay          = allDay
-        copiedEventObject.backgroundColor = $(this).css('background-color')
-        copiedEventObject.borderColor     = $(this).css('border-color')
-
-        // render the event on the calendar
-        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
-
-        // is the "remove after drop" checkbox checked?
-        if ($('#drop-remove').is(':checked')) {
-          // if so, remove the element from the "Draggable Events" list
-          $(this).remove()
-        }
-
-      } */
+    
     });
    $('#saveMemo').click(function(){
 		var memo = $('#memo').val();

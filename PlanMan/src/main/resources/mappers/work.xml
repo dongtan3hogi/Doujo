@@ -33,7 +33,7 @@
 		#{param2}
 		)
 	</insert>
-	<select id="findFriend" parameterType="fquery" resultType="friend">
+	<select id="findFriend" parameterType="fquery" resultType="count">
 	select id,count(id) cc 
 	from (select a.id, keyword,gender,age,name from work_word a left join member b
 	on a.id=b.id where  a.id not in #{id})

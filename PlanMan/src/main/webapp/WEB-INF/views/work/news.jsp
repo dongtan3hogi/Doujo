@@ -550,7 +550,8 @@ $(document).on("click",".friendBtn",function(){
         <c:if test="${!empty result}">
 		<c:forEach var="news" items="${result }">
 		<ul>
-		<li><a href="${news[1] }" target="_blank">${news[0] }</a>
+		<li><a href="${news[1] }" target="_blank">${news[0] }</a><br>
+		<span>${news[2] }</span></li>
 		</ul>
 		</c:forEach>
 		<div class="boardfooter">

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.scit.doujo.dao.workDao;
+import com.scit.doujo.util.naverNews;
 import com.scit.doujo.util.work_PageNavi;
 import com.scit.doujo.vo.member;
 import com.scit.doujo.vo.work.memo;
@@ -66,60 +67,14 @@ public ArrayList<String[]> page(  int page) {
 }
 
 HelloComponent article = new HelloComponent();
+	
 
+	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String search( Model model,String value,HttpSession hs) {
-		 String clientId = "R_QmcaTVRocv7D5el105";//애플리케이션 클라이언트 아이디값";
-	        String clientSecret = "8SepLUgZQs";//애플리케이션 클라이언트 시크릿값";
-	        StringBuffer response = null;
-	        try {
-	        	System.out.println(value);
-	            String text = URLEncoder.encode(value, "UTF-8");
-	            String apiURL = "https://openapi.naver.com/v1/search/news?query="+ text+"&display=100"; // json 결과
-	            //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
-	            URL url = new URL(apiURL);
-	            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-	            con.setRequestMethod("GET");
-	            con.setRequestProperty("X-Naver-Client-Id", clientId);
-	            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
-	            int responseCode = con.getResponseCode();
-	            BufferedReader br;
-	            if(responseCode==200) { // 정상 호출
-	                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	            } else {  // 에러 발생
-	                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
-	            }
-	            String inputLine;
-	            response = new StringBuffer();
-	           
-	            while ((inputLine = br.readLine()) != null) {
-	                response.append(inputLine);
-	            }
-	            br.close();
-	            
-	          
-	        } catch (Exception e) {
-	            System.out.println(e);
-	        }
-	        JSONParser jsonParser = new JSONParser();
-			JSONObject jsonObj = null;
-			try {
-				jsonObj = (JSONObject) jsonParser.parse(response.toString());
-			} catch (org.json.simple.parser.ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			JSONArray memberArray = (JSONArray) jsonObj.get("items");
+		naverNews n = new naverNews();
+		ArrayList<String[]> result= n.search(value,100);
 			
-			ArrayList<String[]> result= new ArrayList<String[]>();
-			for(int i=0 ; i<memberArray.size() ; i++){
-				String[] a= new String[2];
-			    JSONObject tempObj = (JSONObject) memberArray.get(i);
-			    a[0]=(String) tempObj.get("title");
-			    a[1]=(String) tempObj.get("link");
-			    result.add(a);
-
-			}
 			article.setValue(result);
 			work_PageNavi pn = new work_PageNavi(1,result.size());
 			model.addAttribute("navi",pn);

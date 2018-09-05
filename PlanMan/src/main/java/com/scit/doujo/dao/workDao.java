@@ -2,7 +2,7 @@ package com.scit.doujo.dao;
 
 import java.util.List;
 
-import com.scit.doujo.vo.work.friend;
+import com.scit.doujo.vo.work.count;
 import com.scit.doujo.vo.work.friendquery;
 import com.scit.doujo.vo.work.keylist;
 import com.scit.doujo.vo.work.memo;
@@ -14,7 +14,7 @@ public interface workDao {
 	public List<keylist> keyList(String userid);
 	public List<keylist> friendKeyword(String userid);
 	public String findKeyword(String id, String keyword);
-	public friend[] findFriend(friendquery fq );
+	public count[] findFriend(friendquery fq );
 	public int insertMemo(memo m);
 	public memo findMemo(memo m);
 	public boolean updateMemo(memo m);

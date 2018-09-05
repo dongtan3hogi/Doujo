@@ -1,6 +1,6 @@
 package com.scit.doujo.vo.work;
 
-public class friend {
+public class count {
 	private String id;
 	private int cc;
 	public String getId() {
@@ -15,7 +15,7 @@ public class friend {
 	public void setCc(int cc) {
 		this.cc = cc;
 	}
-	public friend(String id, int cc) {
+	public count(String id, int cc) {
 		super();
 		this.id = id;
 		this.cc = cc;
@@ -24,7 +24,7 @@ public class friend {
 	public String toString() {
 		return "friend [id=" + id + ", cc=" + cc + "]";
 	}
-	public friend() {
+	public count() {
 		super();
 	}
 	

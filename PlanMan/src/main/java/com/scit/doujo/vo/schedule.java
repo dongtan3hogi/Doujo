@@ -3,17 +3,20 @@ package com.scit.doujo.vo;
 public class schedule {
 
 	private int schseq;
-	private String id;
-	private String eventtype;
-	private String eventtitle;
-	private String eventcontent;
-	private String startday;
-	private String endday;
-	private String startdaytime;
-	private String enddaytime;
-	private String starttime;
-	private String endtime;
-	private int diffDay;
+	   private String id;
+	   private String eventtype;
+	   private String eventtitle;
+	   private String eventcontent;
+	   private String startday;
+	   private String endday;
+	   private String startdaytime;
+	   private String enddaytime;
+	   private String starttime;
+	   private String endtime;
+	   private String weekMonday;
+	   private String weekSunday;
+	   private int diffDay;
+	   private int doornot;
 
 	public schedule(int schseq, String id, String eventtype, String eventtitle, String eventcontent, String startday,
 			String endday, String startdaytime, String enddaytime, String starttime, String endtime, int diffDay) {
@@ -46,6 +49,51 @@ public class schedule {
 
 	public String getId() {
 		return id;
+	}
+
+	public schedule(int schseq, String id, String eventtype, String eventtitle, String eventcontent, String startday,
+			String endday, String startdaytime, String enddaytime, String starttime, String endtime, String weekMonday,
+			String weekSunday, int diffDay, int doornot) {
+		super();
+		this.schseq = schseq;
+		this.id = id;
+		this.eventtype = eventtype;
+		this.eventtitle = eventtitle;
+		this.eventcontent = eventcontent;
+		this.startday = startday;
+		this.endday = endday;
+		this.startdaytime = startdaytime;
+		this.enddaytime = enddaytime;
+		this.starttime = starttime;
+		this.endtime = endtime;
+		this.weekMonday = weekMonday;
+		this.weekSunday = weekSunday;
+		this.diffDay = diffDay;
+		this.doornot = doornot;
+	}
+
+	public String getWeekMonday() {
+		return weekMonday;
+	}
+
+	public void setWeekMonday(String weekMonday) {
+		this.weekMonday = weekMonday;
+	}
+
+	public String getWeekSunday() {
+		return weekSunday;
+	}
+
+	public void setWeekSunday(String weekSunday) {
+		this.weekSunday = weekSunday;
+	}
+
+	public int getDoornot() {
+		return doornot;
+	}
+
+	public void setDoornot(int doornot) {
+		this.doornot = doornot;
 	}
 
 	public void setId(String id) {

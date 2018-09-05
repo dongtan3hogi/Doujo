@@ -15,8 +15,9 @@ public class MvcInterceptor extends HandlerInterceptorAdapter{
          throws Exception {
       HttpSession session = request.getSession();
       member m = (member)session.getAttribute("member");
-      String userid = m.getId();
+      String userid="";
       
+       userid = m.getId();
       if(userid == null) {
          response.sendRedirect(request.getContextPath()+"/logout");
          return false;
