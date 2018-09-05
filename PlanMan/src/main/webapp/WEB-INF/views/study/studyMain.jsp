@@ -13,25 +13,13 @@
   <link rel="stylesheet" href="resources/main/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="resources/main/bower_components/Ionicons/css/ionicons.min.css">
-  <!-- fullCalendar -->
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css">
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
   <!-- Theme style -->
   <link rel="stylesheet" href="resources/main/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  
-  <style>
-      /* Set the size of the div element that contains the map */
-      #map {
-        margin-top: 2%;
-        margin-left: 5%;
-        height: 70%;  
-        width: 90%;  
-       }
-  </style>
+  	
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -169,7 +157,7 @@
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
-   <section class="sidebar">
+    <section class="sidebar">
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
@@ -266,6 +254,8 @@
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
+  
+  
   	
   	
   <!-- Content Wrapper. Contains page content -->
@@ -273,7 +263,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Health
+        Study
         <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
@@ -284,171 +274,41 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-      		<input type="button" class="btn btn-info btn-danger" value="hospital" id="hospital" style="margin-top:1%; margin-left: 1%;">
-      		<input type="button" class="btn btn-info btn-danger" value="pharmacy" id="pharmacy" style="margin-top:1%; margin-left: 1%;">
-      		<input id="pac-input" class="form-control" type="text" placeholder="Search Box" style="margin-top:1%; width: 40%;">
-			<div id="map"></div>
-    <script>
-     var map;
-     var service;
-     var infowindow;
-     var bounds;
-     var korea = {lat:37.541, lng: 126.986};
-	 var japan = {lat: 35.41, lng: 139.46};
-	
-	 function initAutocomplete() {
-	        map = new google.maps.Map(document.getElementById('map'), {
-	          center: japan,
-	          zoom: 10,
-	          mapTypeControl: false,
-	          mapTypeId: 'roadmap'
-	        });
-			
-	        // Create the search box and link it to the UI element.
-	        var input = document.getElementById('pac-input');
-	        var hospital = document.getElementById('hospital');
-	        var pharmacy = document.getElementById('pharmacy');
-	        var searchBox = new google.maps.places.SearchBox(input);
-	        map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
-	        map.controls[google.maps.ControlPosition.TOP_CENTER].push(hospital);
-	        map.controls[google.maps.ControlPosition.TOP_CENTER].push(pharmacy);
-			
-	        infowindow = new google.maps.InfoWindow();
-	        // Bias the SearchBox results towards current map's viewport.
-	        map.addListener('bounds_changed', function() {
-	          searchBox.setBounds(map.getBounds());
-	        });
+      <div class="row"> 
+		  <!-- TO DO List -->
+          <div class="box box-primary" style="width: 30%;">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
 
-	        var markers = [];
-	        // Listen for the event fired when the user selects a prediction and retrieve
-	        // more details for that place.
-	        searchBox.addListener('places_changed', function() {
-	          var places = searchBox.getPlaces();
-			 
-	          if (places.length == 0) {
-	            return;
-	          }
-
-	          // Clear out the old markers.
-	          markers.forEach(function(marker) {
-	            marker.setMap(null);
-	          });
-	          markers = [];
-
-	          // For each place, get the icon, name and location.
-	          bounds = new google.maps.LatLngBounds();
-	          places.forEach(function(place) {
-	            if (!place.geometry) {
-	              console.log("Returned place contains no geometry");
-	              return;
-	          }
-	          var icon = {
-	              url: place.icon,
-	              size: new google.maps.Size(71, 71),
-	              origin: new google.maps.Point(0, 0),
-	              anchor: new google.maps.Point(17, 34),
-	              scaledSize: new google.maps.Size(25, 25)
-	          };
-
-	          // Create a marker for each place.
-	          markers.push(new google.maps.Marker({
-	              map: map,
-	              icon: icon,
-	              title: place.name,
-	              position: place.geometry.location
-	          }));
-
-	          if (place.geometry.viewport) {
-	              // Only geocodes have viewport.
-	              bounds.union(place.geometry.viewport);
-	            } else {
-	              bounds.extend(place.geometry.location);
-	            }
-	          });
-	          map.fitBounds(bounds);
-	        });
-	          
-	          $('#hospital').on('click',function(){
-	        	 
-	        	  var bound2=bounds.getCenter();
-	        	  var newbound=bound2.toString().split(',');
-	        	 	
-	        	  var lat=newbound[0].replace("(","");
-	        	  var lng=newbound[1].replace(")","");
-	        	 
-	        	  var pyrmont = new google.maps.LatLng(lat,lng);
-
-	        	  map.setCenter(pyrmont);
-	        	  map.setZoom(15);
-
-	        	  var request = {
-	        	    location: pyrmont,
-	        	    radius: '1000',
-	        	    type: ["hospital"]
-	        	  };
-
-	        	  service = new google.maps.places.PlacesService(map);
-	        	  service.nearbySearch(request, callback);
-	        	 
-	        	  
-	  	          
-	          });
-	          
-			  $('#pharmacy').on('click',function(){
-				  
-				  var bound2=bounds.getCenter();
-	        	  var newbound=bound2.toString().split(',');
-	        	  alert(newbound[0]);
-	        	  alert(newbound[1]);
-	        	  var lat=newbound[0].replace("(","");
-	        	  var lng=newbound[1].replace(")","");
-	        	  alert(lat);
-	        	  alert(lng);
-	        	  var pyrmont = new google.maps.LatLng(lat,lng);
-
-	        	  map.setCenter(pyrmont);
-	        	  map.setZoom(15);
-
-	        	  var request = {
-	        	    location: pyrmont,
-	        	    radius: '1000',
-	        	    type: ["pharmacy"]
-	        	  };
-
-	        	  service = new google.maps.places.PlacesService(map);
-	        	  service.nearbySearch(request, callback);
-	        	  
-	        	 
-	          });
-	         
-	        
-	 }
-	 
-	 
-	 function callback(results, status) {
-		  if (status == google.maps.places.PlacesServiceStatus.OK) {
-		    for (var i = 0; i < results.length; i++) {
-		      var place = results[i];
-		      createMarker(results[i]);
-		    }
-		  }
-	 }
-	 
-	 function createMarker(place) {
-	        var placeLoc = place.geometry.location;
-	        var marker = new google.maps.Marker({
-	          map: map,
-	          position: place.geometry.location
-	        });
-
-	        google.maps.event.addListener(marker, 'click', function() {
-	          infowindow.setContent(place.name);
-	          infowindow.open(map, this);
-	        });
-	 }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&libraries=places&callback=initAutocomplete" async defer></script></div>
+              <h3 class="box-title">이번주 Study Schedule</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              <ul class="todo-list">
+	                <c:forEach var="schList" items="${schList}" varStatus="status">
+	                <li id="a${status.count}">
+	                  <!-- drag handle -->
+	                  <span class="handle">
+	                        <i class="fa fa-ellipsis-v"></i>
+	                        <i class="fa fa-ellipsis-v"></i>
+	                      </span>
+	                  <!-- checkbox -->
+	                  <input type="checkbox" class="chkbox">
+	                  <!-- todo text -->
+	                  <span class="text">${schList.eventtitle}<input type="hidden" value="${schList.schseq}" id="schseq"/></span>
+	                  <!-- Emphasis label -->
+	                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+	                </li>
+	                </c:forEach>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+            </div>
+          </div>
+          <!-- /.box -->
+      </div>
       <!-- /.row -->
     </section>
     <!-- /.content -->
@@ -484,31 +344,79 @@
 <script src="resources/main/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="resources/main/dist/js/demo.js"></script>
-<!-- fullCalendar -->
-<script src="resources/main/bower_components/moment/moment.js"></script>
-<script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 
 <!-- Page specific script -->
 <script>
-$(function () {
-	  showtime();	
+// Get the modal
+var modal = document.getElementById('myModal');
+
+  $(function () {
+	  showtime();
+	  
+	  $.ajax({
+			 url:"chkBodyInfo"
+			 ,type:"get"
+			 ,success: function(data){
+				 
+				 if(data=="empty"){
+					modal.style.display = "block";
+				 }
+			 }
+		     ,error: function(){
+		    	 alert("통신실패");
+		     }
+	  });
+	  
 	  
 	  setInterval(function(){
 		  showtime();
 	  },60000);
 	  
-})
-
-function showtime(){
+	  $(".chkbox").change(function(){
+	        if($(".chkbox").is(":checked")){
+	            $.ajax({
+	            	url:'chkschdule'
+	      			,type:'post'
+	      			,data:{
+	      				"schseq":$('#schseq').val()
+	      			}
+	      			,success: function (data){
+	    				if(data="success"){
+	    					alert("스케쥴 확인완료!")
+	    				}	
+	      			}
+	            })
+	            $(this).parent('li').addClass('done');
+	        }else{
+	        	 $.ajax({
+		            	url:'unchkschdule'
+		      			,type:'post'
+		      			,data:{
+		      				"schseq":$('#schseq').val()
+		      			}
+		      			,success: function (data){
+		      				if(data="success"){
+		    					alert("스케쥴 해제하기!")
+		    				}	
+		      			}
+		        })
+	            $(this).parent('li').removeClass('done');
+	        }
+	  });
+	  
+	  
+  })
+  
+  function showtime(){
 	  var currentDate = new Date(); // 현재시간
 	  var currentHours = addZeros(currentDate.getHours(),2); 
 	  var currentMinute = addZeros(currentDate.getMinutes(),2);
 	  var time=currentHours+":"+currentMinute;
 	  $('#clock').text('');
 	  $('#clock').append(time);
-}
-
-function addZeros(num, digit) { // 자릿수 맞춰주기
+  }
+  
+  function addZeros(num, digit) { // 자릿수 맞춰주기
 	  var zero = '';
 	  num = num.toString();
 	  if (num.length < digit) {
@@ -517,7 +425,9 @@ function addZeros(num, digit) { // 자릿수 맞춰주기
 	    }
 	  }
 	  return zero + num;
-}
+  }
+  
+ 
 </script>
 </body>
 </html>

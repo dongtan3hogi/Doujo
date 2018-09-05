@@ -7,6 +7,7 @@ import com.scit.doujo.vo.eatfood;
 import com.scit.doujo.vo.food;
 import com.scit.doujo.vo.member;
 import com.scit.doujo.vo.mynut;
+import com.scit.doujo.vo.schedule;
 
 public interface healthDao {
 

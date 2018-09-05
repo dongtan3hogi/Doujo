@@ -13,10 +13,14 @@ public class schedule {
 	private String enddaytime;
 	private String starttime;
 	private String endtime;
+	private String weekMonday;
+	private String weekSunday;
 	private int diffDay;
+	private int doornot;
 
 	public schedule(int schseq, String id, String eventtype, String eventtitle, String eventcontent, String startday,
-			String endday, String startdaytime, String enddaytime, String starttime, String endtime, int diffDay) {
+			String endday, String startdaytime, String enddaytime, String starttime, String endtime, String weekMonday,
+			String weekSunday, int diffDay, int doornot) {
 		super();
 		this.schseq = schseq;
 		this.id = id;
@@ -29,7 +33,10 @@ public class schedule {
 		this.enddaytime = enddaytime;
 		this.starttime = starttime;
 		this.endtime = endtime;
+		this.weekMonday = weekMonday;
+		this.weekSunday = weekSunday;
 		this.diffDay = diffDay;
+		this.doornot = doornot;
 	}
 
 	public schedule() {
@@ -124,6 +131,22 @@ public class schedule {
 		this.endtime = endtime;
 	}
 
+	public String getWeekMonday() {
+		return weekMonday;
+	}
+
+	public void setWeekMonday(String weekMonday) {
+		this.weekMonday = weekMonday;
+	}
+
+	public String getWeekSunday() {
+		return weekSunday;
+	}
+
+	public void setWeekSunday(String weekSunday) {
+		this.weekSunday = weekSunday;
+	}
+
 	public int getDiffDay() {
 		return diffDay;
 	}
@@ -132,12 +155,21 @@ public class schedule {
 		this.diffDay = diffDay;
 	}
 
+	public int getDoornot() {
+		return doornot;
+	}
+
+	public void setDoornot(int doornot) {
+		this.doornot = doornot;
+	}
+
 	@Override
 	public String toString() {
 		return "schedule [schseq=" + schseq + ", id=" + id + ", eventtype=" + eventtype + ", eventtitle=" + eventtitle
 				+ ", eventcontent=" + eventcontent + ", startday=" + startday + ", endday=" + endday + ", startdaytime="
 				+ startdaytime + ", enddaytime=" + enddaytime + ", starttime=" + starttime + ", endtime=" + endtime
-				+ ", diffDay=" + diffDay + "]";
+				+ ", weekMonday=" + weekMonday + ", weekSunday=" + weekSunday + ", diffDay=" + diffDay + ", doornot="
+				+ doornot + "]";
 	}
 
 }

@@ -23,5 +23,11 @@ public interface memberDao {
 	public int deleteschdule(int schseq);
 	//오늘 스케쥴 가져오기
 	public ArrayList<schedule> selectTodaySch(schedule vo);
+	//스케쥴 타입별로 이번주 스케쥴 가져오기
+	public ArrayList<schedule> selectEventByType(schedule result);
+	//스케쥴 완료 확인하기
+	public int didschdule(int schseq);
+	//스케쥴 완료 해제하기
+	public int didnotschdule(int schseq);
 	
 }

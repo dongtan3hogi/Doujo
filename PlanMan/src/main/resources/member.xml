@@ -28,7 +28,7 @@
 
 	<!-- 스케쥴 등록 -->
 	<insert id="addschdule" parameterType="Schedule">
-		insert into schedule values(schseq.nextVal, #{id},#{eventtype},#{eventtitle},#{eventcontent},to_date(#{startday}, 'YYYY-MM-DD HH24:MI'),to_date(#{endday}, 'YYYY-MM-DD HH24:MI'), #{starttime}, #{endtime})
+		insert into schedule values(schseq.nextVal, #{id},#{eventtype},#{eventtitle},#{eventcontent},to_date(#{startday}, 'YYYY-MM-DD HH24:MI'),to_date(#{endday}, 'YYYY-MM-DD HH24:MI'), #{starttime}, #{endtime}, 0)
 	</insert>
   	
   	<!-- 스케쥴 변경하기 -->
@@ -45,6 +45,22 @@
   	<!-- 오늘 스케쥴 가져오기 -->
 	<select id="selectTodaySch" parameterType="Schedule" resultType="Schedule">
 		select * from schedule where id=#{id} and to_date(#{enddaytime},'YYYY-MM-DD HH24:MI') >= startday and endday >= to_date(#{startdaytime},'YYYY-MM-DD HH24:MI') order by startday
-	</select>  	
+	</select>
+	
+	<!-- 이번주 스케쥴 가져오기(이벤트 타입별로) -->
+	<select id="selectEventByType" parameterType="Schedule" resultType="Schedule">
+		select * from schedule
+ 		where id=#{id} and eventtype=#{eventtype} and startday >= to_date(#{weekMonday},'YYYY-MM-DD') and to_date(#{weekSunday},'YYYY-MM-DD') >= startday order by startday
+	</select>
+	
+	<!-- 스케쥴 완료 확인하기 -->
+	<update id="didschdule" parameterType="int">
+		update schedule set doornot=1 where schseq=#{schseq}
+	</update>
+	 
+	<!-- 스케쥴 완료 해제하기 -->
+	<update id="didnotschdule" parameterType="int">
+		update schedule set doornot=0 where schseq=#{schseq}
+	</update> 	
 	
 </mapper>

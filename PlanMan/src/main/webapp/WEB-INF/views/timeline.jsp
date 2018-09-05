@@ -193,8 +193,9 @@
             </span>
           </a>
           <ul class="treeview-menu"> 
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
-            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
+            <li><a href="gotoStudy"><i class="fa fa-circle-o text-aqua"></i> Study Main</a></li> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -387,33 +388,33 @@
 			 if(time >= starttime && time <= endtime){
 				 if(eventtype=='study'){
 					 if(confirm("study 페이지로 이동하시겠습니까?")){
-						 location.href="studyMAIN?eventtitle="+ eventtitle;
+						 location.href="gotoStudy?eventtitle="+ eventtitle;
 					 }else{
-						 alert(eventtype); 
+						
 					 }
 				 }else if(eventtype=='work'){
 					 if(confirm("work 페이지로 이동하시겠습니까?")){
 						 location.href="goWork1?eventtitle="+ eventtitle;
 					 }else{
-						 alert(eventtype); 
+						
 					 }
 				 }else if(eventtype=='health'){
 					 if(confirm("health 페이지로 이동하시겠습니까?")){
 						location.href="gotoHealth?eventtitle="+ eventtitle;
 					 }else{
-						alert(eventtype);
+					
 					 }
 				 }else if(eventtype=='friend'){
 					 if(confirm("friend 페이지로 이동하시겠습니까?")){
 						 location.href="gotoHealth?eventtitle="+ eventtitle;
 					 }else{
-						 alert(eventtype); 
+					
 					 }
 				 }else if(eventtype=='etc'){
 					 if(confirm("기타 페이지로 이동하시겠습니까?")){
 						 location.href="gotoHealth?eventtitle="+ eventtitle;
 					 }else{
-						 alert(eventtype);
+					
 					 }
 				 }
 			 }
