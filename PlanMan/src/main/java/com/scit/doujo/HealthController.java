@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.scit.doujo.dao.healthDao;
 import com.scit.doujo.dao.memberDao;
+import com.scit.doujo.util.naverNews;
 import com.scit.doujo.vo.activity;
 import com.scit.doujo.vo.eatfood;
 import com.scit.doujo.vo.food;
@@ -40,7 +41,7 @@ public class HealthController {
 	
 	//헬스 메인페이지로 이동
 	@RequestMapping(value = "/gotoHealth", method = RequestMethod.GET)
-	public String gotoHealth(String eventtitle, HttpSession session) {
+	public String gotoHealth(String eventtitle, HttpSession session, Model model) {
 		healthDao manager=sqlSession.getMapper(healthDao.class);
 		
 		memberDao manager2=sqlSession.getMapper(memberDao.class);
@@ -63,7 +64,9 @@ public class HealthController {
 		int weekday=cal.get(cal.DAY_OF_WEEK);
 		
 		ArrayList<schedule> schList=new ArrayList<>();
-		
+		String message="";
+		mynut vo=new mynut();
+		vo.setId(id);
 		switch(weekday) {
 		case 1:
 			cal.set(Calendar.YEAR, Integer.parseInt(year));
@@ -75,6 +78,8 @@ public class HealthController {
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
 			result.setWeekSunday(weekSunday);
+			vo.setWeekMonday(weekMonday);
+			vo.setWeekSunday(weekSunday);
 			schList=manager2.selectEventByType(result);
 			break;
 		case 2:
@@ -89,6 +94,8 @@ public class HealthController {
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
 			result.setWeekSunday(weekSunday);
+			vo.setWeekMonday(weekMonday);
+			vo.setWeekSunday(weekSunday);
 			schList=manager2.selectEventByType(result);
 			break;
 		case 3:
@@ -103,6 +110,8 @@ public class HealthController {
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
 			result.setWeekSunday(weekSunday);
+			vo.setWeekMonday(weekMonday);
+			vo.setWeekSunday(weekSunday);
 			schList=manager2.selectEventByType(result);
 			break;
 		case 4:
@@ -117,6 +126,8 @@ public class HealthController {
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
 			result.setWeekSunday(weekSunday);
+			vo.setWeekMonday(weekMonday);
+			vo.setWeekSunday(weekSunday);
 			schList=manager2.selectEventByType(result);
 			break;
 		case 5:
@@ -131,6 +142,8 @@ public class HealthController {
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
 			result.setWeekSunday(weekSunday);
+			vo.setWeekMonday(weekMonday);
+			vo.setWeekSunday(weekSunday);
 			schList=manager2.selectEventByType(result);
 			break;
 		case 6:
@@ -145,6 +158,8 @@ public class HealthController {
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
 			result.setWeekSunday(weekSunday);
+			vo.setWeekMonday(weekMonday);
+			vo.setWeekSunday(weekSunday);
 			schList=manager2.selectEventByType(result);
 			break;
 		case 7:
@@ -159,14 +174,69 @@ public class HealthController {
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
 			result.setWeekSunday(weekSunday);
+			vo.setWeekMonday(weekMonday);
+			vo.setWeekSunday(weekSunday);
 			schList=manager2.selectEventByType(result);
 			break;
 		default:
 			break;
 		}
 		
-		System.out.println(schList.size());
+		vo=manager.selectWeekNut(vo);
 		
+		
+		int kacl = vo.getKacl();
+		int carbo = vo.getCarbo();
+		int protein = vo.getProtein();
+		int fat = vo.getFat();
+		int sugar = vo.getSugar();
+		int sodium = vo.getSodium();
+		int cholesterol = vo.getCholesterol();
+		int fatty = vo.getFatty();
+		int transfat = vo.getTransfat();
+		
+		System.out.println("kacl/"+kacl+"carbo/"+carbo+"protein/"+protein+"fat/"+fat+"sugar/"+sugar+"sodium/"+sodium+"cholesterol/"+cholesterol+"fatty/"+fatty+"transfat/"+transfat);
+		int[] nutinfo= {kacl, carbo, protein, fat, sugar, sodium, cholesterol, fatty, transfat};
+		int max=nutinfo[0];
+		
+		for(int i=0; i<nutinfo.length; i++) {
+			if(max<nutinfo[i]) {
+				max=nutinfo[i];
+			}
+		}
+		
+		System.out.println("최대값"+max);
+		if(max<=80) {
+			message="현재 음식 섭취량이 전체적으로 부족합니다. 음식을 섭취해주세요.";
+		}else if(max<=120) {
+			message="건강한 식생활을 하고 계십니다. 앞으로도 쭉 유지해주세요.";
+		}else if(max==kacl) {
+			message="과다한 칼로리 섭취는 체중 증가를 유도하고 비만을 유발합니다. 비만은 만병의 온상이 입니다. 운동을 통해 칼로리를 줄여주세요.";
+		}else if(max==carbo) {
+			message="탄수화물 중독이 의심되네요. 과다하게 섭취하면 비만에 원인이 됩니다.  통밀빵, 콩, 현미, 채소, 과일, 견과류등 혈당지수가 낮은 식품을 섭취하면 좋습니다.";
+		}else if(max==protein) {
+			message="단백질을 과다 섭취하게 되면 단백질 분해 과정에서 체내 질소 노폐물이 많이 형성되어, 노폐물을 걸러 주는 기능을 담당하는 신장에 과도한 부담을 줄 수 있습니다. 무엇이든 적당히 먹는 것을 추천드립니다.";
+		}else if(max==fat) {
+			message="과도한 지방 섭취는 각종 성인병을 발생시킬뿐만 아니라 수면장애, 두뇌활동에도 악영향을 초래합니다. 저지방 식품을 드시는 것을 추천합니다.";
+		}else if(max==sugar) {
+			message="과도한 당의 섭취는 비만, 당뇨, 심뇌혈관질환 및 충치의 원인이 됩니다. 당류 함유량이 높은 음료수는 피해주세요.";
+		}else if(max==sodium) {
+			message="나트륨을 과도하게 섭취하면 혈류량이 늘어 혈압이 높아지고 심장질환, 심혈관질환으로 인한 사망률이 올라갑니다. 채소와 과일을 많이 섭취하시고 국물류 음식의 섭취량을 줄여주세요.";
+		}else if(max==cholesterol) {
+			message="콜레스테롤 과다섭취시 뇌졸중과 심장병 등 생명과 직접적인 관련이 있는 치명적인 질환이 생길 수 있다. 콜레스테롤이 필요 이상으로 많으면 혈관을 좁아지게 만들어 이처럼 치명적인 심뇌혈관 질환의 발생 확률을 높인다.";
+		}else if(max==fatty) {
+			message="포화지방산 과다섭취시 심혈관질환 발병률이 올라갑니다. 버터, 우유, 고기, 계란 등 동물성 식품에 많이 함유되어 있으니 섭취시 주의해주세요.";
+		}else if(max==transfat) {
+			message="트랜스지방 과다섭취시 심혈관질환 발병률이 올라갑니다. 굽거나 기름에 튀긴 음식이 대표적입니다. 또한 일부 식당이나 길거리 포장마차에서 사용하는 수소화 식물유에도 다량의 트랜스지방이 포함되어 있으므로 주의해주세요.";
+		}
+		
+		System.out.println(message);
+		
+		naverNews n = new naverNews();
+	    ArrayList<String[]> article = n.search("쿡기자의 건강톡톡", 5);
+	    model.addAttribute("article",article );
+		
+		model.addAttribute("message", message);
 		session.setAttribute("schList", schList);
 		session.setAttribute("eventtitle", eventtitle);
 		return "health/healthMain";

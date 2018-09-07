@@ -206,7 +206,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -221,7 +223,6 @@
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -278,39 +279,92 @@
     <!-- Main content -->
     <section class="content">
       <div class="row"> 
-		  <!-- TO DO List -->
-          <div class="box box-primary" style="width: 30%;">
+      	  <div class="box box-Danger" style="width: 30%; float:left; margin-right:20px; margin-left:20px;">
+            	<div class="box-header">
+              		<i class="fa fa-fw fa-exclamation"></i>
+	                <h3 class="box-title">Health Advice</h3>
+            	</div>
+            	<div class="box-body">
+            		<br/>
+            		<label class="control-label"><i class="fa fa-heartbeat" style="color: #dd4b39"></i>${message}</label>
+            	</div>
+            	<!-- TO DO List -->
+		          <div class="box box-Danger">
+		            <div class="box-header">
+		              <i class="ion ion-clipboard"></i>
+		
+		              <h3 class="box-title">이번주 Health Schedule</h3>
+		            </div>
+		            <!-- /.box-header -->
+		            <div class="box-body">
+		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+		              <ul class="todo-list">
+			                <c:forEach var="schList" items="${schList}" varStatus="status">
+			                <c:if test="${schList.doornot==1}">
+			                	<li id="${schList.schseq}" class="done">
+			                	<!-- drag handle -->
+			                  <span class="handle">
+			                        <i class="fa fa-ellipsis-v"></i>
+			                        <i class="fa fa-ellipsis-v"></i>
+			                      </span>
+			                  <!-- checkbox -->
+			                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox" checked="checked">
+			                  <!-- todo text -->
+			                  <span class="text">${schList.eventtitle}</span>
+			                  <!-- Emphasis label -->
+			                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+			                </li> 
+			                </c:if>
+			                <c:if test="${schList.doornot==0}">
+			                	<li id="${schList.schseq}">
+			                	<!-- drag handle -->
+			                  <span class="handle">
+			                        <i class="fa fa-ellipsis-v"></i>
+			                        <i class="fa fa-ellipsis-v"></i>
+			                      </span>
+			                  <!-- checkbox -->
+			                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox">
+			                  <!-- todo text -->
+			                  <span class="text">${schList.eventtitle}</span>
+			                  <!-- Emphasis label -->
+			                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+			                </li> 
+			                </c:if>
+			                 
+			                </c:forEach>
+		              </ul>
+		            </div>
+		            <!-- /.box-body -->
+		            <div class="box-footer clearfix no-border">
+		            </div>
+		          </div>
+		          <!-- /.box -->
+          </div> 	
+          
+          <div class="box box-danger" style="width: 60%; float:left; margin-right:20px; ">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
-
-              <h3 class="box-title">이번주 Health Schedule</h3>
+              <h3 class="box-title">Health News</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              <ul class="todo-list">
-	                <c:forEach var="schList" items="${schList}" varStatus="status">
-	                <li id="a${status.count}">
-	                  <!-- drag handle -->
-	                  <span class="handle">
-	                        <i class="fa fa-ellipsis-v"></i>
-	                        <i class="fa fa-ellipsis-v"></i>
-	                      </span>
-	                  <!-- checkbox -->
-	                  <input type="checkbox" class="chkbox">
-	                  <!-- todo text -->
-	                  <span class="text">${schList.eventtitle}<input type="hidden" value="${schList.schseq}" id="schseq"/></span>
-	                  <!-- Emphasis label -->
-	                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.startday}</small>
-	                </li>
-	                </c:forEach>
-              </ul>
+              
+              <c:if test="${empty article}">
+	              <h3> 주요 뉴스가 없습니다.</h3>
+	              </c:if>
+              <c:if test="${!empty article}">
+	      		  <c:forEach var="news" items="${article }">
+				      <ul>
+					      <li><a href="javascript:void(0);" onclick="favorite();"><i class="fa fa-star-o text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+					      <span>${news[2] }</span></li>
+				      </ul>
+			      </c:forEach>
+     		  </c:if>
             </div>
             <!-- /.box-body -->
-            <div class="box-footer clearfix no-border">
-            </div>
           </div>
-          <!-- /.box -->
+		  
       </div>
       <!-- /.row -->
     </section>
@@ -350,6 +404,7 @@
 <!-- fullCalendar -->
 <script src="resources/main/bower_components/moment/moment.js"></script>
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+
 <!-- Page specific script -->
 <script>
 // Get the modal
@@ -377,13 +432,14 @@ var modal = document.getElementById('myModal');
 		  showtime();
 	  },60000);
 	  
+	  
 	  $(".chkbox").change(function(){
-	        if($(".chkbox").is(":checked")){
+	        if($(this).is(":checked")){
 	            $.ajax({
 	            	url:'chkschdule'
 	      			,type:'post'
 	      			,data:{
-	      				"schseq":$('#schseq').val()
+	      				"schseq":$(this).attr('data-rno')
 	      			}
 	      			,success: function (data){
 	    				if(data="success"){
@@ -392,12 +448,12 @@ var modal = document.getElementById('myModal');
 	      			}
 	            })
 	            $(this).parent('li').addClass('done');
-	        }else{
+	        }else if($(this).is(":not(:checked)")){
 	        	 $.ajax({
 		            	url:'unchkschdule'
 		      			,type:'post'
 		      			,data:{
-		      				"schseq":$('#schseq').val()
+		      				"schseq":$(this).attr('data-rno')
 		      			}
 		      			,success: function (data){
 		      				if(data="success"){
@@ -409,6 +465,7 @@ var modal = document.getElementById('myModal');
 	        }
 	  });
 	  
+		
 	  
   })
   

@@ -188,7 +188,7 @@
       </form>
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
+     <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
@@ -211,7 +211,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -226,7 +228,6 @@
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -268,7 +269,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Add Meal
+        Health
         <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
@@ -280,8 +281,12 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-      	
-      	<div>${eatfoodList[0].countday}일의 식단표</div>
+      	<div class="box box-danger" style="margin-left: 20px; margin-right: 20px;">
+      	<div class="box-header">
+              		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
+	                <h3 class="box-title">Meal Table : ${eatfoodList[0].countday}일의 식단표</h3>
+        </div>
+     
 		<table width="100%" class="display" id="example" cellspacing="0">
         <thead>
             <tr>
@@ -323,7 +328,6 @@
         </tbody>
         </table>
         </div>
-        <div>
         
         </div>
       </div>

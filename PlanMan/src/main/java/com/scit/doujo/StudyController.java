@@ -613,7 +613,7 @@ public class StudyController {
 	
 	/* 그룹로비로 이동 */
 	@RequestMapping(value = "/gotoStudy", method = RequestMethod.GET)
-	public String gotoStudy(String eventtitle, HttpSession session) {
+	public String gotoStudy(String eventtitle, HttpSession session, Model model) {
 		memberDao manager2=sqlSession.getMapper(memberDao.class);
 		String id=(String) session.getAttribute("memberID");
 		schedule result=new schedule();
@@ -737,6 +737,18 @@ public class StudyController {
 		}
 		
 		System.out.println(schList.size());
+		
+		int did=manager2.didschcount(result);
+		int allsch=manager2.allschcount(result);
+		System.out.println(did);
+		System.out.println(allsch);
+		double sucesspercent=((double)did/(double)allsch)*100;
+		double failpercent=100-sucesspercent;
+		
+		System.out.println("성공율"+sucesspercent +"실패율"+failpercent);
+		
+		model.addAttribute("sucesspercent", sucesspercent);
+		model.addAttribute("failpercent", failpercent);
 		
 		session.setAttribute("schList", schList);
 		session.setAttribute("eventtitle", eventtitle);

@@ -253,7 +253,7 @@ public class HomeController {
 	@RequestMapping(value = "chkschdule", method = RequestMethod.POST)
 	public @ResponseBody String chkschdule(int schseq, HttpSession session) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
-		System.out.println(schseq);
+		System.out.println("스케쥴완료들어오는 시퀀스"+schseq);
 		int result=manager.didschdule(schseq);
 		
 		if(result!=0) {
@@ -267,7 +267,7 @@ public class HomeController {
 	@RequestMapping(value = "unchkschdule", method = RequestMethod.POST)
 	public @ResponseBody String unchkschdule(int schseq, HttpSession session) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
-		System.out.println(schseq);
+		System.out.println("스케쥴해제들어오는 시퀀스"+schseq);
 		int result=manager.didnotschdule(schseq);
 		
 		if(result!=0) {

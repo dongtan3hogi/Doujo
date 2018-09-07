@@ -290,7 +290,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -305,7 +307,6 @@
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -347,7 +348,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Add Meal
+        Health
         <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
@@ -379,14 +380,19 @@
         		섭취일 <input type="text" style="width: 150px;" class="datepicker" id="eatday" > 
         	</div>
         	<br/>
-        	<div id="sch-button" align="right"><input type="submit" id="addMeal" style="width: 200px;" value="음식 입력하기" class="btn btn-block btn-primary" onclick="return addMealChk()"/></div>
+        	<div id="sch-button" align="right"><input type="submit" id="addMeal" style="width: 200px;" value="음식 입력하기" class="btn btn-block btn-Danger" onclick="return addMealChk()"/></div>
         </div>
     </div>
 
     <!-- Main content -->
     <section class="content">
       <div class="row">
-    	<div align="right">날짜 선택 : <input type="text" style="width: 150px;" class="datepicker" name="countday" id="addActDay" ><input type="button" class="btn btn-primary" id="addActivity" value="활동 입력하기"></div>
+      	<div class="box box-danger" style="margin-left: 20px; margin-right: 20px;">
+      	<div class="box-header">
+              		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
+	                <h3 class="box-title">Add Activity</h3>
+        </div>
+    	<div align="right">날짜 선택 : <input type="text" style="width: 150px;" class="datepicker" name="countday" id="addActDay" ><input type="button" class="btn btn-Danger" id="addActivity" value="활동 입력하기"></div>
     	
     	<div id="actType">
 		 	<input id="tab1" value="걷기" type="radio" name="tabs" class="tab">
@@ -428,12 +434,8 @@
 			<div><img src="./resources/main/images/sp_pwalk.png" style="width:80%; height:250px;"></div>-->
 		</div>
 		
-		
-      	
-      	
-		<div>
+      	</div>
         
-        </div>
       </div>
       <!-- /.row -->
     </section>

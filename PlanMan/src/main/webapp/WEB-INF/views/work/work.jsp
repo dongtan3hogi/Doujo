@@ -22,6 +22,8 @@
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- Date Picker -->
+  <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
 
 <!-- head -->
 </head>
@@ -206,8 +208,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-                      <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Calendar</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -222,7 +225,6 @@
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -277,38 +279,15 @@
     <section class="content">
       <div class="row">
         <div class="col-md-3">
-          <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Button</a>
-
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">Title02</h3>
-
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-              <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="goWork1"><i class="fa fa-inbox"></i> HOME
-                  <span class="label label-primary pull-right">12</span></a></li>
-                <li><a href="goNewsMap"><i class="fa fa-envelope-o"></i> NEWS</a></li>
-                <li><a href="#"><i class="fa fa-file-text-o"></i> MAILS</a></li>
-              
-              </ul>
-            </div>
-            
-            
-            <!-- /.box-body -->
-          </div>
+          
           <!-- /. box -->
          <div class="box box-solid">
             <div class="box-header with-border">
               <h3 class="box-title">MEMO</h3>
 
               <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
+                <input type="button" class="datepicker">
+                </input>
               </div>
             </div>
             <div class="box-body no-padding">
@@ -328,7 +307,7 @@
         <div class="col-md-9">
           
       	  <!-- general form elements disabled -->
-          <div class="box box-primary">
+          <div class="box box-Warning">
             <div class="box-header with-border">
               <h3 class="box-title">Work Memo list</h3>
             </div>
@@ -594,12 +573,18 @@
 <script src="resources/main/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="resources/main/dist/js/demo.js"></script>
+<!-- datepicker -->
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- fullCalendar -->
 <script src="resources/main/bower_components/moment/moment.js"></script>
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
+	  $('.datepicker').datepicker({
+			dateFormat: 'yy-mm-dd'
+	  });
+	  
 	  
 	  var today = new Date();
 		var mm= today.getMonth()+1; 

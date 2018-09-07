@@ -45,7 +45,6 @@
   	<!-- 오늘 스케쥴 가져오기 -->
 	<select id="selectTodaySch" parameterType="Schedule" resultType="Schedule">
 		select * from schedule where id=#{id} and to_date(#{enddaytime},'YYYY-MM-DD HH24:MI') >= startday and endday >= to_date(#{startdaytime},'YYYY-MM-DD HH24:MI') order by startday
-<<<<<<< HEAD
 	</select>
 	
 	<!-- 이번주 스케쥴 가져오기(이벤트 타입별로) -->
@@ -62,13 +61,17 @@
 	<!-- 스케쥴 완료 해제하기 -->
 	<update id="didnotschdule" parameterType="int">
 		update schedule set doornot=0 where schseq=#{schseq}
-	</update> 	
+	</update>
 	
-=======
-	</select>  	
-	 <select id="selectEventByType" parameterType="Schedule" resultType="Schedule">
-      select * from schedule
-       where id=#{id} and eventtype=#{eventtype} and startday >= to_date(#{weekMonday},'YYYY-MM-DD') and to_date(#{weekSunday},'YYYY-MM-DD') >= startday order by startday
-   </select>
->>>>>>> work
+	<!-- 완료한 스케쥴가져오기 -->
+	<select id="didschcount" parameterType="Schedule" resultType="int">
+		select count(*) from schedule where id=#{id} and eventtype=#{eventtype} and doornot=1
+	</select>
+	
+	<!-- 스케쥴 전부 가져오기 -->
+	<select id="allschcount" parameterType="Schedule" resultType="int">
+		select count(*) from schedule where id=#{id} and eventtype=#{eventtype}
+	</select> 	
+	
+
 </mapper>

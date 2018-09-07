@@ -416,7 +416,9 @@ $(document).on("click",".friendBtn",function(){
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -431,7 +433,6 @@ $(document).on("click",".friendBtn",function(){
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -484,156 +485,103 @@ $(document).on("click",".friendBtn",function(){
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-        
-        <div class="col-md-3">
-          <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Button</a>
-
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">Title02</h3>
-
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-              <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="goWork1"><i class="fa fa-inbox"></i> HOME
-                  <span class="label label-primary pull-right">12</span></a></li>
-                <li><a href="goNewsMap"><i class="fa fa-envelope-o"></i> NEWS</a></li>
-                <li><a href="#"><i class="fa fa-file-text-o"></i> MAILS</a></li>
-                
-                </li>
-              </ul>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /. box -->
-          
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title"><a href="goMemo">MEMO</a></h3>
-
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-            <h5 class="box-title">오늘의 메모</h5>
-           
-           <textarea id ="memo" value="text" style="min-width: 95%;"></textarea> <br/>
-           <input type="button" value="저장" id="saveMemo">
-           
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /. box -->
-          
-          
-        </div>
-        <!-- /.col -->
-        <div class="col-md-9">
-          
+      <div class="row">         
+      	 
       	  <!-- general form elements disabled -->
-          <div class="box box-primary">
+          <div class="box box-Warning" style="margin-left: 20px; width: 90%;'">
             <div class="box-header with-border">
               <h3 class="box-title">뉴스를 검색해 주세요 (${type })</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
+          <div class="box-body">
 		    <!--The div element for the map -->
- 		   <input type="text" id="search"  >&nbsp<input type="button" onclick="goSearch()"value="검색">&nbsp <select id='src'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>-->
-        <select id='target'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>
-        &nbsp<input type="button" id="translate" value="번역"><br>
-        <c:if test="${!empty result}">
-		<c:forEach var="news" items="${result }">
-		<ul>
-		<li><a href="${news[1] }" target="_blank">${news[0] }</a><br>
-		<span>${news[2] }</span></li>
-		</ul>
-		</c:forEach>
-		<div class="boardfooter">
-		<c:if test="${navi.currentPage <= 5 }">
-		◁◁
-		</c:if>
-		<c:if test="${navi.currentPage > 5 }">
-		<a href="javascript:void(0);" onclick="goPage(${navi.currentPage-navi.pagePerGroup})">
-		◁◁</a>
-		</c:if>
-		<c:if test="${navi.currentPage > 1}">
-		<a href="javascript:void(0);" onclick="goPage(${navi.currentPage-1 })">◀</a>		</c:if>
-		<c:if test="${navi.currentPage <= 1 }">
-		◀
-		</c:if>
-		
-		<c:forEach var="page" begin = "${navi.startPageGroup}" end="${navi.endPageGroup}">
-		<c:if test="${navi.currentPage == page}">
-		<a href="javascript:void(0);" onclick="goPage(${page })" style="color : red">${page}</a> &nbsp;
-		</c:if>
-		<c:if test="${navi.currentPage != page}">
-		<a href="javascript:void(0);" onclick="goPage(${page })">${page }</a> &nbsp;
-		</c:if>	<!-- &nbsp;한칸 띄어주는 거  -->
-		</c:forEach>
-		<c:if test="${navi.currentPage < navi.totalPageCount }">
-		<a href="javascript:void(0);" onclick="goPage(${navi.currentPage+1 })">▶</a>
-		</c:if>
-		<c:if test="${navi.currentPage >= navi.totalPageCount }">
-		▶
-		</c:if>
-		<c:if test="${navi.currentPage <= navi.totalPageCount-5 }">
-		<a href="javascript:void(0);" onclick="goPage(${navi.currentPage+navi.pagePerGroup})">
-		▷▷</a>
-		</c:if>
-		<c:if test="${navi.currentPage > navi.totalPageCount-5 }">
-		▷▷
-		</c:if>
-		</div>
-		</c:if>
+		    <input type="text" id="search"  >&nbsp<input type="button" onclick="goSearch()"value="검색">&nbsp <select id='src'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>-->
+	        <select id='target'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>
+	        &nbsp<input type="button" id="translate" value="번역"><br>
+	        <c:if test="${!empty result}">
+			<c:forEach var="news" items="${result }">
+			<ul>
+			<li><a href="${news[1] }" target="_blank">${news[0] }</a><br>
+			<span>${news[2] }</span></li>
+			</ul>
+			</c:forEach>
+			<div class="boardfooter">
+			<c:if test="${navi.currentPage <= 5 }">
+			◁◁
+			</c:if>
+			<c:if test="${navi.currentPage > 5 }">
+			<a href="javascript:void(0);" onclick="goPage(${navi.currentPage-navi.pagePerGroup})">
+			◁◁</a>
+			</c:if>
+			<c:if test="${navi.currentPage > 1}">
+			<a href="javascript:void(0);" onclick="goPage(${navi.currentPage-1 })">◀</a>		</c:if>
+			<c:if test="${navi.currentPage <= 1 }">
+			◀
+			</c:if>
+			
+			<c:forEach var="page" begin = "${navi.startPageGroup}" end="${navi.endPageGroup}">
+			<c:if test="${navi.currentPage == page}">
+			<a href="javascript:void(0);" onclick="goPage(${page })" style="color : red">${page}</a> &nbsp;
+			</c:if>
+			<c:if test="${navi.currentPage != page}">
+			<a href="javascript:void(0);" onclick="goPage(${page })">${page }</a> &nbsp;
+			</c:if>	<!-- &nbsp;한칸 띄어주는 거  -->
+			</c:forEach>
+			<c:if test="${navi.currentPage < navi.totalPageCount }">
+			<a href="javascript:void(0);" onclick="goPage(${navi.currentPage+1 })">▶</a>
+			</c:if>
+			<c:if test="${navi.currentPage >= navi.totalPageCount }">
+			▶
+			</c:if>
+			<c:if test="${navi.currentPage <= navi.totalPageCount-5 }">
+			<a href="javascript:void(0);" onclick="goPage(${navi.currentPage+navi.pagePerGroup})">
+			▷▷</a>
+			</c:if>
+			<c:if test="${navi.currentPage > navi.totalPageCount-5 }">
+			▷▷
+			</c:if>
+			</div>
+			</c:if>
             </div>
             
             
             <!-- /.box-body -->
           </div>
-          <div class="box box-primary">
+          <div class="box box-Warning" style="margin-left: 20px; width: 90%;'">
             <div class="box-header with-border">
               <h3 class="box-title"><a id="keylist" href="javascript:;">내가 검색한 단어들</a></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
             <div class="row">
-
-        <div class="col-md-3 col-sm-6 mb-4" id="list0">
-          
-        </div>
-        <div class="col-md-3 col-sm-6 mb-4" id="list1">         
-        </div>
-        <div class="col-md-3 col-sm-6 mb-4" id="list2">
-        </div>
-        <div class="col-md-3 col-sm-6 mb-4" id="list3">          
-        </div>
-      </div>
-            </div>  
-            <div class="box-header with-border">
-              <h3 class="box-title"><a href="javascript:;">다른 사람들 키워드 검색	</a></h3>
-            </div>
-            <div class="row2">
-     <form id= "ff"  method="post">
-		성별:&nbsp<select name="sex"><option value="둘다">상관없음</option><option value="남">남자</option><option value="여">여자</option></select>
-  나이:&nbsp<select name="age"><option value="0">상관없음</option><option value="10">10대</option><option value="20">20대</option><option value="30">30대</option><option value="40">40대</option><option value="50">50대 이상</option></select>
-&nbsp<input type="submit" value="찾기" >
-</form>
-<div class="col-md-3 col-sm-6 mb-4" id="friendlist"></div>
-  <div class="col-md-3 col-sm-6 mb-4" id="flist0">
-        </div>
-
-      </div>
+			        <div class="col-md-3 col-sm-6 mb-4" id="list0">
+			          
+			        </div>
+			        <div class="col-md-3 col-sm-6 mb-4" id="list1">         
+			        </div>
+			        <div class="col-md-3 col-sm-6 mb-4" id="list2">
+			        </div>
+			        <div class="col-md-3 col-sm-6 mb-4" id="list3">          
+			        </div>
+			      </div>
+			            </div>  
+			            <div class="box-header with-border">
+			              <h3 class="box-title"><a href="javascript:;">다른 사람들 키워드 검색	</a></h3>
+			            </div>
+			            <div class="row2">
+			     <form id= "ff"  method="post">
+					성별:&nbsp<select name="sex"><option value="둘다">상관없음</option><option value="남">남자</option><option value="여">여자</option></select>
+			  나이:&nbsp<select name="age"><option value="0">상관없음</option><option value="10">10대</option><option value="20">20대</option><option value="30">30대</option><option value="40">40대</option><option value="50">50대 이상</option></select>
+			&nbsp<input type="submit" value="찾기" >
+			</form>
+			<div class="col-md-3 col-sm-6 mb-4" id="friendlist"></div>
+			  <div class="col-md-3 col-sm-6 mb-4" id="flist0">
+			        </div>
+			
+			      </div>
           </div>
           <!-- /. box -->
-        </div>
-        <!-- /.col -->
+        
       </div>
       <!-- /.row -->
     </section>
@@ -655,196 +603,6 @@ $(document).on("click",".friendBtn",function(){
     reserved.
   </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Create the tabs -->
-    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <!-- Home tab content -->
-      <div class="tab-pane" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">Recent Activity</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                <p>Will be 23 on April 24th</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-user bg-yellow"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
-
-                <p>New phone +1(800)555-1234</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
-
-                <p>nora@example.com</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-file-code-o bg-green"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
-
-                <p>Execution time 5 seconds</p>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Custom Template Design
-                <span class="label label-danger pull-right">70%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Update Resume
-                <span class="label label-success pull-right">95%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Laravel Integration
-                <span class="label label-warning pull-right">50%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Back End Framework
-                <span class="label label-primary pull-right">68%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-      </div>
-      <!-- /.tab-pane -->
-      <!-- Stats tab content -->
-      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-      <!-- /.tab-pane -->
-      <!-- Settings tab content -->
-      <div class="tab-pane" id="control-sidebar-settings-tab">
-        <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Report panel usage
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Some information about this general settings option
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Allow mail redirect
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Other sets of options are available
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Expose author name in posts
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Allow the user to show his name in blog posts
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <h3 class="control-sidebar-heading">Chat Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Show me as online
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Turn off notifications
-              <input type="checkbox" class="pull-right">
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Delete chat history
-              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
-            </label>
-          </div>
-          <!-- /.form-group -->
-        </form>
-      </div>
-      <!-- /.tab-pane -->
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>

@@ -203,7 +203,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -218,7 +220,6 @@
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -268,7 +269,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Timeline</li>
+        <li class="active">Study</li>
       </ol>
     </section>
 
@@ -276,7 +277,7 @@
     <section class="content">
       <div class="row"> 
 		  <!-- TO DO List -->
-          <div class="box box-primary" style="width: 30%;">
+          <div class="box box-info" style="width: 30%; float:left; margin-right:20px; margin-left:20px;">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
 
@@ -286,28 +287,90 @@
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list">
-	                <c:forEach var="schList" items="${schList}" varStatus="status">
-	                <li id="a${status.count}">
-	                  <!-- drag handle -->
+	                  <c:forEach var="schList" items="${schList}" varStatus="status">
+	                <c:if test="${schList.doornot==1}">
+	                	<li id="${schList.schseq}" class="done">
+	                	<!-- drag handle -->
 	                  <span class="handle">
 	                        <i class="fa fa-ellipsis-v"></i>
 	                        <i class="fa fa-ellipsis-v"></i>
 	                      </span>
 	                  <!-- checkbox -->
-	                  <input type="checkbox" class="chkbox">
+	                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox" checked="checked">
 	                  <!-- todo text -->
-	                  <span class="text">${schList.eventtitle}<input type="hidden" value="${schList.schseq}" id="schseq"/></span>
+	                  <span class="text">${schList.eventtitle}</span>
 	                  <!-- Emphasis label -->
-	                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.startday}</small>
-	                </li>
+	                  <small class="label label-info"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+	                </li> 
+	                </c:if>
+	                <c:if test="${schList.doornot==0}">
+	                	<li id="${schList.schseq}">
+	                	<!-- drag handle -->
+	                  <span class="handle">
+	                        <i class="fa fa-ellipsis-v"></i>
+	                        <i class="fa fa-ellipsis-v"></i>
+	                      </span>
+	                  <!-- checkbox -->
+	                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox">
+	                  <!-- todo text -->
+	                  <span class="text">${schList.eventtitle}</span>
+	                  <!-- Emphasis label -->
+	                  <small class="label label-info"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+	                </li> 
+	                </c:if>
+	                 
 	                </c:forEach>
               </ul>
             </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix no-border">
             </div>
+              <!-- DONUT CHART -->
+	          <div class="box box-info">
+	            <div class="box-header with-border">
+	              <h3 class="box-title">스케쥴 진행률</h3>
+	
+	              <div class="box-tools pull-right">
+	                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+	                </button>
+	                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+	              </div>
+	            </div>
+	            <div class="box-body">
+	              <input type="hidden" id="failpercent" value="${failpercent}">	
+	              <input type="hidden" id="sucesspercent" value="${sucesspercent}">	
+	              <canvas id="pieChart" style="height:250px"></canvas>
+	            </div>
+	            <!-- /.box-body -->
+	          </div>
+	          <!-- /.box -->
           </div>
           <!-- /.box -->
+          
+          <div class="box box-info" style="width: 60%; float:left; margin-right:20px; ">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Study Information</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+	              <div align="center" style="font-size: 24px;">
+		              ${sessionScope.member.id}님 환영합니다. PlanMan입니다.
+		              <br/>                 
+		                               공부하고 싶은 과목을 선택해 주세요
+              	  </div>
+              	  <br/>
+              	  <div style="display: inline;">
+	              	  <input type="button" class="btn btn-block btn-info" id="English" style="width: 100px; display: inline; margin-left: 170px;" value="English" />
+	              	  <input type="button" class="btn btn-block btn-info" id="Japanese" style="width: 100px; display: inline; margin-left: 10px;" value="Japanese" />
+	              	  <input type="button" class="btn btn-block btn-info" id="Chinese" style="width: 100px; display: inline; margin-left: 10px;" value="Chinese" />
+	              	  <input type="button" class="btn btn-block btn-info" id="Computer" style="width: 100px; display: inline; margin-left: 10px;" value="Computer" />
+              	  </div>
+              	  <br/>
+            </div>
+            <!-- /.box-body -->
+          </div>
       </div>
       <!-- /.row -->
     </section>
@@ -344,7 +407,8 @@
 <script src="resources/main/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="resources/main/dist/js/demo.js"></script>
-
+<!-- ChartJS -->
+<script src="resources/main/bower_components/chart.js/Chart.js"></script>
 <!-- Page specific script -->
 <script>
 // Get the modal
@@ -373,12 +437,12 @@ var modal = document.getElementById('myModal');
 	  },60000);
 	  
 	  $(".chkbox").change(function(){
-	        if($(".chkbox").is(":checked")){
+	        if($(this).is(":checked")){
 	            $.ajax({
 	            	url:'chkschdule'
 	      			,type:'post'
 	      			,data:{
-	      				"schseq":$('#schseq').val()
+	      				"schseq":$(this).attr('data-rno')
 	      			}
 	      			,success: function (data){
 	    				if(data="success"){
@@ -387,12 +451,12 @@ var modal = document.getElementById('myModal');
 	      			}
 	            })
 	            $(this).parent('li').addClass('done');
-	        }else{
+	        }else if($(this).is(":not(:checked)")){
 	        	 $.ajax({
 		            	url:'unchkschdule'
 		      			,type:'post'
 		      			,data:{
-		      				"schseq":$('#schseq').val()
+		      				"schseq":$(this).attr('data-rno')
 		      			}
 		      			,success: function (data){
 		      				if(data="success"){
@@ -402,9 +466,73 @@ var modal = document.getElementById('myModal');
 		        })
 	            $(this).parent('li').removeClass('done');
 	        }
+	        location.reload();	
 	  });
 	  
-	  
+		//-------------
+	    //- PIE CHART -
+	    //-------------
+	    // Get context with jQuery - using jQuery's .get() method.
+	    var sucesspercent=$('#sucesspercent').val();
+	    var failpercent=$('#failpercent').val();
+	    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+	    var pieChart       = new Chart(pieChartCanvas)
+	    var PieData        = [
+	      {
+	        value    : Math.round(sucesspercent*100)/100,
+	        color    : '#00c0ef',
+	        highlight: '#00c0ef',
+	        label    : '완료'
+	      },
+	      {
+	        value    : Math.round(failpercent*100)/100,
+	        color    : '#f56954',
+	        highlight: '#f56954',
+	        label    : '미완료'
+	      }
+	    ]
+	    var pieOptions     = {
+	      //Boolean - Whether we should show a stroke on each segment
+	      segmentShowStroke    : true,
+	      //String - The colour of each segment stroke
+	      segmentStrokeColor   : '#fff',
+	      //Number - The width of each segment stroke
+	      segmentStrokeWidth   : 2,
+	      //Number - The percentage of the chart that we cut out of the middle
+	      percentageInnerCutout: 50, // This is 0 for Pie charts
+	      //Number - Amount of animation steps
+	      animationSteps       : 100,
+	      //String - Animation easing effect
+	      animationEasing      : 'easeOutBounce',
+	      //Boolean - Whether we animate the rotation of the Doughnut
+	      animateRotate        : true,
+	      //Boolean - Whether we animate scaling the Doughnut from the centre
+	      animateScale         : false,
+	      //Boolean - whether to make the chart responsive to window resizing
+	      responsive           : true,
+	      // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+	      maintainAspectRatio  : true,
+	    }
+	    //Create pie or douhnut chart
+	    // You can switch between pie and douhnut using the method below.
+	    pieChart.Doughnut(PieData, pieOptions)
+	    
+	    $('#English').on('click',function(){
+	    	alert("English");
+	    });
+	    
+	    $('#Japanese').on('click',function(){
+	    	alert("Japanese");
+	    });
+	    
+	    $('#Chinese').on('click',function(){
+	    	alert("Chinese");
+	    });
+	    
+	    $('#Computer').on('click',function(){
+	    	alert("Computer");
+	    });
+	    
   })
   
   function showtime(){

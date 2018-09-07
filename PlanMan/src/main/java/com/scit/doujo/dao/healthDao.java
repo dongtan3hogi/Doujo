@@ -44,6 +44,7 @@ public interface healthDao {
 	//이번달 영양정보 가져오기
 	public mynut selectMonthNut(mynut result);
 	
+	
 
 	//public void insertInputFood(food object);
 	//음식불러오기

@@ -287,7 +287,7 @@ function check() {
         <div class="pull-left image">
           <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
-        <div class="pull-left info">
+        <div class="pull-left Primary">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -327,7 +327,9 @@ function check() {
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -342,7 +344,6 @@ function check() {
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -389,11 +390,11 @@ function check() {
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
-					Title01 <small>설명이 설명설명</small>
+					Study <small>Quiz room</small>
 				</h1>
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-					<li class="active">title</li>
+					<li class="active">study</li>
 				</ol>
 			</section>
 
@@ -401,9 +402,6 @@ function check() {
 			<section class="content">
 				<div class="row">
 					<div class="col-md-3">
-						<a href="compose.html"
-							class="btn btn-primary btn-block margin-bottom">Button</a>
-
 						<div class="box box-solid">
 							<div class="box-header with-border">
 								<h3 class="box-title">STUDY</h3>
@@ -422,7 +420,7 @@ function check() {
 											<a href="gotoQuiz">
 												<i class="fa fa-inbox"></i>
 												QUIZ
-												<span class="label label-primary pull-right">12</span>
+												<span class="label label-Primary pull-right">12</span>
 											</a>
 										</li>
 										<li class="active">
@@ -455,7 +453,7 @@ function check() {
 					<div class="col-md-9">
 
 						<!-- general form elements disabled -->
-						<div class="box box-primary">
+						<div class="box box-Primary">
 							<div class="box-header with-border">
 								<h3 class="box-title">Insert the Quiz</h3>
 							</div>
@@ -523,7 +521,7 @@ function check() {
 									</div>
 
 
-									<a href="" class="btn btn-primary btn-block margin-bottom"
+									<a href="" class="btn btn-Primary btn-block margin-bottom"
 										onclick="check()">Button</a>
 
 
@@ -579,7 +577,7 @@ function check() {
 					<li><a href="javascript:void(0)"> <i
 							class="menu-icon fa fa-birthday-cake bg-red"></i>
 
-							<div class="menu-info">
+							<div class="menu-Primary">
 								<h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
 
 								<p>Will be 23 on April 24th</p>
@@ -588,7 +586,7 @@ function check() {
 					<li><a href="javascript:void(0)"> <i
 							class="menu-icon fa fa-user bg-yellow"></i>
 
-							<div class="menu-info">
+							<div class="menu-Primary">
 								<h4 class="control-sidebar-subheading">Frodo Updated His
 									Profile</h4>
 
@@ -598,7 +596,7 @@ function check() {
 					<li><a href="javascript:void(0)"> <i
 							class="menu-icon fa fa-envelope-o bg-light-blue"></i>
 
-							<div class="menu-info">
+							<div class="menu-Primary">
 								<h4 class="control-sidebar-subheading">Nora Joined Mailing
 									List</h4>
 
@@ -608,7 +606,7 @@ function check() {
 					<li><a href="javascript:void(0)"> <i
 							class="menu-icon fa fa-file-code-o bg-green"></i>
 
-							<div class="menu-info">
+							<div class="menu-Primary">
 								<h4 class="control-sidebar-subheading">Cron Job 254
 									Executed</h4>
 
@@ -652,11 +650,11 @@ function check() {
 					</a></li>
 					<li><a href="javascript:void(0)">
 							<h4 class="control-sidebar-subheading">
-								Back End Framework <span class="label label-primary pull-right">68%</span>
+								Back End Framework <span class="label label-Primary pull-right">68%</span>
 							</h4>
 
 							<div class="progress progress-xxs">
-								<div class="progress-bar progress-bar-primary"
+								<div class="progress-bar progress-bar-Primary"
 									style="width: 68%"></div>
 							</div>
 					</a></li>
@@ -679,7 +677,7 @@ function check() {
 							usage <input type="checkbox" class="pull-right" checked>
 						</label>
 
-						<p>Some information about this general settings option</p>
+						<p>Some Primaryrmation about this general settings option</p>
 					</div>
 					<!-- /.form-group -->
 
@@ -834,8 +832,8 @@ function check() {
           start          : new Date(y, m, d, 12, 0), 
           end            : new Date(y, m, d, 14, 0), 
           allDay         : false, 
-          backgroundColor: '#00c0ef', //Info (aqua) 
-          borderColor    : '#00c0ef' //Info (aqua) 
+          backgroundColor: '#00c0ef', //Primary (aqua) 
+          borderColor    : '#00c0ef' //Primary (aqua) 
         }, 
         { 
           title          : 'Birthday Party', 
