@@ -13,6 +13,7 @@
 		<typeAlias type="com.scit.doujo.vo.work.keylist" alias="keylist"/>
 		<typeAlias type="com.scit.doujo.vo.work.count" alias="count"/>
 		<typeAlias type="com.scit.doujo.vo.work.friendquery" alias="fquery"/>
+		<typeAlias type="com.scit.doujo.vo.work.favorites" alias="favorites"/>
 	</typeAliases>
 	
 	<mappers>

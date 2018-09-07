@@ -1,4 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<% pageContext.setAttribute("br","<br/>");
+	pageContext.setAttribute("cn","\n");%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -79,6 +82,8 @@ function goSearch2(key){
 $(document).ready(function(){
 $('#saveMemo').click(function(){
 	var memo = $('#memo').val();
+	memo= memo.replace("\r\n","<br>");
+	alert(memo);
 	var today = new Date();
 	var mm= today.getMonth()+1; 
 	var dd =today.getDate();

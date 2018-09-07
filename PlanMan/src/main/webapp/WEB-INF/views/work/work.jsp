@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -281,13 +282,13 @@
         <div class="col-md-3">
           
           <!-- /. box -->
-         <div class="box box-solid">
+         <div class="box box-solid" >
             <div class="box-header with-border">
               <h3 class="box-title">MEMO</h3>
 
               <div class="box-tools">
-                <input type="button" class="datepicker">
-                </input>
+            
+                <input type="button" class="datepicker"  ></input>
               </div>
             </div>
             <div class="box-body no-padding">
@@ -578,14 +579,46 @@
 <!-- fullCalendar -->
 <script src="resources/main/bower_components/moment/moment.js"></script>
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<!-- datepicker -->
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
-	  $('.datepicker').datepicker({
-			dateFormat: 'yy-mm-dd'
-	  });
-	  
-	  
+	  $( ".datepicker" ).datepicker({
+	       
+	       changeMonth: true, 
+	       changeYear: true,
+	       nextText: "다음 달",
+	       prevText: "이전 달" ,
+	       dateFormat: "yy-mm-dd",
+	       onSelect: function(dateText) {  
+	    	   alert(dateText);
+	    	   $.ajax({
+	    		   url:'findmemo',
+	    		    type: 'post',
+	    		    data: {
+	    		    	'id': '${sessionScope.member.id}', 'startdate': dateText
+	    		    },
+	    		    success: function(data){
+	    				if(data==null)	{
+	    					alert("메모가 없습니다");	    			
+	    		            }else{
+	    		            	if(dateText==td){
+   	    		            	$('#memoTitle').html("오늘의 메모");
+	    		            	}else{
+   	    		            	$('#memoTitle').html(dateText+"의 메모");            		
+	    		            	}
+	    		            	$('#memo').val(data.memo);
+	    		            }
+	    				},
+	    		    error: function() {
+	    		      alert('there was an error while fetching events!');
+	    		    }
+     		  });
+	    	     }
+
+	 });
+	   
 	  var today = new Date();
 		var mm= today.getMonth()+1; 
 		var dd =today.getDate();
@@ -707,6 +740,7 @@
         	    		            		
     	    		            	}
     	    		            	temp=event.start.format();
+    	    		            	
     	    		            	$('#memo').val(data.memo);
     	    		            }
     	    				},
@@ -745,6 +779,8 @@
     });
    $('#saveMemo').click(function(){
 		var memo = $('#memo').val();
+		
+		
 		var today = new Date();
 		var mm= today.getMonth()+1; 
 		var dd =today.getDate();
@@ -770,6 +806,7 @@
 			}
 		});
 		});
+  
   });
 </script>
 </body>

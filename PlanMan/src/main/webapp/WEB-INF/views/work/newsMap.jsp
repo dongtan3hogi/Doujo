@@ -29,6 +29,7 @@
 $(document).ready(function(){
 $('#saveMemo').click(function(){
 	var memo = $('#memo').val();
+	memo= memo.replace("\r\n","\<br>");
 	alert(memo);
 	var today = new Date();
 	var mm= today.getMonth()+1; 

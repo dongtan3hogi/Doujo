@@ -206,6 +206,10 @@
             </span>
           </a>
           <ul class="treeview-menu">
+<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
+            </ul>
 			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
             <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
             <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
@@ -280,6 +284,8 @@
         <!-- /.col -->
         
           
+      	  <!-- general form elements disabled -->
+          <div class="box box-primary" style="width: 30%; float:left;margin-right:20px;">
            <!-- general form elements disabled -->
           <div class="box box-warning" style="width: 30%; float:left; margin-right:20px;">
             <div class="box-header">
@@ -380,9 +386,27 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
+    <div class="box box-primary" style="width: 20%; ">
+            <div class="box-header ">
+              <h3 class="box-title">즐겨찾기</h3>
+            </div>
+            <div class="box-body no-padding">
+          <ul>
+         		<c:forEach var='fcheck' items="${fcheck }">
+         		<li><a href="javascript:void(0);"><i class="fa fa-star text-yellow"></i></a>&nbsp;&nbsp;<a href="${fcheck.locations }" target="_blank">${fcheck.title }</a><br>
+		<span>${news[2] }</span></li>
+		</c:forEach>
+
+          </ul>
+           
+            </div>
+            <!-- /.box-body -->
+          </div>
   </div>
   <!-- /.content-wrapper -->
-  
+      
+    
+ 
 
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
