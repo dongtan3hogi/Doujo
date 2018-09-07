@@ -256,6 +256,7 @@ public class WorkController {
 	@RequestMapping(value = "/deleteFavorites", method = RequestMethod.POST)
 	public @ResponseBody int deleteFavorites( favorites fv) {
 		workDao um= sqlSession.getMapper(workDao.class);
+		System.out.println(fv.toString());
 		int mm = um.deleteFavorites(fv);
 		return mm;
 		
