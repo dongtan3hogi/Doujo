@@ -18,11 +18,7 @@ CREATE TABLE member (
     daykacl NUMBER
 );
 
-<<<<<<< HEAD
-=======
-insert into member values('abc123', 'abc123', 'abc123', '도우조', 'male', '30', '학생', null, null, null,null);
 
->>>>>>> work
 CREATE TABLE schedule(
     schseq NUMBER NOT NULL,
 	id VARCHAR2(20) NOT NULL,
@@ -33,6 +29,7 @@ CREATE TABLE schedule(
 	endday DATE NOT NULL,
     starttime VARCHAR2(20),
     endtime VARCHAR2(20),
+    doornot NUMBER CHECK (doornot in (0, 1)),
     
 	constraint fk_schdule foreign key (id)
     references member (id)

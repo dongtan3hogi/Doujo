@@ -22,45 +22,6 @@
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  
-   <style type="text/css">
-	 /* The Modal (background) */
-     .modal {
-         display: none; /* Hidden by default */
-         position: fixed; /* Stay in place */
-         z-index: 999; /* Sit on top */
-         left: 0;
-         top: 0;
-         width: 100%; /* Full width */
-         height: 100%; /* Full height */
-         overflow: auto; /* Enable scroll if needed */
-         background-color: rgb(0,0,0); /* Fallback color */
-         background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
-     }
- 
-     /* Modal Content/Box */
-     .modal-content {
-         background-color: #fefefe;
-         margin: 15% auto; /* 15% from the top and centered */
-         padding: 20px;
-         border: 1px solid #888;
-         width: 30%; /* Could be more or less, depending on screen size */                          
-     }
-     /* The Close Button */
-     .close {
-         color: #aaa;
-         float: right;
-         font-size: 28px;
-         font-weight: bold;
-     }
-     .close:hover,
-     .close:focus {
-         color: black;
-         text-decoration: none;
-         cursor: pointer;
-     }
-     
-  </style>	
   	
 <!-- head -->
 </head>
@@ -232,8 +193,9 @@
             </span>
           </a>
           <ul class="treeview-menu"> 
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
-            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
+            <li><a href="gotoStudy"><i class="fa fa-circle-o text-aqua"></i> Study Main</a></li> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -244,7 +206,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -259,7 +223,6 @@
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -296,26 +259,7 @@
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
   
-  	<!-- The Modal -->
-    <div id="myModal" class="modal">
- 
-    	<!-- Modal content -->
-    	<form action="addHeightWeight" method="post">
-        <div class="modal-content">
-        	<div>${sessionScope.member.id}님 환영합니다.</div>
-        	<div>키와 몸무게를 입력해주세요.</div>
-        	<br/>
-        	<br/>
-        	<div>키</div> 
-        	<div><input type="number" style="width: 100px; height: 30px;" name="height" id="height">cm</div>
-        	<br/>
-        	<div>몸무게</div>  
-        	<div><input type="number" style="width: 100px; height: 30px;" name="weight" id="weight">kg</div>
-        	<br/>
-        	<div id="sch-button" align="right"><input type="submit" id="addbodyInfo" style="width: 200px;" value="입력하기" class="btn btn-block btn-primary" onclick="return addbodyInfo()"/></div>
-        </div>
-    </div>
-  	</form>
+  
   	
   	
   <!-- Content Wrapper. Contains page content -->
@@ -335,7 +279,92 @@
     <!-- Main content -->
     <section class="content">
       <div class="row"> 
-			<h1>뉴스들어올 자리</h1>
+      	  <div class="box box-Danger" style="width: 30%; float:left; margin-right:20px; margin-left:20px;">
+            	<div class="box-header">
+              		<i class="fa fa-fw fa-exclamation"></i>
+	                <h3 class="box-title">Health Advice</h3>
+            	</div>
+            	<div class="box-body">
+            		<br/>
+            		<label class="control-label"><i class="fa fa-heartbeat" style="color: #dd4b39"></i>${message}</label>
+            	</div>
+            	<!-- TO DO List -->
+		          <div class="box box-Danger">
+		            <div class="box-header">
+		              <i class="ion ion-clipboard"></i>
+		
+		              <h3 class="box-title">이번주 Health Schedule</h3>
+		            </div>
+		            <!-- /.box-header -->
+		            <div class="box-body">
+		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+		              <ul class="todo-list">
+			                <c:forEach var="schList" items="${schList}" varStatus="status">
+			                <c:if test="${schList.doornot==1}">
+			                	<li id="${schList.schseq}" class="done">
+			                	<!-- drag handle -->
+			                  <span class="handle">
+			                        <i class="fa fa-ellipsis-v"></i>
+			                        <i class="fa fa-ellipsis-v"></i>
+			                      </span>
+			                  <!-- checkbox -->
+			                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox" checked="checked">
+			                  <!-- todo text -->
+			                  <span class="text">${schList.eventtitle}</span>
+			                  <!-- Emphasis label -->
+			                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+			                </li> 
+			                </c:if>
+			                <c:if test="${schList.doornot==0}">
+			                	<li id="${schList.schseq}">
+			                	<!-- drag handle -->
+			                  <span class="handle">
+			                        <i class="fa fa-ellipsis-v"></i>
+			                        <i class="fa fa-ellipsis-v"></i>
+			                      </span>
+			                  <!-- checkbox -->
+			                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox">
+			                  <!-- todo text -->
+			                  <span class="text">${schList.eventtitle}</span>
+			                  <!-- Emphasis label -->
+			                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+			                </li> 
+			                </c:if>
+			                 
+			                </c:forEach>
+		              </ul>
+		            </div>
+		            <!-- /.box-body -->
+		            <div class="box-footer clearfix no-border">
+		            </div>
+		          </div>
+		          <!-- /.box -->
+          </div> 	
+          
+          <div class="box box-danger" style="width: 60%; float:left; margin-right:20px; ">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Health News</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              
+              <c:if test="${empty article}">
+	              <h3> 주요 뉴스가 없습니다.</h3>
+	              </c:if>
+              <c:if test="${!empty article}">
+	      		  <c:forEach var="news" items="${article }">
+				      <ul>
+					      <li><a href="javascript:void(0);" onclick="favorite();"><i class="fa fa-star-o text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+					      <span>${news[2] }</span></li>
+				      </ul>
+			      </c:forEach>
+     		  </c:if>
+            </div>
+            <!-- /.box-body -->
+          </div>
+		  
       </div>
       <!-- /.row -->
     </section>
@@ -375,6 +404,7 @@
 <!-- fullCalendar -->
 <script src="resources/main/bower_components/moment/moment.js"></script>
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+
 <!-- Page specific script -->
 <script>
 // Get the modal
@@ -401,6 +431,41 @@ var modal = document.getElementById('myModal');
 	  setInterval(function(){
 		  showtime();
 	  },60000);
+	  
+	  
+	  $(".chkbox").change(function(){
+	        if($(this).is(":checked")){
+	            $.ajax({
+	            	url:'chkschdule'
+	      			,type:'post'
+	      			,data:{
+	      				"schseq":$(this).attr('data-rno')
+	      			}
+	      			,success: function (data){
+	    				if(data="success"){
+	    					alert("스케쥴 확인완료!")
+	    				}	
+	      			}
+	            })
+	            $(this).parent('li').addClass('done');
+	        }else if($(this).is(":not(:checked)")){
+	        	 $.ajax({
+		            	url:'unchkschdule'
+		      			,type:'post'
+		      			,data:{
+		      				"schseq":$(this).attr('data-rno')
+		      			}
+		      			,success: function (data){
+		      				if(data="success"){
+		    					alert("스케쥴 해제하기!")
+		    				}	
+		      			}
+		        })
+	            $(this).parent('li').removeClass('done');
+	        }
+	  });
+	  
+		
 	  
   })
   

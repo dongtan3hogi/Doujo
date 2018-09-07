@@ -7,6 +7,7 @@ import com.scit.doujo.vo.eatfood;
 import com.scit.doujo.vo.food;
 import com.scit.doujo.vo.member;
 import com.scit.doujo.vo.mynut;
+import com.scit.doujo.vo.schedule;
 
 public interface healthDao {
 
@@ -42,6 +43,7 @@ public interface healthDao {
 	public mynut selectWeekNut(mynut result);
 	//이번달 영양정보 가져오기
 	public mynut selectMonthNut(mynut result);
+	
 	
 
 	//public void insertInputFood(food object);

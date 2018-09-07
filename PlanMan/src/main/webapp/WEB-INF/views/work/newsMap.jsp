@@ -231,7 +231,7 @@ $('#saveMemo').click(function(){
       </form>
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
+     <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
@@ -241,8 +241,9 @@ $('#saveMemo').click(function(){
             </span>
           </a>
           <ul class="treeview-menu"> 
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
-            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
+            <li><a href="gotoStudy"><i class="fa fa-circle-o text-aqua"></i> Study Main</a></li> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -253,9 +254,9 @@ $('#saveMemo').click(function(){
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
             <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li> 
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -270,7 +271,6 @@ $('#saveMemo').click(function(){
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -324,168 +324,117 @@ $('#saveMemo').click(function(){
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-md-3">
-          <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Button</a>
-
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">Title02</h3>
-
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-              <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="goWork1"><i class="fa fa-inbox"></i> HOME
-                  <span class="label label-primary pull-right">12</span></a></li>
-                <li><a href="goNews"><i class="fa fa-envelope-o"></i> NEWS</a></li>
-                <li><a href="#"><i class="fa fa-file-text-o"></i> MAILS</a></li>
-                
-                </li>
-              </ul>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /. box -->
-          
-           <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">MEMO</h3>
-
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-            <h5 class="box-title">오늘의 메모</h5>
-           
-           <textarea id ="memo"rows="20" value="text"  style="min-width: 95%;"></textarea> <br/>
-           <input type="button" value="저장" id="saveMemo">
-           
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /. box -->
-          
-          
-        </div>
-        <!-- /.col -->
-        <div class="col-md-9">
           
       	  <!-- general form elements disabled -->
-          <div class="box box-primary">
+          <div class="box box-Warning" style="margin-left: 20px; width: 90%;'">
             <div class="box-header with-border">
               <h3 class="box-title">여러 나라 뉴스 검색</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <label>뉴스나 검색엔진 선택</label><select id="selectNews" class="form-control" ><option></option><option>naver</option><option>BBC</option><option>NewYorkTimes</option><option>nhk</option><option>inmin</option><option>google</option><option>baidu</option></select>
-    <br/><br/><!--The div element for the map -->
-    <div id="map"></div>
-    <script>
-    
-    var uk = {lat: 51.507, lng:  -0.127};
-	  var usa = {lat: 40.664, lng: -73.938};
-	  var korea = {lat:37.541, lng: 126.986};
-	//  var china = {lat:38.037057, lng:114.468665};
-	  var japan = {lat: 35.41, lng: 139.46};
-	  var google = {lat: 37.3993, lng: -122.079}
-	  var baidu= {lat: 39.9035, lng: 116.388}
-	  var pList=[];
-	  pList.push(usa);
-	  pList.push(korea);
-	//  pList.push(china);
-	  pList.push(uk);
-	  pList.push(japan);
-	  pList.push(google);
-	  pList.push(baidu);
-    function initMap() { 
-		var choose="";
-		var prev_infowindow=false;
-	  var map = new google.maps.Map(
-	      document.getElementById('map'), {zoom: 2, center: korea});
-	  for (var i = 0; i < 6; i++) {
-          // init markers
-          var marker = new google.maps.Marker({
-              position: pList[i],
-              map: map,
-              
-          });
+			    <br/><br/><!--The div element for the map -->
+			    <div id="map"></div>
+			    <script>
+			    
+			    var uk = {lat: 51.507, lng:  -0.127};
+				  var usa = {lat: 40.664, lng: -73.938};
+				  var korea = {lat:37.541, lng: 126.986};
+				//  var china = {lat:38.037057, lng:114.468665};
+				  var japan = {lat: 35.41, lng: 139.46};
+				  var google = {lat: 37.3993, lng: -122.079}
+				  var baidu= {lat: 39.9035, lng: 116.388}
+				  var pList=[];
+				  pList.push(usa);
+				  pList.push(korea);
+				//  pList.push(china);
+				  pList.push(uk);
+				  pList.push(japan);
+				  pList.push(google);
+				  pList.push(baidu);
+			    function initMap() { 
+					var choose="";
+					var prev_infowindow=false;
+				  var map = new google.maps.Map(
+				      document.getElementById('map'), {zoom: 2, center: korea});
+				  for (var i = 0; i < 6; i++) {
+			          // init markers
+			          var marker = new google.maps.Marker({
+			              position: pList[i],
+			              map: map,
+			              
+         		});
 
-          // process multiple info windows
-          (function(marker, i) {
-              // add click event
-              
-              google.maps.event.addListener(marker, 'click', function() {
-            	  
-            	  if(i==0)choose="NewYorkTimes";
-                  else if(i==1)choose="naver";
-                  else if(i==2)choose="BBC";
-                  else if(i==3)choose="yahoo";
-                  else if(i==4)choose="google";
-                  else if(i==5)choose="baidu";
-            	  
-                  infowindow = new google.maps.InfoWindow({
-                      content: "<a href='goNews?type="+choose+"' >" + choose + "</a>" + '<br>' + "<img width='80' src='./resources/work/"+choose+".png' >",
-                    		  maxWidth:300
-                  });
-                  if( prev_infowindow ) {
-                	  prev_infowindow.close();
-                   }
-                  prev_infowindow = infowindow;
-                  infowindow.open(map, marker);
-              });
-          })(marker, i);
-      }
-	  $( "#selectNews" ).change(function() {
-		  choose=$(this).val();
-	    	  if($(this).val()=="naver"){
-	    		  var center = new google.maps.LatLng(korea);
-	    		  map.panTo(center);
-	    		  map.setZoom(10);
-	    	  }else if($(this).val()=="BBC"){
-	    		  var center = new google.maps.LatLng(uk);
-	    		  map.panTo(center);
-	    		  map.setZoom(10);
-	    	  }else if($(this).val()=="NewYorkTimes"){
-	    		  var center = new google.maps.LatLng(usa);
-	    		  map.panTo(center);
-	    		  map.setZoom(10);
-	    	  }else if($(this).val()=="yahoo"){
-	    		  var center = new google.maps.LatLng(japan);
-	    		  map.panTo(center);
-	    		  map.setZoom(10);
-	    	  }else if($(this).val()=="google"){
-	    		  var center = new google.maps.LatLng(google);
-	    		  map.panTo(center);
-	    		  map.setZoom(10);
-	    	  }
-	    	  else if($(this).val()=="baidu"){
-	    		  var center = new google.maps.LatLng(baidu);
-	    		  map.panTo(center);
-	    		  map.setZoom(10);
-	    	  }
-	    	  else{
-	    		  var center = new google.maps.LatLng(korea);
-	    		  map.panTo(center);
-	    		  map.setZoom(2);
-	    	  }
-	    	});
-	}
-
-    </script>
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&callback=initMap"
-  type="text/javascript"></script>
+		          // process multiple info windows
+		          (function(marker, i) {
+		              // add click event
+		              
+		              google.maps.event.addListener(marker, 'click', function() {
+		            	  
+		            	  if(i==0)choose="NewYorkTimes";
+		                  else if(i==1)choose="naver";
+		                  else if(i==2)choose="BBC";
+		                  else if(i==3)choose="yahoo";
+		                  else if(i==4)choose="google";
+		                  else if(i==5)choose="baidu";
+		            	  
+		                  infowindow = new google.maps.InfoWindow({
+		                      content: "<a href='goNews?type="+choose+"' >" + choose + "</a>" + '<br>' + "<img width='80' src='./resources/work/"+choose+".png' >",
+		                    		  maxWidth:300
+		                  });
+		                  if( prev_infowindow ) {
+		                	  prev_infowindow.close();
+		                   }
+		                  prev_infowindow = infowindow;
+		                  infowindow.open(map, marker);
+		              });
+		          })(marker, i);
+		      }
+				  
+			  $( "#selectNews" ).change(function() {
+				  choose=$(this).val();
+			    	  if($(this).val()=="naver"){
+			    		  var center = new google.maps.LatLng(korea);
+			    		  map.panTo(center);
+			    		  map.setZoom(10);
+			    	  }else if($(this).val()=="BBC"){
+			    		  var center = new google.maps.LatLng(uk);
+			    		  map.panTo(center);
+			    		  map.setZoom(10);
+			    	  }else if($(this).val()=="NewYorkTimes"){
+			    		  var center = new google.maps.LatLng(usa);
+			    		  map.panTo(center);
+			    		  map.setZoom(10);
+			    	  }else if($(this).val()=="yahoo"){
+			    		  var center = new google.maps.LatLng(japan);
+			    		  map.panTo(center);
+			    		  map.setZoom(10);
+			    	  }else if($(this).val()=="google"){
+			    		  var center = new google.maps.LatLng(google);
+			    		  map.panTo(center);
+			    		  map.setZoom(10);
+			    	  }
+			    	  else if($(this).val()=="baidu"){
+			    		  var center = new google.maps.LatLng(baidu);
+			    		  map.panTo(center);
+			    		  map.setZoom(10);
+			    	  }
+			    	  else{
+			    		  var center = new google.maps.LatLng(korea);
+			    		  map.panTo(center);
+			    		  map.setZoom(2);
+			    	  }
+			    	});
+			 }
+	
+	   	 	  </script>
+	    	  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&callback=initMap" type="text/javascript"></script>
             </div>
             <!-- /.box-body -->
           </div>
             
           <!-- /. box -->
-        </div>
-        <!-- /.col -->
+      
       </div>
       <!-- /.row -->
     </section>
@@ -507,196 +456,7 @@ $('#saveMemo').click(function(){
     reserved.
   </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Create the tabs -->
-    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <!-- Home tab content -->
-      <div class="tab-pane" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">Recent Activity</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                <p>Will be 23 on April 24th</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-user bg-yellow"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
-
-                <p>New phone +1(800)555-1234</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
-
-                <p>nora@example.com</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-file-code-o bg-green"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
-
-                <p>Execution time 5 seconds</p>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Custom Template Design
-                <span class="label label-danger pull-right">70%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Update Resume
-                <span class="label label-success pull-right">95%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Laravel Integration
-                <span class="label label-warning pull-right">50%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Back End Framework
-                <span class="label label-primary pull-right">68%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-      </div>
-      <!-- /.tab-pane -->
-      <!-- Stats tab content -->
-      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-      <!-- /.tab-pane -->
-      <!-- Settings tab content -->
-      <div class="tab-pane" id="control-sidebar-settings-tab">
-        <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Report panel usage
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Some information about this general settings option
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Allow mail redirect
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Other sets of options are available
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Expose author name in posts
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Allow the user to show his name in blog posts
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <h3 class="control-sidebar-heading">Chat Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Show me as online
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Turn off notifications
-              <input type="checkbox" class="pull-right">
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Delete chat history
-              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
-            </label>
-          </div>
-          <!-- /.form-group -->
-        </form>
-      </div>
-      <!-- /.tab-pane -->
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>

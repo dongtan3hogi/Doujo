@@ -80,5 +80,6 @@
  		select avg(kacl) kacl, avg(carbo) carbo, avg(protein) protein, avg(fat) fat, avg(sugar) sugar, avg(sodium) sodium, avg(cholesterol) cholesterol, avg(fatty) fatty, avg(transfat) transfat
  		from health_Mynut where id=#{id} and COUNTDAY between to_date(#{monthstartday},'YYYY-MM-DD') and to_date(#{monthendday},'YYYY-MM-DD')
  	</select>
+ 
  	
 </mapper>

@@ -13,62 +13,13 @@
   <link rel="stylesheet" href="resources/main/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="resources/main/bower_components/Ionicons/css/ionicons.min.css">
-  <!-- dataTable -->
-  <link rel="stylesheet" type="text/css"  href="resources/main/bower_components/datatable/css/datatables.css">
-  <!-- fullCalendar -->
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css">
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
   <!-- Theme style -->
   <link rel="stylesheet" href="resources/main/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <!-- Date Picker -->
-  <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
-
- <style type="text/css">
-	 /* The Modal (background) */
-     .modal {
-         display: none; /* Hidden by default */
-         position: fixed; /* Stay in place */
-         z-index: 999; /* Sit on top */
-         left: 0;
-         top: 0;
-         width: 100%; /* Full width */
-         height: 100%; /* Full height */
-         overflow: auto; /* Enable scroll if needed */
-         background-color: rgb(0,0,0); /* Fallback color */
-         background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
-     }
- 
-     /* Modal Content/Box */
-     .modal-content {
-         background-color: #fefefe;
-         margin: 15% auto; /* 15% from the top and centered */
-         padding: 20px;
-         border: 1px solid #888;
-         width: 30%; /* Could be more or less, depending on screen size */                          
-     }
-     /* The Close Button */
-     .close {
-         color: #aaa;
-         float: right;
-         font-size: 28px;
-         font-weight: bold;
-     }
-     .close:hover,
-     .close:focus {
-         color: black;
-         text-decoration: none;
-         cursor: pointer;
-     }
-     
-     form{
-     	display: inline;
-     }
-  </style>	
-
+  	
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -305,212 +256,121 @@
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
   
+  
+  	
+  	
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Health
+        Study
         <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Timeline</li>
+        <li class="active">Study</li>
       </ol>
     </section>
-	
-	<!-- The Modal -->
-    <div id="myModal" class="modal">
- 
-    	<!-- Modal content -->
-        <div class="modal-content">
-        	<span class="close">&times;</span>
-        	
-        	<div>
-        		<input type="hidden" id="foodnum">
-        	</div>
-        	<br/>
-        	<div>
-        		음식이름  :  <span id="fName"></span> 
-        	</div>
-        	<br/>
-        	<div>
-        		섭취량    <input type="number" style="width: 50px; height: 30px;" id="fGram" >g
-        	</div>
-        	<br/>
-        	<div>
-        		섭취일 <input type="text" style="width: 150px;" class="datepicker" id="eatday" > 
-        	</div>
-        	<br/>
-        	<div id="sch-button" align="right"><input type="submit" id="addMeal" style="width: 200px;" value="음식 입력하기" class="btn btn-block btn-Danger" onclick="return addMealChk()"/></div>
-        </div>
-    </div>
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-      	  <div class="box box-danger" style="margin-left: 20px; margin-right: 20px;">
-      	  <div class="box-header">
-              		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
-	                <h3 class="box-title">My Nutrition</h3>
-          </div>
-      	  <form action="gotoNutrition" method="get">
-    	  <input type="submit" class="btn btn-Danger" value="오늘의 영양정보 보기">
-    	  </form>
-    	  <form action="showWeekNut" method="get">
-    	  <input type="hidden" value="${countday}" name="countday">
-    	  <input type="submit" class="btn btn-Danger" value="이번주 영양정보 보기">
-    	  </form>
-    	  <form action="showMonthNut" method="get">
-    	  <input type="hidden" value="${countday}" name="countday">
-    	  <input type="submit" class="btn btn-Danger" 	value="이번달 영양정보 보기">
-    	  </form>	
-    	  <div class="box">
+      <div class="row"> 
+		  <!-- TO DO List -->
+          <div class="box box-info" style="width: 30%; float:left; margin-right:20px; margin-left:20px;">
             <div class="box-header">
-              <h3 class="box-title">${countday}일의 영양정보</h3>
+              <i class="ion ion-clipboard"></i>
+
+              <h3 class="box-title">이번주 Study Schedule</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body no-padding">
-              <table class="table table-striped">
-                <tr>
-                  <th style="width: 5%;">순번</th>
-                  <th style="width: 15%;">영양소</th>
-                  <th style="width: 70%;">1일 권장량 대비 섭취율</th>
-                  <th style="width: 10%">영양상태</th>
-                </tr>
-                <tr>
-                  <td>1.</td>
-                  <td>칼로리</td>
-                  <td>
-                    <div class="progress progress-xs">
-                      <c:if test="${mynut.kacl<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.kacl}%"></div></c:if>
-                      <c:if test="${mynut.kacl>100}"><div class="progress-bar progress-bar-danger" style="width: ${mynut.kacl}%"></div></c:if>
-                    </div>
-                  </td>
-                  <td>
-                  	<c:if test="${mynut.kacl<=100}"><span class="badge bg-green">${mynut.kacl}%</span></c:if>
-                  	<c:if test="${mynut.kacl>100}"><span class="badge bg-red">Danger/${mynut.kacl}%</span></c:if>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2.</td>
-                  <td>탄수화물</td>
-                  <td>
-                    <div class="progress progress-xs">
-                      <c:if test="${mynut.carbo<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.carbo}%"></div></c:if>
-                      <c:if test="${mynut.carbo>100}"><div class="progress-bar progress-bar-danger" style="width: ${mynut.carbo}%"></div></c:if>
-                    </div>
-                  </td>
-                  <td>
-                  	<c:if test="${mynut.carbo<=100}"><span class="badge bg-green">${mynut.carbo}%</span></c:if>
-                  	<c:if test="${mynut.carbo>100}"><span class="badge bg-red">Danger/${mynut.carbo}%</span></c:if>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3.</td>
-                  <td>단백질</td>
-                  <td>
-                    <div class="progress progress-xs progress-striped active">
-                     <c:if test="${mynut.protein<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.protein}%"></div></c:if>
-                     <c:if test="${mynut.protein>100}"><div class="progress-bar progress-bar-danger" style="width: ${mynut.protein}%"></div></c:if>
-                    </div>
-                  </td>
-                  <td>
-                  	<c:if test="${mynut.protein<=100}"><span class="badge bg-green">${mynut.protein}%</span></c:if>
-                  	<c:if test="${mynut.protein>100}"><span class="badge bg-red">Danger/${mynut.protein}%</span></c:if>
-                  </td>
-                </tr>
-                <tr>
-                  <td>4.</td>
-                  <td>지방</td>
-                  <td>
-                    <div class="progress progress-xs progress-striped active">
-                     <c:if test="${mynut.fat<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.fat}%"></div></c:if>
-                     <c:if test="${mynut.fat>100}"><div class="progress-bar progress-bar-danger" style="width: ${mynut.fat}%"></div></c:if>
-                    </div>
-                  </td>
-                  <td>
-                  	<c:if test="${mynut.fat<=100}"><span class="badge bg-green">${mynut.fat}%</span></c:if>
-                  	<c:if test="${mynut.fat>100}"><span class="badge bg-red">Danger/${mynut.fat}%</span></c:if>
-                  </td>
-                </tr>
-                <tr>
-                  <td>5.</td>
-                  <td>당류</td>
-                  <td>
-                    <div class="progress progress-xs">
-                     <c:if test="${mynut.sugar<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.sugar}%"></div></c:if>
-                     <c:if test="${mynut.sugar>100}"><div class="progress-bar progress-bar-danger" style="width: ${mynut.sugar}%"></div></c:if>
-                    </div>
-                  </td>
-                  <td>
-                  	<c:if test="${mynut.sugar<=100}"><span class="badge bg-green">${mynut.sugar}%</span></c:if>
-                  	<c:if test="${mynut.sugar>100}"><span class="badge bg-red">Danger/${mynut.sugar}%</span></c:if>
-                  </td>
-                </tr>
-                <tr>
-                  <td>6.</td>
-                  <td>나트륨</td>
-                  <td>
-                    <div class="progress progress-xs">
-                     <c:if test="${mynut.sodium<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.sodium}%"></div></c:if>
-                     <c:if test="${mynut.sodium>100}"><div class="progress-bar progress-bar-danger" style="width: ${mynut.sodium}%"></div></c:if>
-                    </div>
-                  </td>
-                  <td>
-                  	<c:if test="${mynut.sodium<=100}"><span class="badge bg-green">${mynut.sodium}%</span></c:if>
-                  	<c:if test="${mynut.sodium>100}"><span class="badge bg-red">Danger/${mynut.sodium}%</span></c:if>
-                  </td>
-                </tr>
-                <tr>
-                  <td>7.</td>
-                  <td>콜레스테롤</td>
-                  <td>
-                    <div class="progress progress-xs progress-striped active">
-                     <c:if test="${mynut.cholesterol<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.cholesterol}%"></div></c:if>
-                     <c:if test="${mynut.cholesterol>100}"><div class="progress-bar progress-bar-danger" style="width: ${mynut.cholesterol}%"></div></c:if>
-                    </div>
-                  </td>
-                  <td>
-                  	<c:if test="${mynut.cholesterol<=100}"><span class="badge bg-green">${mynut.cholesterol}%</span></c:if>
-                  	<c:if test="${mynut.cholesterol>100}"><span class="badge bg-red">Danger/${mynut.cholesterol}%</span></c:if>
-                  </td>
-                </tr>
-                <tr>
-                  <td>8.</td>
-                  <td>불포화지방</td>
-                  <td>
-                    <div class="progress progress-xs progress-striped active">
-                     <c:if test="${mynut.fatty<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.fatty}%"></div></c:if>
-                     <c:if test="${mynut.fatty>100}"><div class="progress-bar progress-bar-danger" style="width: ${mynut.fatty}%"></div></c:if>
-                    </div>
-                  </td>
-                  <td>
-                  	<c:if test="${mynut.fatty<=100}"><span class="badge bg-green">${mynut.fatty}%</span></c:if>
-                  	<c:if test="${mynut.fatty>100}"><span class="badge bg-red">Danger/${mynut.fatty}%</span></c:if>
-                  </td>
-                </tr>
-                <tr>
-                  <td>9.</td>
-                  <td>트랜스지방</td>
-                  <td>
-                    <div class="progress progress-xs progress-striped active">
-                     <c:if test="${mynut.transfat<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.transfat}%"></div></c:if>
-                     <c:if test="${mynut.transfat>100}"><div class="progress-bar progress-bar-danger" style="width: ${mynut.transfat}%"></div></c:if>
-                    </div>
-                  </td>
-                  <td>
-                  	<c:if test="${mynut.transfat<=100}"><span class="badge bg-green">${mynut.transfat}%</span></c:if>
-                  	<c:if test="${mynut.transfat>100}"><span class="badge bg-red">Danger/${mynut.transfat}%</span></c:if>
-                  </td>
-                </tr>
-              </table>
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              <ul class="todo-list">
+	                  <c:forEach var="schList" items="${schList}" varStatus="status">
+	                <c:if test="${schList.doornot==1}">
+	                	<li id="${schList.schseq}" class="done">
+	                	<!-- drag handle -->
+	                  <span class="handle">
+	                        <i class="fa fa-ellipsis-v"></i>
+	                        <i class="fa fa-ellipsis-v"></i>
+	                      </span>
+	                  <!-- checkbox -->
+	                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox" checked="checked">
+	                  <!-- todo text -->
+	                  <span class="text">${schList.eventtitle}</span>
+	                  <!-- Emphasis label -->
+	                  <small class="label label-info"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+	                </li> 
+	                </c:if>
+	                <c:if test="${schList.doornot==0}">
+	                	<li id="${schList.schseq}">
+	                	<!-- drag handle -->
+	                  <span class="handle">
+	                        <i class="fa fa-ellipsis-v"></i>
+	                        <i class="fa fa-ellipsis-v"></i>
+	                      </span>
+	                  <!-- checkbox -->
+	                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox">
+	                  <!-- todo text -->
+	                  <span class="text">${schList.eventtitle}</span>
+	                  <!-- Emphasis label -->
+	                  <small class="label label-info"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+	                </li> 
+	                </c:if>
+	                 
+	                </c:forEach>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+            </div>
+              <!-- DONUT CHART -->
+	          <div class="box box-info">
+	            <div class="box-header with-border">
+	              <h3 class="box-title">스케쥴 진행률</h3>
+	
+	              <div class="box-tools pull-right">
+	                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+	                </button>
+	                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+	              </div>
+	            </div>
+	            <div class="box-body">
+	              <input type="hidden" id="failpercent" value="${failpercent}">	
+	              <input type="hidden" id="sucesspercent" value="${sucesspercent}">	
+	              <canvas id="pieChart" style="height:250px"></canvas>
+	            </div>
+	            <!-- /.box-body -->
+	          </div>
+	          <!-- /.box -->
+          </div>
+          <!-- /.box -->
+          
+          <div class="box box-info" style="width: 60%; float:left; margin-right:20px; ">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Study Information</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+	              <div align="center" style="font-size: 24px;">
+		              ${sessionScope.member.id}님 환영합니다. PlanMan입니다.
+		              <br/>                 
+		                               공부하고 싶은 과목을 선택해 주세요
+              	  </div>
+              	  <br/>
+              	  <div style="display: inline;">
+	              	  <input type="button" class="btn btn-block btn-info" id="English" style="width: 100px; display: inline; margin-left: 170px;" value="English" />
+	              	  <input type="button" class="btn btn-block btn-info" id="Japanese" style="width: 100px; display: inline; margin-left: 10px;" value="Japanese" />
+	              	  <input type="button" class="btn btn-block btn-info" id="Chinese" style="width: 100px; display: inline; margin-left: 10px;" value="Chinese" />
+	              	  <input type="button" class="btn btn-block btn-info" id="Computer" style="width: 100px; display: inline; margin-left: 10px;" value="Computer" />
+              	  </div>
+              	  <br/>
             </div>
             <!-- /.box-body -->
           </div>
-          <!-- /.box -->
-       
- 		</div>
       </div>
       <!-- /.row -->
     </section>
@@ -547,35 +407,132 @@
 <script src="resources/main/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="resources/main/dist/js/demo.js"></script>
-<!-- fullCalendar -->
-<script src="resources/main/bower_components/moment/moment.js"></script>
-<script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
-<!-- dataTable -->
-<script type="text/javascript" src="resources/main/bower_components/datatable/js/datatables.js"></script>
-<!-- datepicker -->
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- ChartJS -->
+<script src="resources/main/bower_components/chart.js/Chart.js"></script>
 <!-- Page specific script -->
 <script>
-//Get the modal
+// Get the modal
 var modal = document.getElementById('myModal');
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
   $(function () {
-	  
-	  $('.datepicker').datepicker({
-			dateFormat: 'yy-mm-dd'
-	  });
-	  
 	  showtime();
+	  
+	  $.ajax({
+			 url:"chkBodyInfo"
+			 ,type:"get"
+			 ,success: function(data){
+				 
+				 if(data=="empty"){
+					modal.style.display = "block";
+				 }
+			 }
+		     ,error: function(){
+		    	 alert("통신실패");
+		     }
+	  });
 	  
 	  
 	  setInterval(function(){
 		  showtime();
 	  },60000);
 	  
+	  $(".chkbox").change(function(){
+	        if($(this).is(":checked")){
+	            $.ajax({
+	            	url:'chkschdule'
+	      			,type:'post'
+	      			,data:{
+	      				"schseq":$(this).attr('data-rno')
+	      			}
+	      			,success: function (data){
+	    				if(data="success"){
+	    					alert("스케쥴 확인완료!")
+	    				}	
+	      			}
+	            })
+	            $(this).parent('li').addClass('done');
+	        }else if($(this).is(":not(:checked)")){
+	        	 $.ajax({
+		            	url:'unchkschdule'
+		      			,type:'post'
+		      			,data:{
+		      				"schseq":$(this).attr('data-rno')
+		      			}
+		      			,success: function (data){
+		      				if(data="success"){
+		    					alert("스케쥴 해제하기!")
+		    				}	
+		      			}
+		        })
+	            $(this).parent('li').removeClass('done');
+	        }
+	        location.reload();	
+	  });
 	  
+		//-------------
+	    //- PIE CHART -
+	    //-------------
+	    // Get context with jQuery - using jQuery's .get() method.
+	    var sucesspercent=$('#sucesspercent').val();
+	    var failpercent=$('#failpercent').val();
+	    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+	    var pieChart       = new Chart(pieChartCanvas)
+	    var PieData        = [
+	      {
+	        value    : Math.round(sucesspercent*100)/100,
+	        color    : '#00c0ef',
+	        highlight: '#00c0ef',
+	        label    : '완료'
+	      },
+	      {
+	        value    : Math.round(failpercent*100)/100,
+	        color    : '#f56954',
+	        highlight: '#f56954',
+	        label    : '미완료'
+	      }
+	    ]
+	    var pieOptions     = {
+	      //Boolean - Whether we should show a stroke on each segment
+	      segmentShowStroke    : true,
+	      //String - The colour of each segment stroke
+	      segmentStrokeColor   : '#fff',
+	      //Number - The width of each segment stroke
+	      segmentStrokeWidth   : 2,
+	      //Number - The percentage of the chart that we cut out of the middle
+	      percentageInnerCutout: 50, // This is 0 for Pie charts
+	      //Number - Amount of animation steps
+	      animationSteps       : 100,
+	      //String - Animation easing effect
+	      animationEasing      : 'easeOutBounce',
+	      //Boolean - Whether we animate the rotation of the Doughnut
+	      animateRotate        : true,
+	      //Boolean - Whether we animate scaling the Doughnut from the centre
+	      animateScale         : false,
+	      //Boolean - whether to make the chart responsive to window resizing
+	      responsive           : true,
+	      // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+	      maintainAspectRatio  : true,
+	    }
+	    //Create pie or douhnut chart
+	    // You can switch between pie and douhnut using the method below.
+	    pieChart.Doughnut(PieData, pieOptions)
+	    
+	    $('#English').on('click',function(){
+	    	alert("English");
+	    });
+	    
+	    $('#Japanese').on('click',function(){
+	    	alert("Japanese");
+	    });
+	    
+	    $('#Chinese').on('click',function(){
+	    	alert("Chinese");
+	    });
+	    
+	    $('#Computer').on('click',function(){
+	    	alert("Computer");
+	    });
+	    
   })
   
   function showtime(){
@@ -597,6 +554,8 @@ var span = document.getElementsByClassName("close")[0];
 	  }
 	  return zero + num;
   }
+  
+ 
 </script>
 </body>
 </html>

@@ -237,8 +237,9 @@
             </span>
           </a>
           <ul class="treeview-menu"> 
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
-            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
+            <li><a href="gotoStudy"><i class="fa fa-circle-o text-aqua"></i> Study Main</a></li> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -249,7 +250,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -264,7 +267,6 @@
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -306,7 +308,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Add Meal
+        Health
         <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
@@ -338,149 +340,153 @@
         		섭취일 <input type="text" style="width: 150px;" class="datepicker" id="eatday" > 
         	</div>
         	<br/>
-        	<div id="sch-button" align="right"><input type="submit" id="addMeal" style="width: 200px;" value="음식 입력하기" class="btn btn-block btn-primary" onclick="return addMealChk()"/></div>
+        	<div id="sch-button" align="right"><input type="submit" id="addMeal" style="width: 200px;" value="음식 입력하기" class="btn btn-block btn-Danger" onclick="return addMealChk()"/></div>
         </div>
     </div>
 
     <!-- Main content -->
     <section class="content">
       <div class="row">
-      	<div> 
-      	<br/>
-      	<form action="gotoMeal" method="get">
-      	<div>식품군
-      	<select name="FDGRP_NM">
-      		<option selected="selected">${foodgroup}</option>
-      		<option value="가공유류">가공유류</option>\
-      		<option value="감자 및 전분류">감자 및 전분류</option>
-      		<option value="견과류">견과류</option>
-      		<option value="곡류 및 그 제품">곡류 및 그 제품</option>
-      		<option value="곡류, 서류 제품">곡류, 서류 제품</option>
-      		<option value="과실류">과실류</option>
-      		<option value="과일·채소류음료">과일·채소류음료</option>
-      		<option value="과일류">과일류</option>
-      		<option value="과자">과자</option>
-      		<option value="과자류">과자류</option>
-      		<option value="구이류">구이류</option>
-      		<option value="국 및 탕류">국 및 탕류</option>
-      		<option value="기타">기타</option>
-      		<option value="기타음료">기타음료</option>
-      		<option value="김치류">김치류</option>
-      		<option value="나물/숙채류">나물/숙채류</option>
-      		<option value="난류">난류</option>
-      		<option value="농축유류">농축유류</option>
-      		<option value="다류">다류</option>
-      		<option value="당류">당류</option>
-      		<option value="당류 및 그 제품">당류 및 그 제품</option>
-      		<option value="두류 및 그 제품">두류 및 그 제품</option>
-      		<option value="두류, 견과 및 종실류">두류, 견과 및 종실류</option>
-      		<option value="두유류">두유류</option>
-      		<option value="면 및 만두류">면 및 만두류</option>
-      		<option value="면류">면류</option>
-      		<option value="발효유류">발효유류</option>
-      		<option value="발효음료류">발효음료류</option>
-      		<option value="밥류">밥류</option>
-      		<option value="버섯류">버섯류</option>
-      		<option value="볶음류">볶음류</option>
-      		<option value="분식">분식</option>
-      		<option value="분유류">분유류</option>
-      		<option value="빵 또는 떡류">빵 또는 떡류</option>
-      		<option value="빵 및 과자류">빵 및 과자류</option>
-      		<option value="생채/무침류">생채/무침류</option>
-      		<option value="소스류">소스류</option>
-      		<option value="수조어육류">수조어육류</option>
-      		<option value="시리얼류">시리얼류</option>
-      		<option value="식물성크림">식물성크림</option>
-      		<option value="아이스크림">아이스크림</option>
-      		<option value="아이스크림류">아이스크림류</option>
-      		<option value="어패류">어패류</option>
-      		<option value="영·유아용 곡류조제식">영·유아용 곡류조제식</option>
-      		<option value="우유 및 유제품">우유 및 유제품</option>
-      		<option value="우유류">우유류</option>
-      		<option value="유지류">유지류</option>
-      		<option value="육류 및 그 제품">육류 및 그 제품</option>
-      		<option value="음료">음료</option>
-      		<option value="음료 및 주류">음료 및 주류</option>
-      		<option value="음료 및 차류">음료 및 차류</option>
-      		<option value="인삼·홍삼음료">인삼·홍삼음료</option>
-      		<option value="장기보존식품">장기보존식품</option>
-      		<option value="장아찌/절임류">장아찌/절임류</option>
-      		<option value="전/ 적 및 부침류">전/ 적 및 부침류</option>
-      		<option value="젓갈류">젓갈류</option>
-      		<option value="제빵">제빵</option>
-      		<option value="조리가공식품류">조리가공식품류</option>
-      		<option value="조림류">조림류</option>
-      		<option value="조미료류">조미료류</option>
-      		<option value="죽 및 스프류">죽 및 스프류</option>
-      		<option value="즉석섭취·편의식품류">즉석섭취·편의식품류</option>
-      		<option value="찌개 및 전골류">찌개 및 전골류</option>
-      		<option value="찜류">찜류</option>
-      		<option value="채소류">채소류</option>
-      		<option value="체중조절용 조제식품">체중조절용 조제식품</option>
-      		<option value="카레">카레</option>
-      		<option value="커피">커피</option>
-      		<option value="코코아가공품류 또는 초콜릿류">코코아가공품류 또는 초콜릿류</option>
-      		<option value="탄산음료류">탄산음료류</option>
-      		<option value="특수의료용도등식품">특수의료용도등식품</option>
-      		<option value="피자">피자</option>
-      		<option value="해조류">해조류</option>
-      		<option value="햄버거">햄버거</option>
-      	</select>
-      		<input type="submit" value="식품군 보기" class="btn btn-primary"/>
-      	</form>
-      	</div>
-      	<div>
-      		<form action="showtoMeal" method="get" onsubmit="return eatTable()">
-      			날짜 선택 : <input type="text" style="width: 150px;" class="datepicker" name="countday" id="eatTableDay" > 
-      			<input type="submit" value="식단표 보기" class="btn btn-primary"/>
-      		</form>
-      	</div>
-      	
-		<table width="100%" class="display" id="example" cellspacing="0">
-        <thead>
-            <tr>
-                <th>번호</th>
-                <th>식품이름</th>
-                <th>1회제공량(g)</th>
-                <th>열량(kcal)</th>
-                <th>탄수화물(g)</th>
-                <th>단백질(g)</th>
-                <th>지방(g)</th>
-                <th>당류(g)</th>
-                <th>나트륨(mg)</th>
-                <th>콜레스테롤(mg)</th>
-                <th>포화지방산(g)</th>
-                <th>트랜스지방(g)</th>
-                <th>가공업체명</th>
-                <th>구축년도</th>
-                <th style="display: none;">번호</th>
-            </tr>
-        </thead>
-        <tbody>
-        	<c:forEach var="foodList" items="${foodList}" varStatus="status" >
-        	<tr>
-				<td>${status.count}</td>
-				<td>${foodList.DESC_KOR}</td>
-				<td>${foodList.SERVING_WT}</td>
-				<td>${foodList.NUTR_CONT1}</td>
-				<td>${foodList.NUTR_CONT2}</td>
-				<td>${foodList.NUTR_CONT3}</td>
-				<td>${foodList.NUTR_CONT4}</td>
-				<td>${foodList.NUTR_CONT5}</td>
-				<td>${foodList.NUTR_CONT6}</td>
-				<td>${foodList.NUTR_CONT7}</td>
-				<td>${foodList.NUTR_CONT8}</td>
-				<td>${foodList.NUTR_CONT9}</td>
-				<td>${foodList.ANIMAL_PLANT}</td>
-				<td>${foodList.BGN_YEAR}</td>
-				<td style="display: none;">${foodList.NUM}</td>
-            </tr>
-		</c:forEach>
-        </tbody>
-        </table>
-        </div>
-        <div>
-        
+      	<div class="box box-danger" style="margin-left: 20px; margin-right: 20px;">
+	      	<div class="box-header">
+              		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
+	                <h3 class="box-title">Add Meal</h3>
+        	</div>
+	      	<br/>
+	      	<div>식품군
+	      		<form action="gotoMeal" method="get" style="display: inline;">
+		      	<select name="FDGRP_NM">
+		      		<option selected="selected">${foodgroup}</option>
+		      		<option value="가공유류">가공유류</option>\
+		      		<option value="감자 및 전분류">감자 및 전분류</option>
+		      		<option value="견과류">견과류</option>
+		      		<option value="곡류 및 그 제품">곡류 및 그 제품</option>
+		      		<option value="곡류, 서류 제품">곡류, 서류 제품</option>
+		      		<option value="과실류">과실류</option>
+		      		<option value="과일·채소류음료">과일·채소류음료</option>
+		      		<option value="과일류">과일류</option>
+		      		<option value="과자">과자</option>
+		      		<option value="과자류">과자류</option>
+		      		<option value="구이류">구이류</option>
+		      		<option value="국 및 탕류">국 및 탕류</option>
+		      		<option value="기타">기타</option>
+		      		<option value="기타음료">기타음료</option>
+		      		<option value="김치류">김치류</option>
+		      		<option value="나물/숙채류">나물/숙채류</option>
+		      		<option value="난류">난류</option>
+		      		<option value="농축유류">농축유류</option>
+		      		<option value="다류">다류</option>
+		      		<option value="당류">당류</option>
+		      		<option value="당류 및 그 제품">당류 및 그 제품</option>
+		      		<option value="두류 및 그 제품">두류 및 그 제품</option>
+		      		<option value="두류, 견과 및 종실류">두류, 견과 및 종실류</option>
+		      		<option value="두유류">두유류</option>
+		      		<option value="면 및 만두류">면 및 만두류</option>
+		      		<option value="면류">면류</option>
+		      		<option value="발효유류">발효유류</option>
+		      		<option value="발효음료류">발효음료류</option>
+		      		<option value="밥류">밥류</option>
+		      		<option value="버섯류">버섯류</option>
+		      		<option value="볶음류">볶음류</option>
+		      		<option value="분식">분식</option>
+		      		<option value="분유류">분유류</option>
+		      		<option value="빵 또는 떡류">빵 또는 떡류</option>
+		      		<option value="빵 및 과자류">빵 및 과자류</option>
+		      		<option value="생채/무침류">생채/무침류</option>
+		      		<option value="소스류">소스류</option>
+		      		<option value="수조어육류">수조어육류</option>
+		      		<option value="시리얼류">시리얼류</option>
+		      		<option value="식물성크림">식물성크림</option>
+		      		<option value="아이스크림">아이스크림</option>
+		      		<option value="아이스크림류">아이스크림류</option>
+		      		<option value="어패류">어패류</option>
+		      		<option value="영·유아용 곡류조제식">영·유아용 곡류조제식</option>
+		      		<option value="우유 및 유제품">우유 및 유제품</option>
+		      		<option value="우유류">우유류</option>
+		      		<option value="유지류">유지류</option>
+		      		<option value="육류 및 그 제품">육류 및 그 제품</option>
+		      		<option value="음료">음료</option>
+		      		<option value="음료 및 주류">음료 및 주류</option>
+		      		<option value="음료 및 차류">음료 및 차류</option>
+		      		<option value="인삼·홍삼음료">인삼·홍삼음료</option>
+		      		<option value="장기보존식품">장기보존식품</option>
+		      		<option value="장아찌/절임류">장아찌/절임류</option>
+		      		<option value="전/ 적 및 부침류">전/ 적 및 부침류</option>
+		      		<option value="젓갈류">젓갈류</option>
+		      		<option value="제빵">제빵</option>
+		      		<option value="조리가공식품류">조리가공식품류</option>
+		      		<option value="조림류">조림류</option>
+		      		<option value="조미료류">조미료류</option>
+		      		<option value="죽 및 스프류">죽 및 스프류</option>
+		      		<option value="즉석섭취·편의식품류">즉석섭취·편의식품류</option>
+		      		<option value="찌개 및 전골류">찌개 및 전골류</option>
+		      		<option value="찜류">찜류</option>
+		      		<option value="채소류">채소류</option>
+		      		<option value="체중조절용 조제식품">체중조절용 조제식품</option>
+		      		<option value="카레">카레</option>
+		      		<option value="커피">커피</option>
+		      		<option value="코코아가공품류 또는 초콜릿류">코코아가공품류 또는 초콜릿류</option>
+		      		<option value="탄산음료류">탄산음료류</option>
+		      		<option value="특수의료용도등식품">특수의료용도등식품</option>
+		      		<option value="피자">피자</option>
+		      		<option value="해조류">해조류</option>
+		      		<option value="햄버거">햄버거</option>
+		      	</select>
+	      		<input type="submit" value="식품군 보기" class="btn btn-Danger"/>
+	      		</form>
+	      		<form action="showtoMeal" method="get" onsubmit="return eatTable()" style="display: inline;">
+	      			날짜 선택 : <input type="text" style="width: 150px;" class="datepicker" name="countday" id="eatTableDay" > 
+	      			<input type="submit" value="식단표 보기" class="btn btn-Danger"/>
+	      		</form>
+	      	</div>
+	      	
+	      	
+	      		
+	      	
+			<table width="100%" class="display" id="example" cellspacing="0">
+	        <thead>
+	            <tr>
+	                <th>번호</th>
+	                <th>식품이름</th>
+	                <th>1회제공량(g)</th>
+	                <th>열량(kcal)</th>
+	                <th>탄수화물(g)</th>
+	                <th>단백질(g)</th>
+	                <th>지방(g)</th>
+	                <th>당류(g)</th>
+	                <th>나트륨(mg)</th>
+	                <th>콜레스테롤(mg)</th>
+	                <th>포화지방산(g)</th>
+	                <th>트랜스지방(g)</th>
+	                <th>가공업체명</th>
+	                <th>구축년도</th>
+	                <th style="display: none;">번호</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	<c:forEach var="foodList" items="${foodList}" varStatus="status" >
+	        	<tr>
+					<td>${status.count}</td>
+					<td>${foodList.DESC_KOR}</td>
+					<td>${foodList.SERVING_WT}</td>
+					<td>${foodList.NUTR_CONT1}</td>
+					<td>${foodList.NUTR_CONT2}</td>
+					<td>${foodList.NUTR_CONT3}</td>
+					<td>${foodList.NUTR_CONT4}</td>
+					<td>${foodList.NUTR_CONT5}</td>
+					<td>${foodList.NUTR_CONT6}</td>
+					<td>${foodList.NUTR_CONT7}</td>
+					<td>${foodList.NUTR_CONT8}</td>
+					<td>${foodList.NUTR_CONT9}</td>
+					<td>${foodList.ANIMAL_PLANT}</td>
+					<td>${foodList.BGN_YEAR}</td>
+					<td style="display: none;">${foodList.NUM}</td>
+	            </tr>
+			</c:forEach>
+	        </tbody>
+	        </table>
+	        
+	        
         </div>
       </div>
       <!-- /.row -->

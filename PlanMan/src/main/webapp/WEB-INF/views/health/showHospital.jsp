@@ -23,6 +23,15 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   
+  <style>
+      /* Set the size of the div element that contains the map */
+      #map {
+        margin-top: 2%;
+        margin-left: 5%;
+        height: 70%;  
+        width: 90%;  
+       }
+  </style>
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -193,8 +202,9 @@
             </span>
           </a>
           <ul class="treeview-menu"> 
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
-            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
+            <li><a href="gotoStudy"><i class="fa fa-circle-o text-aqua"></i> Study Main</a></li> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -205,7 +215,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -220,7 +232,6 @@
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -274,10 +285,177 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="row"> 
+      <div class="row">
+      	  <div class="box box-danger" style="margin-left: 20px; margin-right: 20px;">
+      	  <div class="box-header">
+              		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
+	                <h3 class="box-title">Show Hospital</h3>
+          </div>
+      		<input type="button" class="btn btn-info btn-danger" value="hospital" id="hospital" style="margin-top:1%; margin-left: 1%;">
+      		<input type="button" class="btn btn-info btn-danger" value="pharmacy" id="pharmacy" style="margin-top:1%; margin-left: 1%;">
+      		<input id="pac-input" class="form-control" type="text" placeholder="Search Box" style="margin-top:1%; width: 40%;">
 			<div id="map"></div>
+		  </div>
+    <script>
+     var map;
+     var service;
+     var infowindow;
+     var bounds;
+     var korea = {lat:37.541, lng: 126.986};
+	 var japan = {lat: 35.41, lng: 139.46};
 	
-      </div>
+	 function initAutocomplete() {
+	        map = new google.maps.Map(document.getElementById('map'), {
+	          center: japan,
+	          zoom: 10,
+	          mapTypeControl: false,
+	          mapTypeId: 'roadmap'
+	        });
+			
+	        // Create the search box and link it to the UI element.
+	        var input = document.getElementById('pac-input');
+	        var hospital = document.getElementById('hospital');
+	        var pharmacy = document.getElementById('pharmacy');
+	        var searchBox = new google.maps.places.SearchBox(input);
+	        map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+	        map.controls[google.maps.ControlPosition.TOP_CENTER].push(hospital);
+	        map.controls[google.maps.ControlPosition.TOP_CENTER].push(pharmacy);
+			
+	        infowindow = new google.maps.InfoWindow();
+	        // Bias the SearchBox results towards current map's viewport.
+	        map.addListener('bounds_changed', function() {
+	          searchBox.setBounds(map.getBounds());
+	        });
+
+	        var markers = [];
+	        // Listen for the event fired when the user selects a prediction and retrieve
+	        // more details for that place.
+	        searchBox.addListener('places_changed', function() {
+	          var places = searchBox.getPlaces();
+			 
+	          if (places.length == 0) {
+	            return;
+	          }
+
+	          // Clear out the old markers.
+	          markers.forEach(function(marker) {
+	            marker.setMap(null);
+	          });
+	          markers = [];
+
+	          // For each place, get the icon, name and location.
+	          bounds = new google.maps.LatLngBounds();
+	          places.forEach(function(place) {
+	            if (!place.geometry) {
+	              console.log("Returned place contains no geometry");
+	              return;
+	          }
+	          var icon = {
+	              url: place.icon,
+	              size: new google.maps.Size(71, 71),
+	              origin: new google.maps.Point(0, 0),
+	              anchor: new google.maps.Point(17, 34),
+	              scaledSize: new google.maps.Size(25, 25)
+	          };
+
+	          // Create a marker for each place.
+	          markers.push(new google.maps.Marker({
+	              map: map,
+	              icon: icon,
+	              title: place.name,
+	              position: place.geometry.location
+	          }));
+
+	          if (place.geometry.viewport) {
+	              // Only geocodes have viewport.
+	              bounds.union(place.geometry.viewport);
+	            } else {
+	              bounds.extend(place.geometry.location);
+	            }
+	          });
+	          map.fitBounds(bounds);
+	        });
+	          
+	          $('#hospital').on('click',function(){
+	        	 
+	        	  var bound2=bounds.getCenter();
+	        	  var newbound=bound2.toString().split(',');
+	        	 	
+	        	  var lat=newbound[0].replace("(","");
+	        	  var lng=newbound[1].replace(")","");
+	        	 
+	        	  var pyrmont = new google.maps.LatLng(lat,lng);
+
+	        	  map.setCenter(pyrmont);
+	        	  map.setZoom(15);
+
+	        	  var request = {
+	        	    location: pyrmont,
+	        	    radius: '1000',
+	        	    type: ["hospital"]
+	        	  };
+
+	        	  service = new google.maps.places.PlacesService(map);
+	        	  service.nearbySearch(request, callback);
+	        	 
+	        	  
+	  	          
+	          });
+	          
+			  $('#pharmacy').on('click',function(){
+				  
+				  var bound2=bounds.getCenter();
+	        	  var newbound=bound2.toString().split(',');
+	        	  alert(newbound[0]);
+	        	  alert(newbound[1]);
+	        	  var lat=newbound[0].replace("(","");
+	        	  var lng=newbound[1].replace(")","");
+	        	  alert(lat);
+	        	  alert(lng);
+	        	  var pyrmont = new google.maps.LatLng(lat,lng);
+
+	        	  map.setCenter(pyrmont);
+	        	  map.setZoom(15);
+
+	        	  var request = {
+	        	    location: pyrmont,
+	        	    radius: '1000',
+	        	    type: ["pharmacy"]
+	        	  };
+
+	        	  service = new google.maps.places.PlacesService(map);
+	        	  service.nearbySearch(request, callback);
+	        	  
+	        	 
+	          });
+	         
+	        
+	 }
+	 
+	 
+	 function callback(results, status) {
+		  if (status == google.maps.places.PlacesServiceStatus.OK) {
+		    for (var i = 0; i < results.length; i++) {
+		      var place = results[i];
+		      createMarker(results[i]);
+		    }
+		  }
+	 }
+	 
+	 function createMarker(place) {
+	        var placeLoc = place.geometry.location;
+	        var marker = new google.maps.Marker({
+	          map: map,
+	          position: place.geometry.location
+	        });
+
+	        google.maps.event.addListener(marker, 'click', function() {
+	          infowindow.setContent(place.name);
+	          infowindow.open(map, this);
+	        });
+	 }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&libraries=places&callback=initAutocomplete" async defer></script></div>
       <!-- /.row -->
     </section>
     <!-- /.content -->
@@ -319,102 +497,34 @@
 
 <!-- Page specific script -->
 <script>
-  
-var uk = {lat: 51.507, lng:  -0.127};
-var usa = {lat: 40.664, lng: -73.938};
-var korea = {lat:37.541, lng: 126.986};
-var china = {lat:38.037057, lng:114.468665};
-var japan = {lat: 35.41, lng: 139.46};
-var google = {lat: 37.3993, lng: -122.079}
-var baidu= {lat: 39.9035, lng: 116.388}
-var pList=[];
-pList.push(usa);
-pList.push(korea);
-pList.push(china);
-pList.push(uk);
-pList.push(japan);
-pList.push(google);
-pList.push(baidu);
-function initMap() { 
- var choose="";
- var prev_infowindow=false;
-var map = new google.maps.Map(
-    document.getElementById('map'), {zoom: 2, center: korea});
-for (var i = 0; i < 7; i++) {
-     // init markers
-     var marker = new google.maps.Marker({
-         position: pList[i],
-         map: map,
-         
-     });
+$(function () {
+	  showtime();	
+	  
+	  setInterval(function(){
+		  showtime();
+	  },60000);
+	  
+})
 
-     // process multiple info windows
-     (function(marker, i) {
-         // add click event
-         
-         google.maps.event.addListener(marker, 'click', function() {
-            
-            if(i==0)choose="NewYorkTimes";
-             else if(i==1)choose="naver";
-             else if(i==2)choose="inmin";
-             else if(i==3)choose="BBC";
-             else if(i==4)choose="yahoo";
-             else if(i==5)choose="google";
-             else if(i==6)choose="baidu";
-            
-             infowindow = new google.maps.InfoWindow({
-                 content: "<a href='goNews?type="+choose+"' >" + choose + "</a>" + '<br>' + "<img width='80' src='./resources/images/"+choose+".png' >",
-                       maxWidth:300
-             });
-             if( prev_infowindow ) {
-                prev_infowindow.close();
-              }
-             prev_infowindow = infowindow;
-             infowindow.open(map, marker);
-         });
-     })(marker, i);
- }
-$( "#selectNews" ).change(function() {
-   choose=$(this).val();
-       if($(this).val()=="naver"){
-          var center = new google.maps.LatLng(korea);
-          map.panTo(center);
-          map.setZoom(10);
-       }else if($(this).val()=="BBC"){
-          var center = new google.maps.LatLng(uk);
-          map.panTo(center);
-          map.setZoom(10);
-       }else if($(this).val()=="NewYorkTimes"){
-          var center = new google.maps.LatLng(usa);
-          map.panTo(center);
-          map.setZoom(10);
-       }else if($(this).val()=="yahoo"){
-          var center = new google.maps.LatLng(japan);
-          map.panTo(center);
-          map.setZoom(10);
-       }else if($(this).val()=="inmin"){
-          var center = new google.maps.LatLng(china);
-          map.panTo(center);
-          map.setZoom(10);
-       }else if($(this).val()=="google"){
-          var center = new google.maps.LatLng(google);
-          map.panTo(center);
-          map.setZoom(10);
-       }
-       else if($(this).val()=="baidu"){
-          var center = new google.maps.LatLng(baidu);
-          map.panTo(center);
-          map.setZoom(10);
-       }
-       else{
-          var center = new google.maps.LatLng(korea);
-          map.panTo(center);
-          map.setZoom(2);
-       }
-     });
+function showtime(){
+	  var currentDate = new Date(); // 현재시간
+	  var currentHours = addZeros(currentDate.getHours(),2); 
+	  var currentMinute = addZeros(currentDate.getMinutes(),2);
+	  var time=currentHours+":"+currentMinute;
+	  $('#clock').text('');
+	  $('#clock').append(time);
 }
 
+function addZeros(num, digit) { // 자릿수 맞춰주기
+	  var zero = '';
+	  num = num.toString();
+	  if (num.length < digit) {
+	    for (i = 0; i < digit - num.length; i++) {
+	      zero += '0';
+	    }
+	  }
+	  return zero + num;
+}
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&callback=initMap" type="text/javascript"></script>
 </body>
 </html>

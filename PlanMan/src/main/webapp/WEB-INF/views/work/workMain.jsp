@@ -183,7 +183,7 @@
       </form>
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
+     <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
@@ -193,8 +193,9 @@
             </span>
           </a>
           <ul class="treeview-menu"> 
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
-            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
+            <li><a href="gotoStudy"><i class="fa fa-circle-o text-aqua"></i> Study Main</a></li> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -209,6 +210,10 @@
             <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
             <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
             </ul>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
+          </ul>
         </li>
         <li class="treeview">
           <a href="#">
@@ -222,7 +227,6 @@
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
@@ -282,6 +286,8 @@
           
       	  <!-- general form elements disabled -->
           <div class="box box-primary" style="width: 30%; float:left;margin-right:20px;">
+           <!-- general form elements disabled -->
+          <div class="box box-warning" style="width: 30%; float:left; margin-right:20px;">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
 
@@ -291,36 +297,45 @@
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list">
-                <c:forEach var="schList" items="${schList}">
-                <li>
-                  <!-- drag handle -->
+                <c:forEach var="schList" items="${schList}" varStatus="status">
+                <c:if test="${schList.doornot==1}">
+                	<li id="${schList.schseq}" class="done">
+                	<!-- drag handle -->
                   <span class="handle">
                         <i class="fa fa-ellipsis-v"></i>
                         <i class="fa fa-ellipsis-v"></i>
                       </span>
                   <!-- checkbox -->
-                  <input type="checkbox" value="">
+                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox" checked="checked">
                   <!-- todo text -->
-                  <span class="text">${schList.eventtitle}//${schList.startday}</span>
+                  <span class="text">${schList.eventtitle}</span>
                   <!-- Emphasis label -->
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.starttime}~${schList.endtime}</small>
-                  <!-- General tools such as edit or delete-->
-                  <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                  </div>
-                </li>
+                  <small class="label label-warning"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+                </li> 
+                </c:if>
+                <c:if test="${schList.doornot==0}">
+                	<li id="${schList.schseq}">
+                	<!-- drag handle -->
+                  <span class="handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <!-- checkbox -->
+                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox">
+                  <!-- todo text -->
+                  <span class="text">${schList.eventtitle}</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-warning"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+                </li> 
+                </c:if>
+                 
                 </c:forEach>
               </ul>
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix no-border">
-              <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
-            </div>
           </div>
-         
           <!-- /.box -->
-          <div class="box box-primary" style="width: 45%; float:left; margin-right:20px; ">
+          
+          <div class="box box-warning" style="width: 45%; float:left; margin-right:20px; ">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
               <h3 class="box-title">Main News</h3>
@@ -330,33 +345,22 @@
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               
               <c:if test="${empty article}">
-              <h3> 주요 뉴스가 없습니다.</h3>
-              </c:if>
+	              <h3> 주요 뉴스가 없습니다.</h3>
+	              </c:if>
               <c:if test="${!empty article}">
-		<c:forEach var="news" items="${article }" varStatus="num">
-		<ul>
-		<c:set var="loop_flag" value="false" />
-		<c:forEach var='fcheck' items="${fcheck }">
-		
-		<c:if test="${fcheck.locations == news[1] }">
-		 <c:set var="loop_flag" value="true" />
-		</c:if>
-		</c:forEach>
-		<c:if test="${not loop_flag }">		<li><a href="javascript:void(0);" name='favorite'><i class="fa fa-star-o text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
-			<span>${news[2] }</span></li>
-		</c:if>
-		<c:if test="${ loop_flag}">			<li><a href="javascript:void(0);" name='favorite'><i class="fa fa-star text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
-		<span>${news[2] }</span></li></c:if>
-		</ul>
-	
-		</c:forEach>
-		</c:if>
+	      		  <c:forEach var="news" items="${article }">
+				      <ul>
+					      <li><a href="javascript:void(0);" onclick="favorite();"><i class="fa fa-star-o text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+					      <span>${news[2] }</span></li>
+				      </ul>
+			      </c:forEach>
+     		  </c:if>
             </div>
             <!-- /.box-body -->
           </div>
           
           <!-- /. box -->
-         <div class="box box-primary" style="width: 20%; float:left;">
+         <div class="box box-warning" style="width: 20%; float:left;">
             <div class="box-header ">
               <h3 class="box-title">MEMO</h3>
 
@@ -377,8 +381,8 @@
           <!-- /. box -->
         
         <!-- /.col -->
-  		
-  	
+     
+     
       <!-- /.row -->
     </section>
     <!-- /.content -->
@@ -519,11 +523,11 @@
             <a href="javascript:void(0)">
               <h4 class="control-sidebar-subheading">
                 Back End Framework
-                <span class="label label-primary pull-right">68%</span>
+                <span class="label label-warning pull-right">68%</span>
               </h4>
 
               <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+                <div class="progress-bar progress-bar-warning" style="width: 68%"></div>
               </div>
             </a>
           </li>
@@ -632,80 +636,82 @@
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 <!-- Page specific script -->
 <script>
-
-  $(function () {	 
-	  
-	  $('a[name=favorite]').click(function() {
-		  alert('!!!'); 
-		  if($(this).children('i').attr('class')=='fa fa-star text-yellow'){
-			  $.ajax({
-					url:"deleteFavorites",
-					type:"post",
-					//client에서 server로 가는 값
-					data:{"id": '${sessionScope.member.id}',"locations":locations},
-					success: function(data){
-						if(data==1){
-							$(this).children('i').attr('class','fa fa-star-o text-yellow');
-						}else{alert("다시 시도해주세용");}
-					
-			  },
-	  				fail: function(res){
-				  alert("다시 시도해주세용");
-				  }
-	  });
-		  }
-		  else if($(this).children('i').attr('class')=='fa fa-star-o text-yellow'){
-			  var title = prompt("이름을 입력해주세요");
-			  var locations = $(this).next().attr('href');
-			  alert(title+"\n"+locations);
-			  $.ajax({
-					url:"insertFavorites",
-					type:"post",
-					//client에서 server로 가는 값
-					data:{"id": '${sessionScope.member.id}', "title":title,"locations":locations},
-					success: function(data){
-						if(data==1){
-							$(this).children('i').attr('class','fa fa-star text-yellow');
-						}else{alert("다시 시도해주세용");}
-					
-			  },
-	  				fail: function(res){
-				  alert("다시 시도해주세용");
-				  }
-	  });
-		 
-		}
+function favorite(){
+   var child = $(this).children('i');
+   alert(child.attr('class'));
+   alert($(this).children('i').attr('class'));
+   if($(this).children('i').attr('class')=='fa text-yellow fa-star-o'){
+      alert('즐기');
+      $(this).children('i').attr('class','fa text-yellow fa-star');
+   }else if($(this).children('i').attr('class')=='fa text-yellow fa-star'){
+      alert('찾즐');
+      $(this).children('i').attr('class','fa text-yellow fa-star-o');
+   }
+   
+}
+  $(function () {    
+   
+	  $(".chkbox").change(function(){
+	        if($(this).is(":checked")){
+	            $.ajax({
+	            	url:'chkschdule'
+	      			,type:'post'
+	      			,data:{
+	      				"schseq":$(this).attr('data-rno')
+	      			}
+	      			,success: function (data){
+	    				if(data="success"){
+	    					alert("스케쥴 확인완료!")
+	    				}	
+	      			}
+	            })
+	            $(this).parent('li').addClass('done');
+	        }else if($(this).is(":not(:checked)")){
+	        	 $.ajax({
+		            	url:'unchkschdule'
+		      			,type:'post'
+		      			,data:{
+		      				"schseq":$(this).attr('data-rno')
+		      			}
+		      			,success: function (data){
+		      				if(data="success"){
+		    					alert("스케쥴 해제하기!")
+		    				}	
+		      			}
+		        })
+	            $(this).parent('li').removeClass('done');
+	        }
 	  });
 	 
+	  
+	  
    $('#saveMemo').click(function(){
-		var memo = $('#memo').val();
-		memo= memo.replace("\r\n","<br>");
-		alert(memo);
-		var today = new Date();
-		var mm= today.getMonth()+1; 
-		var dd =today.getDate();
-		var yy = today.getFullYear();
-		if(dd<10) {
-		    dd='0'+dd;
-		} 
-		if(mm<10) {
-		    mm='0'+mm;
-		} 
-		var td=yy+'-'+mm+'-'+dd;
-		$.ajax({
-			url:"saveMemo",
-			type:"post",
-			//client에서 server로 가는 값
-			data:{"userid": memo, "text":memo,"startDate":temp},
-			success: function(data){
-			if(data=="1"||data=="3"){
-				alert("저장 되었습니다");
-			}else{'오류 발생'};
-			},fail: function(){
-				alert("다음에 다시 시도해주세요");
-			}
-		});
-		});
+      var memo = $('#memo').val();
+      var today = new Date();
+      var mm= today.getMonth()+1; 
+      var dd =today.getDate();
+      var yy = today.getFullYear();
+      if(dd<10) {
+          dd='0'+dd;
+      } 
+      if(mm<10) {
+          mm='0'+mm;
+      } 
+      var td=yy+'-'+mm+'-'+dd;
+      $.ajax({
+         url:"saveMemo",
+         type:"post",
+         //client에서 server로 가는 값
+         data:{"userid": memo, "text":memo,"startDate":temp},
+         success: function(data){
+         if(data=="1"||data=="3"){
+            alert("저장 되었습니다");
+         }else{'오류 발생'};
+         },fail: function(){
+            alert("다음에 다시 시도해주세요");
+         }
+      });
+      });
   });
 </script>
 </body>

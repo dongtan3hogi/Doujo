@@ -257,32 +257,33 @@
         <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-edit"></i> <span>Study</span>
+            <i class="fa fa-edit" style="color: #2ECCFA"></i> <span>Study</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu"> 
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
-            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li>
+            <li><a href="gotoStudy"><i class="fa fa-circle-o text-aqua"></i> Study Main</a></li> 
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-suitcase"></i> <span>Work</span>
+            <i class="fa fa-suitcase" style="color: #F7D358"></i> <span>Work</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
             <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li> 
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-heartbeat"></i> <span>Health</span>
+            <i class="fa fa-heartbeat" style="color: #FF0040"></i> <span>Health</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -292,13 +293,12 @@
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoRecommend"><i class="fa fa-circle-o text-red"></i> Recommend</a></li>
             <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>Friend</span>
+            <i class="fa fa-users" style="color: #008000"></i> <span>Friend</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -310,7 +310,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-calendar"></i> <span>Schedule</span>
+            <i class="fa fa-calendar" style="color: #0000FF"></i> <span>Schdule</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -533,13 +533,13 @@
     			$(data).each(function(index, item) {
     				var col="";
     				if(item.eventtype=='study'){
-   		         		col="#FF0000";
+   		         		col="#2ECCFA";
    		         	}else if(item.eventtype=='health'){
-   		         		col="#008000";
+   		         		col="#FF0040";
    		         	}else if(item.eventtype=='work'){
-   		         		col="#0000FF";
+   		         		col="#F7D358";
    		         	}else if(item.eventtype=='friend'){
-   		         		col="#FFFF00";
+   		         		col="#008000";
    		         	}
    				  events.push({
    					schseq: item.schseq,
