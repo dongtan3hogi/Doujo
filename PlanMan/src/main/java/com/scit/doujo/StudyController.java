@@ -32,12 +32,6 @@ public class StudyController {
 	@Autowired 
 	SqlSession sqlSession; 
 	 
-	/*공부 메인페이지로 이동 ===================================================================*/ 
-	@RequestMapping(value = "/gotoQuiz", method = RequestMethod.GET) 
-	public String goquiz() { 
-		return "study/quiz"; 
-	} 
-	 
 	/*문제만들기 페이지로 이동 ===================================================================*/ 
 	@RequestMapping(value = "/gotoQuizMake", method = RequestMethod.GET) 
 	public String goquizMake(HttpSession hs, Model model) { 
@@ -161,8 +155,8 @@ public class StudyController {
 	/*문제리스트를 가지고 문제풀기 페이지로 이동하자===================================================================*/ 
 	 
 	 
-	@RequestMapping(value = "/gotoQuizSolve", method = RequestMethod.GET) 
-	public String gorecordsolve(Model model, HttpSession hs, String quizrecordname) { 
+	@RequestMapping(value = "/gotoQuiz", method = RequestMethod.GET) 
+	public String gorecordsolve(Model model, HttpSession hs) { 
 		studyDao dao = sqlSession.getMapper(studyDao.class); 
 		String id = (String)hs.getAttribute("memberID");
 		 
@@ -192,6 +186,8 @@ public class StudyController {
 		//allMap.put("tegMap", tegMap);
 		allMap.put("recordList", recordList);
 		allMap.put("tegList", tegList);
+		
+		System.out.println(tegList.size());
 		
 		model.addAttribute("allMap",allMap);
 		

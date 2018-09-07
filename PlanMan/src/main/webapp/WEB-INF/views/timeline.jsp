@@ -187,7 +187,7 @@
         <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-edit"></i> <span>Study</span>
+            <i class="fa fa-edit" style="color: #2ECCFA"></i> <span>Study</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -200,7 +200,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-suitcase"></i> <span>Work</span>
+            <i class="fa fa-suitcase" style="color: #F7D358"></i> <span>Work</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -213,7 +213,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-heartbeat" style="color: #dd4b39"></i> <span>Health</span>
+            <i class="fa fa-heartbeat" style="color: #FF0040"></i> <span>Health</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -228,7 +228,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>Friend</span>
+            <i class="fa fa-users" style="color: #008000"></i> <span>Friend</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -240,14 +240,14 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-calendar"></i> <span>Schdule</span>
+            <i class="fa fa-calendar" style="color: #0000FF"></i> <span>Schdule</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-green"></i> Calendar</a></li>
-            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-green"></i> Timeline</a></li>
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-blue"></i> Calendar</a></li>
+            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-blue"></i> Timeline</a></li>
           </ul>
         </li>
       </ul>
@@ -280,8 +280,8 @@
 
 			    <!-- timeline time label -->
 			    <li class="time-label">
-			        <span class="bg-red">
-			            ${today}
+			        <span class="bg-blue">
+			            ${today} 타임라인
 			        </span>
 			    </li>
 			    <!-- /.timeline-label -->
@@ -292,16 +292,16 @@
 			    <li>
 			        <!-- timeline icon -->
 			        <c:if test="${schList.eventtype=='health'}">
-			        	<i class="fa fa-heartbeat"></i>
+			        	<i class="fa fa-heartbeat" style="color: #FF0040"></i>
 			        </c:if>
 			        <c:if test="${schList.eventtype=='work'}">
-			        	<i class="fa fa-suitcase"></i>
+			        	<i class="fa fa-suitcase" style="color: #F7D358"></i>
 			        </c:if>
 			        <c:if test="${schList.eventtype=='study'}">
-			        	<i class="fa fa-edit"></i>
+			        	<i class="fa fa-edit" style="color: #2ECCFA"></i>
 			        </c:if>
 			        <c:if test="${schList.eventtype=='friend'}">
-			        	<i class="fa fa-users"></i>
+			        	<i class="fa fa-users" style="color: #008000"></i>
 			        </c:if>
 			        <c:if test="${schList.eventtype=='etc'}">
 			        	<i class="fa fa-slack"></i>

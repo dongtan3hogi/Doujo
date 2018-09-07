@@ -1,6 +1,6 @@
 $(function(){ 
 	$(document).ready(function() {
-		$('#quizchoiceBtn').on("click", function(){ 
+		$('#quizchoice').change("click", function(){ 
 			var quizSet = { 
 					"select" : $("#quizchoice").val()
 			}; 

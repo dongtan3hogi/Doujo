@@ -52,7 +52,7 @@
           <li class="dropdown tasks-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
+              <span class="label label-warning">9</span>
             </a>
             <ul class="dropdown-menu">
               <li class="header">You have 9 tasks</li>
@@ -183,11 +183,11 @@
       </form>
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
-     <ul class="sidebar-menu" data-widget="tree">
+      <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-edit"></i> <span>Study</span>
+            <i class="fa fa-edit" style="color: #2ECCFA"></i> <span>Study</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -200,16 +200,12 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-suitcase"></i> <span>Work</span>
+            <i class="fa fa-suitcase" style="color: #F7D358"></i> <span>Work</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
-            </ul>
 			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
             <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
             <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
@@ -217,7 +213,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-heartbeat"></i> <span>Health</span>
+            <i class="fa fa-heartbeat" style="color: #FF0040"></i> <span>Health</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -232,7 +228,7 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>Friend</span>
+            <i class="fa fa-users" style="color: #008000"></i> <span>Friend</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -244,14 +240,14 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-calendar"></i> <span>Schdule</span>
+            <i class="fa fa-calendar" style="color: #0000FF"></i> <span>Schdule</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-green"></i> Calendar</a></li>
-            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-green"></i> Timeline</a></li>
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-blue"></i> Calendar</a></li>
+            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-blue"></i> Timeline</a></li>
           </ul>
         </li>
       </ul>
@@ -280,61 +276,73 @@
     <!-- Main content -->
     <section class="content">
       
-        
-        <!-- /.col -->
-        
-          
-      	  <!-- general form elements disabled -->
-          <div class="box box-primary" style="width: 30%; float:left;margin-right:20px;">
-           <!-- general form elements disabled -->
-          <div class="box box-warning" style="width: 30%; float:left; margin-right:20px;">
+          <!-- TO DO List -->
+          <div class="box box-warning" style="width: 30%; float:left; margin-right:20px; margin-left:20px;">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
 
-              <h3 class="box-title">Work Schedule</h3>
+              <h3 class="box-title">이번주 Health Schedule</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <ul class="todo-list">
-                <c:forEach var="schList" items="${schList}" varStatus="status">
-                <c:if test="${schList.doornot==1}">
-                	<li id="${schList.schseq}" class="done">
-                	<!-- drag handle -->
-                  <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <!-- checkbox -->
-                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox" checked="checked">
-                  <!-- todo text -->
-                  <span class="text">${schList.eventtitle}</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-warning"><i class="fa fa-clock-o"></i>${schList.startday}</small>
-                </li> 
-                </c:if>
-                <c:if test="${schList.doornot==0}">
-                	<li id="${schList.schseq}">
-                	<!-- drag handle -->
-                  <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <!-- checkbox -->
-                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox">
-                  <!-- todo text -->
-                  <span class="text">${schList.eventtitle}</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-warning"><i class="fa fa-clock-o"></i>${schList.startday}</small>
-                </li> 
-                </c:if>
-                 
-                </c:forEach>
+	                <c:forEach var="schList" items="${schList}" varStatus="status">
+	                <c:if test="${schList.doornot==1}">
+	                	<li id="${schList.schseq}" class="done">
+	                	<!-- drag handle -->
+	                  <span class="handle">
+	                        <i class="fa fa-ellipsis-v"></i>
+	                        <i class="fa fa-ellipsis-v"></i>
+	                      </span>
+	                  <!-- checkbox -->
+	                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox" checked="checked">
+	                  <!-- todo text -->
+	                  <span class="text">${schList.eventtitle}</span>
+	                  <!-- Emphasis label -->
+	                  <small class="label label-warning"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+	                </li> 
+	                </c:if>
+	                <c:if test="${schList.doornot==0}">
+	                	<li id="${schList.schseq}">
+	                	<!-- drag handle -->
+	                  <span class="handle">
+	                        <i class="fa fa-ellipsis-v"></i>
+	                        <i class="fa fa-ellipsis-v"></i>
+	                      </span>
+	                  <!-- checkbox -->
+	                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox">
+	                  <!-- todo text -->
+	                  <span class="text">${schList.eventtitle}</span>
+	                  <!-- Emphasis label -->
+	                  <small class="label label-warning"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+	                </li> 
+	                </c:if>
+	                 
+	                </c:forEach>
               </ul>
             </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+            </div>
+            <div class="box box-warning">
+	            <div class="box-header ">
+	              <h3 class="box-title">즐겨찾기</h3>
+	            </div>
+	            <div class="box-body no-padding">
+		          <ul>
+		               <c:forEach var='fcheck' items="${fcheck }">
+		               <li><a href="javascript:void(0);" class="favorite" ><i class="fa fa-star text-yellow"></i>&nbsp;&nbsp;</a>&nbsp;&nbsp;<a href="${fcheck.locations }" target="_blank">${fcheck.title }</a><br>
+				      <span>${news[2] }</span></li>
+				      </c:forEach>
+		          </ul>
+	            </div>
+	            <!-- /.box-body -->
+          </div>
           </div>
           <!-- /.box -->
-          
+         
+          <!-- /.box -->
           <div class="box box-warning" style="width: 45%; float:left; margin-right:20px; ">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
@@ -345,16 +353,27 @@
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               
               <c:if test="${empty article}">
-	              <h3> 주요 뉴스가 없습니다.</h3>
-	              </c:if>
+              <h3> 주요 뉴스가 없습니다.</h3>
+              </c:if>
               <c:if test="${!empty article}">
-	      		  <c:forEach var="news" items="${article }">
-				      <ul>
-					      <li><a href="javascript:void(0);" onclick="favorite();"><i class="fa fa-star-o text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
-					      <span>${news[2] }</span></li>
-				      </ul>
-			      </c:forEach>
-     		  </c:if>
+		      <c:forEach var="news" items="${article }" varStatus="num">
+		      <ul>
+		      <c:set var="loop_flag" value="false" />
+		      <c:forEach var='fcheck' items="${fcheck }">
+		      
+		      <c:if test="${fcheck.locations == news[1] }">
+		       <c:set var="loop_flag" value="true" />
+		      </c:if>
+		      </c:forEach>
+		      <c:if test="${not loop_flag }">      <li><a href="javascript:void(0);" class='favorite'><i class="fa fa-star-o text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+		         <span>${news[2] }</span></li>
+		      </c:if>
+		      <c:if test="${ loop_flag}">         <li><a href="javascript:void(0);" class='favorite'><i class="fa fa-star text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+		      <span>${news[2] }</span></li></c:if>
+		      </ul>
+		   
+		      </c:forEach>
+		      </c:if>
             </div>
             <!-- /.box-body -->
           </div>
@@ -381,27 +400,12 @@
           <!-- /. box -->
         
         <!-- /.col -->
-     
+        
      
       <!-- /.row -->
     </section>
     <!-- /.content -->
-    <div class="box box-primary" style="width: 20%; ">
-            <div class="box-header ">
-              <h3 class="box-title">즐겨찾기</h3>
-            </div>
-            <div class="box-body no-padding">
-          <ul>
-         		<c:forEach var='fcheck' items="${fcheck }">
-         		<li><a href="javascript:void(0);"><i class="fa fa-star text-yellow"></i></a>&nbsp;&nbsp;<a href="${fcheck.locations }" target="_blank">${fcheck.title }</a><br>
-		<span>${news[2] }</span></li>
-		</c:forEach>
-
-          </ul>
-           
-            </div>
-            <!-- /.box-body -->
-          </div>
+    
   </div>
   <!-- /.content-wrapper -->
       
@@ -420,200 +424,7 @@
     <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
     reserved.
   </footer>
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Create the tabs -->
-    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <!-- Home tab content -->
-      <div class="tab-pane" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">Recent Activity</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                <p>Will be 23 on April 24th</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-user bg-yellow"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
-
-                <p>New phone +1(800)555-1234</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
-
-                <p>nora@example.com</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-file-code-o bg-green"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
-
-                <p>Execution time 5 seconds</p>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Custom Template Design
-                <span class="label label-danger pull-right">70%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Update Resume
-                <span class="label label-success pull-right">95%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Laravel Integration
-                <span class="label label-warning pull-right">50%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Back End Framework
-                <span class="label label-warning pull-right">68%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-warning" style="width: 68%"></div>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-      </div>
-      <!-- /.tab-pane -->
-      <!-- Stats tab content -->
-      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-      <!-- /.tab-pane -->
-      <!-- Settings tab content -->
-      <div class="tab-pane" id="control-sidebar-settings-tab">
-        <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Report panel usage
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Some information about this general settings option
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Allow mail redirect
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Other sets of options are available
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Expose author name in posts
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Allow the user to show his name in blog posts
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <h3 class="control-sidebar-heading">Chat Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Show me as online
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Turn off notifications
-              <input type="checkbox" class="pull-right">
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Delete chat history
-              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
-            </label>
-          </div>
-          <!-- /.form-group -->
-        </form>
-      </div>
-      <!-- /.tab-pane -->
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
+  
 </div>
 <!-- ./wrapper -->
 
@@ -636,22 +447,57 @@
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 <!-- Page specific script -->
 <script>
-function favorite(){
-   var child = $(this).children('i');
-   alert(child.attr('class'));
-   alert($(this).children('i').attr('class'));
-   if($(this).children('i').attr('class')=='fa text-yellow fa-star-o'){
-      alert('즐기');
-      $(this).children('i').attr('class','fa text-yellow fa-star');
-   }else if($(this).children('i').attr('class')=='fa text-yellow fa-star'){
-      alert('찾즐');
-      $(this).children('i').attr('class','fa text-yellow fa-star-o');
-   }
-   
-}
+
   $(function () {    
-   
-	  $(".chkbox").change(function(){
+     
+     $('a.favorite').click(function() {
+        alert("클릭");
+        var locations = $(this).next().attr('href');
+        if($(this).children('i').attr('class')=='fa fa-star text-yellow'){
+           $.ajax({
+               url:"deleteFavorites",
+               type:"post",
+               //client에서 server로 가는 값
+               data:{"id": '${sessionScope.member.id}',"locations":locations},
+               success: function(data){
+                  if(data==1){
+                     $(this).children('i').attr('class','fa fa-star-o text-yellow');
+                  }else{alert("다시 시도해주세용");}
+               
+           },
+                 fail: function(res){
+              alert("다시 시도해주세용");
+              }
+     });
+        }
+        else if($(this).children('i').attr('class')=='fa fa-star-o text-yellow'){
+           var title = prompt("이름을 입력해주세요");
+           if(title==null||title==""){
+              return;
+           }
+           var locations = $(this).next().attr('href');
+           alert(title+"\n"+locations);
+           $.ajax({
+               url:"insertFavorites",
+               type:"post",
+               //client에서 server로 가는 값
+               data:{"id": '${sessionScope.member.id}', "title":title,"locations":locations},
+               success: function(data){
+                  if(data==1){
+                     $(this).children('i').attr('class','fa fa-star text-yellow');
+                  }else{alert("다시 시도해주세용");}
+               
+           },
+                 fail: function(res){
+              alert("다시 시도해주세용");
+              }
+     });
+       
+      }
+        location.reload();
+     });
+     
+     $(".chkbox").change(function(){
 	        if($(this).is(":checked")){
 	            $.ajax({
 	            	url:'chkschdule'
@@ -682,11 +528,13 @@ function favorite(){
 	            $(this).parent('li').removeClass('done');
 	        }
 	  });
-	 
 	  
-	  
+     
+    
    $('#saveMemo').click(function(){
       var memo = $('#memo').val();
+      memo= memo.replace("\r\n","<br>");
+      alert(memo);
       var today = new Date();
       var mm= today.getMonth()+1; 
       var dd =today.getDate();
