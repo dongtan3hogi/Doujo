@@ -368,6 +368,8 @@
 	              	  <input type="button" class="btn btn-block btn-info" id="Computer" style="width: 100px; display: inline; margin-left: 10px;" value="Computer" />
               	  </div>
               	  <br/>
+              	  <div id="wordlist">
+              	  </div>
             </div>
             <!-- /.box-body -->
           </div>
@@ -519,6 +521,25 @@ var modal = document.getElementById('myModal');
 	    
 	    $('#English').on('click',function(){
 	    	alert("English");
+	    	var wtype = "영어";
+	    	 $.ajax({
+					url:"goWord",
+					type:"post",
+					//client에서 server로 가는 값
+					data:{"type": wtype},
+					success: function(data){
+						var result="<ul>";
+						$.each(data, function(index, item){
+				            result+="<li>"+item[0]+"<br/>"+item[1]+"</li>";
+						});
+						result+="</ul>";
+						$('#wordlist').append(result)
+					
+			  },
+	  				fail: function(res){
+				  alert("다시 시도해주세용");
+				  }
+	  });
 	    });
 	    
 	    $('#Japanese').on('click',function(){

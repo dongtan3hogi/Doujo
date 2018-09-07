@@ -19,6 +19,42 @@ public class Selenium {
 		
 	 
  }
+ public ArrayList<String[]> wList(String type){
+	 String aa = "오늘의 "+type+"단어";
+	String request = "https://search.naver.com/search.naver?ie=utf8&query="+aa;
+	driver.get(request);
+	try {
+		Thread.sleep(900);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	List<WebElement> body = (List<WebElement>) driver.findElements((By.cssSelector("ul.word_lst p.word_area")));
+	List<WebElement> body2 = (List<WebElement>) driver.findElements((By.cssSelector("ul.word_lst p.mean")));
+	
+
+	/*List<WebElement> a=body.findElements(By.tagName("strong"));
+	System.out.println(a.toString());
+	List<WebElement> b=body.findElements(By.cssSelector("em.mean_txt"));
+	System.out.println(b.toString());*/
+
+	ArrayList<String[]> result = new ArrayList<String[]>();
+
+	for(int i=0; i<body.size(); i++) {
+	/*	System.out.println(body.get(i).findElement(By.cssSelector("a")).getText());
+		System.out.println(body2.get(i).findElement(By.cssSelector("em")).getText());*/
+	String[] word = new String[2];
+			word[0]=	body.get(i).findElement(By.cssSelector("a")).getText();
+		word[1] =body2.get(i).findElement(By.cssSelector("em")).getText();
+		result.add(word);
+		System.out.println(word[0].toString());
+		System.out.println(word[1].toString());
+
+	}
+	 driver.quit();  // Driver 종료
+
+	return result;
+ }
  public ArrayList<String[]> Search(String value, String type) {
 	 String request =null;
 	 String[] token = null;
@@ -139,4 +175,6 @@ public class Selenium {
 	 
 	return result;
  }
+ 
+  
 }

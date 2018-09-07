@@ -1,5 +1,8 @@
 package com.scit.doujo; 
  
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +18,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.scit.doujo.dao.memberDao;
 import com.scit.doujo.dao.studyDao;
 import com.scit.doujo.util.PageNavigator;
+import com.scit.doujo.util.Selenium;
 import com.scit.doujo.vo.schedule;
 
 import org.springframework.beans.factory.annotation.Autowired; 
@@ -754,6 +758,20 @@ public class StudyController {
 		session.setAttribute("eventtitle", eventtitle);
 		return "study/studyMain";
 	}
+	@RequestMapping(value = "/goWord", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<String[]> goWord( String type, HttpSession hs) {
+		
+		Selenium sl = new Selenium();
+		try {
+			type=URLDecoder.decode(type, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+		System.out.println(type);
+		ArrayList<String[]> wlist= sl.wList(type);
+		return wlist;
+	}
 	
 } 
