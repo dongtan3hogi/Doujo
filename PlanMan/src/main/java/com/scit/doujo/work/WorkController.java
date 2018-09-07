@@ -23,7 +23,7 @@ import com.scit.doujo.vo.member;
 import com.scit.doujo.vo.schedule;
 import com.scit.doujo.vo.work.memo;
 import com.scit.doujo.vo.work.count;
-
+import com.scit.doujo.vo.work.favorites;
 import com.scit.doujo.vo.work.friendquery;
 
 
@@ -178,10 +178,19 @@ public class WorkController {
 	      default:
 	         break;
 	      }
-	      
-	      System.out.println(schList.size());
 	      naverNews n = new naverNews();
 	      ArrayList<String[]> article = n.search("오늘의 주요뉴스", 5);
+	      workDao wd = sqlSession.getMapper(workDao.class);
+	      List<favorites> fa = wd.allFavorites(id);
+	      /*   ArrayList<Integer> a = new ArrayList<Integer>();
+	      for(int i=0; i<article.size(); i++) {
+	    	  for(int j=0; j<fa.size();j++) {
+	    		  if(article.get(i)[1].toString().equals(fa.get(j).getLocations())){
+	    			  a.add(i);
+	    		  }
+	    	  }
+	      }*/
+	      model.addAttribute("fcheck",fa);
 	      model.addAttribute("article",article );
 	      session.setAttribute("schList", schList);
 		return "/work/workMain";
@@ -204,6 +213,10 @@ public class WorkController {
 	@RequestMapping(value = "/saveMemo", method = RequestMethod.POST)
 	public @ResponseBody int saveTodayMemo(String text,String startDate, HttpSession hs) {
 		workDao wd = sqlSession.getMapper(workDao.class);
+		
+		text=text.replaceAll("(\r\n|\r|\n|\n\r)", "<br>");;
+	
+
 		member m = (member) hs.getAttribute("member");
 		String userid = m.getId();
 		memo a = new memo(userid,text,startDate,startDate);		
@@ -232,6 +245,21 @@ public class WorkController {
 		}
 		
 	}
+	
+	@RequestMapping(value = "/insertFavorites", method = RequestMethod.POST)
+	public @ResponseBody int insertFavorites( favorites fv) {
+		workDao um= sqlSession.getMapper(workDao.class);
+		int mm = um.insertFavorites(fv);
+		return mm;
+		
+	}
+	@RequestMapping(value = "/deleteFavorites", method = RequestMethod.POST)
+	public @ResponseBody int deleteFavorites( favorites fv) {
+		workDao um= sqlSession.getMapper(workDao.class);
+		int mm = um.deleteFavorites(fv);
+		return mm;
+		
+	}
 	@RequestMapping(value = "/findmemo", method = RequestMethod.POST)
 	public @ResponseBody memo findmemo( Model model,String id, String startdate) {
 		workDao um= sqlSession.getMapper(workDao.class);
@@ -239,6 +267,13 @@ public class WorkController {
 		m.setId(id);
 		m.setStartdate(startdate);
 		memo mm = um.findMemo(m);
+		if(mm==null) {
+			return null;
+		}
+		String temp = mm.getMemo();
+		temp=temp.replaceAll("<br>", "\r\n");
+		System.out.println(temp);
+		mm.setMemo(temp);
 		return mm;
 
 	}

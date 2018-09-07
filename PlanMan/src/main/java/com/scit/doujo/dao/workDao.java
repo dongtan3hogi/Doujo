@@ -3,6 +3,7 @@ package com.scit.doujo.dao;
 import java.util.List;
 
 import com.scit.doujo.vo.work.count;
+import com.scit.doujo.vo.work.favorites;
 import com.scit.doujo.vo.work.friendquery;
 import com.scit.doujo.vo.work.keylist;
 import com.scit.doujo.vo.work.memo;
@@ -21,5 +22,8 @@ public interface workDao {
 	public int deleteMemo(memo m);
 	public List<memo> allMemo(String userid);
 	public int deleteKeyword(String userid,String value);
+	public int insertFavorites(favorites fv);
+	public int deleteFavorites(favorites fv);
+	public List<favorites> allFavorites(String userid);
 	
 }

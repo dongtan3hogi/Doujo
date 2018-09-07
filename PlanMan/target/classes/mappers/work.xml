@@ -85,4 +85,14 @@
   delete from work_memo where id=#{id} and startdate=#{startdate} </delete>
   <delete id="deleteKeyword" parameterType="String">
   delete from work_word where id=#{param1} and keyword=#{param2} </delete>
+  <insert id="insertFavorites" parameterType="favorites">
+  insert into work_favorites values(
+  #{id},
+  #{title},
+  #{locations}
+  )</insert>
+  <delete id="deleteFavorites" parameterType="favorites">
+  delete from work_favorites where id= #{id}  and locations= #{locations}</delete>
+  <select id="allFavorites" parameterType="String" resultType="favorites">
+  select * from work_favorites where id= #{id}</select>
 </mapper>

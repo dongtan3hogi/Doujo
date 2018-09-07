@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -22,6 +23,8 @@
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- Date Picker -->
+  <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
 
 <!-- head -->
 </head>
@@ -205,8 +208,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-                      <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Calendar</a></li>
+                     <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>  
           </ul>
         </li>
         <li class="treeview">
@@ -301,13 +305,13 @@
             <!-- /.box-body -->
           </div>
           <!-- /. box -->
-         <div class="box box-solid">
+         <div class="box box-solid" >
             <div class="box-header with-border">
               <h3 class="box-title">MEMO</h3>
 
               <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
+            
+                <input type="button" class="datepicker"  ></input>
               </div>
             </div>
             <div class="box-body no-padding">
@@ -596,10 +600,46 @@
 <!-- fullCalendar -->
 <script src="resources/main/bower_components/moment/moment.js"></script>
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<!-- datepicker -->
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- Page specific script -->
 <script>
   $(function () {
-	  
+	  $( ".datepicker" ).datepicker({
+	       
+	       changeMonth: true, 
+	       changeYear: true,
+	       nextText: "다음 달",
+	       prevText: "이전 달" ,
+	       dateFormat: "yy-mm-dd",
+	       onSelect: function(dateText) {  
+	    	   alert(dateText);
+	    	   $.ajax({
+	    		   url:'findmemo',
+	    		    type: 'post',
+	    		    data: {
+	    		    	'id': '${sessionScope.member.id}', 'startdate': dateText
+	    		    },
+	    		    success: function(data){
+	    				if(data==null)	{
+	    					alert("메모가 없습니다");	    			
+	    		            }else{
+	    		            	if(dateText==td){
+   	    		            	$('#memoTitle').html("오늘의 메모");
+	    		            	}else{
+   	    		            	$('#memoTitle').html(dateText+"의 메모");            		
+	    		            	}
+	    		            	$('#memo').val(data.memo);
+	    		            }
+	    				},
+	    		    error: function() {
+	    		      alert('there was an error while fetching events!');
+	    		    }
+     		  });
+	    	     }
+
+	 });
+	   
 	  var today = new Date();
 		var mm= today.getMonth()+1; 
 		var dd =today.getDate();
@@ -721,6 +761,7 @@
         	    		            		
     	    		            	}
     	    		            	temp=event.start.format();
+    	    		            	
     	    		            	$('#memo').val(data.memo);
     	    		            }
     	    				},
@@ -759,6 +800,8 @@
     });
    $('#saveMemo').click(function(){
 		var memo = $('#memo').val();
+		
+		
 		var today = new Date();
 		var mm= today.getMonth()+1; 
 		var dd =today.getDate();
@@ -784,6 +827,7 @@
 			}
 		});
 		});
+  
   });
 </script>
 </body>

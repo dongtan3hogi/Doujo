@@ -1,4 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<% pageContext.setAttribute("br","<br/>");
+	pageContext.setAttribute("cn","\n");%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -79,6 +82,8 @@ function goSearch2(key){
 $(document).ready(function(){
 $('#saveMemo').click(function(){
 	var memo = $('#memo').val();
+	memo= memo.replace("\r\n","<br>");
+	alert(memo);
 	var today = new Date();
 	var mm= today.getMonth()+1; 
 	var dd =today.getDate();
@@ -415,8 +420,10 @@ $(document).on("click",".friendBtn",function(){
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-          </ul>
+<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>  
+                      </ul>
         </li>
         <li class="treeview">
           <a href="#">

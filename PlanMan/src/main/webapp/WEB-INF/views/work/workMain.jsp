@@ -206,7 +206,9 @@
           </a>
           <ul class="treeview-menu">
 <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Calendar</a></li>          </ul>
+            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
+            </ul>
         </li>
         <li class="treeview">
           <a href="#">
@@ -273,58 +275,13 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">MENU</h3>
-
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-              <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="goWork1"><i class="fa fa-inbox"></i> HOME
-                  <span class="label label-primary pull-right">12</span></a></li>
-                <li><a href="goNewsMap"><i class="fa fa-envelope-o"></i> NEWS</a></li>
-                <li><a href="#"><i class="fa fa-file-text-o"></i> MAILS</a></li>
-              
-              </ul>
-            </div>
-            
-            
-            <!-- /.box-body -->
-          </div>
-          <!-- /. box -->
-         <div class="box box-solid">
-            <div class="box-header with-border">
-              <h3 class="box-title">MEMO</h3>
-
-              <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-            <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>
-           
-           <textarea id ="memo"rows="20" value="text"  style="min-width: 95%;"></textarea> <br/>
-           <input type="button" value="저장" id="saveMemo">
-           
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /. box -->
-          
-          
-        </div>
+      
+        
         <!-- /.col -->
-        <div class="col-md-9">
+        
           
       	  <!-- general form elements disabled -->
-          <div class="box box-primary" style="width: 40%; float:left;margin-right:20px;">
+          <div class="box box-primary" style="width: 30%; float:left;margin-right:20px;">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
 
@@ -363,7 +320,7 @@
           </div>
          
           <!-- /.box -->
-          <div class="box box-primary" style="width: 50%; float:left; ">
+          <div class="box box-primary" style="width: 45%; float:left; margin-right:20px; ">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
               <h3 class="box-title">Main News</h3>
@@ -376,25 +333,76 @@
               <h3> 주요 뉴스가 없습니다.</h3>
               </c:if>
               <c:if test="${!empty article}">
-		<c:forEach var="news" items="${article }">
+		<c:forEach var="news" items="${article }" varStatus="num">
 		<ul>
-		<li><a href="${news[1] }" target="_blank">${news[0] }</a><br>
-		<span>${news[2] }</span></li>
+		<c:set var="loop_flag" value="false" />
+		<c:forEach var='fcheck' items="${fcheck }">
+		
+		<c:if test="${fcheck.locations == news[1] }">
+		 <c:set var="loop_flag" value="true" />
+		</c:if>
+		</c:forEach>
+		<c:if test="${not loop_flag }">		<li><a href="javascript:void(0);" name='favorite'><i class="fa fa-star-o text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+			<span>${news[2] }</span></li>
+		</c:if>
+		<c:if test="${ loop_flag}">			<li><a href="javascript:void(0);" name='favorite'><i class="fa fa-star text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+		<span>${news[2] }</span></li></c:if>
 		</ul>
+	
 		</c:forEach>
 		</c:if>
             </div>
             <!-- /.box-body -->
           </div>
+          
+          <!-- /. box -->
+         <div class="box box-primary" style="width: 20%; float:left;">
+            <div class="box-header ">
+              <h3 class="box-title">MEMO</h3>
+
+              <div class="box-tools">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body no-padding">
+            <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>
+           
+           <textarea id ="memo"rows="20" value="text"  style="min-width: 95%; margin-left: 5px;"></textarea> <br/>
+           <input type="button" value="저장" id="saveMemo">
+           
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /. box -->
+        
         <!-- /.col -->
-      </div>
+  		
   	
       <!-- /.row -->
     </section>
     <!-- /.content -->
+    <div class="box box-primary" style="width: 20%; ">
+            <div class="box-header ">
+              <h3 class="box-title">즐겨찾기</h3>
+            </div>
+            <div class="box-body no-padding">
+          <ul>
+         		<c:forEach var='fcheck' items="${fcheck }">
+         		<li><a href="javascript:void(0);"><i class="fa fa-star text-yellow"></i></a>&nbsp;&nbsp;<a href="${fcheck.locations }" target="_blank">${fcheck.title }</a><br>
+		<span>${news[2] }</span></li>
+		</c:forEach>
+
+          </ul>
+           
+            </div>
+            <!-- /.box-body -->
+          </div>
   </div>
   <!-- /.content-wrapper -->
-  
+      
+    
+ 
 
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
@@ -624,142 +632,55 @@
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 <!-- Page specific script -->
 <script>
-  $(function () {
+
+  $(function () {	 
 	  
-	  var today = new Date();
-		var mm= today.getMonth()+1; 
-		var dd =today.getDate();
-		var yy = today.getFullYear();
-		if(dd<10) {
-		    dd='0'+dd;
-		} 
-		if(mm<10) {
-		    mm='0'+mm;
-		} 
-		var td=yy+'-'+mm+'-'+dd;
-		var temp=td;
-		var mlist = [];
-		<c:forEach items="${mlist}" var="item1">
-		mlist.push(JSON.stringify(${item1}));
-		</c:forEach>
-
-		var eData = [];
-		 for(var i = 0; i < mlist.length; i++)  {
-			 var catact = JSON.parse(mlist[i]);
-		      eData.push({
-		        title : "메모O",
-		        start : catact.startdate,
-		        end : catact.enddate
-		      });
-		     
-		    }
+	  $('a[name=favorite]').click(function() {
+		  alert('!!!'); 
+		  if($(this).children('i').attr('class')=='fa fa-star text-yellow'){
+			  $.ajax({
+					url:"deleteFavorites",
+					type:"post",
+					//client에서 server로 가는 값
+					data:{"id": '${sessionScope.member.id}',"locations":locations},
+					success: function(data){
+						if(data==1){
+							$(this).children('i').attr('class','fa fa-star-o text-yellow');
+						}else{alert("다시 시도해주세용");}
+					
+			  },
+	  				fail: function(res){
+				  alert("다시 시도해주세용");
+				  }
+	  });
+		  }
+		  else if($(this).children('i').attr('class')=='fa fa-star-o text-yellow'){
+			  var title = prompt("이름을 입력해주세요");
+			  var locations = $(this).next().attr('href');
+			  alert(title+"\n"+locations);
+			  $.ajax({
+					url:"insertFavorites",
+					type:"post",
+					//client에서 server로 가는 값
+					data:{"id": '${sessionScope.member.id}', "title":title,"locations":locations},
+					success: function(data){
+						if(data==1){
+							$(this).children('i').attr('class','fa fa-star text-yellow');
+						}else{alert("다시 시도해주세용");}
+					
+			  },
+	  				fail: function(res){
+				  alert("다시 시도해주세용");
+				  }
+	  });
 		 
-   $('#calendar').fullCalendar({
-	      header: {
-	        left: 'prev,next today',
-	        center: 'title',
-	        right: 'month'
-	      },
-	      defaultDate: td,
-	      navLinks: false,
-	      selectable: true,
-	      selectHelper: true,
-	      select: function(start, end) {
-	    	  var title = $('#memo').val();
-	    	  var check = confirm("메모를 저장 또는 수정 하시겠습니까?");	  
-	          var eventData;
-	          if (check  ) {
-	        	  if(title!=""){	
-	      	      	$.ajax({
-	      	    		  url:'insertmemo',
-	      	    		    type: 'post',
-	      	    		    data: {
-	      	    		    	'id': '${sessionScope.member.id}','memo': title, 'startdate': start.format(),'enddate':end.format()
-	      	    		    },
-	      	    		    success: function(data){
-	      	    				if(data==1)	{
-	      	    					alert("저장 되었습니다.");
-	      	    				eventData = {
-	      	    		              title: "메모",
-	      	    		              start: start,
-	      	    		              end: end     
-	      	    		            };
-	      	    		            $('#calendar').fullCalendar('renderEvent', eventData, true);
-	      	    				}
-	      	    				else if(data==3) alert("수정 되었습니다");
-	      	    				else alert("다시 시도해주세요");
-	      	    				},
-	      	    		    error: function() {
-	      	    		      alert('there was an error while fetching events!');
-	      	    		    }
-	        		  });
-	            
-	        	  }else{
-		            	alert("메모를 입력해 주세요");
-		            }// stick? = true
-	          }
-	          $('#calendar').fullCalendar('unselect');
-	        },// can click day/week names to navigate views
-	      editable: false,
-	      eventLimit: false, // allow "more" link when too many events
-	      events: eData,
-	      eventClick: function(event) {
-	    	   	var del= confirm("삭제 ->yes, 불러오기 -> no");
-	    	   	if(del){
-	    	   		
-	    	   		$.ajax({
-	    	    		  url:'deletememo',
-	    	    		    type: 'post',
-	    	    		    data: {
-	    	    		    	'id': '${sessionScope.member.id}', 'startdate': event.start.format()
-	    	    		    },
-	    	    		    success: function(data){
-	    	    				if(data==1)	{
-	    	    					alert("삭제 완료");
-	    	    					
-	    	    					$('#calendar').fullCalendar('removeEvents', event._id);
-	    	    		            }else{
-	    	    		            	alert("다시 시도해주세요");
-	    	    		            	location.href="goNews"; 
-	    	    		            }
-	    	    				},
-	    	    		    error: function() {
-	    	    		      alert('there was an error while fetching events!');
-	    	    		    }
-	      		  });
-	    	   	}else{
-	    	   	$.ajax({
-    	    		  url:'findmemo',
-    	    		    type: 'post',
-    	    		    data: {
-    	    		    	'id': '${sessionScope.member.id}', 'startdate': event.start.format()
-    	    		    },
-    	    		    success: function(data){
-    	    				if(data==null)	{
-    	    					alert("오류 발생");
-    	    				
-    	    		            }else{
-    	    		            	if(event.start.format()==td){
-        	    		            	$('#memoTitle').html("오늘의 메모");
-
-    	    		            	}else{
-        	    		            	$('#memoTitle').html(event.start.format()+"의 메모");
-        	    		            		
-    	    		            	}
-    	    		            	temp=event.start.format();
-    	    		            	$('#memo').val(data.memo);
-    	    		            }
-    	    				},
-    	    		    error: function() {
-    	    		      alert('there was an error while fetching events!');
-    	    		    }
-      		  });}
-	    	      return false;
-	    	    },  
-    
-    });
+		}
+	  });
+	 
    $('#saveMemo').click(function(){
 		var memo = $('#memo').val();
+		memo= memo.replace("\r\n","<br>");
+		alert(memo);
 		var today = new Date();
 		var mm= today.getMonth()+1; 
 		var dd =today.getDate();
