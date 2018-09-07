@@ -10,3 +10,9 @@ create table work_memo(
     memo varchar2(2000),
     startdate varchar2(20) default to_char(sysdate, 'YYYY-MM-DD'),
     enddate varchar2(20) not null);
+
+create table work_favorites(
+id varchar2(20) references member(id),
+title varchar2(200) not null,
+locations varchar2(1000));
+}
