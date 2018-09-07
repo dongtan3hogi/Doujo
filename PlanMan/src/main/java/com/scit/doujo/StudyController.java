@@ -1,5 +1,6 @@
 package com.scit.doujo; 
  
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -7,13 +8,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap; 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map; 
  
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import com.scit.doujo.dao.memberDao;
 import com.scit.doujo.dao.studyDao;
@@ -760,7 +766,37 @@ public class StudyController {
 	}
 	@RequestMapping(value = "/goWord", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String[]> goWord( String type, HttpSession hs) {
-		
+		 String aa = "오늘의 "+type+"단어";
+			String request = "https://search.naver.com/search.naver?ie=utf8&query="+aa;
+		String USER_AGENT = "Mozilla/5.0";
+	
+         
+         // 2. HTML 가져오기
+         Connection conn = Jsoup
+                 .connect(request)
+                 .header("Content-Type", "application/json;charset=UTF-8")
+                 .userAgent(USER_AGENT)
+                 .method(Connection.Method.GET)
+                 .ignoreContentType(true);
+         
+         Document doc = null;
+		try {
+			doc = conn.get();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+         List<Element> a =doc.select("a.word");
+         List<Element> b = doc.select("p.mean");
+         ArrayList<String[]> result = new ArrayList<String[]>();
+         for(int i =0; i<a.size(); i++) {
+        	 String[] ds = new String[2];
+        	 ds[0]= a.get(i).text();
+        	 ds[1]= b.get(i).text();
+        	 result.add(ds);
+         }
+         // 3. 가져온 HTML Document 를 확인하기
+		return result;
+	/*	
 		Selenium sl = new Selenium();
 		try {
 			type=URLDecoder.decode(type, "utf-8");
@@ -771,7 +807,9 @@ public class StudyController {
 
 		System.out.println(type);
 		ArrayList<String[]> wlist= sl.wList(type);
-		return wlist;
+		return wlist;*/
+
 	}
 	
+		
 } 
