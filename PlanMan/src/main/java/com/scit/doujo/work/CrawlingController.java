@@ -66,7 +66,7 @@ public class CrawlingController {
 		ArrayList<String[]> result = sel.Search(search,type);
 		System.out.println(result.size());
 		article.setValue(result);
-		work_PageNavi pn = new work_PageNavi(1,result.size());
+		work_PageNavi pn = new work_PageNavi(10,1,result.size());
 		model.addAttribute("navi",pn);
 		ArrayList<String[]> ab = article.page(1);
 		model.addAttribute("result",ab);
@@ -88,7 +88,7 @@ public class CrawlingController {
 		String userid=m.getId();		
 		List<memo> result2 = um.allMemo(userid);
 		model.addAttribute("mlist", result2);
-		work_PageNavi pn = new work_PageNavi(value,article.getStaticHello().size());
+		work_PageNavi pn = new work_PageNavi(10,value,article.getStaticHello().size());
 		model.addAttribute("navi",pn);
 
 		return "work/news";
