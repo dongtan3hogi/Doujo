@@ -388,7 +388,7 @@
         
         <!-- /.col -->
         <div class="col-md-9">
-          <div class="box box-primary">
+          <div class="box box-primary" style="margin-left: 20px;">
             <div class="box-body no-padding">
               <!-- THE CALENDAR -->
               <div id="calendar"></div>
@@ -460,7 +460,7 @@
       header    : {
         left  : 'prev,next today',
         center: 'title',
-        right : 'month,agendaWeek,agendaDay'
+        right : 'month'
       },
       buttonText: {
         today: '오늘',

@@ -357,11 +357,11 @@
       	  <form action="gotoNutrition" method="get">
     	  <input type="submit" class="btn btn-Danger" value="오늘의 영양정보 보기">
     	  </form>
-    	  <form action="showWeekNut" method="get">
+    	  <form action="showWeekNut" method="post">
     	  <input type="hidden" value="${countday}" name="countday">
     	  <input type="submit" class="btn btn-Danger" value="이번주 영양정보 보기">
     	  </form>
-    	  <form action="showMonthNut" method="get">
+    	  <form action="showMonthNut" method="post">
     	  <input type="hidden" value="${countday}" name="countday">
     	  <input type="submit" class="btn btn-Danger" 	value="이번달 영양정보 보기">
     	  </form>	

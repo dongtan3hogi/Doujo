@@ -267,7 +267,7 @@ public class HealthController {
 	}
 	
 	//몸무게 및 키 입력여부 확인하기
-	@RequestMapping(value = "/chkBodyInfo", method = RequestMethod.GET)
+	@RequestMapping(value = "/chkBodyInfo", method = RequestMethod.POST)
 	public @ResponseBody String chkBodyInfo(HttpSession session) {
 		healthDao manager=sqlSession.getMapper(healthDao.class);
 		member vo=(member) session.getAttribute("member");
@@ -368,7 +368,7 @@ public class HealthController {
 	}
 	
 	//식단표 음식 삭제하기
-	@RequestMapping(value = "/deleteMeal", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteMeal", method = RequestMethod.POST)
 	public String deleteMeal(HttpSession session, String countday, int eatnum, Model model) {
 		healthDao manager=sqlSession.getMapper(healthDao.class);
 		
@@ -415,7 +415,8 @@ public class HealthController {
 		
 		mynut vo=dayNutritionCal(id, countday);
 		if(vo==null) {
-			return "redirect:/gotoHealth";
+			model.addAttribute("countday", countday);
+			return "health/myNutrition";
 		}
 		vo.setId(id);
 		vo.setCountday(countday);
@@ -424,15 +425,18 @@ public class HealthController {
 		if(result==null) {
 			int check=manager.insertMyNut(vo);
 			System.out.println("daynut 새로 추가");
+			model.addAttribute("mynut", result);
+			model.addAttribute("countday", countday);
+			return "health/myNutrition";
 		}else {
 			int check=manager.updateMyNut(vo);
 			System.out.println(result.toString());
 			System.out.println("daynut 업데이트");
+			model.addAttribute("mynut", result);
+			model.addAttribute("countday", countday);
+			return "health/myNutrition";
 		}
 		
-		model.addAttribute("mynut", result);
-		model.addAttribute("countday", countday);
-		return "health/myNutrition";
 	}
 	
 	// 1일치 영양정보 계산하기
@@ -490,7 +494,7 @@ public class HealthController {
 	}
 	
 	//이번주 영양정보 페이지로 이동하기
-	@RequestMapping(value = "/showWeekNut", method = RequestMethod.GET)
+	@RequestMapping(value = "/showWeekNut", method = RequestMethod.POST)
 	public String showWeekNut(Model model, HttpSession session, String countday) {
 		healthDao manager=sqlSession.getMapper(healthDao.class);
 		String id=(String) session.getAttribute("memberID");
@@ -630,7 +634,7 @@ public class HealthController {
 	}
 	
 	// 이번달 영양정보
-	@RequestMapping(value = "showMonthNut", method = RequestMethod.GET)
+	@RequestMapping(value = "showMonthNut", method = RequestMethod.POST)
 	public String showMonthNut(Model model, HttpSession session, String countday) {
 		healthDao manager=sqlSession.getMapper(healthDao.class);
 		String id=(String) session.getAttribute("memberID");

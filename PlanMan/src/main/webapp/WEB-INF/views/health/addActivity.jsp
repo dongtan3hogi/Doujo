@@ -392,8 +392,11 @@
               		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
 	                <h3 class="box-title">Add Activity</h3>
         </div>
-    	<div align="right">날짜 선택 : <input type="text" style="width: 150px;" class="datepicker" name="countday" id="addActDay" ><input type="button" class="btn btn-Danger" id="addActivity" value="활동 입력하기"></div>
-    	
+    	<div align="right">
+    		날짜 선택&nbsp:&nbsp<input type="text" style="width: 150px;" class="datepicker" name="countday" id="addActDay" >&nbsp
+    		<input type="button" class="btn btn-Danger" id="addActivity" value="활동 입력하기" style="margin-right: 10px;">
+    	</div>
+    	<br/>
     	<div id="actType">
 		 	<input id="tab1" value="걷기" type="radio" name="tabs" class="tab">
 		 	<label for="tab1">걷기</label>
@@ -492,6 +495,8 @@ var span = document.getElementsByClassName("close")[0];
 	  $('.datepicker').datepicker({
 			dateFormat: 'yy-mm-dd'
 	  });
+	  
+	  $('.datepicker').datepicker('setDate', 'today');
 	  
 	  showtime();
 	  

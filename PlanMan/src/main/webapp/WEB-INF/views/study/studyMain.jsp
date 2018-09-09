@@ -413,25 +413,10 @@
 <script src="resources/main/bower_components/chart.js/Chart.js"></script>
 <!-- Page specific script -->
 <script>
-// Get the modal
-var modal = document.getElementById('myModal');
+
 
   $(function () {
 	  showtime();
-	  
-	  $.ajax({
-			 url:"chkBodyInfo"
-			 ,type:"get"
-			 ,success: function(data){
-				 
-				 if(data=="empty"){
-					modal.style.display = "block";
-				 }
-			 }
-		     ,error: function(){
-		    	 alert("통신실패");
-		     }
-	  });
 	  
 	  
 	  setInterval(function(){
@@ -520,39 +505,79 @@ var modal = document.getElementById('myModal');
 	    pieChart.Doughnut(PieData, pieOptions)
 	    
 	    $('#English').on('click',function(){
-	    	alert("English");
-	    	var wtype = "영어";
+	    	 var wtype = "영어";
 	    	 $.ajax({
 					url:"goWord",
 					type:"post",
 					//client에서 server로 가는 값
 					data:{"type": wtype},
 					success: function(data){
-						var result="<ul>";
+						$('#wordlist').text('');
+						var result="<ul class='products-list product-list-in-box'>";
 						$.each(data, function(index, item){
-				            result+="<li>"+item[0]+"<br/>"+item[1]+"</li>";
+				            result+="<li class='item'><div style='color: #2ECCFA; font-size: 20px; font-weight: bold;'>"+item[0]+"</div><div>"+item[1]+"</div></li>";
 						});
 						result+="</ul>";
-						$('#wordlist').append(result)
+						$('#wordlist').append(result);
 					
-			  },
+			  		},
 	  				fail: function(res){
-				  alert("다시 시도해주세용");
-				  }
-	  });
+				  		alert("다시 시도해주세용");
+				  	}
+	  		});
 	    });
 	    
 	    $('#Japanese').on('click',function(){
-	    	alert("Japanese");
+	    	var wtype = "일본어";
+	    	 $.ajax({
+					url:"goWord",
+					type:"post",
+					//client에서 server로 가는 값
+					data:{"type": wtype},
+					success: function(data){
+						$('#wordlist').text('');
+						var result="<ul class='products-list product-list-in-box'>";
+						$.each(data, function(index, item){
+				            result+="<li class='item'><div style='color: #2ECCFA; font-size: 20px; font-weight: bold;'>"+item[0]+"</div><div>"+item[1]+"</div></li>";
+						});
+						result+="</ul>";
+						$('#wordlist').append(result);
+					
+			  		},
+	  				fail: function(res){
+				  		alert("다시 시도해주세용");
+				  	}
+	  		});
 	    });
 	    
 	    $('#Chinese').on('click',function(){
-	    	alert("Chinese");
+	    	var wtype = "중국어";
+	    	 $.ajax({
+					url:"goWord",
+					type:"post",
+					//client에서 server로 가는 값
+					data:{"type": wtype},
+					success: function(data){
+						$('#wordlist').text('');
+						var result="<ul class='products-list product-list-in-box'>";
+						$.each(data, function(index, item){
+				            result+="<li class='item'><div style='color: #2ECCFA; font-size: 20px; font-weight: bold;'>"+item[0]+"</div><div>"+item[1]+"</div></li>";
+						});
+						result+="</ul>";
+						$('#wordlist').append(result);
+					
+			  		},
+	  				fail: function(res){
+				  		alert("다시 시도해주세용");
+				  	}
+	  		});
 	    });
 	    
 	    $('#Computer').on('click',function(){
 	    	alert("Computer");
 	    });
+	    
+	    $('#English').trigger('click');
 	    
   })
   

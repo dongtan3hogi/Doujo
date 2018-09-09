@@ -13,57 +13,15 @@
   <link rel="stylesheet" href="resources/main/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="resources/main/bower_components/Ionicons/css/ionicons.min.css">
-  <!-- dataTable -->
-  <link rel="stylesheet" type="text/css"  href="resources/main/bower_components/datatable/css/datatables.css">
-  <!-- fullCalendar -->
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css">
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
   <!-- Theme style -->
   <link rel="stylesheet" href="resources/main/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <!-- Date Picker -->
-  <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
+
 
  <style type="text/css">
-	 /* The Modal (background) */
-     .modal {
-         display: none; /* Hidden by default */
-         position: fixed; /* Stay in place */
-         z-index: 999; /* Sit on top */
-         left: 0;
-         top: 0;
-         width: 100%; /* Full width */
-         height: 100%; /* Full height */
-         overflow: auto; /* Enable scroll if needed */
-         background-color: rgb(0,0,0); /* Fallback color */
-         background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
-     }
- 
-     /* Modal Content/Box */
-     .modal-content {
-         background-color: #fefefe;
-         margin: 15% auto; /* 15% from the top and centered */
-         padding: 20px;
-         border: 1px solid #888;
-         width: 30%; /* Could be more or less, depending on screen size */                          
-     }
-     /* The Close Button */
-     .close {
-         color: #aaa;
-         float: right;
-         font-size: 28px;
-         font-weight: bold;
-     }
-     .close:hover,
-     .close:focus {
-         color: black;
-         text-decoration: none;
-         cursor: pointer;
-     }
-     
      form{
      	display: inline;
      }
@@ -319,33 +277,6 @@
       </ol>
     </section>
 	
-	<!-- The Modal -->
-    <div id="myModal" class="modal">
- 
-    	<!-- Modal content -->
-        <div class="modal-content">
-        	<span class="close">&times;</span>
-        	
-        	<div>
-        		<input type="hidden" id="foodnum">
-        	</div>
-        	<br/>
-        	<div>
-        		음식이름  :  <span id="fName"></span> 
-        	</div>
-        	<br/>
-        	<div>
-        		섭취량    <input type="number" style="width: 50px; height: 30px;" id="fGram" >g
-        	</div>
-        	<br/>
-        	<div>
-        		섭취일 <input type="text" style="width: 150px;" class="datepicker" id="eatday" > 
-        	</div>
-        	<br/>
-        	<div id="sch-button" align="right"><input type="submit" id="addMeal" style="width: 200px;" value="음식 입력하기" class="btn btn-block btn-Danger" onclick="return addMealChk()"/></div>
-        </div>
-    </div>
-
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -357,11 +288,11 @@
       	  <form action="gotoNutrition" method="get">
     	  <input type="submit" class="btn btn-Danger" value="오늘의 영양정보 보기">
     	  </form>
-    	  <form action="showWeekNut" method="get">
+    	  <form action="showWeekNut" method="post">
     	  <input type="hidden" value="${countday}" name="countday">
     	  <input type="submit" class="btn btn-Danger" value="이번주 영양정보 보기">
     	  </form>
-    	  <form action="showMonthNut" method="get">
+    	  <form action="showMonthNut" method="post">
     	  <input type="hidden" value="${countday}" name="countday">
     	  <input type="submit" class="btn btn-Danger" 	value="이번달 영양정보 보기">
     	  </form>	
@@ -371,6 +302,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body no-padding">
+              <c:if test="${mynut!=null}">
               <table class="table table-striped">
                 <tr>
                   <th style="width: 5%;">순번</th>
@@ -505,6 +437,10 @@
                   </td>
                 </tr>
               </table>
+             </c:if>
+             <c:if test="${mynut==null}">
+             	<div align="center"><h3>입력된 오늘의 식단표가 존재하지 않습니다.</h3></div>
+             </c:if>
             </div>
             <!-- /.box-body -->
           </div>
@@ -547,26 +483,10 @@
 <script src="resources/main/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="resources/main/dist/js/demo.js"></script>
-<!-- fullCalendar -->
-<script src="resources/main/bower_components/moment/moment.js"></script>
-<script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
-<!-- dataTable -->
-<script type="text/javascript" src="resources/main/bower_components/datatable/js/datatables.js"></script>
-<!-- datepicker -->
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <!-- Page specific script -->
 <script>
-//Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
   $(function () {
-	  
-	  $('.datepicker').datepicker({
-			dateFormat: 'yy-mm-dd'
-	  });
 	  
 	  showtime();
 	  

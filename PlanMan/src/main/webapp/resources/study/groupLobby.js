@@ -1,6 +1,6 @@
 $(function(){
 	
-	
+	$('#showmygroup').trigger('click');
 	/*$(document).ready(function (){
 		$('#showmakegroup').on('click', showmakegroup);
 		$('#showsearchgroup').on('click', showsearchgroup);
@@ -87,7 +87,7 @@ function showMyGroup() {
 			, success: function(data) {
 				var smgresult = '';
 				$.each(data, function(index, item){
-					smgresult += '<a class="btn btn-block btn-success" href="gotoGroup?num=' +item.NUM+ '&name=' +item.NAME+ '">' + item.NAME + "[" +item.NUM+ "]" + '</a><br/>';
+					smgresult += '<a class="btn btn-block btn-info" href="gotoGroup?num=' +item.NUM+ '&name=' +item.NAME+ '">' + item.NAME + "[" +item.NUM+ "]" + '</a><br/>';
 				});
 				
 				document.getElementById("functionboard").innerHTML = smgresult;
@@ -163,7 +163,7 @@ function showSearchGroup() {
 				, success: function (data){
 					var smgresult = '';
 					$.each(data, function(index, item){
-						smgresult += '<a class="btn btn-block btn-success" href="gotoGroup?num=' +item.NUM+ '&name=' +item.NAME+ '">' + item.NAME + "[" +item.NUM+ "]" + '</a><br/>';
+						smgresult += '<a class="btn btn-block btn-info" href="gotoGroup?num=' +item.NUM+ '&name=' +item.NAME+ '">' + item.NAME + "[" +item.NUM+ "]" + '</a><br/>';
 					});
 					
 					document.getElementById("functionboard").innerHTML = smgresult;

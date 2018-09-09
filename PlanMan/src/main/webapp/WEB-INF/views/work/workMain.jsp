@@ -22,6 +22,8 @@
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- Date Picker -->
+  <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
 
 <!-- head -->
 </head>
@@ -343,7 +345,7 @@
           <!-- /.box -->
          
           <!-- /.box -->
-          <div class="box box-warning" style="width: 45%; float:left; margin-right:20px; ">
+          <div class="box box-warning" style="width: 40%; float:left; margin-right:20px; ">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
               <h3 class="box-title">Main News</h3>
@@ -379,21 +381,17 @@
           </div>
           
           <!-- /. box -->
-         <div class="box box-primary" style="width: 20%; float:left;">
-            <div class="box-header ">
+          <div class="box box-warning" style="width: 20%; float:left; margin-left: 5px;">
+            <div class="box-header with-border">
               <h3 class="box-title">MEMO</h3>
-
               <div class="box-tools">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
+                <input type="button" class="datepicker"  ></input>
               </div>
             </div>
             <div class="box-body no-padding">
-            <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>
-           
-           <textarea id ="memo"rows="20" value="text"  style="min-width: 95%; margin-left: 5px;"></textarea> <br/>
-           <input type="button" value="저장" id="saveMemo">
-           
+               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
+	           <textarea id ="memo" rows="20" value="text"  style="min-width: 100%; border: 0;"></textarea> <br/>
+	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
             </div>
             <!-- /.box-body -->
           </div>
@@ -445,6 +443,8 @@
 <!-- fullCalendar -->
 <script src="resources/main/bower_components/moment/moment.js"></script>
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<!-- datepicker -->
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- Page specific script -->
 <script>
 
@@ -528,38 +528,71 @@
 	            $(this).parent('li').removeClass('done');
 	        }
 	  });
-	  
-     
-    
-   $('#saveMemo').click(function(){
-      var memo = $('#memo').val();
-      memo= memo.replace("\r\n","<br>");
-      alert(memo);
-      var today = new Date();
-      var mm= today.getMonth()+1; 
-      var dd =today.getDate();
-      var yy = today.getFullYear();
-      if(dd<10) {
-          dd='0'+dd;
-      } 
-      if(mm<10) {
-          mm='0'+mm;
-      } 
-      var td=yy+'-'+mm+'-'+dd;
-      $.ajax({
-         url:"saveMemo",
-         type:"post",
-         //client에서 server로 가는 값
-         data:{"userid": memo, "text":memo,"startDate":temp},
-         success: function(data){
-         if(data=="1"||data=="3"){
-            alert("저장 되었습니다");
-         }else{'오류 발생'};
-         },fail: function(){
-            alert("다음에 다시 시도해주세요");
-         }
-      });
-      });
+   
+   		$('#saveMemo').click(function(){
+		var memo = $('#memo').val();
+		
+		
+		var today = new Date();
+		var mm= today.getMonth()+1; 
+		var dd =today.getDate();
+		var yy = today.getFullYear();
+		if(dd<10) {
+		    dd='0'+dd;
+		} 
+		if(mm<10) {
+		    mm='0'+mm;
+		} 
+		var td=yy+'-'+mm+'-'+dd;
+		$.ajax({
+			url:"saveMemo",
+			type:"post",
+			//client에서 server로 가는 값
+			data:{"userid": memo, "text":memo,"startDate":temp},
+			success: function(data){
+			if(data=="1"||data=="3"){
+				alert("저장 되었습니다");
+			}else{'오류 발생'};
+			},fail: function(){
+				alert("다음에 다시 시도해주세요");
+			}
+		});
+		});
+   
+   
+	    $( ".datepicker" ).datepicker({ 
+		       changeMonth: true, 
+		       changeYear: true,
+		       dateFormat: "yy-mm-dd",
+		       onSelect: function(dateText) {  
+		    	   alert(dateText);
+		    	   $.ajax({
+		    		   url:'findmemo',
+		    		    type: 'post',
+		    		    data: {
+		    		    	'id': '${sessionScope.member.id}', 'startdate': dateText
+		    		    },
+		    		    success: function(data){
+		    				if(data==null)	{
+		    					alert("메모가 없습니다");	    			
+		    		            }else{
+		    		            	if(dateText==td){
+			    		            	$('#memoTitle').html("오늘의 메모");
+		    		            	}else{
+			    		            	$('#memoTitle').html(dateText+"의 메모");            		
+		    		            	}
+		    		            	$('#memo').val(data.memo);
+		    		            }
+		    				},
+		    		    error: function() {
+		    		      alert('there was an error while fetching events!');
+		    		    }
+		 		  });
+		      }
+ 		});
+	    
+	    $('.datepicker').datepicker('setDate', 'today');
+   
   });
 </script>
 </body>

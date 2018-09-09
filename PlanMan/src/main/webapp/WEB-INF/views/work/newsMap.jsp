@@ -332,12 +332,12 @@ $('#saveMemo').click(function(){
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <label>뉴스나 검색엔진 선택</label><select id="selectNews" class="form-control" ><option></option><option>naver</option><option>BBC</option><option>NewYorkTimes</option><option>nhk</option><option>inmin</option><option>google</option><option>baidu</option></select>
+              <label>뉴스나 검색엔진 선택</label><select id="selectNews" class="form-control" ><option>naver</option><option>BBC</option><option>NewYorkTimes</option><option>nhk</option><option>google</option><option>baidu</option></select>
 			    <br/><br/><!--The div element for the map -->
 			    <div id="map"></div>
 			    <script>
 			    
-			    var uk = {lat: 51.507, lng:  -0.127};
+			      var uk = {lat: 51.507, lng:  -0.127};
 				  var usa = {lat: 40.664, lng: -73.938};
 				  var korea = {lat:37.541, lng: 126.986};
 				//  var china = {lat:38.037057, lng:114.468665};
@@ -363,7 +363,7 @@ $('#saveMemo').click(function(){
 			              position: pList[i],
 			              map: map,
 			              
-         		});
+         		  });
 
 		          // process multiple info windows
 		          (function(marker, i) {
@@ -379,7 +379,7 @@ $('#saveMemo').click(function(){
 		                  else if(i==5)choose="baidu";
 		            	  
 		                  infowindow = new google.maps.InfoWindow({
-		                      content: "<a href='goNews?type="+choose+"' >" + choose + "</a>" + '<br>' + "<img width='80' src='./resources/work/"+choose+".png' >",
+		                      content: "<a href='goNews?type="+choose+"' ><img width='80' src='./resources/work/"+choose+".png' ></a>",
 		                    		  maxWidth:300
 		                  });
 		                  if( prev_infowindow ) {

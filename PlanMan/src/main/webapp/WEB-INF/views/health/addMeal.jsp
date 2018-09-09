@@ -347,14 +347,14 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-      	<div class="box box-danger" style="margin-left: 20px; margin-right: 20px;">
+      	<div class="box box-danger" style="margin-left: 20px; margin-right: 20px; width: 90%;">
 	      	<div class="box-header">
               		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
 	                <h3 class="box-title">Add Meal</h3>
         	</div>
 	      	<br/>
 	      	<div>식품군
-	      		<form action="gotoMeal" method="get" style="display: inline;">
+	      		<form action="gotoMeal" method="post" style="display: inline;">
 		      	<select name="FDGRP_NM">
 		      		<option selected="selected">${foodgroup}</option>
 		      		<option value="가공유류">가공유류</option>\
@@ -545,6 +545,8 @@ var span = document.getElementsByClassName("close")[0];
 			dateFormat: 'yy-mm-dd'
 	  });
 	  
+	  $('.datepicker').datepicker('setDate', 'today');
+	  
 	  showtime();
 	  
 	  
@@ -569,6 +571,7 @@ var span = document.getElementsByClassName("close")[0];
 				$('#fName').text('');
 				$('#fGram').val('');
 		  	    modal.style.display = "none";
+  		  	    $('.datepicker').datepicker('setDate', 'today');
 		  	}
 
 		  	// When the user clicks anywhere outside of the modal, close it
@@ -578,6 +581,7 @@ var span = document.getElementsByClassName("close")[0];
 		  	    	$('#fName').text('');
 		  	    	$('#fGram').val('');
 		  	        modal.style.display = "none";
+		  		    $('.datepicker').datepicker('setDate', 'today');
 		  	    }
 		  	}
 		  	

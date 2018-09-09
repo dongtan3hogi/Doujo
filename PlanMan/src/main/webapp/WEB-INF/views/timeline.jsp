@@ -276,7 +276,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-       		 <ul class="timeline">
+       		 <ul class="timeline" style="width: 80%; margin-left: 20px;">
 
 			    <!-- timeline time label -->
 			    <li class="time-label">

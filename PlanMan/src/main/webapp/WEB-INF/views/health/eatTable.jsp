@@ -320,7 +320,7 @@
 				<td>${eatfoodList.NUTR_CONT7}</td>
 				<td>${eatfoodList.NUTR_CONT8}</td>
 				<td>${eatfoodList.NUTR_CONT9}</td>
-				<form action="deleteMeal" method="get">
+				<form action="deleteMeal" method="post">
 				<td><input type="submit" id="deleteMeal" value="삭제"/><input type="hidden" name="eatnum" value="${eatfoodList.eatnum}"><input type="hidden" name="countday" value="${eatfoodList.countday}"></td>
 				</form>
             </tr>

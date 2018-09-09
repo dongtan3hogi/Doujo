@@ -377,7 +377,7 @@
 	        });
 	          
 	          $('#hospital').on('click',function(){
-	        	 
+	        	  
 	        	  var bound2=bounds.getCenter();
 	        	  var newbound=bound2.toString().split(',');
 	        	 	
@@ -387,14 +387,25 @@
 	        	  var pyrmont = new google.maps.LatLng(lat,lng);
 
 	        	  map.setCenter(pyrmont);
-	        	  map.setZoom(15);
+	        	  map.setZoom(13);
 
 	        	  var request = {
 	        	    location: pyrmont,
-	        	    radius: '1000',
+	        	    radius: '1500',
 	        	    type: ["hospital"]
 	        	  };
-
+				  
+	        	  var cityCircle = new google.maps.Circle({
+	                  strokeColor: '#FF0000',
+	                  strokeOpacity: 0.8,
+	                  strokeWeight: 2,
+	                  fillColor: '#FF0000',
+	                  fillOpacity: 0.35,
+	                  map: map,
+	                  center: pyrmont,
+	                  radius: 1500
+	              });		
+	        	  
 	        	  service = new google.maps.places.PlacesService(map);
 	        	  service.nearbySearch(request, callback);
 	        	 
@@ -406,23 +417,32 @@
 				  
 				  var bound2=bounds.getCenter();
 	        	  var newbound=bound2.toString().split(',');
-	        	  alert(newbound[0]);
-	        	  alert(newbound[1]);
+	        	 
 	        	  var lat=newbound[0].replace("(","");
 	        	  var lng=newbound[1].replace(")","");
-	        	  alert(lat);
-	        	  alert(lng);
+	        	 
 	        	  var pyrmont = new google.maps.LatLng(lat,lng);
-
+	        	  
 	        	  map.setCenter(pyrmont);
-	        	  map.setZoom(15);
+	        	  map.setZoom(13);
 
 	        	  var request = {
 	        	    location: pyrmont,
-	        	    radius: '1000',
+	        	    radius: '1500',
 	        	    type: ["pharmacy"]
 	        	  };
-
+				  
+	        	  var cityCircle = new google.maps.Circle({
+	                  strokeColor: '#FF0000',
+	                  strokeOpacity: 0.8,
+	                  strokeWeight: 2,
+	                  fillColor: '#FF0000',
+	                  fillOpacity: 0.35,
+	                  map: map,
+	                  center: pyrmont,
+	                  radius: 1500
+	              });	
+	        	  
 	        	  service = new google.maps.places.PlacesService(map);
 	        	  service.nearbySearch(request, callback);
 	        	  
@@ -435,7 +455,8 @@
 	 
 	 function callback(results, status) {
 		  if (status == google.maps.places.PlacesServiceStatus.OK) {
-		    for (var i = 0; i < results.length; i++) {
+			
+			for (var i = 0; i < results.length; i++) {
 		      var place = results[i];
 		      createMarker(results[i]);
 		    }
@@ -450,10 +471,11 @@
 	        });
 
 	        google.maps.event.addListener(marker, 'click', function() {
-	          infowindow.setContent(place.name);
+	          infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + '주소 : ' + place.vicinity + '</div>');
 	          infowindow.open(map, this);
 	        });
 	 }
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&libraries=places&callback=initAutocomplete" async defer></script></div>
       <!-- /.row -->

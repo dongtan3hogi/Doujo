@@ -286,7 +286,7 @@
             	</div>
             	<div class="box-body">
             		<br/>
-            		<label class="control-label"><i class="fa fa-heartbeat" style="color: #dd4b39"></i>${message}</label>
+            		<label class="control-label"><i class="fa fa-heartbeat" style="color: #dd4b39"></i>&nbsp&nbsp${message}</label>
             	</div>
             	<!-- TO DO List -->
 		          <div class="box box-Danger">
@@ -415,7 +415,7 @@ var modal = document.getElementById('myModal');
 	  
 	  $.ajax({
 			 url:"chkBodyInfo"
-			 ,type:"get"
+			 ,type:"post"
 			 ,success: function(data){
 				 
 				 if(data=="empty"){
