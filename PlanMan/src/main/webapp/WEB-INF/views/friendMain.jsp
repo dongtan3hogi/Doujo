@@ -393,6 +393,7 @@
                   </div>
                 </li> --%>
               </ul>
+              <div id="boardfooter"></div>
             </div>
             <!-- /.box-body -->
            
@@ -449,6 +450,47 @@
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 <!-- Page specific script -->
 <script>
+function goPage(a){
+	   $.ajax({
+			url:"goMPage",
+			type:"post",
+			//client에서 server로 가는 값
+			data:{"value": a},
+			success: function(data){
+				$(".eventlist").empty();
+				$.each(data.meeting, function(index, item){
+					
+					var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
+					$(".eventlist").append(result);
+					});
+					var navi = data.navi;
+					var line="";
+					var current= Number(0);
+					if(navi.currenPage >1){
+						current = Number(navi.currentPage);
+						current--;
+						line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
+					}
+					for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
+						if(navi.currentPage == i){
+							line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
+						}else{
+							line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
+						}
+					}
+					if(navi.currentPage <navi.totalPageCount){
+						current = Number(navi.currentPage);
+						
+						current++;
+						line+=	"<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
+
+					}
+				      $('#boardfooter').empty();
+
+				      $('#boardfooter').append(line);
+			}
+		});
+	}
 
   $(function () {	 
 	  
@@ -528,7 +570,7 @@
 			}
 		});
 		});
-   $("#goSearch").on("click",function(){
+      $("#goSearch").on("click",function(){
 	   var search= $("#searchMeeting").val();
 	   if(search==""){
 		   alert('입력해');
@@ -544,43 +586,35 @@
 				var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
 				$(".eventlist").append(result);
 				});
+				var navi = data.navi;
 				var line="";
-				line += '<ul class="paging">';
-			      line += '<li class="asi">';
-			      line += '<a href="javascript:void(0)" page="'+data.navi.startPageGroup+'">';
-			      line += '</a>';
-			      line += '</li>';
-			      line += '<li class="asi">';
-			      line += '<a href="javascript:void(0)" page="'+(data.navi.currentPage-1)+'">';
-			      line += '</a>';
-			      line += '</li>';
-			      for(var i=data.navi.startPageGroup; i<=data.navi.endPageGroup; i++){
-			         if(i != data.navi.currentPage){
-			            line +='<li>';
-			            line +='<a href="javascript:void(0)" page="'+i+'">'+i+'</a>';
-			            line +='</li>';
-			         }else{
-			            line +='<li class="active">';
-			            line +='<a href="javascript:void(0)" page="'+i+'">'+i+'</a>';
-			            line +='</li>';
-			         };
-			      };
-			      line += '<li class="asi">';   
-			      line += '<a href="javascript:void(0)" page="'+(data.navi.currentPage+1)+'">';
-			      line += '</a>';
-			      line += '</li>';
-			      line += '<li class="asi">';
-			      line += '<a href="javascript:void(0)" page="'+data.navi.endPageGroup+'">';
-			      line += '</a>';
-			      line += '</li>';
-			      line += '</ul>';
-			      
-			      $('.pagingWrap').append(line);
+				var current= Number(0);
+				if(navi.currenPage >1){
+					current = Number(navi.currentPage);
+					current--;
+					line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
+				}
+				for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
+					if(navi.currentPage == i){
+						line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
+					}else{
+						line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
+					}
+				}
+				if(navi.currentPage <navi.totalPageCount){
+					current = Number(navi.currentPage);
+					
+					current++;
+					line+=	"<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
+
+				}
+			      $('#boardfooter').append(line);
 			},fail: function(){
 				alert("다음에 다시 시도해주세요");
 			}
 		});
    });
+   
   });
 </script>
 </body>
