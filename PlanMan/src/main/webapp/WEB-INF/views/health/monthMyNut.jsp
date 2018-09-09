@@ -72,6 +72,8 @@
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+<input type="hidden" id="MyID" value="${sessionScope.memberID}">
+<input type="hidden" id="friendID" value="${sessionScope.friendID}">
 <div class="wrapper">
 
   <header class="main-header">
@@ -93,69 +95,10 @@
       </a>
 
       <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav" id="topMenuBarUl">
           <!-- Tasks: style can be found in dropdown.less -->
-          <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Study
-                        <small class="pull-right">80%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">80% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Health
-                        <small class="pull-right">40%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">40% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Work
-                        <small class="pull-right">60%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
+          <li class="dropdown messages-menu" id="pParentMessageBoard">
+            
           </li>
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
@@ -252,9 +195,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
+            <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
           </ul>
         </li>
         <li class="treeview">
@@ -371,6 +313,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body no-padding">
+              <c:if test="${mynut!=null}">
               <table class="table table-striped">
                 <tr>
                   <th style="width: 5%;">순번</th>
@@ -505,6 +448,10 @@
                   </td>
                 </tr>
               </table>
+              </c:if>
+               <c:if test="${mynut==null}">
+             	<div align="center"><h3>입력된 이번달 식단표가 존재하지 않습니다.</h3></div>
+              </c:if>
             </div>
             <!-- /.box-body -->
           </div>
@@ -554,6 +501,7 @@
 <script type="text/javascript" src="resources/main/bower_components/datatable/js/datatables.js"></script>
 <!-- datepicker -->
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <!-- Page specific script -->
 <script>
 //Get the modal
@@ -598,5 +546,15 @@ var span = document.getElementsByClassName("close")[0];
 	  return zero + num;
   }
 </script>
+<script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
+<script type="text/javascript">
+
+    var sock;
+
+    //웸소켓을 지정한 url로 연결한다.
+    sock = new SockJS("<c:url value="/echo2"/>");
+    
+</script>
+<script src="resources/main/js/messageBar.js"></script> 
 </body>
 </html>

@@ -54,13 +54,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="resources/main/dist/img/usedd.jpg" onError="this.src='resources/userData/image/unknown.png';" class="user-image" alt="User Image">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="resources/main/dist/img/user2-160x1.jpg" onError="this.src='resources/userData/image/unknown.png';" class="img-circle" alt="User Image">
 
                 <p>
                   ${sessionScope.member.id}
@@ -146,9 +146,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
+            <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
           </ul>
         </li>
         <li class="treeview">
@@ -353,32 +352,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="resources/main/dist/js/demo.js"></script>
 <!-- ChartJS -->
-<script src="resources/main/bower_components/chart.js/Chart.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
-<script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
-<script type="text/javascript">
-
-    var sock;
-
-    //웸소켓을 지정한 url로 연결한다.
-    sock = new SockJS("<c:url value="/echo2"/>");
-
-
-   
-
-
-    /* sock.onopen = function(){
-        sock.send($("#message").val());
-    }; */
-
-    /* function sendMessage() {
-        //소켓으로 보내겠다.
-        sock.send($("#message").val());
-    } */
-
-    
-</script>
-<script src="resources/main/js/messageBar.js"></script> 
+<script src="resources/main/bower_components/chart.js/Chart.js"></script> 
 <!-- Page specific script -->
 <script>
 
@@ -569,7 +543,16 @@
 	  return zero + num;
   }
   
- 
 </script>
+<script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
+<script type="text/javascript">
+
+    var sock;
+
+    //웸소켓을 지정한 url로 연결한다.
+    sock = new SockJS("<c:url value="/echo2"/>");
+    
+</script>
+<script src="resources/main/js/messageBar.js"></script> 
 </body>
 </html>

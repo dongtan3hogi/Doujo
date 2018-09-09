@@ -529,6 +529,10 @@ public class HealthController {
 				result.setWeekMonday(weekMonday);
 				result.setWeekSunday(weekSunday);
 				result=manager.selectWeekNut(result);
+				if(result==null) {
+					model.addAttribute("countday", countday);
+					return "health/weekMyNut";
+				}
 				System.out.println(result.toString());
 				System.out.println(id+"아이디");
 				break;
@@ -545,6 +549,10 @@ public class HealthController {
 				result.setWeekMonday(weekMonday);
 				result.setWeekSunday(weekSunday);
 				result=manager.selectWeekNut(result);
+				if(result==null) {
+					model.addAttribute("countday", countday);
+					return "health/weekMyNut";
+				}
 				System.out.println(result.toString());
 				System.out.println(id+"아이디");
 				break;
@@ -561,6 +569,10 @@ public class HealthController {
 				result.setWeekMonday(weekMonday);
 				result.setWeekSunday(weekSunday);
 				result=manager.selectWeekNut(result);
+				if(result==null) {
+					model.addAttribute("countday", countday);
+					return "health/weekMyNut";
+				}
 				System.out.println(result.toString());
 				System.out.println(id+"아이디");
 				break;
@@ -577,6 +589,10 @@ public class HealthController {
 				result.setWeekMonday(weekMonday);
 				result.setWeekSunday(weekSunday);
 				result=manager.selectWeekNut(result);
+				if(result==null) {
+					model.addAttribute("countday", countday);
+					return "health/weekMyNut";
+				}
 				System.out.println(result.toString());
 				System.out.println(id+"아이디");
 				break;
@@ -593,6 +609,10 @@ public class HealthController {
 				result.setWeekMonday(weekMonday);
 				result.setWeekSunday(weekSunday);
 				result=manager.selectWeekNut(result);
+				if(result==null) {
+					model.addAttribute("countday", countday);
+					return "health/weekMyNut";
+				}
 				System.out.println(result.toString());
 				System.out.println(id+"아이디");
 				break;
@@ -609,6 +629,10 @@ public class HealthController {
 				result.setWeekMonday(weekMonday);
 				result.setWeekSunday(weekSunday);
 				result=manager.selectWeekNut(result);
+				if(result==null) {
+					model.addAttribute("countday", countday);
+					return "health/weekMyNut";
+				}
 				System.out.println(result.toString());
 				System.out.println(id+"아이디");
 				break;
@@ -625,6 +649,10 @@ public class HealthController {
 				result.setWeekMonday(weekMonday);
 				result.setWeekSunday(weekSunday);
 				result=manager.selectWeekNut(result);
+				if(result==null) {
+					model.addAttribute("countday", countday);
+					return "health/weekMyNut";
+				}
 				System.out.println(result.toString());
 				System.out.println(id+"아이디");
 				break;
@@ -663,6 +691,10 @@ public class HealthController {
 		result.setId(id);
 		
 		result=manager.selectMonthNut(result);
+		if(result==null) {
+			model.addAttribute("countday", countday);
+			return "health/monthMyNut";
+		}
 		System.out.println(result.toString());
 		model.addAttribute("mynut", result);
 		model.addAttribute("countday", countday);
