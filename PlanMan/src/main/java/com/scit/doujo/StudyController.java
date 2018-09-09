@@ -807,5 +807,15 @@ public class StudyController {
 
 	}
 	
+	
+	
+	/*모든문제 검색 페이지로 이동 이동 ===================================================================*/ 
+	@RequestMapping(value = "/gotoQuizSearch", method = RequestMethod.GET) 
+	public String gotoQuizSearch(HttpSession hs, Model model) { 
+		studyDao dao = sqlSession.getMapper(studyDao.class); 
+		String id = (String)hs.getAttribute("memberID"); 
+		
+		return "study/quizSearch"; 
+	}
 		
 } 
