@@ -11,9 +11,15 @@
 		<typeAlias type="com.scit.doujo.vo.activity" alias="Activity"/>
 		<typeAlias type="com.scit.doujo.vo.work.memo" alias="memo"/>
 		<typeAlias type="com.scit.doujo.vo.work.keylist" alias="keylist"/>
+
 		<typeAlias type="com.scit.doujo.vo.work.count" alias="count"/>
 		<typeAlias type="com.scit.doujo.vo.work.friendquery" alias="fquery"/>
 		<typeAlias type="com.scit.doujo.vo.work.favorites" alias="favorites"/>
+
+		<!-- <typeAlias type="com.scit.doujo.vo.work.friends" alias="friends"/> -->
+		<typeAlias type="com.scit.doujo.vo.work.friendquery" alias="fquery"/>
+		<typeAlias type="com.scit.doujo.vo.friend" alias="friend"/>
+
 	</typeAliases>
 	
 	<mappers>

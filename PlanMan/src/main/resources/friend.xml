@@ -3,8 +3,100 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="com.scit.doujo.dao.friendDao">
 
+   <insert id="insert" parameterType="string">
+		INSERT INTO friend(
+			userid,
+			friendid,
+			type
+		) VALUES
+			(#{userid},
+			 #{id},
+			 1
+			)
+	</insert> 
 
+	<update id="updateMember" parameterType="member" >
+		update member set job=#{job}, hobby = #{hobby} where id =#{id} 
+	</update>
+	
+	<select id="getRecommendFriendsCount" parameterType="map" resultType="int">
+		select 
+			count(*)
+		from 
+			member 
+		<if test="searchItem == 'id'">
+		where 
+			id like '%' || #{searchWord} || '%'
+		</if>
+	</select>
+	
+	<select id="getMyFriendsCount" parameterType="map" resultType="int">
+		select 
+			count(*)
+		from 
+			friend 
+		<if test="searchItem2 == 'friendid'">
+		where 
+			friendid like '%' || #{searchWord2} || '%'
+		</if>
+	</select>
+	
+	<!-- 현재 페이지 목록 (검색 필터링 후) -->
+	<select id="getRecommendFriends" parameterType="map" resultType="member">
+		select 
+			*
+		from 
+			member 
+		<if test="searchItem == 'id'">
+		where 
+			id like '%' || #{searchWord} || '%'
+		</if>
+	</select>
+	
+	<select id="getMyFriends" parameterType="map" resultType="friend">
+		select 
+			*
+		from 
+			friend 
+		<if test="searchItem2 == 'friendid'">
+		where 
+			friendid like '%' || #{searchWord2} || '%'
+		</if>
+	</select>
+   
+    <delete id="deletemember" parameterType="member">
+		delete
+		from
+			member
+		where
+			id = #{id}
+	</delete>
+	
+	 <delete id="delMember" parameterType="String">
+		delete
+		from
+			member
+		where
+			id = #{value}
+	</delete>
+	
+	<select id="selectFriendList" parameterType="String" resultType="member">
+		select 
+			* 
+		from 
+			member 
+		where id in (
+			select 
+				friendid 
+			from 
+				friend
+			where 
+				userid = #{value}
+		)
+	</select>
+	
+	
+	
 </mapper>
