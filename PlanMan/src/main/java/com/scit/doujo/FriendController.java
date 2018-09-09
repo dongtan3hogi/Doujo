@@ -48,11 +48,12 @@ public class FriendController {
 			return result;
 		}
 	}
+	
 	HelloComponent article = new HelloComponent();
 
 	@RequestMapping(value = "/goFriendMain", method = RequestMethod.GET)
 	public String goFriendMain(HttpSession hs, Model model) {
-		return "friendMain";
+		return "friend/friendMain";
 	}
 
 	@RequestMapping(value = "/searchMeeting", method = RequestMethod.POST)

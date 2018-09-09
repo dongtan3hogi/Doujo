@@ -304,7 +304,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="goFriendMain"><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
+            <li><a href="goFriendMain"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
             <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
           </ul>
         </li>

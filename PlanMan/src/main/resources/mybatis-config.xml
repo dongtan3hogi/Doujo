@@ -22,6 +22,7 @@
 		<mapper resource="mappers/work.xml"/>
 		<mapper resource="health.xml"/>
 		<mapper resource="friend.xml"/>
+		<mapper resource="mappers/message.xml"/>
 	</mappers>
 	
 </configuration>

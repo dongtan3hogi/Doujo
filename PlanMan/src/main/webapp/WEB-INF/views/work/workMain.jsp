@@ -208,7 +208,6 @@
           </a>
           <ul class="treeview-menu">
 			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
             <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
           </ul>
         </li>
@@ -380,17 +379,17 @@
             <!-- /.box-body -->
           </div>
           
-          <!-- /. box -->
+          <!-- /. 메모 box -->
           <div class="box box-warning" style="width: 20%; float:left; margin-left: 5px;">
             <div class="box-header with-border">
               <h3 class="box-title">MEMO</h3>
               <div class="box-tools">
-                <input type="button" class="datepicker"  ></input>
+                <input type="button" class="datepicker btn btn-block btn-warning"  ></input>
               </div>
             </div>
             <div class="box-body no-padding">
                <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
-	           <textarea id ="memo" rows="20" value="text"  style="min-width: 100%; border: 0;"></textarea> <br/>
+	           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
 	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
             </div>
             <!-- /.box-body -->
@@ -521,14 +520,28 @@
 		      			}
 		      			,success: function (data){
 		      				if(data="success"){
-		    					alert("스케쥴 해제하기!")
+		    					alert("스케쥴 확인취소!")
 		    				}	
 		      			}
 		        })
 	            $(this).parent('li').removeClass('done');
 	        }
 	  });
-   
+   		
+        var today = new Date();
+		var mm= today.getMonth()+1; 
+		var dd =today.getDate();
+		var yy = today.getFullYear();
+		if(dd<10) {
+		    dd='0'+dd;
+		} 
+		if(mm<10) {
+		    mm='0'+mm;
+		} 
+		var td=yy+'-'+mm+'-'+dd;
+		var temp=td;
+     
+     
    		$('#saveMemo').click(function(){
 		var memo = $('#memo').val();
 		

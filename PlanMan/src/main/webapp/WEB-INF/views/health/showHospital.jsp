@@ -377,7 +377,7 @@
 	        });
 	          
 	          $('#hospital').on('click',function(){
-	        	  
+	        	
 	        	  var bound2=bounds.getCenter();
 	        	  var newbound=bound2.toString().split(',');
 	        	 	
@@ -414,7 +414,7 @@
 	          });
 	          
 			  $('#pharmacy').on('click',function(){
-				  
+				 
 				  var bound2=bounds.getCenter();
 	        	  var newbound=bound2.toString().split(',');
 	        	 
@@ -455,9 +455,8 @@
 	 
 	 function callback(results, status) {
 		  if (status == google.maps.places.PlacesServiceStatus.OK) {
-			
 			for (var i = 0; i < results.length; i++) {
-		      var place = results[i];
+			  var place = results[i];
 		      createMarker(results[i]);
 		    }
 		  }
