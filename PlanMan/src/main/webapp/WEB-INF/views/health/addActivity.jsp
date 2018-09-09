@@ -260,8 +260,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
+            <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
+            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -329,6 +329,9 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
+      		
+          
+          
       	<div class="box box-danger" style="margin-left: 20px; margin-right: 20px; width: 90%;">
       	<div class="box-header">
               		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>

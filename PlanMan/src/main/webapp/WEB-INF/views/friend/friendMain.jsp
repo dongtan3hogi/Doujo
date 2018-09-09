@@ -239,8 +239,8 @@ function fn_btnChoice(){
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
+            <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
+            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -280,235 +280,170 @@ function fn_btnChoice(){
 
     <!-- Main content -->
     <section class="content">
-      
         
-        <!-- /.col -->
-        
-          
-           <!-- general form elements disabled -->
-          <div class="box box-primary" style="width: 40%; height: 500px; float:left;margin-right:20px;">
-            <div class="box-header">
-              <i class="ion ion-clipboard"></i>
+        	  <!-- TO DO List -->
+	          <div class="box box-success" style="width: 30%; float:left; margin-left:20px;">
+	            <div class="box-header">
+	              <i class="ion ion-clipboard"></i>
+	
+	              <h3 class="box-title">이번주 Friend Schedule</h3>
+	            </div>
+	            <!-- /.box-header -->
+	            
+	            <div class="box-body">
+	              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+	              <ul class="todo-list">
+	                <c:forEach var="schList" items="${schList}" varStatus="status">
+	                
+	                <c:if test="${schList.doornot==1}">
+	                	<li id="${schList.schseq}" class="done">
+	                	<!-- drag handle -->
+	                  <span class="handle">
+	                        <i class="fa fa-ellipsis-v"></i>
+	                        <i class="fa fa-ellipsis-v"></i>
+	                      </span>
+	                  <!-- checkbox -->
+	                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox" checked="checked">
+	                  <!-- todo text -->
+	                  <span class="text">${schList.eventtitle}</span>
+	                  <!-- Emphasis label -->
+	                  <small class="label label-success"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+	                </li> 
+	                </c:if>
+	                
+	                <c:if test="${schList.doornot==0}">
+	                	<li id="${schList.schseq}">
+	                	<!-- drag handle -->
+		                  <span class="handle">
+		                        <i class="fa fa-ellipsis-v"></i>
+		                        <i class="fa fa-ellipsis-v"></i>
+		                      </span>
+		                  <!-- checkbox -->
+		                  <input type="checkbox" data-rno="${schList.schseq}" name="scheduleCk" class="chkbox">
+		                  <!-- todo text -->
+		                  <span class="text">${schList.eventtitle}</span>
+		                  <!-- Emphasis label -->
+		                  <small class="label label-success"><i class="fa fa-clock-o"></i>${schList.startday}</small>
+	                </li> 
+	                </c:if>
+		                 
+	                </c:forEach>
+	              </ul>
+	            </div>
+	            <!-- /.box-body -->
+	            <div class="box-footer clearfix no-border">
+	            </div>
+	          </div>
+	          <!-- /.box -->
 
-              <h3 class="box-title">Timeline</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              <ul class="todo-list">
-                <c:forEach var="schList" items="${schList}">
-                <li>
-                  <!-- drag handle -->
-                  <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <!-- checkbox -->
-                  <input type="checkbox" value="">
-                  <!-- todo text -->
-                  <span class="text">${schList.eventtitle}//${schList.startday}</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.starttime}~${schList.endtime}</small>
-                  <!-- General tools such as edit or delete-->
-                  <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                  </div>
-                </li>
-                </c:forEach>
-              </ul>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix no-border">
-              <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i>Update</button>
-            </div>
-          </div>
-         
-<%--           <!-- /.box -->
-          <div class="box box-primary" style="width: 55%; float:right; margin-right:20px; ">
-            <div class="box-header">
-              <i class="ion ion-clipboard"></i>
-              <h3 class="box-title">My FriendList</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              
-              <c:if test="${empty article}">
-              <h3> 주요 뉴스가 없습니다.</h3>
-              </c:if>
-              <c:if test="${!empty article}">
-      <c:forEach var="news" items="${article }" varStatus="num">
-      <ul>
-      <c:set var="loop_flag" value="false" />
-      <c:forEach var='fcheck' items="${fcheck }">
-      
-      <c:if test="${fcheck.locations == news[1] }">
-       <c:set var="loop_flag" value="true" />
-      </c:if>
-      </c:forEach>
-      <c:if test="${not loop_flag }">   <li><a href="javascript:void(0);" class='favorite'><i class="fa fa-star-o text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
-         <span>${news[2] }</span></li>
-      </c:if>
-      <c:if test="${ loop_flag}">     <li><a href="javascript:void(0);" class='favorite'><i class="fa fa-star text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
-      <span>${news[2] }</span></li></c:if>
-      </ul>
-   
-      </c:forEach>
-      </c:if>
-            </div>
-            <!-- /.box-body -->
-          </div>
-        
-          <!-- /. box -->
-        
-        <!-- /.col -->
-        
-      <!-- /.row -->
-    </section>
-    <!-- /.content -->
-   
-  </div>
-  <!-- /.content-wrapper --> --%>
-      
-<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
-<script>
-alert("취미 직업을 등록하러 갑니다");
-location.href="joinfriend";
-</script>
-</c:if>
- <div class="box box-primary" style="width: 55%; height: 600px; float:right; margin-right:20px; ">
-            <div class="box-header">
-              <i class="ion ion-clipboard"></i>
-              <h3 class="box-title">Friend_Recommendation</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-  
-            <div>
-      <form class="right" action="searchRecommendFriends" method="get">
-         
-         <select name="searchItem">
-            <option value="id"${searchItem =='id'? 'selected':''}>ID</option>
-            <option value="job" ${searchItem =='job'? 'selected':''}>JOB</option>
-            <option value="hobby" ${searchItem =='hobby'? 'selected':''}>HOBBY</option>
-         </select>
-         
-         <input type="text" name="searchWord" value="${searchWord}"/>
-         <input type="submit" value="search" />
-         
-      </form>   
-      
-      <div class="left">
-      <a href="tooldFriend">ToFriend_List</a>
-      </div>
-      
-   <table summary="member" cellpadding="0" cellspacing="0" id="member" style="text-align:center">
-   <colgroup>
-   <col width="10%"/>
-   <col width="10%"/>
-   <col width="10%"/>
-   <col width="10%"/>
-   </colgroup>
-   <thead>
-      <th scope="col"><input type="checkbox" onClick="fn_allChecked();"/></th>
-      <th scope="col">ID</th>
-      <th scope="col">NICKNAME</th>
-      <th scope="col">NAME</th>
-      <th scope="col">GENDER</th>
-      <th scope="col">AGE</th>
-      <th scope="col">JOB</th>
-      <th scope="col">HOBBY</th>
-   </thead>
-   
-   <tbody>
-   <c:choose>
-      <c:when test="${!empty list}">
-       <c:forEach begin="0" var="member" items="${list}" varStatus="index">
-          <tr class='sibal'><td><input type="checkbox" name='selected'></td>
-              <td>${member.id}</td>   
-              <td>${member.nickname}</td>
-              <td>${member.name}</td>
-              <td>${member.gender}</td>
-              <td>${member.age}</td>
-              <td>${member.job}</td>
-              <td>${member.hobby}</td>
-          </tr>    
-       </c:forEach>   
-      </c:when>
-      <c:otherwise>
-      <tr><td colspan="7" >No Information</td></tr>
-      </c:otherwise>
-   </c:choose>
-   </tbody>
-   </table>
-   
-   <div>
-        <a href="#" onClick="fn_btnChoice()">choose</a>
-   </div>
-   
-   <!-- <div>
-        <a href="#" onClick="fn_delRow()">삭제</a>
-   </div> -->
-   
-   <div class="boardfooter">
-   <a href="listfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
-   <a href="listfriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
-   &nbsp; &nbsp;
-   <c:forEach var="page" begin="${navi.startPageGroup}" end="${navi.endPageGroup}">
-      <c:if test="${page == currentPage}">
-         <span style="color:red; font-weight:bolder;">${page}</span> &nbsp;
-      </c:if>
-      
-      <c:if test="${page != currentPage}">
-         <a href="listfriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
-      </c:if>
-   </c:forEach>
-   &nbsp; &nbsp;
-   <a href="listfriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
-   <a href="listfriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>
-   
-   </div>
-   <script type="text/javascript">
-   
-   	console.log('asdf');
-   	console.log('${list}');
-   </script>
-   
-</div>
-</div>
-</div>
+				<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
+					<script>
+					alert("취미 직업을 등록하러 갑니다");
+					location.href="joinfriend";
+					</script>
+				</c:if>
+				 
+				 <div class="box box-success" style="width: 60%; float:left; margin-left:20px;">
+		            <div class="box-header">
+		              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_Recommendation</h3>
+		
+		              <div class="box-tools">
+		               <div class="input-group input-group-sm"  style="width: 250px;">
+		                
+		                <form class="right" action="searchRecommendFriends" method="get">
+				         <select name="searchItem">
+				            <option value="id"${searchItem =='id'? 'selected':''}>ID</option>
+				            <option value="job" ${searchItem =='job'? 'selected':''}>JOB</option>
+				            <option value="hobby" ${searchItem =='hobby'? 'selected':''}>HOBBY</option>
+				         </select>
+				         <input type="text" placeholder="Search" name="searchWord" value="${searchWord}"/>
+				         <button type="submit" value="search"  class="btn btn-default" ><i class="fa fa-search"></i></button>
+				       </form>
+		              </div>
+		    
+		             </div>
+		             <br/>
+		             <div>
+				      	<a href="tooldFriend">ToFriend_List</a>
+				      </div>
+		            </div> 
+		            <!-- /.box-header -->
+		            <div class="box-body table-responsive no-padding">
+		              <table class="table table-hover">
+		                <tr>
+		                  <th><input type="checkbox" onClick="fn_allChecked();"/></th>
+					      <th>ID</th>
+					      <th>NICKNAME</th>
+					      <th>NAME</th>
+					      <th>GENDER</th>
+					      <th>AGE</th>
+					      <th>JOB</th>
+					      <th>HOBBY</th>
+		                </tr>
+					   <c:choose>
+					      <c:when test="${!empty list}">
+					       <c:forEach begin="0" var="member" items="${list}" varStatus="index">
+					          <tr class='sibal'><td><input type="checkbox" name='selected'></td>
+					              <td>${member.id}</td>   
+					              <td>${member.nickname}</td>
+					              <td>${member.name}</td>
+					              <td>${member.gender}</td>
+					              <td>${member.age}</td>
+					              <td>${member.job}</td>
+					              <td>${member.hobby}</td>
+					          </tr>    
+					       </c:forEach>   
+					      </c:when>
+					      <c:otherwise>
+					      <tr><td colspan="7" >No Information</td></tr>
+					      </c:otherwise>
+					   </c:choose>
+    	              </table>
+		            </div>
+		            <!-- /.box-body -->
+		            <div>
+				        <a href="#" onClick="fn_btnChoice()">choose</a>
+				   	</div>
+				   	<div class="boardfooter">
+						   <a href="listfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
+						   <a href="listfriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
+						   &nbsp; &nbsp;
+						   <c:forEach var="page" begin="${navi.startPageGroup}" end="${navi.endPageGroup}">
+						      <c:if test="${page == currentPage}">
+						         <span style="color:red; font-weight:bolder;">${page}</span> &nbsp;
+						      </c:if>
+						      
+						      <c:if test="${page != currentPage}">
+						         <a href="listfriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
+						      </c:if>
+						   </c:forEach>
+						   &nbsp; &nbsp;
+						   <a href="listfriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
+						   <a href="listfriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>	   
+				   </div>
+				   <script type="text/javascript"> 
+					   	console.log('asdf');
+					   	console.log('${list}');
+				    </script>
+		          </div>
+		          <!-- /.box -->
+          	
+				
 
-  <!-- ========================================================================================================== -->
-  <!-- ========================================================================================================== -->
-  <!-- ========================================================================================================== -->
- <style>
- .footer {
-    position: fixed;
-    left: 0;
-    right: 100;
-    bottom: 0;
-    width: 100%;
-    text-align:right;
- }
- </style> 
- <footer class="footer">
-     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
-    </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights<b>Version</b> 2.4.0
-    reserved.
- </footer>
-
-  <!-- Control Sidebar -->
-  
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
+			  <!-- ========================================================================================================== -->
+			  <!-- ========================================================================================================== -->
+			  <!-- ========================================================================================================== -->
+	
 </div>
 <!-- ./wrapper -->
+
+   <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 0.0.1
+    </div>
+    <strong>Copyright &copy; 2018 PlanMan.</strong>
+  </footer>
+
 
 <!-- jQuery 3 -->
 <script src="resources/main/bower_components/jquery/dist/jquery.min.js"></script>
