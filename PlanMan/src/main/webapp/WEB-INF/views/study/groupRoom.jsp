@@ -13,6 +13,9 @@
   <link rel="stylesheet" href="resources/main/bower_components/font-awesome/css/font-awesome.min.css"> 
   <!-- Ionicons --> 
   <link rel="stylesheet" href="resources/main/bower_components/Ionicons/css/ionicons.min.css"> 
+  <!-- fullCalendar --> 
+  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css"> 
+  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print"> 
   <!-- Theme style --> 
   <link rel="stylesheet" href="resources/main/dist/css/AdminLTE.min.css"> 
   <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. --> 
@@ -122,7 +125,7 @@
         	if(dataArray[1] == document.getElementById("yourID").value) {
         		//동일하다면 우측메시지
         		putMsg += '<div class="direct-chat-msg right">';
-        		putMsg += '<div class="direct-chat-Primary clearfix">';
+        		putMsg += '<div class="direct-chat-info clearfix">';
         		putMsg += '<span class="direct-chat-name pull-right">' + dataArray[1] + '</span>';
         		putMsg += '<span class="direct-chat-timestamp pull-left">{TIME}</span>';
         		putMsg += '</div>';
@@ -136,7 +139,7 @@
         	} else {
         		//다르다면 좌측메시지
         		putMsg += '<div class="direct-chat-msg">';
-        		putMsg += '<div class="direct-chat-Primary clearfix">';
+        		putMsg += '<div class="direct-chat-info clearfix">';
         		putMsg += '<span class="direct-chat-name pull-left">' + dataArray[1] + '</span>';
         		putMsg += '<span class="direct-chat-timestamp pull-right">{TIME}</span>';
         		putMsg += '</div>';
@@ -281,13 +284,23 @@
     
     //리더's select 변경시
     function lfsChange(){
+    	
+    	
+    	
+    	
 		var select = document.getElementById("leaderfunselect").value;
 		if(select == 'authority'){
 			document.getElementById("leaderfunctionview").innerHTML = '권한부여';
 		
 		} else if(select == 'sharing'){
-			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><select id="sharingselect" onchange="ssChange()"><option value="none" selected>==선택==</option><option value="quiz">퀴즈</option></select><span id="sharingtargetview"></span></div>';
-		
+			var SResult = '';
+			SResult += '<select class="form-control" id="sharingselect" onchange="ssChange()">';
+			SResult += '<option value="none" selected>==선택==</option>';
+			SResult += '<option value="quiz">퀴즈</option>';
+			SResult += '</select>';
+			SResult += '<label id="sharingtargetview"></label>';
+			//document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><select id="sharingselect" onchange="ssChange()"><option value="none" selected>==선택==</option><option value="quiz">퀴즈</option></select><span id="sharingtargetview"></span></div>';
+			document.getElementById("leaderfunctionview").innerHTML = SResult;
 		} else if(select == 'invite'){
 			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><br/><label for="1"><span style="font-size:20px;">아이디</span><input type="text" class="input-field" name="inviteId" id="inviteId" value="" /><input type="button" id="inviteBtn" value="확인" /></label>';
 			$(document).ready(function() {
@@ -328,7 +341,7 @@
 		        	//Map[              ]	data
 		        	//	  Map[      ]		data.recordMap, data.tegMap
 		        	//        Map[] 		data.recordMap.name ...
-		        	var qsr = '<select id="quizchoice"><option>=폴더명=</option>';
+		        	var qsr = '<select class="form-control" id="quizchoice"><option>=폴더명=</option>';
 					$.each(data.recordMap, function(index, item){
 						qsr += '<option value="r' + item.NAME + '">' + item.NAME + '</option>';
 					});
@@ -337,7 +350,7 @@
 						qsr += '<option value="r' + item.TEG + '">' + item.TEG + '[' + item.NUM + ']' + '</option>';
 					});
 					qsr += '</select><input type="button" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
-					//alert(qsr);
+					alert(qsr);
 					document.getElementById("sharingtargetview").innerHTML = qsr;
 					$(document).ready(function() {
 				       	$("#quiznumBtn").click(function() {
@@ -389,7 +402,10 @@
     
 
 
-</script> 
+</script>
+<style type="text/css">
+.dropdown-toggle{height:34px;}
+</style>
 <!-- head --> 
 </head>
 <body class="hold-transition skin-blue sidebar-mini"> 
@@ -529,98 +545,82 @@
   <!-- Left side column. contains the logo and sidebar --> 
   <aside class="main-sidebar"> 
     <!-- sidebar: style can be found in sidebar.less --> 
-    <section class="sidebar">
-      <!-- Sidebar user panel -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        </div>
-        <div class="pull-left Primary">
-          <p>${sessionScope.member.id}</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-        </div>
-      </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-     <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MENU</li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-edit" style="color: #2ECCFA"></i> <span>Study</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
+    <section class="sidebar"> 
+      <!-- Sidebar user panel --> 
+      <div class="user-panel"> 
+        <div class="pull-left image"> 
+          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> 
+        </div> 
+        <div class="pull-left info"> 
+          <p>${sessionScope.member.id}</p> 
+          <a href="#"><i class="fa fa-circle text-success"></i> Online</a> 
+        </div> 
+      </div> 
+      <!-- search form --> 
+      <form action="#" method="get" class="sidebar-form"> 
+        <div class="input-group"> 
+          <input type="text" name="q" class="form-control" placeholder="Searchresources."> 
+          <span class="input-group-btn"> 
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i> 
+                </button> 
+              </span> 
+        </div> 
+      </form> 
+      <!-- /.search form --> 
+      <!-- sidebar menu: : style can be found in sidebar.less --> 
+      <ul class="sidebar-menu" data-widget="tree"> 
+        <li class="header">MAIN NAVIGATION</li> 
+        <li class="treeview"> 
+          <a href="#"> 
+            <i class="fa fa-dashboard"></i> <span>Study</span> 
+            <span class="pull-right-container"> 
+              <i class="fa fa-angle-left pull-right"></i> 
+            </span> 
+          </a> 
           <ul class="treeview-menu"> 
-            <li><a href="gotoStudy"><i class="fa fa-circle-o text-aqua"></i> Study Main</a></li> 
-            <li><a href="gotoQuiz"><i class="fa fa-circle-o text-aqua"></i> Quiz</a></li> 
-            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o text-aqua"></i> Study Group</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-suitcase" style="color: #F7D358"></i> <span>Work</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-heartbeat" style="color: #FF0040"></i> <span>Health</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="gotoHealth"><i class="fa fa-circle-o text-red"></i> Health Main</a></li>
-            <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
-            <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
-            <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-users" style="color: #008000"></i> <span>Friend</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
-          </ul>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-calendar" style="color: #0000FF"></i> <span>Schdule</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-blue"></i> Calendar</a></li>
-            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-blue"></i> Timeline</a></li>
-          </ul>
-        </li>
-      </ul>
-    </section>
+            <li><a href="gotoQuiz"><i class="fa fa-circle-o"></i> Quiz</a></li> 
+            <li><a href="gotoGroupLobby"><i class="fa fa-circle-o"></i> Study Group</a></li> 
+          </ul> 
+        </li> 
+        <li class="treeview"> 
+          <a href="#"> 
+            <i class="fa fa-dashboard"></i> <span>Work</span> 
+            <span class="pull-right-container"> 
+              <i class="fa fa-angle-left pull-right"></i> 
+            </span> 
+          </a> 
+          <ul class="treeview-menu"> 
+            <li><a href=""><i class="fa fa-circle-o"></i> Work 1</a></li> 
+            <li><a href=""><i class="fa fa-circle-o"></i> Work 2</a></li> 
+          </ul> 
+        </li> 
+        <li class="treeview"> 
+          <a href="#"> 
+            <i class="fa fa-dashboard"></i> <span>Health</span> 
+            <span class="pull-right-container"> 
+              <i class="fa fa-angle-left pull-right"></i> 
+            </span> 
+          </a> 
+          <ul class="treeview-menu"> 
+            <li><a href=""><i class="fa fa-circle-o"></i> Health 1</a></li> 
+            <li><a href=""><i class="fa fa-circle-o"></i> Health 2</a></li> 
+          </ul> 
+        </li> 
+        <li> 
+          <a href="widgets.html"> 
+            <i class="fa fa-th"></i> <span>Widgets</span> 
+            <span class="pull-right-container"> 
+              <small class="label pull-right bg-green">new</small> 
+            </span> 
+          </a> 
+        </li> 
+        <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Documentation</span></a></li> 
+        <li class="header">LABELS</li> 
+        <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li> 
+        <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li> 
+        <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li> 
+      </ul> 
+    </section> 
     <!-- /.sidebar --> 
   </aside> 
    
@@ -633,20 +633,22 @@
     <!-- Content Header (Page header) --> 
     <section class="content-header"> 
       <h1> 
-        Study 
-        <small>Group room</small> 
+        Title01 
+        <small>설명이 설명설명</small> 
       </h1> 
       <ol class="breadcrumb"> 
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li> 
-        <li class="active">Study</li> 
+        <li class="active">title</li> 
       </ol> 
     </section> 
  
     <!-- Main content --> 
     <section class="content"> 
       <div class="row"> 
-        <div class="col-md-3">
-          <div class="box box-info"> 
+        <div class="col-md-3"> 
+          <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Button</a> 
+ 
+          <div class="box box-solid"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">Group</h3> 
               <div class="box-tools"> 
@@ -656,7 +658,7 @@
             </div> 
             <div class="box-body no-padding"> 
               <ul class="nav nav-pills nav-stacked"> 
-                <li><a href="gotoGroupLobby"><i class="fa fa-inbox"></i>Group Menu</li> 
+                <li><a href="gotoGroupLobby"><i class="fa fa-inbox"></i> Group Menu</a></li>
               </ul> 
             </div> 
             <!-- /.box-body --> 
@@ -664,12 +666,15 @@
           <!-- /. box --> 
         </div> 
         <!-- /.col --> 
-        
         <div class="col-md-9"> 
           
-		  <div class="box box-info direct-chat direct-chat-warning">
+          
+          
+          
+          
+		<div class="box box-warning direct-chat direct-chat-warning">
 			<div class="box-header with-border">
-				<h3 class="box-title">Group Chat</h3>
+				<h3 class="box-title">Direct Chat</h3>
 
 				<div class="box-tools pull-right">
 					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -684,7 +689,7 @@
                     
 					<!-- Message. Default to the left -->
                     <div class="direct-chat-msg">
-                    	<div class="direct-chat-Primary clearfix">
+                    	<div class="direct-chat-info clearfix">
                     		<span class="direct-chat-name pull-left">{NAME}</span>
                     		<span class="direct-chat-timestamp pull-right">{TIME}</span>
                    		</div>
@@ -697,7 +702,7 @@
 
                     <!-- Message to the right -->
                     <div class="direct-chat-msg right">
-                    	<div class="direct-chat-Primary clearfix">
+                    	<div class="direct-chat-info clearfix">
                     		<span class="direct-chat-name pull-right">{NAME}</span>
                         	<span class="direct-chat-timestamp pull-left">{TIME}</span>
                       	</div>
@@ -724,20 +729,39 @@
                 </div>
                 <!-- /.box-footer-->
 			</div>
-          
+          </div>
           
       	  <!-- general form elements disabled --> 
-          <div class="box box-info"> 
+      	
+          <div class="box box-primary"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">Menu</h3> 
             </div> 
             <!-- /.box-header --> 
-            <div class="box-body"> 
+            <div class="box-body">
+               <div class="margin">
+                 <div class="btn-group">
+                  <button type="button" class="btn btn-info">function</button>
+                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a id="authority">권한부여</a></li>
+                    <li><a id="sharing">화면공유</a></li>
+                    <li><a id="invite">초대</a></li>
+                    <li class="divider"></li>
+                  </ul>
+                </div>
+                <span id="leaderfunctionview">
+                
+                </span>
+               </div>
+            
               <form role="form"> 
                  
-                 
                 <!-- Function Key --> 
-                <div class="form-group" id="leaderfunselectspan"> 
+                <!-- <div class="form-group" id="leaderfunselectspan"> 
                   <label>Text</label> 
                   <select class="form-control" id="leaderfunselect" onchange="lfsChange()"> 
                     <option value="none" selected>==선택==</option>
@@ -747,18 +771,16 @@
                   </select> 
                 </div> 
                  
-                
-                <!--  --> 
-                <div class="form-group" id="leaderfunctionview"> 
+                 
+                <div class="form-group" id="leaderfunctionview">
+                	
                 </div>
                 <div class="form-group" id="functionboard"> 
                 </div>
-              </form> 
+              </form>  -->
             </div> 
             <!-- /.box-body --> 
-          </div> 
-          
-          </div> 
+          </div>
           <!-- /. box --> 
         </div> 
         <!-- /.col --> 
@@ -766,22 +788,216 @@
       <!-- /.row --> 
     </section> 
     <!-- /.content --> 
-    
-	<!-- ========================================================================================================== --> 
-    <!-- ========================================================================================================== --> 
-    <!-- ========================================================================================================== --> 
-   
-	    
-    
   </div> 
   <!-- /.content-wrapper --> 
+   
+ 
+  <!-- ========================================================================================================== --> 
+  <!-- ========================================================================================================== --> 
+  <!-- ========================================================================================================== --> 
+   
+   
   <footer class="main-footer"> 
-	    <div class="pull-right hidden-xs"> 
-	      <b>Version</b> 2.4.0 
-	    </div> 
-	    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
-	    reserved. 
-	</footer> 
+    <div class="pull-right hidden-xs"> 
+      <b>Version</b> 2.4.0 
+    </div> 
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
+    reserved. 
+  </footer> 
+ 
+  <!-- Control Sidebar --> 
+  <aside class="control-sidebar control-sidebar-dark"> 
+    <!-- Create the tabs --> 
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs"> 
+      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li> 
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li> 
+    </ul> 
+    <!-- Tab panes --> 
+    <div class="tab-content"> 
+      <!-- Home tab content --> 
+      <div class="tab-pane" id="control-sidebar-home-tab"> 
+        <h3 class="control-sidebar-heading">Recent Activity</h3> 
+        <ul class="control-sidebar-menu"> 
+          <li> 
+            <a href="javascript:void(0)"> 
+              <i class="menu-icon fa fa-birthday-cake bg-red"></i> 
+ 
+              <div class="menu-info"> 
+                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4> 
+ 
+                <p>Will be 23 on April 24th</p> 
+              </div> 
+            </a> 
+          </li> 
+          <li> 
+            <a href="javascript:void(0)"> 
+              <i class="menu-icon fa fa-user bg-yellow"></i> 
+ 
+              <div class="menu-info"> 
+                <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4> 
+ 
+                <p>New phone +1(800)555-1234</p> 
+              </div> 
+            </a> 
+          </li> 
+          <li> 
+            <a href="javascript:void(0)"> 
+              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i> 
+ 
+              <div class="menu-info"> 
+                <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4> 
+ 
+                <p>nora@example.com</p> 
+              </div> 
+            </a> 
+          </li> 
+          <li> 
+            <a href="javascript:void(0)"> 
+              <i class="menu-icon fa fa-file-code-o bg-green"></i> 
+ 
+              <div class="menu-info"> 
+                <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4> 
+ 
+                <p>Execution time 5 seconds</p> 
+              </div> 
+            </a> 
+          </li> 
+        </ul> 
+        <!-- /.control-sidebar-menu --> 
+ 
+        <h3 class="control-sidebar-heading">Tasks Progress</h3> 
+        <ul class="control-sidebar-menu"> 
+          <li> 
+            <a href="javascript:void(0)"> 
+              <h4 class="control-sidebar-subheading"> 
+                Custom Template Design 
+                <span class="label label-danger pull-right">70%</span> 
+              </h4> 
+ 
+              <div class="progress progress-xxs"> 
+                <div class="progress-bar progress-bar-danger" style="width: 70%"></div> 
+              </div> 
+            </a> 
+          </li> 
+          <li> 
+            <a href="javascript:void(0)"> 
+              <h4 class="control-sidebar-subheading"> 
+                Update Resume 
+                <span class="label label-success pull-right">95%</span> 
+              </h4> 
+ 
+              <div class="progress progress-xxs"> 
+                <div class="progress-bar progress-bar-success" style="width: 95%"></div> 
+              </div> 
+            </a> 
+          </li> 
+          <li> 
+            <a href="javascript:void(0)"> 
+              <h4 class="control-sidebar-subheading"> 
+                Laravel Integration 
+                <span class="label label-warning pull-right">50%</span> 
+              </h4> 
+ 
+              <div class="progress progress-xxs"> 
+                <div class="progress-bar progress-bar-warning" style="width: 50%"></div> 
+              </div> 
+            </a> 
+          </li> 
+          <li> 
+            <a href="javascript:void(0)"> 
+              <h4 class="control-sidebar-subheading"> 
+                Back End Framework 
+                <span class="label label-primary pull-right">68%</span> 
+              </h4> 
+ 
+              <div class="progress progress-xxs"> 
+                <div class="progress-bar progress-bar-primary" style="width: 68%"></div> 
+              </div> 
+            </a> 
+          </li> 
+        </ul> 
+        <!-- /.control-sidebar-menu --> 
+ 
+      </div> 
+      <!-- /.tab-pane --> 
+      <!-- Stats tab content --> 
+      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div> 
+      <!-- /.tab-pane --> 
+      <!-- Settings tab content --> 
+      <div class="tab-pane" id="control-sidebar-settings-tab"> 
+        <form method="post"> 
+          <h3 class="control-sidebar-heading">General Settings</h3> 
+ 
+          <div class="form-group"> 
+            <label class="control-sidebar-subheading"> 
+              Report panel usage 
+              <input type="checkbox" class="pull-right" checked> 
+            </label> 
+ 
+            <p> 
+              Some information about this general settings option 
+            </p> 
+          </div> 
+          <!-- /.form-group --> 
+ 
+          <div class="form-group"> 
+            <label class="control-sidebar-subheading"> 
+              Allow mail redirect 
+              <input type="checkbox" class="pull-right" checked> 
+            </label> 
+ 
+            <p> 
+              Other sets of options are available 
+            </p> 
+          </div> 
+          <!-- /.form-group --> 
+ 
+          <div class="form-group"> 
+            <label class="control-sidebar-subheading"> 
+              Expose author name in posts 
+              <input type="checkbox" class="pull-right" checked> 
+            </label> 
+ 
+            <p> 
+              Allow the user to show his name in blog posts 
+            </p> 
+          </div> 
+          <!-- /.form-group --> 
+ 
+          <h3 class="control-sidebar-heading">Chat Settings</h3> 
+ 
+          <div class="form-group"> 
+            <label class="control-sidebar-subheading"> 
+              Show me as online 
+              <input type="checkbox" class="pull-right" checked> 
+            </label> 
+          </div> 
+          <!-- /.form-group --> 
+ 
+          <div class="form-group"> 
+            <label class="control-sidebar-subheading"> 
+              Turn off notifications 
+              <input type="checkbox" class="pull-right"> 
+            </label> 
+          </div> 
+          <!-- /.form-group --> 
+ 
+          <div class="form-group"> 
+            <label class="control-sidebar-subheading"> 
+              Delete chat history 
+              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a> 
+            </label> 
+          </div> 
+          <!-- /.form-group --> 
+        </form> 
+      </div> 
+      <!-- /.tab-pane --> 
+    </div> 
+  </aside> 
+  <!-- /.control-sidebar --> 
+  <!-- Add the sidebar's background. This div must be placed 
+       immediately after the control sidebar --> 
+  <div class="control-sidebar-bg"></div> 
 </div> 
 <!-- ./wrapper --> 
  
@@ -799,6 +1015,170 @@
 <script src="resources/main/dist/js/adminlte.min.js"></script> 
 <!-- AdminLTE for demo purposes --> 
 <script src="resources/main/dist/js/demo.js"></script> 
-
+<!-- fullCalendar --> 
+<script src="resources/main/bower_components/moment/moment.js"></script> 
+<script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script> 
+<!-- Page specific script --> 
+<script> 
+  $(function () { 
+ 
+    /* initialize the external events 
+     -----------------------------------------------------------------*/ 
+    function init_events(ele) { 
+      ele.each(function () { 
+ 
+        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/) 
+        // it doesn't need to have a start or end 
+        var eventObject = { 
+          title: $.trim($(this).text()) // use the element's text as the event title 
+        } 
+ 
+        // store the Event Object in the DOM element so we can get to it later 
+        $(this).data('eventObject', eventObject) 
+ 
+        // make the event draggable using jQuery UI 
+        $(this).draggable({ 
+          zIndex        : 1070, 
+          revert        : true, // will cause the event to go back to its 
+          revertDuration: 0  //  original position after the drag 
+        }) 
+ 
+      }) 
+    } 
+ 
+    init_events($('#external-events div.external-event')) 
+ 
+    /* initialize the calendar 
+     -----------------------------------------------------------------*/ 
+    //Date for the calendar events (dummy data) 
+    var date = new Date() 
+    var d    = date.getDate(), 
+        m    = date.getMonth(), 
+        y    = date.getFullYear() 
+    $('#calendar').fullCalendar({ 
+      header    : { 
+        left  : 'prev,next today', 
+        center: 'title', 
+        right : 'month,agendaWeek,agendaDay' 
+      }, 
+      buttonText: { 
+        today: 'today', 
+        month: 'month', 
+        week : 'week', 
+        day  : 'day' 
+      }, 
+      //Random default events 
+      events    : [ 
+        { 
+          title          : 'All Day Event', 
+          start          : new Date(y, m, 1), 
+          backgroundColor: '#f56954', //red 
+          borderColor    : '#f56954' //red 
+        }, 
+        { 
+          title          : 'Long Event', 
+          start          : new Date(y, m, d - 5), 
+          end            : new Date(y, m, d - 2), 
+          backgroundColor: '#f39c12', //yellow 
+          borderColor    : '#f39c12' //yellow 
+        }, 
+        { 
+          title          : 'Meeting', 
+          start          : new Date(y, m, d, 10, 30), 
+          allDay         : false, 
+          backgroundColor: '#0073b7', //Blue 
+          borderColor    : '#0073b7' //Blue 
+        }, 
+        { 
+          title          : 'Lunch', 
+          start          : new Date(y, m, d, 12, 0), 
+          end            : new Date(y, m, d, 14, 0), 
+          allDay         : false, 
+          backgroundColor: '#00c0ef', //Info (aqua) 
+          borderColor    : '#00c0ef' //Info (aqua) 
+        }, 
+        { 
+          title          : 'Birthday Party', 
+          start          : new Date(y, m, d + 1, 19, 0), 
+          end            : new Date(y, m, d + 1, 22, 30), 
+          allDay         : false, 
+          backgroundColor: '#00a65a', //Success (green) 
+          borderColor    : '#00a65a' //Success (green) 
+        }, 
+        { 
+          title          : 'Click for Google', 
+          start          : new Date(y, m, 28), 
+          end            : new Date(y, m, 29), 
+          url            : 'http://google.com/', 
+          backgroundColor: '#3c8dbc', //Primary (light-blue) 
+          borderColor    : '#3c8dbc' //Primary (light-blue) 
+        } 
+      ], 
+      editable  : true, 
+      droppable : true, // this allows things to be dropped onto the calendar !!! 
+      drop      : function (date, allDay) { // this function is called when something is dropped 
+ 
+        // retrieve the dropped element's stored Event Object 
+        var originalEventObject = $(this).data('eventObject') 
+ 
+        // we need to copy it, so that multiple events don't have a reference to the same object 
+        var copiedEventObject = $.extend({}, originalEventObject) 
+ 
+        // assign it the date that was reported 
+        copiedEventObject.start           = date 
+        copiedEventObject.allDay          = allDay 
+        copiedEventObject.backgroundColor = $(this).css('background-color') 
+        copiedEventObject.borderColor     = $(this).css('border-color') 
+ 
+        // render the event on the calendar 
+        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/) 
+        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true) 
+ 
+        // is the "remove after drop" checkbox checked? 
+        if ($('#drop-remove').is(':checked')) { 
+          // if so, remove the element from the "Draggable Events" list 
+          $(this).remove() 
+        } 
+ 
+      } 
+    }) 
+ 
+    /* ADDING EVENTS */ 
+    var currColor = '#3c8dbc' //Red by default 
+    //Color chooser button 
+    var colorChooser = $('#color-chooser-btn') 
+    $('#color-chooser > li > a').click(function (e) { 
+      e.preventDefault() 
+      //Save color 
+      currColor = $(this).css('color') 
+      //Add color effect to button 
+      $('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor }) 
+    }) 
+    $('#add-new-event').click(function (e) { 
+      e.preventDefault() 
+      //Get value and make sure it is not null 
+      var val = $('#new-event').val() 
+      if (val.length == 0) { 
+        return 
+      } 
+ 
+      //Create events 
+      var event = $('<div />') 
+      event.css({ 
+        'background-color': currColor, 
+        'border-color'    : currColor, 
+        'color'           : '#fff' 
+      }).addClass('external-event') 
+      event.html(val) 
+      $('#external-events').prepend(event) 
+ 
+      //Add draggable funtionality 
+      init_events(event) 
+ 
+      //Remove event from text input 
+      $('#new-event').val('') 
+    }) 
+  }) 
+</script> 
 </body> 
 </html> 
