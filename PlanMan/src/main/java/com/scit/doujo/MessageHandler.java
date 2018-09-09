@@ -50,10 +50,10 @@ private static Logger logger = LoggerFactory.getLogger(MessageHandler.class);
         TextMessage message) throws Exception {
         logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
         String[] messageAry = message.getPayload().split(":");
-        System.out.println(messageAry[0] +":"+ messageAry[1] +":"+ messageAry[2]);
+        System.out.println(messageAry[0] +":"+ messageAry[1] +":"+ messageAry[2] +":"+ messageAry[3]);
         for(WebSocketSession sess : sessionList){
             //sess.sendMessage(new TextMessage(session.getId() +" : "+ message.getPayload()));
-        	sess.sendMessage(new TextMessage(messageAry[0] +":"+ messageAry[1] +":"+ messageAry[2]));
+        	sess.sendMessage(new TextMessage(messageAry[0] +":"+ messageAry[1] +":"+ messageAry[2] +":"+ messageAry[3]));
         }
     }
 

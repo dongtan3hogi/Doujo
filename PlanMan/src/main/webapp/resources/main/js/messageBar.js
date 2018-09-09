@@ -64,7 +64,7 @@ var messageListBoard = '';
 	messageBarBoard += '</div>';
 	messageBarBoard += '</div>';
 	messageBarBoard += '<div class="box-body">';
-	messageBarBoard += '<div class="direct-chat-messages" id="chatlog">';
+	messageBarBoard += '<div class="direct-chat-messages" id="messageLog">';
 	messageBarBoard += '</div>';
 	messageBarBoard += '<div class="box-footer">';
 	messageBarBoard += '<form action="#" method="post"  onsubmit="return false;">';
@@ -112,7 +112,7 @@ function messageBoardChange(friendId){
 				messageBarBoard += '</div>';
 				messageBarBoard += '</div>';
 				messageBarBoard += '<div class="box-body">';
-				messageBarBoard += '<div class="direct-chat-messages" id="'+friendId+'Chatlog">';
+				messageBarBoard += '<div class="direct-chat-messages" id="'+friendId+'messageLog">';
 				
 				
 				
@@ -339,7 +339,7 @@ function onClose(evt) {
 
 
 function sendMessage(FI) {
-    var sendmsg = "message" + ":" + FI + ":" + $("#"+FI+"message").val();
+    var sendmsg = "mime" + ":" + FI + ":" + document.getElementById("MyID").value + ":" + $("#"+FI+"message").val();
     sock.send(sendmsg);
 }
 
@@ -354,50 +354,51 @@ function sendMessage(FI) {
 function onMessage(evt) {
     var data = evt.data;
     var dataArray = data.split(':');
-    var textarea = document.getElementById(dataArray[1]+"Chatlog");
+    var MyID = document.getElementById("MyID").value;
     //alert(data+","+document.getElementById("MyID").value);
-    if(dataArray[0] == 'message') {
+    if(dataArray[1] == MyID || dataArray[2] == MyID) {
     	var putMsg = '';
-    	var MyID = document.getElementById("MyID").value;
     	var d = new Date();
     	var time = leadingZeros(d.getFullYear(), 4) + '-' + leadingZeros(d.getMonth() + 1, 2) + '-' + leadingZeros(d.getDate(), 2) + ' ' +
     	    leadingZeros(d.getHours(), 2) + ':' + leadingZeros(d.getMinutes(), 2);
-    	
-    	
-    	if(dataArray[1] != MyID) {
+    	var giveid = "";
+    	var takeid = "";
+    	//alert(dataArray[0]+", "+dataArray[1]+", "+dataArray[2]);
+    	if(dataArray[2] == MyID) {
     		//내가보낸 메세지는 우측
     		putMsg += '<div class="direct-chat-msg right">';
     		putMsg += '<div class="direct-chat-info clearfix">';
-    		putMsg += '<span class="direct-chat-name pull-right">' + MyID + '</span>';
+    		putMsg += '<span class="direct-chat-name pull-right">' + dataArray[2] + '</span>';
     		putMsg += '<span class="direct-chat-timestamp pull-left">' + time + '</span>';
     		putMsg += '</div>';
-    		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + MyID + '.jpg" alt="message user image">';
+    		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[2] + '.jpg" alt="message user image">';
     		putMsg += '<div class="direct-chat-text">';
-    		putMsg += dataArray[2];
+    		putMsg += dataArray[3];
     		putMsg += '</div>';
     		putMsg += '</div>';
-    		
+    		takeid = dataArray[1];
     		
     	} else {
     		//상대가보낸 메세지는 좌측
     		putMsg += '<div class="direct-chat-msg">';
     		putMsg += '<div class="direct-chat-info clearfix">';
-    		putMsg += '<span class="direct-chat-name pull-left">' + dataArray[1] + '</span>';
+    		putMsg += '<span class="direct-chat-name pull-left">' + dataArray[2] + '</span>';
     		putMsg += '<span class="direct-chat-timestamp pull-right">' + time + '</span>';
     		putMsg += '</div>';
-    		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image">';
+    		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[2] + '.jpg" alt="message user image">';
     		putMsg += '<div class="direct-chat-text">';
-    		putMsg += dataArray[2];
+    		putMsg += dataArray[3];
     		putMsg += '</div>';
     		putMsg += '</div>';
-    		
+    		takeid = dataArray[2];
     	}
     	//alert(putMsg);
+    	var textarea = document.getElementById(takeid+"messageLog");
     	textarea.innerHTML += putMsg;
     	var message = { 
     			"giveid" : MyID,
-    			"takeid" : dataArray[1],
-    			"message" : dataArray[2],
+    			"takeid" : takeid,
+    			"message" : dataArray[3],
     			"readcheck" : "new"
     	};
     	$.ajax({ 

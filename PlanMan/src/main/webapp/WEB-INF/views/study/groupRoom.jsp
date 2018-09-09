@@ -29,7 +29,7 @@
 	$(document).ready(function(){
 		$("#message").keypress(function (e) {
 			if (e.which == 13){
-				sendMessage();
+				sendChat();
 			}
 	   	});
 	});
@@ -40,8 +40,8 @@
 	
     $(document).ready(function() {
 
-        $("#sendBtn").click(function() {
-            sendMessage();
+        $("#chatSendBtn").click(function() {
+        	sendChat();
         });
         
         $("#quiznumBtn").click(function() {
@@ -52,29 +52,29 @@
 
     });
 
-    var sock;
+    var sockC;
 
     //웸소켓을 지정한 url로 연결한다.
-    sock = new SockJS("<c:url value="/echo"/>");
+    sockC = new SockJS("<c:url value="/echo"/>");
 
 
     //자바스크립트 안에 function을 집어넣을 수 있음.
     //데이터가 나한테 전달되읐을 때 자동으로 실행되는 function
-    sock.onmessage = onMessage;
+    sockC.onmessage = onMessage;
 
 
     //데이터를 끊고싶을때 실행하는 메소드
-    sock.onclose = onClose;
+    sockC.onclose = onClose;
 
     
     
     
     /*시작시 발동하는 message*/
     //keyword:방번호:아이디
-    sock.onopen = function(){
+    sockC.onopen = function(){
     	roomNum = document.getElementById("roomnum").value;
-    	var sendmsg = "start:" + document.getElementById("roomnum").value + ":" + document.getElementById("yourID").value;
-        sock.send(sendmsg);
+    	var sendmsg = "start:" + document.getElementById("roomnum").value + ":" + document.getElementById("MyID").value;
+        sockC.send(sendmsg);
         /* sock.send($("#message").val()); */
     };
 
@@ -83,9 +83,9 @@
     
     /*소켓으로 보내겠다. */
     //keyword:방번호:아이디:메세지
-    function sendMessage() {
-        var sendmsg = "message:" + document.getElementById("roomnum").value + ":" + document.getElementById("yourID").value + ":" + $("#message").val();
-        sock.send(sendmsg);
+    function sendChat() {
+        var sendmsg = "chat:" + document.getElementById("roomnum").value + ":" + document.getElementById("MyID").value + ":" + $("#message").val();
+        sockC.send(sendmsg);
     }
     
     
@@ -94,8 +94,8 @@
   	/* 퀴즈_태그목록&퀴즈폴더 중 하나 선택시 해당 퀴즈묶음의 퀴즈들의 번호 가져온다.*/
   	//keyword:방번호:아이디:선택한문제묶음
     function takeQuiznum() {
-        var sendmsg = "quiznumber:" + document.getElementById("roomnum").value + ":" + document.getElementById("yourID").value + ":" + $("#quizchoice").val();
-        sock.send(sendmsg);
+        var sendmsg = "quiznumber:" + document.getElementById("roomnum").value + ":" + document.getElementById("MyID").value + ":" + $("#quizchoice").val();
+        sockC.send(sendmsg);
     }
     
     
@@ -104,14 +104,23 @@
 	/* 선택한 퀴즈번호에 해당하는 문제를 가져온다. */
 	//keyword:방번호:아이디:선택한번호
 	function takeQuiz(){
-    	var sendmsg = "quiz:" + roomNum + ":" + document.getElementById("yourID").value + ":" + $("#quiznumberselect").val();
-        sock.send(sendmsg);
+    	var sendmsg = "quiz:" + roomNum + ":" + document.getElementById("MyID").value + ":" + $("#quiznumberselect").val();
+        sockC.send(sendmsg);
     }
     
     
     
 
-    
+	function leadingZeros2(n, digits) {
+		var zero = '';
+		n = n.toString();
+	
+		if (n.length < digits) {
+			for (i = 0; i < digits - n.length; i++)
+				zero += '0';
+		}
+		return zero + n;
+	}
     
     
     //evt 파라미터는 웹소켓을 보내준 데이터다.(자동으로 들어옴)
@@ -119,15 +128,17 @@
         var data = evt.data;
         var textarea = document.getElementById("chatlog");
         var dataArray = data.split(':');
-        
-        if(dataArray[0] == 'message') {
+        var d = new Date();
+        var time = leadingZeros2(d.getFullYear(), 4) + '-' + leadingZeros2(d.getMonth() + 1, 2) + '-' + leadingZeros2(d.getDate(), 2) + ' ' +
+	    			leadingZeros2(d.getHours(), 2) + ':' + leadingZeros2(d.getMinutes(), 2);
+        if(dataArray[0] == 'chat') {
         	var putMsg = '';
-        	if(dataArray[1] == document.getElementById("yourID").value) {
+        	if(dataArray[1] == document.getElementById("MyID").value) {
         		//동일하다면 우측메시지
         		putMsg += '<div class="direct-chat-msg right">';
         		putMsg += '<div class="direct-chat-info clearfix">';
         		putMsg += '<span class="direct-chat-name pull-right">' + dataArray[1] + '</span>';
-        		putMsg += '<span class="direct-chat-timestamp pull-left">{TIME}</span>';
+        		putMsg += '<span class="direct-chat-timestamp pull-left">' + time + '</span>';
         		putMsg += '</div>';
         		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image">';
         		putMsg += '<div class="direct-chat-text">';
@@ -141,7 +152,7 @@
         		putMsg += '<div class="direct-chat-msg">';
         		putMsg += '<div class="direct-chat-info clearfix">';
         		putMsg += '<span class="direct-chat-name pull-left">' + dataArray[1] + '</span>';
-        		putMsg += '<span class="direct-chat-timestamp pull-right">{TIME}</span>';
+        		putMsg += '<span class="direct-chat-timestamp pull-right">' + time + '</span>';
         		putMsg += '</div>';
         		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image">';
         		putMsg += '<div class="direct-chat-text">';
@@ -229,7 +240,7 @@
 							var solveSet = {
 									"answer": answer
 									,"num": quizseq
-									,"id": document.getElementById('yourID').value
+									,"id": document.getElementById('MyID').value
 							}
 							//alert(solveSet.answer + ", " +solveSet.num + ", " + solveSet.id);
 							$.ajax({
@@ -272,7 +283,7 @@
     
     /* FUNCTION */
     
-  
+	
     
     
     
@@ -328,7 +339,7 @@
 		//quiz로 변경할경우
 		if(select == 'quiz'){
 			var idSet = {
-	        	"id" : document.getElementById("yourID").value
+	        	"id" : document.getElementById("MyID").value
 	        	, "quiz" : "quiz"
 	        };
 			$.ajax({
@@ -411,6 +422,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <input type="hidden" id="MyID" value="${sessionScope.memberID}">
 <input type="hidden" id="friendID" value="${sessionScope.friendID}">
+<input type="hidden" id="roomnum" value="${sessionScope.groupmember.groupseq}">
 <div class="wrapper">
 
   <header class="main-header">
@@ -678,7 +690,7 @@
                     	<div class="input-group">
                    			<input type="text" name="message" id="message" placeholder="Type Message ..." class="form-control">
                       		<span class="input-group-btn">
-                         		<button type="button" class="btn btn-warning btn-flat" id="sendBtn">Send</button>
+                         		<button type="button" class="btn btn-warning btn-flat" id="chatSendBtn">Send</button>
                       		</span>
                     	</div>
                   	</form>

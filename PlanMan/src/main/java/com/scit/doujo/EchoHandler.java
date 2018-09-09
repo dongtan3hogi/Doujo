@@ -72,7 +72,7 @@ private static Logger logger = LoggerFactory.getLogger(EchoHandler.class);
     			}
     			
     		//message
-    		} else if(messageAry[0].equals("message")) {
+    		} else if(messageAry[0].equals("chat")) {
     			for(WebSocketSession sess : sessions.get(messageAry[1])){
    					sess.sendMessage(new TextMessage(messageAry[0] +":"+ messageAry[2] +":"+ messageAry[3]));
    			 	}
