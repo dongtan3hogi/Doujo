@@ -738,7 +738,7 @@
               <h3 class="box-title">Menu</h3> 
             </div> 
             <!-- /.box-header --> 
-            <div class="box-body">
+            <!-- <div class="box-body">
                <div class="margin">
                  <div class="btn-group">
                   <button type="button" class="btn btn-info">function</button>
@@ -756,12 +756,12 @@
                 <span id="leaderfunctionview">
                 
                 </span>
-               </div>
+               </div> -->
             
               <form role="form"> 
                  
                 <!-- Function Key --> 
-                <!-- <div class="form-group" id="leaderfunselectspan"> 
+                <div class="form-group" id="leaderfunselectspan"> 
                   <label>Text</label> 
                   <select class="form-control" id="leaderfunselect" onchange="lfsChange()"> 
                     <option value="none" selected>==선택==</option>
@@ -777,7 +777,7 @@
                 </div>
                 <div class="form-group" id="functionboard"> 
                 </div>
-              </form>  -->
+              </form> 
             </div> 
             <!-- /.box-body --> 
           </div>
