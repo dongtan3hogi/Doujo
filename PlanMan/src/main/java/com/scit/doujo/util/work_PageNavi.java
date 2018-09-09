@@ -2,7 +2,7 @@ package com.scit.doujo.util;
 
 public class work_PageNavi {	//얘는 디비에 갔다오는 애는 아니다. 
 	// 멤버선언
-	private final int COUNT_PER_PAGE = 10;	//페이지 당 레코드 수
+	private int COUNT_PER_PAGE ;	//페이지 당 레코드 수
 	private final int PAGE_PER_GROUP = 5;	//그룹 당 페이지 수
 	private int currentPage;				//현재 페이지
 	private int totalRecordCount;			//전체 레코드 수 
@@ -13,8 +13,9 @@ public class work_PageNavi {	//얘는 디비에 갔다오는 애는 아니다.
 	private int startRecord;				//전체 레코드 중 현재 페이지의 첫 글
 	// srow, erow 계산하지 않고, mybatis의 기능의 RowBounds 사용				
 	// 생성자
-	public work_PageNavi(int currentPage, int totalRecordCount) {
+	public work_PageNavi(int count_per_page,int currentPage, int totalRecordCount) {
 		this.totalRecordCount = totalRecordCount;
+		this.COUNT_PER_PAGE = count_per_page;
 		//전체 페이지 수 계산
 		// 전체 글개수 152개라면 ? 총 페이지 16페이지
 		// 전체 글개수 150개라면 ? 총 페이지 15 페이지
