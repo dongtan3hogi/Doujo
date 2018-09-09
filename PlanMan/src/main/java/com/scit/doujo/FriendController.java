@@ -2,6 +2,7 @@ package com.scit.doujo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.scit.doujo.dao.workDao;
 import com.scit.doujo.util.work_PageNavi;
+import com.scit.doujo.vo.member;
+import com.scit.doujo.vo.work.memo;
 import com.scit.doujo.work.PagingContorller.HelloComponent;
 
 @Controller
@@ -87,8 +91,8 @@ public class FriendController {
 			result.add(ds);
 		}
 		article.setValue(result);
-		work_PageNavi pn = new work_PageNavi(10,1,result.size());
-		Map<String ,Object> data = null;
+		work_PageNavi pn = new work_PageNavi(3,1,result.size());
+		Map<String ,Object> data = new HashMap<String,Object>();
 		ArrayList<String[]> ab = article.page(1);
 		data.put("meeting", ab);
 		data.put("navi",pn);
@@ -96,5 +100,14 @@ public class FriendController {
 		return data;
 
 	}
+	@RequestMapping(value = "/goMPage", method = RequestMethod.POST)
+	public @ResponseBody Map<String ,Object> goMPage( int value) {
+		ArrayList<String[]> ab = article.page(value);
+		work_PageNavi pn = new work_PageNavi(3,value,article.getStaticHello().size());
+		Map<String ,Object> data = new HashMap<String,Object>();
+		data.put("meeting", ab);
+		data.put("navi",pn);
 
+		return data;
+	}
 }
