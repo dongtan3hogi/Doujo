@@ -744,7 +744,6 @@ public class StudyController {
 		return "study/studyMain";
 	}
 	
-	
 	@RequestMapping(value = "/goWord", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String[]> goWord( String type, HttpSession hs) {
 		 String aa = "오늘의 "+type+"단어";
@@ -796,11 +795,203 @@ public class StudyController {
 	
 	/*모든문제 검색 페이지로 이동 이동 ===================================================================*/ 
 	@RequestMapping(value = "/gotoQuizSearch", method = RequestMethod.GET) 
-	public String gotoQuizSearch(HttpSession hs, Model model) { 
+	public String gotoQuizSearch(HttpSession hs, Model model,
+			@RequestParam(value="page", defaultValue="1") int page,
+			@RequestParam(value="search", defaultValue="") String search) {
+		if(page<=0) {
+			page=1;
+		}
 		studyDao dao = sqlSession.getMapper(studyDao.class); 
-		String id = (String)hs.getAttribute("memberID"); 
+		String id = (String)hs.getAttribute("memberID");
+		Map<String, String> searchParameterMap = new HashMap<>();
+		searchParameterMap.put("search", search);
+		int countPerPage = 20;
+		int pagePerGroup = 5;
 		
+		System.out.println("2");
+		int total = dao.countSearchingQuizrecordlist(searchParameterMap);
+		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
+		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
+		ArrayList<Map<String, String>> searchResultList = dao.selectSearchingQuizrecordlist(searchParameterMap, rb);
+		model.addAttribute("navi", navi);
+		model.addAttribute("page", page);
+		model.addAttribute("search", search);
+		model.addAttribute("searchResultList", searchResultList);
+		System.out.println("3");
 		return "study/quizSearch"; 
 	}
+	
+	
+	/*문제를 내 문제로 가져오기 ===================================================================*/ 
+	@RequestMapping(value = "/doTakeQuizMyFolder", method = RequestMethod.GET) 
+	public String doTakeQuizMyFolder(HttpSession hs, Model model, String friendId, String title) { 
+		studyDao dao = sqlSession.getMapper(studyDao.class); 
+		String id = (String)hs.getAttribute("memberID");
+		Map<String, String> SARQ = new HashMap<>();
+		ArrayList<Map<String,String>> quizList = new ArrayList<>(); 
+		Map<String, Map<String,String>> quizMap = new HashMap<>(); 
+		SARQ.put("quizrecordcode", friendId+title);
+		SARQ.put("id", friendId);
+		quizList = dao.selectAllRecordQuiz(SARQ);
+		System.out.println("quizList//"+quizList.toString());
+		//(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ANSWER2}, #{ANSWER3}, #{ANSWER4}, #{ANSWERNUMBER}, #{ID})
+		//(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ID})
+		/*TO_CHAR(q.quizseq) NUM
+			,q.type type
+			,q.teg teg
+			,q.question question
+			,q.answer1 answer1
+        ,q.answer2 answer2
+        ,q.answer3 answer3
+        ,q.answer4 answer4
+			,TO_CHAR(q.answernumber) answernumber
+			,q.id id
+			,l.quizrecordname quizrecordname
+			,l.quizrecordcode quizrecordcode*/
 		
+		for (Map<String, String> map : quizList) {
+			map.put("type", map.get("TYPE"));
+			map.remove("TYPE");
+			map.put("teg", map.get("TEG"));
+			map.remove("TEG");
+			map.put("answer1", map.get("ANSWER1"));
+			map.remove("ANSWER1");
+			map.put("answer2", map.get("ANSWER2"));
+			map.remove("ANSWER2");
+			map.put("answer3", map.get("ANSWER3"));
+			map.remove("ANSWER3");
+			map.put("answer4", map.get("ANSWER4"));
+			map.remove("ANSWER4");
+			map.put("answernumber", map.get("ANSWERNUMBER"));
+			map.remove("ANSWERNUMBER");
+			map.put("id", id);
+			map.remove("ID");
+			map.put("question", map.get("QUESTION"));
+			map.remove("QUESTION");
+			map.put("quizrecordname", map.get("QUIZRECORDNAME"));
+			map.remove("QUIZRECORDNAME");
+			map.remove("QUIZRECORDCODE");
+			
+			if(map.get("type").equals("multiplechoice")) {
+				System.out.println(map.toString());
+				quizInsertFunction(map, id);
+				
+				
+			}else if(map.get("type").equals("shortanswer")) {
+				System.out.println(map.toString());
+				quizInsertFunction(map, id);
+				
+				
+			}
+		} 
+		
+		return "study/quizSolve"; 
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void quizInsertFunction(Map<String, String> quiz, String id) {
+		studyDao dao = sqlSession.getMapper(studyDao.class); 
+		Map<String, String> resultMap = new HashMap<>(); 
+		 
+		//insert the Teg
+		String tegString = quiz.get("teg");
+		String[] tegs;
+		if(tegString.contains("#")) {
+			tegs = quiz.get("teg").split("#"); 
+		}else {
+			tegs = new String[1];
+			tegs[0] = tegString;
+		}
+		
+		Map<String, String> tegMap = new HashMap<>(); 
+		if(tegs.length > 0) { 
+			for(int i=1; i<tegs.length; i++) { 
+				Map<String, String> teg = new HashMap<>(); 
+				teg.put("teg", tegs[i]); 
+				teg.put("id", id); 
+				teg.put("belong", "quiz"); 
+				System.out.println(teg.toString());
+				//이미 있는테그면 update로 숫자증가 
+				if(dao.findTeg(teg)>0) { 
+					teg.put("plus", "plus"); 
+					dao.recountTeg(teg); 
+					 
+				//없는 테그면 새로 추가 
+				} else if(dao.findTeg(teg)<=0) { 
+					dao.insertTeg(teg); 
+				} 
+			} 
+		} 
+		 
+		//System.out.println(quiz.get("answernumber")); 
+		//문제 넣기 
+		if(quiz.get("type").equals("multiplechoice")) { 
+			int result = dao.insertMQuiz(quiz); 
+		} else { 
+			int result = dao.insertJQuiz(quiz); 
+		} 
+		 
+		 
+		//list확인하고 없으면 생성 
+		//normal이 없었다면 생성 
+		if(quiz.get("quizrecordname").equals("normal")) { 
+			String quizrecordcode = id + quiz.get("quizrecordname"); 
+			if(dao.findQuizrecordlist(quizrecordcode)<=0) { 
+				quiz.put("quizrecordcode", quizrecordcode); 
+				dao.insertQuizrecordlist(quiz); 
+			} 
+		}else {
+			quiz.put("quizrecordcode", id + quiz.get("quizrecordname")); 
+		}
+		 
+		//new였다면 생성 
+		int i = dao.countQuizrecordlistForTaking(quiz);
+		if(i <= 0) { 
+			//일단 quizrecordcode를 생성한다. 
+			String quizrecordcode = id + quiz.get("quizrecordname"); 
+			quiz.put("quizrecordcode", quizrecordcode); 
+			quiz.put("quizrecordname", quiz.get("quizrecordname")); 
+			 
+			//quizrecordcode가 이미 존재하는지 확인하고 없을경우 입력한다. 
+			if(dao.findQuizrecordlist(quizrecordcode)>0) { 
+			 
+			} else { 
+				dao.insertQuizrecordlist(quiz); 
+				resultMap.put("newRecordName", quiz.get("quizrecordname")); 
+			} 
+		 
+		//new가 아닌경우 기존에 존재하는 record에 넣는다.		 
+		} else { 
+			quiz.put("quizrecordcode",id+quiz.get("quizrecordname")); 
+		} 
+		 
+		 
+		// record에 해당문제 기록  
+		quiz.put("num", ""+dao.findMaxQuizseq(quiz)); 
+		dao.insertQuizrecord(quiz); 
+		 
+		 
+		resultMap.put("success", "Insert the Quiz"); 	
+	}
 } 
