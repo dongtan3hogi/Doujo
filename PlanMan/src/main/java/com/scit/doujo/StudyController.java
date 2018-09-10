@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map; 
  
 import javax.servlet.http.HttpSession;
@@ -617,9 +618,9 @@ public class StudyController {
 	//
 	
 	
-	/* 그룹로비로 이동 */
+	/* 스터디 메인으로  이동 */
 	@RequestMapping(value = "/gotoStudy", method = RequestMethod.GET)
-	public String gotoStudy(String eventtitle, HttpSession session, Model model) {
+	public String gotoStudy(String eventtitle, HttpSession session, Model model, Locale locale) {
 		memberDao manager2=sqlSession.getMapper(memberDao.class);
 		String id=(String) session.getAttribute("memberID");
 		schedule result=new schedule();
@@ -631,23 +632,17 @@ public class StudyController {
 		
 		String countday=formatter.format(date);
 		Calendar cal = Calendar.getInstance();
-		String year=countday.split("-")[0];
-		String month=countday.split("-")[1];
-		String day=countday.split("-")[2];
-		cal.set(Calendar.YEAR, Integer.parseInt(year));
-		cal.set(Calendar.MONTH-1, Integer.parseInt(month));
-		cal.set(Calendar.DATE, Integer.parseInt(day));		
+		
 		int weekday=cal.get(cal.DAY_OF_WEEK);
 		
-		ArrayList<schedule> schList=new ArrayList<>();
 		
+		ArrayList<schedule> schList=new ArrayList<>();
+		System.out.println("요일확인"+cal.getTime()+"weekday : "+weekday);
 		switch(weekday) {
 		case 1:
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			String weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			String weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -657,11 +652,9 @@ public class StudyController {
 		case 2:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -671,11 +664,9 @@ public class StudyController {
 		case 3:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 5);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -685,11 +676,9 @@ public class StudyController {
 		case 4:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 4);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -699,11 +688,9 @@ public class StudyController {
 		case 5:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 3);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -713,11 +700,9 @@ public class StudyController {
 		case 6:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 2);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -727,11 +712,9 @@ public class StudyController {
 		case 7:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 1);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -760,6 +743,8 @@ public class StudyController {
 		session.setAttribute("eventtitle", eventtitle);
 		return "study/studyMain";
 	}
+	
+	
 	@RequestMapping(value = "/goWord", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String[]> goWord( String type, HttpSession hs) {
 		 String aa = "오늘의 "+type+"단어";
