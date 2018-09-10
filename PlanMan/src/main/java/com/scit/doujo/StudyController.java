@@ -640,7 +640,7 @@ public class StudyController {
 		int weekday=cal.get(cal.DAY_OF_WEEK);
 		
 		ArrayList<schedule> schList=new ArrayList<>();
-		
+		System.out.println(cal.getTime());
 		switch(weekday) {
 		case 1:
 			cal.set(Calendar.YEAR, Integer.parseInt(year));

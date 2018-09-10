@@ -32,20 +32,21 @@
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script type="text/javascript">
-function fn_btnChoice(){
-	 alert("친구신청이 접수되었습니다.");
+/*function fn_btnChoice(){
+ 	 alert("친구신청이 접수되었습니다.");
 	 $("input:checkbox[name='selected']:checked").each(function(){
 
 		 var tdArr = new Array(); 
 		 var tr = $("input:checkbox[name=selected]:checked").closest('tr');
 		 
-		 var td = tr.children();
-
+		 var td = tr.children()
+		alert(td.length);
 		 td.each(function(index,value){
 			 if(index==0){
 				 return true;
 			 }
 		        tdArr.push(td.eq(index).text());
+		        alert(td.eq(index).text());
 		    }); 
 		 
 		 var id = tdArr[0];
@@ -54,12 +55,7 @@ function fn_btnChoice(){
 				method : "POST", 
 				data : {"id":id},
 				success : function(data){
-					if(data="already"){
-						alert("이미 친구 신청을 했습니다.");
-					}else{
-						alert("친구 신청이 접수되었습니다.");
-					}
-					
+					alert("친구 신청이 접수되었습니다.");
 				},error : function(data){
 					alert("접속 불량");
 				} 
@@ -67,9 +63,9 @@ function fn_btnChoice(){
 			}); 
 			 
 		 });	    	 
-}
+} */
 	
-/* function fn_delRow() { 
+ function fn_delRow() { 
 
 	 ﻿         if ($("input:checkbox[name='selected']").is(":checked")){ 
 
@@ -87,7 +83,7 @@ function fn_btnChoice(){
 
 	          }﻿ 
 
-	     }﻿  */
+	     }﻿  
 	    
 </script>
 <!-- head -->
@@ -232,7 +228,7 @@ function fn_btnChoice(){
             <li><a href="gotoMeal"><i class="fa fa-circle-o text-red"></i> Add Meal</a></li>
             <li><a href="gotoActivity"><i class="fa fa-circle-o text-red"></i> Add Activity</a></li>
             <li><a href="gotoNutrition"><i class="fa fa-circle-o text-red"></i> My Nutrition</a></li>
-            <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&Pharmarcy</a></li>
+            <li><a href="gotoShowHospital"><i class="fa fa-circle-o text-red"></i> Hospital&&;Pharmacy</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -349,12 +345,12 @@ function fn_btnChoice(){
 				 
 				 <div class="box box-success" style="width: 60%; float:left; margin-left:20px;">
 		            <div class="box-header">
-		              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_Recommendation</h3>
+		              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_List</h3>
 		
 		              <div class="box-tools">
 		               <div class="input-group input-group-sm"  style="width: 250px;">
 		                
-		                <form class="right" action="searchRecommendFriends" method="get">
+		                <form class="right" action="listMyfriend" method="get">
 				         <select name="searchItem">
 				            <option value="id"${searchItem =='id'? 'selected':''}>ID</option>
 				            <option value="job" ${searchItem =='job'? 'selected':''}>JOB</option>
@@ -368,7 +364,7 @@ function fn_btnChoice(){
 		             </div>
 		             <br/>
 		             <div>
-				      	<a href="tooldFriend">ToFriend_List</a>
+				      	<a href="tonewFriend">ToFriend_Recommendation</a>
 				      </div>
 		            </div> 
 		            <!-- /.box-header -->
@@ -383,18 +379,27 @@ function fn_btnChoice(){
 					      <th>AGE</th>
 					      <th>JOB</th>
 					      <th>HOBBY</th>
+					      <th>TYPE</th>
 		                </tr>
 					   <c:choose>
-					      <c:when test="${!empty list}">
-					       <c:forEach begin="0" var="member" items="${list}" varStatus="index">
+					      <c:when test="${!empty newlist}">
+					       <c:forEach begin="0" var="friend" items="${newlist}" varStatus="index">
 					          <tr class='sibal'><td><input type="checkbox" name='selected'></td>
-					              <td>${member.id}</td>   
-					              <td>${member.nickname}</td>
-					              <td>${member.name}</td>
-					              <td>${member.gender}</td>
-					              <td>${member.age}</td>
-					              <td>${member.job}</td>
-					              <td>${member.hobby}</td>
+					              <td>${friend.friendid}</td>   
+					              <td>${friend.nickname}</td>
+					              <td>${friend.name}</td>
+					              <td>${friend.gender}</td>
+					              <td>${friend.age}</td>
+					              <td>${friend.job}</td>
+					              <td>${friend.hobby}</td>
+					              <c:if test="${friend.type==1 }">
+					              <td>접속중인지 아닌지 확인가능할까요?</td></c:if>
+					              <c:if test="${friend.type==2 }">
+					              <td>수락 대기중</td></c:if>
+					              <c:if test="${friend.type==3 }">
+					              <td><input type="button" value="친구 수락" class="acceptFriend"/></td></c:if>
+					             
+					             
 					          </tr>    
 					       </c:forEach>   
 					      </c:when>
@@ -408,9 +413,10 @@ function fn_btnChoice(){
 		            <div>
 				        <a href="#" onClick="fn_btnChoice()">choose</a>
 				   	</div>
+				   	
 				   	<div class="boardfooter">
-						   <a href="listfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
-						   <a href="listfriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
+						   <a href="listMyfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
+						   <a href="listMyfriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
 						   &nbsp; &nbsp;
 						   <c:forEach var="page" begin="${navi.startPageGroup}" end="${navi.endPageGroup}">
 						      <c:if test="${page == currentPage}">
@@ -418,12 +424,12 @@ function fn_btnChoice(){
 						      </c:if>
 						      
 						      <c:if test="${page != currentPage}">
-						         <a href="listfriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
+						         <a href="listMyfriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
 						      </c:if>
 						   </c:forEach>
 						   &nbsp; &nbsp;
-						   <a href="listfriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
-						   <a href="listfriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>	   
+						   <a href="listMyfriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
+						   <a href="listMyfriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>	   
 				   </div>
 				   <script type="text/javascript"> 
 					   	console.log('asdf');
@@ -437,7 +443,9 @@ function fn_btnChoice(){
 			  <!-- ========================================================================================================== -->
 			  <!-- ========================================================================================================== -->
 			  <!-- ========================================================================================================== -->
-	
+	</section>
+</div>
+
 </div>
 <!-- ./wrapper -->
 
@@ -471,7 +479,17 @@ function fn_btnChoice(){
 <script>
 
   $(function () {    
-     
+     $('.acceptFriend').each(function(index,value){
+    	 $(this).on('click',function(){
+    		 var tr = $(this).closest('tr');
+    		 var td = tr.children();
+
+    		 var friend=td.eq(1).text();
+        	 alert(friend);
+        	 location.href="accept?fid="+friend;
+    	 });
+    	
+     });
      $('a.favorite').click(function() {
         alert("클릭");
         var locations = $(this).next().attr('href');

@@ -9,9 +9,37 @@ public class friend {
     private String job;
     private String hobby;
     private int type; 
+    private String name;
+public friend(String userid, String friendid, String nickname, String gender, int age, String job, String hobby,
+			int type, String name) {
+		super();
+		this.userid = userid;
+		this.friendid = friendid;
+		this.nickname = nickname;
+		this.gender = gender;
+		this.age = age;
+		this.job = job;
+		this.hobby = hobby;
+		this.type = type;
+		this.name = name;
+	}
+
+public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 public friend() {
 	
+}
+
+public friend(String userid, String friendid) {
+	super();
+	this.userid = userid;
+	this.friendid = friendid;
 }
 
 public friend(String userid, String friendid, String nickname, String gender, int age, String job, String hobby,
