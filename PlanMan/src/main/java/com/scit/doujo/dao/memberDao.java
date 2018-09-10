@@ -35,4 +35,6 @@ public interface memberDao {
 	public int allschcount(schedule result);
 	
 	
+	public void deletemember(member member);
+	
 }

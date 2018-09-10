@@ -20,7 +20,7 @@ public class Selenium {
 	 
  }
  public ArrayList<String[]> wList(String type){
-	 String aa = "오늘의 "+type+"단어";
+	String aa = "오늘의 "+type+"단어";
 	String request = "https://search.naver.com/search.naver?ie=utf8&query="+aa;
 	driver.get(request);
 	try {

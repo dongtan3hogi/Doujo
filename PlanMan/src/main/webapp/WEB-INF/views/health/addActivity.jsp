@@ -110,6 +110,8 @@
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+<input type="hidden" id="MyID" value="${sessionScope.memberID}">
+<input type="hidden" id="friendID" value="${sessionScope.friendID}">
 <div class="wrapper">
 
   <header class="main-header">
@@ -131,69 +133,10 @@
       </a>
 
       <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav" id="topMenuBarUl">
           <!-- Tasks: style can be found in dropdown.less -->
-          <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Study
-                        <small class="pull-right">80%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">80% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Health
-                        <small class="pull-right">40%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">40% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Work
-                        <small class="pull-right">60%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
+          <li class="dropdown messages-menu" id="pParentMessageBoard">
+            
           </li>
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
@@ -271,7 +214,7 @@
         <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-edit"></i> <span>Study</span>
+            <i class="fa fa-edit" style="color: #2ECCFA"></i> <span>Study</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -284,20 +227,19 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-suitcase"></i> <span>Work</span>
+            <i class="fa fa-suitcase" style="color: #F7D358"></i> <span>Work</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
+            <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-heartbeat"></i> <span>Health</span>
+            <i class="fa fa-heartbeat" style="color: #FF0040"></i> <span>Health</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -312,26 +254,26 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>Friend</span>
+            <i class="fa fa-users" style="color: #008000"></i> <span>Friend</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
+            <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
+            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-calendar"></i> <span>Schdule</span>
+            <i class="fa fa-calendar" style="color: #0000FF"></i> <span>Schdule</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-green"></i> Calendar</a></li>
-            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-green"></i> Timeline</a></li>
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-blue"></i> Calendar</a></li>
+            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-blue"></i> Timeline</a></li>
           </ul>
         </li>
       </ul>
@@ -387,13 +329,19 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-      	<div class="box box-danger" style="margin-left: 20px; margin-right: 20px;">
+      		
+          
+          
+      	<div class="box box-danger" style="margin-left: 20px; margin-right: 20px; width: 90%;">
       	<div class="box-header">
               		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
 	                <h3 class="box-title">Add Activity</h3>
         </div>
-    	<div align="right">날짜 선택 : <input type="text" style="width: 150px;" class="datepicker" name="countday" id="addActDay" ><input type="button" class="btn btn-Danger" id="addActivity" value="활동 입력하기"></div>
-    	
+    	<div align="right">
+    		날짜 선택&nbsp:&nbsp<input type="text" style="width: 150px;" class="datepicker" name="countday" id="addActDay" >&nbsp
+    		<input type="button" class="btn btn-Danger" id="addActivity" value="활동 입력하기" style="margin-right: 10px;">
+    	</div>
+    	<br/>
     	<div id="actType">
 		 	<input id="tab1" value="걷기" type="radio" name="tabs" class="tab">
 		 	<label for="tab1">걷기</label>
@@ -493,6 +441,8 @@ var span = document.getElementsByClassName("close")[0];
 			dateFormat: 'yy-mm-dd'
 	  });
 	  
+	  $('.datepicker').datepicker('setDate', 'today');
+	  
 	  showtime();
 	  
 	  
@@ -503,7 +453,7 @@ var span = document.getElementsByClassName("close")[0];
 	  $("#tab1").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_pwalk.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_pwalk.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -523,7 +473,7 @@ var span = document.getElementsByClassName("close")[0];
 	  $("#tab2").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_pstair.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_stair.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -543,7 +493,7 @@ var span = document.getElementsByClassName("close")[0];
 	  $("#tab3").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_pclimb.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_climb.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -563,7 +513,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab4").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_pswim.png' style='width:100%; height:250px; background:url(./resources/main/images/sp_bg_swim.png);'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_swim.gif' style='width:20%; height:20%; background:url(./resources/main/images/sp_bg_swim.png);'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -583,7 +533,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab5").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_pyoga.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_yoga.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -603,7 +553,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab6").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_pboxing_v2.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_boxing.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -623,7 +573,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab7").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_pljump.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_pjump.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -643,7 +593,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab8").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_pbike.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_bike.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -663,7 +613,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab9").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_prun.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_run.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -683,7 +633,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab10").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_psquat.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_psquat.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -703,7 +653,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab11").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_pcycle.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_pbike.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -723,7 +673,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab12").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_psquash.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_tennis.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -743,7 +693,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab13").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_phhp.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_hula.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -763,7 +713,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab14").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_pruning_v2.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_pwalk.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -783,7 +733,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab15").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_paerobic.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_paerobic.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -803,7 +753,7 @@ var span = document.getElementsByClassName("close")[0];
 	 $("#tab16").on('click',function(){
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
-		 $("#content").append("<div><img src='./resources/main/images/sp_psit_up.png' style='width:80%; height:250px;'></div>");
+		 $("#content").append("<div><img src='./resources/main/images/ANY_psitup.gif' style='width:20%; height:20%;'></div>");
 		 
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
@@ -819,6 +769,8 @@ var span = document.getElementsByClassName("close")[0];
 			$('#kacl').val((weight*time)/7.1);
 		 });
 	 });
+	 
+	 $('#tab1').trigger('click');
 	 
 	 $('#addActivity').on('click',function(){
 		 if($('#addActDay').val().length==0){
@@ -870,5 +822,16 @@ var span = document.getElementsByClassName("close")[0];
 	  return zero + num;
   }
 </script>
+<script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
+<script type="text/javascript">
+
+    var sock;
+
+    //웸소켓을 지정한 url로 연결한다.
+    sock = new SockJS("<c:url value="/echo2"/>");
+
+</script>
+<script src="resources/main/js/messageBar.js"></script> 
+
 </body>
 </html>

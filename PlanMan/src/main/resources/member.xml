@@ -12,8 +12,8 @@
 	
 	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="Member">
-  		insert into member(id, password, name, nickname, gender, age, job, hobby)
-  		values(#{id}, #{password}, #{name}, #{nickname}, #{gender}, #{age}, #{job}, #{hobby})
+  		insert into member(id, password, name, nickname, gender, age, job)
+  		values(#{id}, #{password}, #{name}, #{nickname}, #{gender}, #{age}, #{job})
   	</insert>
   	
   	<!-- 아이디 중복확인 -->

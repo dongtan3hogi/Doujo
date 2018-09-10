@@ -29,7 +29,7 @@
 	$(document).ready(function(){
 		$("#message").keypress(function (e) {
 			if (e.which == 13){
-				sendMessage();
+				sendChat();
 			}
 	   	});
 	});
@@ -40,8 +40,8 @@
 	
     $(document).ready(function() {
 
-        $("#sendBtn").click(function() {
-            sendMessage();
+        $("#chatSendBtn").click(function() {
+        	sendChat();
         });
         
         $("#quiznumBtn").click(function() {
@@ -52,29 +52,29 @@
 
     });
 
-    var sock;
+    var sockC;
 
     //웸소켓을 지정한 url로 연결한다.
-    sock = new SockJS("<c:url value="/echo"/>");
+    sockC = new SockJS("<c:url value="/echo"/>");
 
 
     //자바스크립트 안에 function을 집어넣을 수 있음.
     //데이터가 나한테 전달되읐을 때 자동으로 실행되는 function
-    sock.onmessage = onMessage;
+    sockC.onmessage = onMessage;
 
 
     //데이터를 끊고싶을때 실행하는 메소드
-    sock.onclose = onClose;
+    sockC.onclose = onClose;
 
     
     
     
     /*시작시 발동하는 message*/
     //keyword:방번호:아이디
-    sock.onopen = function(){
+    sockC.onopen = function(){
     	roomNum = document.getElementById("roomnum").value;
-    	var sendmsg = "start:" + document.getElementById("roomnum").value + ":" + document.getElementById("yourID").value;
-        sock.send(sendmsg);
+    	var sendmsg = "start:" + document.getElementById("roomnum").value + ":" + document.getElementById("MyID").value;
+        sockC.send(sendmsg);
         /* sock.send($("#message").val()); */
     };
 
@@ -83,9 +83,9 @@
     
     /*소켓으로 보내겠다. */
     //keyword:방번호:아이디:메세지
-    function sendMessage() {
-        var sendmsg = "message:" + document.getElementById("roomnum").value + ":" + document.getElementById("yourID").value + ":" + $("#message").val();
-        sock.send(sendmsg);
+    function sendChat() {
+        var sendmsg = "chat:" + document.getElementById("roomnum").value + ":" + document.getElementById("MyID").value + ":" + $("#message").val();
+        sockC.send(sendmsg);
     }
     
     
@@ -94,8 +94,8 @@
   	/* 퀴즈_태그목록&퀴즈폴더 중 하나 선택시 해당 퀴즈묶음의 퀴즈들의 번호 가져온다.*/
   	//keyword:방번호:아이디:선택한문제묶음
     function takeQuiznum() {
-        var sendmsg = "quiznumber:" + document.getElementById("roomnum").value + ":" + document.getElementById("yourID").value + ":" + $("#quizchoice").val();
-        sock.send(sendmsg);
+        var sendmsg = "quiznumber:" + document.getElementById("roomnum").value + ":" + document.getElementById("MyID").value + ":" + $("#quizchoice").val();
+        sockC.send(sendmsg);
     }
     
     
@@ -104,14 +104,23 @@
 	/* 선택한 퀴즈번호에 해당하는 문제를 가져온다. */
 	//keyword:방번호:아이디:선택한번호
 	function takeQuiz(){
-    	var sendmsg = "quiz:" + roomNum + ":" + document.getElementById("yourID").value + ":" + $("#quiznumberselect").val();
-        sock.send(sendmsg);
+    	var sendmsg = "quiz:" + roomNum + ":" + document.getElementById("MyID").value + ":" + $("#quiznumberselect").val();
+        sockC.send(sendmsg);
     }
     
     
     
 
-    
+	function leadingZeros2(n, digits) {
+		var zero = '';
+		n = n.toString();
+	
+		if (n.length < digits) {
+			for (i = 0; i < digits - n.length; i++)
+				zero += '0';
+		}
+		return zero + n;
+	}
     
     
     //evt 파라미터는 웹소켓을 보내준 데이터다.(자동으로 들어옴)
@@ -119,15 +128,17 @@
         var data = evt.data;
         var textarea = document.getElementById("chatlog");
         var dataArray = data.split(':');
-        
-        if(dataArray[0] == 'message') {
+        var d = new Date();
+        var time = leadingZeros2(d.getFullYear(), 4) + '-' + leadingZeros2(d.getMonth() + 1, 2) + '-' + leadingZeros2(d.getDate(), 2) + ' ' +
+	    			leadingZeros2(d.getHours(), 2) + ':' + leadingZeros2(d.getMinutes(), 2);
+        if(dataArray[0] == 'chat') {
         	var putMsg = '';
-        	if(dataArray[1] == document.getElementById("yourID").value) {
+        	if(dataArray[1] == document.getElementById("MyID").value) {
         		//동일하다면 우측메시지
         		putMsg += '<div class="direct-chat-msg right">';
-        		putMsg += '<div class="direct-chat-Primary clearfix">';
+        		putMsg += '<div class="direct-chat-info clearfix">';
         		putMsg += '<span class="direct-chat-name pull-right">' + dataArray[1] + '</span>';
-        		putMsg += '<span class="direct-chat-timestamp pull-left">{TIME}</span>';
+        		putMsg += '<span class="direct-chat-timestamp pull-left">' + time + '</span>';
         		putMsg += '</div>';
         		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image">';
         		putMsg += '<div class="direct-chat-text">';
@@ -139,9 +150,9 @@
         	} else {
         		//다르다면 좌측메시지
         		putMsg += '<div class="direct-chat-msg">';
-        		putMsg += '<div class="direct-chat-Primary clearfix">';
+        		putMsg += '<div class="direct-chat-info clearfix">';
         		putMsg += '<span class="direct-chat-name pull-left">' + dataArray[1] + '</span>';
-        		putMsg += '<span class="direct-chat-timestamp pull-right">{TIME}</span>';
+        		putMsg += '<span class="direct-chat-timestamp pull-right">' + time + '</span>';
         		putMsg += '</div>';
         		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image">';
         		putMsg += '<div class="direct-chat-text">';
@@ -229,7 +240,7 @@
 							var solveSet = {
 									"answer": answer
 									,"num": quizseq
-									,"id": document.getElementById('yourID').value
+									,"id": document.getElementById('MyID').value
 							}
 							//alert(solveSet.answer + ", " +solveSet.num + ", " + solveSet.id);
 							$.ajax({
@@ -272,7 +283,7 @@
     
     /* FUNCTION */
     
-  
+	
     
     
     
@@ -284,13 +295,23 @@
     
     //리더's select 변경시
     function lfsChange(){
+    	
+    	
+    	
+    	
 		var select = document.getElementById("leaderfunselect").value;
 		if(select == 'authority'){
 			document.getElementById("leaderfunctionview").innerHTML = '권한부여';
 		
 		} else if(select == 'sharing'){
-			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><select id="sharingselect" onchange="ssChange()"><option value="none" selected>==선택==</option><option value="quiz">퀴즈</option></select><span id="sharingtargetview"></span></div>';
-		
+			var SResult = '';
+			SResult += '<select class="form-control" id="sharingselect" onchange="ssChange()">';
+			SResult += '<option value="none" selected>==선택==</option>';
+			SResult += '<option value="quiz">퀴즈</option>';
+			SResult += '</select>';
+			SResult += '<label id="sharingtargetview"></label>';
+			//document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><select id="sharingselect" onchange="ssChange()"><option value="none" selected>==선택==</option><option value="quiz">퀴즈</option></select><span id="sharingtargetview"></span></div>';
+			document.getElementById("leaderfunctionview").innerHTML = SResult;
 		} else if(select == 'invite'){
 			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><br/><label for="1"><span style="font-size:20px;">아이디</span><input type="text" class="input-field" name="inviteId" id="inviteId" value="" /><input type="button" id="inviteBtn" value="확인" /></label>';
 			$(document).ready(function() {
@@ -318,7 +339,7 @@
 		//quiz로 변경할경우
 		if(select == 'quiz'){
 			var idSet = {
-	        	"id" : document.getElementById("yourID").value
+	        	"id" : document.getElementById("MyID").value
 	        	, "quiz" : "quiz"
 	        };
 			$.ajax({
@@ -331,7 +352,7 @@
 		        	//Map[              ]	data
 		        	//	  Map[      ]		data.recordMap, data.tegMap
 		        	//        Map[] 		data.recordMap.name ...
-		        	var qsr = '<select id="quizchoice"><option>=폴더명=</option>';
+		        	var qsr = '<select class="form-control" id="quizchoice"><option>=폴더명=</option>';
 					$.each(data.recordMap, function(index, item){
 						qsr += '<option value="r' + item.NAME + '">' + item.NAME + '</option>';
 					});
@@ -340,7 +361,7 @@
 						qsr += '<option value="r' + item.TEG + '">' + item.TEG + '[' + item.NUM + ']' + '</option>';
 					});
 					qsr += '</select><input type="button" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
-					//alert(qsr);
+					alert(qsr);
 					document.getElementById("sharingtargetview").innerHTML = qsr;
 					$(document).ready(function() {
 				       	$("#quiznumBtn").click(function() {
@@ -392,153 +413,98 @@
     
 
 
-</script> 
+</script>
+<style type="text/css">
+.dropdown-toggle{height:34px;}
+</style>
 <!-- head --> 
 </head>
-<body class="hold-transition skin-blue sidebar-mini"> 
-<input type="hidden" id="yourID" value="${sessionScope.memberID}">
-<input type="hidden" id="roomnum" value="${groupmember.groupseq}">
-<div class="wrapper"> 
- 
-  <header class="main-header"> 
-    <!-- Logo --> 
-    <a href="redirect:/" class="logo"> 
-      <!-- mini logo for sidebar mini 50x50 pixels --> 
-      <span class="logo-mini"><b>Pm</b></span> 
-      <!-- logo for regular state and mobile devices --> 
-      <span class="logo-lg"><b>Planman</b></span> 
-    </a> 
-     
-    <!-- Header Navbar: style can be found in header.less --> 
-    <nav class="navbar navbar-static-top"> 
-      <!-- Sidebar toggle button--> 
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button"> 
-        <span class="sr-only">Toggle navigation</span> 
-       <!--   <span class="icon-bar"></span> 
-        <span class="icon-bar"></span> --> 
-      </a> 
- 
-      <div class="navbar-custom-menu"> 
-        <ul class="nav navbar-nav"> 
-          <!-- Tasks: style can be found in dropdown.less --> 
-          <li class="dropdown tasks-menu"> 
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-              <i class="fa fa-flag-o"></i> 
-              <span class="label label-danger">9</span> 
-            </a> 
-            <ul class="dropdown-menu"> 
-              <li class="header">You have 9 tasks</li> 
-              <li> 
-                <!-- inner menu: contains the actual data --> 
-                <ul class="menu"> 
-                  <li><!-- Task item --> 
-                    <a href="#"> 
-                      <h3> 
-                        Study 
-                        <small class="pull-right">80%</small> 
-                      </h3> 
-                      <div class="progress xs"> 
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" 
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"> 
-                          <span class="sr-only">80% Complete</span> 
-                        </div> 
-                      </div> 
-                    </a> 
-                  </li> 
-                  <!-- end task item --> 
-                  <li><!-- Task item --> 
-                    <a href="#"> 
-                      <h3> 
-                        Health 
-                        <small class="pull-right">40%</small> 
-                      </h3> 
-                      <div class="progress xs"> 
-                        <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar" 
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"> 
-                          <span class="sr-only">40% Complete</span> 
-                        </div> 
-                      </div> 
-                    </a> 
-                  </li> 
-                  <!-- end task item --> 
-                  <li><!-- Task item --> 
-                    <a href="#"> 
-                      <h3> 
-                        Work 
-                        <small class="pull-right">60%</small> 
-                      </h3> 
-                      <div class="progress xs"> 
-                        <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar" 
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"> 
-                          <span class="sr-only">60% Complete</span> 
-                        </div> 
-                      </div> 
-                    </a> 
-                  </li> 
-                  <!-- end task item --> 
-                </ul> 
-              </li> 
-              <li class="footer"> 
-                <a href="#">View all tasks</a> 
-              </li> 
-            </ul> 
-          </li> 
-          <!-- User Account: style can be found in dropdown.less --> 
-          <li class="dropdown user user-menu"> 
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> 
-              <span class="hidden-xs">${sessionScope.member.id}</span> 
-            </a> 
-            <ul class="dropdown-menu"> 
-              <!-- User image --> 
-              <li class="user-header"> 
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> 
- 
-                <p> 
-                  ${sessionScope.member.id} 
-                  <small>${sessionScope.member.nickname}</small> 
-                </p> 
-              </li> 
-              <!-- Menu Body --> 
-              <li class="user-body"> 
-                <div class="row"> 
-                  <div class="col-xs-4 text-center"> 
-                    <a href="#">기능1</a> 
-                  </div> 
-                  <div class="col-xs-4 text-center"> 
-                    <a href="#">기능2</a> 
-                  </div> 
-                  <div class="col-xs-4 text-center"> 
-                    <a href="#">기능3</a> 
-                  </div> 
-                </div> 
-                <!-- /.row --> 
-              </li> 
-              <!-- Menu Footer--> 
-              <li class="user-footer"> 
-                <div class="pull-left"> 
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a> 
-                </div> 
-                <div class="pull-right"> 
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a> 
-                </div> 
-              </li> 
-            </ul> 
-          </li> 
-        </ul> 
-      </div> 
-    </nav> 
-  </header> 
-  <!-- Left side column. contains the logo and sidebar --> 
-  <aside class="main-sidebar"> 
-    <!-- sidebar: style can be found in sidebar.less --> 
+<body class="hold-transition skin-blue sidebar-mini">
+<input type="hidden" id="MyID" value="${sessionScope.memberID}">
+<input type="hidden" id="friendID" value="${sessionScope.friendID}">
+<input type="hidden" id="roomnum" value="${sessionScope.groupmember.groupseq}">
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="redirect:/" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>Pm</b></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Planman</b></span>
+    </a>
+    
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+       <!--   <span class="icon-bar"></span>
+        <span class="icon-bar"></span> -->
+      </a>
+
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav" id="topMenuBarUl">
+          <!-- Tasks: style can be found in dropdown.less -->
+          <li class="dropdown messages-menu" id="pParentMessageBoard">
+            
+          </li>
+          <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs">${sessionScope.member.id}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                <p>
+                  ${sessionScope.member.id}
+                  <small>${sessionScope.member.nickname}</small>
+                </p>
+              </li>
+              <!-- Menu Body -->
+              <li class="user-body">
+                <div class="row">
+                  <div class="col-xs-4 text-center">
+                    <a href="#">기능1</a>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <a href="#">기능2</a>
+                  </div>
+                  <div class="col-xs-4 text-center">
+                    <a href="#">기능3</a>
+                  </div>
+                </div>
+                <!-- /.row -->
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
+                </div>
+                <div class="pull-right">
+                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
           <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
-        <div class="pull-left Primary">
+        <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -555,11 +521,11 @@
       </form>
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
-     <ul class="sidebar-menu" data-widget="tree">
+      <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-edit"></i> <span>Study</span>
+            <i class="fa fa-edit" style="color: #2ECCFA"></i> <span>Study</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -572,20 +538,19 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-suitcase"></i> <span>Work</span>
+            <i class="fa fa-suitcase" style="color: #F7D358"></i> <span>Work</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
+            <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-heartbeat"></i> <span>Health</span>
+            <i class="fa fa-heartbeat" style="color: #FF0040"></i> <span>Health</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -600,32 +565,32 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>Friend</span>
+            <i class="fa fa-users" style="color: #008000"></i> <span>Friend</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
+            <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
+            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-calendar"></i> <span>Schdule</span>
+            <i class="fa fa-calendar" style="color: #0000FF"></i> <span>Schdule</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-green"></i> Calendar</a></li>
-            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-green"></i> Timeline</a></li>
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-blue"></i> Calendar</a></li>
+            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-blue"></i> Timeline</a></li>
           </ul>
         </li>
       </ul>
     </section>
-    <!-- /.sidebar --> 
-  </aside> 
+    <!-- /.sidebar -->
+  </aside>
    
   <!-- ========================================================================================================== --> 
   <!-- ========================================================================================================== --> 
@@ -636,22 +601,24 @@
     <!-- Content Header (Page header) --> 
     <section class="content-header"> 
       <h1> 
-        Study 
-        <small>Quiz room</small> 
+        Title01 
+        <small>설명이 설명설명</small> 
       </h1> 
       <ol class="breadcrumb"> 
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li> 
-        <li class="active">Study</li> 
+        <li class="active">title</li> 
       </ol> 
     </section> 
  
     <!-- Main content --> 
     <section class="content"> 
       <div class="row"> 
-        <div class="col-md-3">
+        <div class="col-md-3"> 
+          <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Button</a> 
+ 
           <div class="box box-solid"> 
             <div class="box-header with-border"> 
-              <h3 class="box-title">STUDY</h3> 
+              <h3 class="box-title">Group</h3> 
               <div class="box-tools"> 
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> 
                 </button> 
@@ -659,12 +626,7 @@
             </div> 
             <div class="box-body no-padding"> 
               <ul class="nav nav-pills nav-stacked"> 
-                <li><a href="gotoQuiz"><i class="fa fa-inbox"></i> QUIZ 
-                  <span class="label label-Primary pull-right">12</span></a></li> 
-                <li><a href="gotoQuizMake"><i class="fa fa-envelope-o"></i> MAKE</a></li> 
-                <li><a href="gotoQuizSolve"><i class="fa fa-file-text-o"></i> SOLVE</a></li> 
-                <li class="active"><a href="gotoGroupLobby"><i class="fa fa-filter"></i> Group <span class="label label-warning pull-right">65</span></a> 
-                </li> 
+                <li><a href="gotoGroupLobby"><i class="fa fa-inbox"></i> Group Menu</a></li>
               </ul> 
             </div> 
             <!-- /.box-body --> 
@@ -695,7 +657,7 @@
                     
 					<!-- Message. Default to the left -->
                     <div class="direct-chat-msg">
-                    	<div class="direct-chat-Primary clearfix">
+                    	<div class="direct-chat-info clearfix">
                     		<span class="direct-chat-name pull-left">{NAME}</span>
                     		<span class="direct-chat-timestamp pull-right">{TIME}</span>
                    		</div>
@@ -708,7 +670,7 @@
 
                     <!-- Message to the right -->
                     <div class="direct-chat-msg right">
-                    	<div class="direct-chat-Primary clearfix">
+                    	<div class="direct-chat-info clearfix">
                     		<span class="direct-chat-name pull-right">{NAME}</span>
                         	<span class="direct-chat-timestamp pull-left">{TIME}</span>
                       	</div>
@@ -728,31 +690,43 @@
                     	<div class="input-group">
                    			<input type="text" name="message" id="message" placeholder="Type Message ..." class="form-control">
                       		<span class="input-group-btn">
-                         		<button type="button" class="btn btn-warning btn-flat" id="sendBtn">Send</button>
+                         		<button type="button" class="btn btn-warning btn-flat" id="chatSendBtn">Send</button>
                       		</span>
                     	</div>
                   	</form>
                 </div>
                 <!-- /.box-footer-->
 			</div>
-          
-          
-          
-          
-          
-       
-          
-          
+          </div>
           
       	  <!-- general form elements disabled --> 
-          <div class="box box-Primary"> 
+      	
+          <div class="box box-primary"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">Menu</h3> 
             </div> 
             <!-- /.box-header --> 
-            <div class="box-body"> 
+            <!-- <div class="box-body">
+               <div class="margin">
+                 <div class="btn-group">
+                  <button type="button" class="btn btn-info">function</button>
+                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a id="authority">권한부여</a></li>
+                    <li><a id="sharing">화면공유</a></li>
+                    <li><a id="invite">초대</a></li>
+                    <li class="divider"></li>
+                  </ul>
+                </div>
+                <span id="leaderfunctionview">
+                
+                </span>
+               </div> -->
+            
               <form role="form"> 
-                 
                  
                 <!-- Function Key --> 
                 <div class="form-group" id="leaderfunselectspan"> 
@@ -765,18 +739,16 @@
                   </select> 
                 </div> 
                  
-                
-                <!--  --> 
-                <div class="form-group" id="leaderfunctionview"> 
+                 
+                <div class="form-group" id="leaderfunctionview">
+                	
                 </div>
                 <div class="form-group" id="functionboard"> 
                 </div>
               </form> 
             </div> 
             <!-- /.box-body --> 
-          </div> 
-          
-          </div> 
+          </div>
           <!-- /. box --> 
         </div> 
         <!-- /.col --> 
@@ -818,7 +790,7 @@
             <a href="javascript:void(0)"> 
               <i class="menu-icon fa fa-birthday-cake bg-red"></i> 
  
-              <div class="menu-Primary"> 
+              <div class="menu-info"> 
                 <h4 class="control-sidebar-subheading">Langdon's Birthday</h4> 
  
                 <p>Will be 23 on April 24th</p> 
@@ -829,7 +801,7 @@
             <a href="javascript:void(0)"> 
               <i class="menu-icon fa fa-user bg-yellow"></i> 
  
-              <div class="menu-Primary"> 
+              <div class="menu-info"> 
                 <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4> 
  
                 <p>New phone +1(800)555-1234</p> 
@@ -840,7 +812,7 @@
             <a href="javascript:void(0)"> 
               <i class="menu-icon fa fa-envelope-o bg-light-blue"></i> 
  
-              <div class="menu-Primary"> 
+              <div class="menu-info"> 
                 <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4> 
  
                 <p>nora@example.com</p> 
@@ -851,7 +823,7 @@
             <a href="javascript:void(0)"> 
               <i class="menu-icon fa fa-file-code-o bg-green"></i> 
  
-              <div class="menu-Primary"> 
+              <div class="menu-info"> 
                 <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4> 
  
                 <p>Execution time 5 seconds</p> 
@@ -903,11 +875,11 @@
             <a href="javascript:void(0)"> 
               <h4 class="control-sidebar-subheading"> 
                 Back End Framework 
-                <span class="label label-Primary pull-right">68%</span> 
+                <span class="label label-primary pull-right">68%</span> 
               </h4> 
  
               <div class="progress progress-xxs"> 
-                <div class="progress-bar progress-bar-Primary" style="width: 68%"></div> 
+                <div class="progress-bar progress-bar-primary" style="width: 68%"></div> 
               </div> 
             </a> 
           </li> 
@@ -931,7 +903,7 @@
             </label> 
  
             <p> 
-              Some Primaryrmation about this general settings option 
+              Some information about this general settings option 
             </p> 
           </div> 
           <!-- /.form-group --> 
@@ -1013,168 +985,18 @@
 <script src="resources/main/dist/js/demo.js"></script> 
 <!-- fullCalendar --> 
 <script src="resources/main/bower_components/moment/moment.js"></script> 
-<script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script> 
+<script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <!-- Page specific script --> 
-<script> 
-  $(function () { 
- 
-    /* initialize the external events 
-     -----------------------------------------------------------------*/ 
-    function init_events(ele) { 
-      ele.each(function () { 
- 
-        // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/) 
-        // it doesn't need to have a start or end 
-        var eventObject = { 
-          title: $.trim($(this).text()) // use the element's text as the event title 
-        } 
- 
-        // store the Event Object in the DOM element so we can get to it later 
-        $(this).data('eventObject', eventObject) 
- 
-        // make the event draggable using jQuery UI 
-        $(this).draggable({ 
-          zIndex        : 1070, 
-          revert        : true, // will cause the event to go back to its 
-          revertDuration: 0  //  original position after the drag 
-        }) 
- 
-      }) 
-    } 
- 
-    init_events($('#external-events div.external-event')) 
- 
-    /* initialize the calendar 
-     -----------------------------------------------------------------*/ 
-    //Date for the calendar events (dummy data) 
-    var date = new Date() 
-    var d    = date.getDate(), 
-        m    = date.getMonth(), 
-        y    = date.getFullYear() 
-    $('#calendar').fullCalendar({ 
-      header    : { 
-        left  : 'prev,next today', 
-        center: 'title', 
-        right : 'month,agendaWeek,agendaDay' 
-      }, 
-      buttonText: { 
-        today: 'today', 
-        month: 'month', 
-        week : 'week', 
-        day  : 'day' 
-      }, 
-      //Random default events 
-      events    : [ 
-        { 
-          title          : 'All Day Event', 
-          start          : new Date(y, m, 1), 
-          backgroundColor: '#f56954', //red 
-          borderColor    : '#f56954' //red 
-        }, 
-        { 
-          title          : 'Long Event', 
-          start          : new Date(y, m, d - 5), 
-          end            : new Date(y, m, d - 2), 
-          backgroundColor: '#f39c12', //yellow 
-          borderColor    : '#f39c12' //yellow 
-        }, 
-        { 
-          title          : 'Meeting', 
-          start          : new Date(y, m, d, 10, 30), 
-          allDay         : false, 
-          backgroundColor: '#0073b7', //Blue 
-          borderColor    : '#0073b7' //Blue 
-        }, 
-        { 
-          title          : 'Lunch', 
-          start          : new Date(y, m, d, 12, 0), 
-          end            : new Date(y, m, d, 14, 0), 
-          allDay         : false, 
-          backgroundColor: '#00c0ef', //Primary (aqua) 
-          borderColor    : '#00c0ef' //Primary (aqua) 
-        }, 
-        { 
-          title          : 'Birthday Party', 
-          start          : new Date(y, m, d + 1, 19, 0), 
-          end            : new Date(y, m, d + 1, 22, 30), 
-          allDay         : false, 
-          backgroundColor: '#00a65a', //Success (green) 
-          borderColor    : '#00a65a' //Success (green) 
-        }, 
-        { 
-          title          : 'Click for Google', 
-          start          : new Date(y, m, 28), 
-          end            : new Date(y, m, 29), 
-          url            : 'http://google.com/', 
-          backgroundColor: '#3c8dbc', //Primary (light-blue) 
-          borderColor    : '#3c8dbc' //Primary (light-blue) 
-        } 
-      ], 
-      editable  : true, 
-      droppable : true, // this allows things to be dropped onto the calendar !!! 
-      drop      : function (date, allDay) { // this function is called when something is dropped 
- 
-        // retrieve the dropped element's stored Event Object 
-        var originalEventObject = $(this).data('eventObject') 
- 
-        // we need to copy it, so that multiple events don't have a reference to the same object 
-        var copiedEventObject = $.extend({}, originalEventObject) 
- 
-        // assign it the date that was reported 
-        copiedEventObject.start           = date 
-        copiedEventObject.allDay          = allDay 
-        copiedEventObject.backgroundColor = $(this).css('background-color') 
-        copiedEventObject.borderColor     = $(this).css('border-color') 
- 
-        // render the event on the calendar 
-        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/) 
-        $('#calendar').fullCalendar('renderEvent', copiedEventObject, true) 
- 
-        // is the "remove after drop" checkbox checked? 
-        if ($('#drop-remove').is(':checked')) { 
-          // if so, remove the element from the "Draggable Events" list 
-          $(this).remove() 
-        } 
- 
-      } 
-    }) 
- 
-    /* ADDING EVENTS */ 
-    var currColor = '#3c8dbc' //Red by default 
-    //Color chooser button 
-    var colorChooser = $('#color-chooser-btn') 
-    $('#color-chooser > li > a').click(function (e) { 
-      e.preventDefault() 
-      //Save color 
-      currColor = $(this).css('color') 
-      //Add color effect to button 
-      $('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor }) 
-    }) 
-    $('#add-new-event').click(function (e) { 
-      e.preventDefault() 
-      //Get value and make sure it is not null 
-      var val = $('#new-event').val() 
-      if (val.length == 0) { 
-        return 
-      } 
- 
-      //Create events 
-      var event = $('<div />') 
-      event.css({ 
-        'background-color': currColor, 
-        'border-color'    : currColor, 
-        'color'           : '#fff' 
-      }).addClass('external-event') 
-      event.html(val) 
-      $('#external-events').prepend(event) 
- 
-      //Add draggable funtionality 
-      init_events(event) 
- 
-      //Remove event from text input 
-      $('#new-event').val('') 
-    }) 
-  }) 
-</script> 
+<script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
+<script type="text/javascript">
+
+    var sock;
+
+    //웸소켓을 지정한 url로 연결한다.
+    sock = new SockJS("<c:url value="/echo2"/>");
+    
+</script>
+<script src="resources/main/js/messageBar.js"></script> 
 </body> 
 </html> 

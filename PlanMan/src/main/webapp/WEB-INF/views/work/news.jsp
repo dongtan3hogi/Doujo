@@ -25,6 +25,8 @@
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- Date Picker -->
+  <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -228,6 +230,85 @@ $(document).on("click",".friendBtn",function(){
 		}
 	});	
 });
+
+var today = new Date();
+var mm= today.getMonth()+1; 
+var dd =today.getDate();
+var yy = today.getFullYear();
+if(dd<10) {
+    dd='0'+dd;
+} 
+if(mm<10) {
+    mm='0'+mm;
+} 
+var td=yy+'-'+mm+'-'+dd;
+var temp=td;
+
+
+$('#saveMemo').click(function(){
+		var memo = $('#memo').val();
+		
+		
+		var today = new Date();
+		var mm= today.getMonth()+1; 
+		var dd =today.getDate();
+		var yy = today.getFullYear();
+		if(dd<10) {
+		    dd='0'+dd;
+		} 
+		if(mm<10) {
+		    mm='0'+mm;
+		} 
+		var td=yy+'-'+mm+'-'+dd;
+		$.ajax({
+			url:"saveMemo",
+			type:"post",
+			//client에서 server로 가는 값
+			data:{"userid": memo, "text":memo,"startDate":temp},
+			success: function(data){
+			if(data=="1"||data=="3"){
+				alert("저장 되었습니다");
+			}else{'오류 발생'};
+			},fail: function(){
+				alert("다음에 다시 시도해주세요");
+			}
+		});
+});
+
+
+$( ".datepicker" ).datepicker({ 
+       changeMonth: true, 
+       changeYear: true,
+       dateFormat: "yy-mm-dd",
+       onSelect: function(dateText) {  
+    	   alert(dateText);
+    	   $.ajax({
+    		   url:'findmemo',
+    		    type: 'post',
+    		    data: {
+    		    	'id': '${sessionScope.member.id}', 'startdate': dateText
+    		    },
+    		    success: function(data){
+    				if(data==null)	{
+    					alert("메모가 없습니다");	    			
+    		            }else{
+    		            	if(dateText==td){
+	    		            	$('#memoTitle').html("오늘의 메모");
+    		            	}else{
+	    		            	$('#memoTitle').html(dateText+"의 메모");            		
+    		            	}
+    		            	$('#memo').val(data.memo);
+    		            }
+    				},
+    		    error: function() {
+    		      alert('there was an error while fetching events!');
+    		    }
+ 		  });
+      }
+});
+
+$('.datepicker').datepicker('setDate', 'today');
+
 });
 </script>
   <style>
@@ -241,6 +322,8 @@ $(document).on("click",".friendBtn",function(){
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+<input type="hidden" id="MyID" value="${sessionScope.memberID}">
+<input type="hidden" id="friendID" value="${sessionScope.friendID}">
 <div class="wrapper">
 
   <header class="main-header">
@@ -262,69 +345,10 @@ $(document).on("click",".friendBtn",function(){
       </a>
 
       <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav" id="topMenuBarUl">
           <!-- Tasks: style can be found in dropdown.less -->
-          <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Study
-                        <small class="pull-right">80%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">80% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Health
-                        <small class="pull-right">40%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">40% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Work
-                        <small class="pull-right">60%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">60% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
+          <li class="dropdown messages-menu" id="pParentMessageBoard">
+            
           </li>
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
@@ -402,7 +426,7 @@ $(document).on("click",".friendBtn",function(){
         <li class="header">MENU</li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-edit"></i> <span>Study</span>
+            <i class="fa fa-edit" style="color: #2ECCFA"></i> <span>Study</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -415,20 +439,19 @@ $(document).on("click",".friendBtn",function(){
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-suitcase"></i> <span>Work</span>
+            <i class="fa fa-suitcase" style="color: #F7D358"></i> <span>Work</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-			<li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goWork1"><i class="fa fa-circle-o text-yellow"></i> Work Memo Calendar</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>          
+            <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-heartbeat"></i> <span>Health</span>
+            <i class="fa fa-heartbeat" style="color: #FF0040"></i> <span>Health</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -443,26 +466,26 @@ $(document).on("click",".friendBtn",function(){
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-users"></i> <span>Friend</span>
+            <i class="fa fa-users" style="color: #008000"></i> <span>Friend</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
-            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
+            <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
+            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-calendar"></i> <span>Schdule</span>
+            <i class="fa fa-calendar" style="color: #0000FF"></i> <span>Schdule</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-green"></i> Calendar</a></li>
-            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-green"></i> Timeline</a></li>
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-blue"></i> Calendar</a></li>
+            <li><a href="gotoTimeline"><i class="fa fa-circle-o text-blue"></i> Timeline</a></li>
           </ul>
         </li>
       </ul>
@@ -491,9 +514,9 @@ $(document).on("click",".friendBtn",function(){
     <!-- Main content -->
     <section class="content">
       <div class="row">         
-      	 
+      	 <div style="margin-left: 20px; float:left; width: 70%;'">
       	  <!-- general form elements disabled -->
-          <div class="box box-Warning" style="margin-left: 20px; width: 90%;'">
+          <div class="box box-Warning">
             <div class="box-header with-border">
               <h3 class="box-title">뉴스를 검색해 주세요 (${type })</h3>
             </div>
@@ -548,11 +571,11 @@ $(document).on("click",".friendBtn",function(){
 			</div>
 			</c:if>
             </div>
-            
-            
-            <!-- /.box-body -->
+          <!-- /.box-body -->
           </div>
-          <div class="box box-Warning" style="margin-left: 20px; width: 90%;'">
+          
+          
+          <div class="box box-Warning">
             <div class="box-header with-border">
               <h3 class="box-title"><a id="keylist" href="javascript:;">내가 검색한 단어들</a></h3>
             </div>
@@ -586,7 +609,27 @@ $(document).on("click",".friendBtn",function(){
 			      </div>
           </div>
           <!-- /. box -->
-        
+ 		</div>
+ 		<!-- /style="margin-left: 20px; float:left; width: 70%;'" -->  
+ 		<div style="width: 20%; float:left; margin-left: 20px;">  
+ 		  <!-- /. 메모 box -->
+          <div class="box box-warning">
+            <div class="box-header with-border">
+              <h3 class="box-title">MEMO</h3>
+              <div class="box-tools">
+                <input type="button" class="datepicker btn btn-block btn-warning"  ></input>
+              </div>
+            </div>
+            <div class="box-body no-padding">
+               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
+	           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
+	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /. box -->
+ 		</div>
+ 		<!-- /style="width: 20%; float:left; margin-left: 20px;" -->    	       
       </div>
       <!-- /.row -->
     </section>
@@ -631,7 +674,18 @@ $(document).on("click",".friendBtn",function(){
 <!-- fullCalendar -->
 <script src="resources/main/bower_components/moment/moment.js"></script>
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<!-- datepicker -->
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- Page specific script -->
+<script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
+<script type="text/javascript">
 
+    var sock;
+
+    //웸소켓을 지정한 url로 연결한다.
+    sock = new SockJS("<c:url value="/echo2"/>");
+    
+</script>
+<script src="resources/main/js/messageBar.js"></script> 
 </body>
 </html>
