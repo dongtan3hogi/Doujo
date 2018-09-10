@@ -20,13 +20,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.scit.doujo.dao.friendDao;
-import com.scit.doujo.dao.memberDao;
-import com.scit.doujo.util.PageNavigator;
-import com.scit.doujo.util.PageNavigator2;
-import com.scit.doujo.vo.friend;
+import com.scit.doujo.dao.workDao;
+import com.scit.doujo.util.work_PageNavi;
 import com.scit.doujo.vo.member;
-import com.scit.doujo.vo.schedule;
+import com.scit.doujo.vo.work.memo;
+import com.scit.doujo.work.PagingContorller.HelloComponent;
 
 
 @Controller
@@ -347,6 +345,46 @@ public class FriendController {
 				
 		return "friend/friendMain";
 
+		Document doc = null;
+		try {
+			doc = conn.get();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		List<Element> a = doc.select("ul.todayEvent");
+		System.out.println(a.size());
+		ArrayList<String[]> result = new ArrayList<String[]>();
+		for (int i = 0; i < a.size(); i++) {
+			String[] ds = new String[3];
+			String link = a.get(i).select("li.eventThumbnail a").attr("href");
+			String image = a.get(i).select("li.eventThumbnail img").attr("src");
+			String title = a.get(i).select("li.eventThumbnail img").attr("alt");
+			ds[0] = link;
+			ds[1] = image;
+			ds[2] = title;
+
+			result.add(ds);
+		}
+		article.setValue(result);
+		work_PageNavi pn = new work_PageNavi(3,1,result.size());
+		Map<String ,Object> data = new HashMap<String,Object>();
+		ArrayList<String[]> ab = article.page(1);
+		data.put("meeting", ab);
+		data.put("navi",pn);
+
+		return data;
+
+	}
+	@RequestMapping(value = "/goMPage", method = RequestMethod.POST)
+	public @ResponseBody Map<String ,Object> goMPage( int value) {
+		ArrayList<String[]> ab = article.page(value);
+		work_PageNavi pn = new work_PageNavi(3,value,article.getStaticHello().size());
+		Map<String ,Object> data = new HashMap<String,Object>();
+		data.put("meeting", ab);
+		data.put("navi",pn);
+
+		return data;
 	}
 	
 	@RequestMapping (value="chooseOnefriend", method=RequestMethod.POST)
