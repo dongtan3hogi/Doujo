@@ -13,7 +13,19 @@
 		) VALUES
 			(#{userid},
 			 #{id},
-			 1
+			 2
+			)
+	</insert> 
+	<insert id="beInserted" parameterType="string">
+		INSERT INTO friend(
+			userid,
+			friendid,
+			type
+		) VALUES
+			(
+			 #{1},
+			 #{0},
+			 3
 			)
 	</insert> 
 
@@ -51,18 +63,25 @@
 			member 
 		<if test="searchItem == 'id'">
 		where 
-			id like '%' || #{searchWord} || '%'
+			id like '%' || #{searchWord} || '%' and id not in #{meme} 
 		</if>
+		<if test="searchItem == 'nickname'">
+		where 
+			nickname like '%' || #{searchWord} || '%' and nickname not in #{meme} 
+		</if>
+	
+		
+		
 	</select>
 	
 	<select id="getMyFriends" parameterType="map" resultType="friend">
 		select 
-			*
+			a.userid,a.friendid,b.nickname,b.name,b.gender,b.age,b.job,b.hobby,a.type 
 		from 
-			friend 
-		<if test="searchItem2 == 'friendid'">
-		where 
-			friendid like '%' || #{searchWord2} || '%'
+			friend a,member b
+		where a.friendid = b.id and a.userid =#{id} 
+		<if test="searchItem == 'friendid'">
+		and a.friendid like '%' || #{searchWord} || '%'
 		</if>
 	</select>
    
@@ -81,22 +100,11 @@
 		where
 			id = #{value}
 	</delete>
-	
-	<select id="selectFriendList" parameterType="String" resultType="member">
-		select 
-			* 
-		from 
-			member 
-		where id in (
-			select 
-				friendid 
-			from 
-				friend
-			where 
-				userid = #{value}
-		)
-	</select>
-	
-	
-	
+	<update id="acceptFriend" parameterType="String">
+	update friend set type=1 where userid= #{0} and friendid= #{1}
+	</update>
+
+	<select id="checkFriend" parameterType="String" resultType="friend">
+	select * from friend where userid= #{0} and friendid= #{1}
+	</select>	
 </mapper>
