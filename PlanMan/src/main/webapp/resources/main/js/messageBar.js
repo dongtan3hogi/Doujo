@@ -364,7 +364,7 @@ function onMessage(evt) {
     	    leadingZeros(d.getHours(), 2) + ':' + leadingZeros(d.getMinutes(), 2);
     	var giveid = "";
     	var takeid = "";
-    	//alert(dataArray[0]+", "+dataArray[1]+", "+dataArray[2]);
+
     	if(dataArray[2] == MyID) {
     		//내가보낸 메세지는 우측
     		putMsg += '<div class="direct-chat-msg right">';
@@ -412,7 +412,7 @@ function onMessage(evt) {
     			
     		} 
     		, error: function(request,status,error){ 
-    	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+    	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
     	    } 
     			 
     	});

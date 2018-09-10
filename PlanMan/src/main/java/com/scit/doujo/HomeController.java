@@ -276,5 +276,24 @@ public class HomeController {
 			return "fail";
 		}
 	}
+	
+	//회원정보 수정페이지 이동하기
+	@RequestMapping(value = "gotoupdate", method = RequestMethod.GET)
+	public String updatemember(Model model) {
+		memberDao manager=sqlSession.getMapper(memberDao.class);
+	
+		return "updatemember";
+	}
+	
+	
+	//멤버정보수정하기
+	@RequestMapping(value = "updateMember", method = RequestMethod.POST)
+	public String updateMember(Model model, member vo) {
+		memberDao manager=sqlSession.getMapper(memberDao.class);
+		int result=manager.updateMember(vo);
+		
+		return "home";
+	}
+	
 }
 

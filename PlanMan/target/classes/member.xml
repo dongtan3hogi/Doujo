@@ -73,5 +73,11 @@
 		select count(*) from schedule where id=#{id} and eventtype=#{eventtype}
 	</select> 	
 	
+	<!-- 회원 정보 수정하기 -->
+	<update id="updateMember" parameterType="Member">
+		update member set password=#{password}, name=#{name}, nickname=#{nickname}, gender=#{gender}, age=#{age}, job=#{job}, hobby=#{hobby}, height=#{height}, weight=#{weight}
+		where id=#{id}
+	</update>
+
 
 </mapper>

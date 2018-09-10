@@ -92,6 +92,15 @@
 	 input[type="time"]{
 	 	display: inline;
 	 }
+	 
+	 .sType{
+	 	display: none;
+	 }
+	 
+	 .sType:checked + label {
+	   color: #0000FF;
+	 } 
+	 
   </style>	
 <!-- head -->
 </head>
@@ -158,7 +167,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
+                  <a href="gotoupdate" class="btn btn-default btn-flat">개인정보 수정</a>
                 </div>
                 <div class="pull-right">
                   <a href="#" class="btn btn-default btn-flat">로그아웃</a>
@@ -307,7 +316,7 @@
         	</div>
         	<br/>
         	<div>
-        		스케쥴 기간 지정 &nbsp;&nbsp; <input type = "radio" class='sType' name='sType'value='sometimes' >이 시간대만 &nbsp; <input type = "radio" class='sType' name='sType'value='always'>쭉 &nbsp;  <input type="number" style="width: 40px; height: 30px;" id="endday" value="1"> 일간 진행
+        		스케쥴 기간 지정 &nbsp;&nbsp; <input type = "radio" class='sType' id="sType" name='sType' value='sometimes' checked="checked"><label for="sType">반복 스케쥴</label> &nbsp; <input type = "radio" class='sType' id="sType2" name='sType' value='always'><label for="sType2">지속 스케쥴</label> &nbsp;  <input type="number" style="width: 40px; height: 30px;" id="endday" value="1"> 일간 진행
         	</div>
         	<br/>
         	<div>시간대 <input id="timepicker" type="text" style="width: 120px;"> ~ <input id="timepicker2" type="text" style="width: 120px;"></div>
@@ -628,7 +637,6 @@
 		var eventcontent=$('#eventcontent').val();    
 	    var stype = $('input[name="sType"]:checked').val();
 
-  		alert(stype);
 		if($('.event:checked').val()==null){
   			alert("이벤트 타입을 선택해 주세요.");
   			return false;
