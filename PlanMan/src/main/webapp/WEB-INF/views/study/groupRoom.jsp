@@ -300,24 +300,53 @@
     	
     	
 		var select = document.getElementById("leaderfunselect").value;
-		if(select == 'authority'){
-			document.getElementById("leaderfunctionview").innerHTML = '권한부여';
-		
-		} else if(select == 'sharing'){
-			var SResult = '';
-			SResult += '<select class="form-control" id="sharingselect" onchange="ssChange()">';
-			SResult += '<option value="none" selected>==선택==</option>';
-			SResult += '<option value="quiz">퀴즈</option>';
-			SResult += '</select>';
-			SResult += '<label id="sharingtargetview"></label>';
-			//document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><select id="sharingselect" onchange="ssChange()"><option value="none" selected>==선택==</option><option value="quiz">퀴즈</option></select><span id="sharingtargetview"></span></div>';
-			document.getElementById("leaderfunctionview").innerHTML = SResult;
+		if(select == 'quiz'){
+			
+			var idSet = {
+		        	"id" : document.getElementById("MyID").value
+		        	, "quiz" : "quiz"
+	        };
+			$.ajax({
+				method   : 'post'
+				, url    : 'showQuizList'
+				, data   : JSON.stringify(idSet)
+				, dataType : 'json'
+				, contentType : 'application/json; charset=UTF-8'
+				, success: function(data) {
+		        	//Map[              ]	data
+		        	//	  Map[      ]		data.recordMap, data.tegMap
+		        	//        Map[] 		data.recordMap.name ...
+		        	var qsr = '<select class="form-control" id="quizchoice"><option>=폴더명=</option>';
+					$.each(data.recordMap, function(index, item){
+						qsr += '<option value="r' + item.NAME + '">' + item.NAME + '</option>';
+					});
+					qsr += '<option>=태그명=</option>';
+					$.each(data.tegMap, function(index, item){
+						qsr += '<option value="r' + item.TEG + '">' + item.TEG + '[' + item.NUM + ']' + '</option>';
+					});
+					qsr += '</select><input type="button" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
+					alert(qsr);
+					document.getElementById("leaderfunctionview").innerHTML = qsr;
+					$(document).ready(function() {
+				       	$("#quiznumBtn").click(function() {
+				            takeQuiznum();
+				        });
+				    });	
+				}
+				, error: function(){
+					alert("통신에러");
+				}
+			});
+			
+			
 		} else if(select == 'invite'){
 			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><br/><label for="1"><span style="font-size:20px;">아이디</span><input type="text" class="input-field" name="inviteId" id="inviteId" value="" /><input type="button" id="inviteBtn" value="확인" /></label>';
 			$(document).ready(function() {
 		       	$("#inviteBtn").click(function() {
 		       		var inviteId = document.getElementById("inviteId").value;
-		       		invite(inviteId);
+		       		var groupseq = document.getElementById("roomnum").value;
+		       		
+		       		invite(inviteId,groupseq);
 		        });
 		       	
 		    });
@@ -333,7 +362,7 @@
 	}
     
     /* 공유대상 셀렉터 변경시 */
-    function ssChange(){
+    /* function ssChange(){
     	var quizshowvar = "";
 		var select = document.getElementById("sharingselect").value;
 		//quiz로 변경할경우
@@ -379,7 +408,7 @@
 		} else {
 			document.getElementById("sharingtargetview").innerHTML = '';
 		}
-	}
+	} */
     
     
     //퀴즈번호를 변경할시
@@ -390,11 +419,12 @@
 	    });
     }
     
-    function invite(inviteId){
+    function invite(inviteId, groupseq){
     	var idSet = {
 	        	"id" : inviteId
-	        	, "groupseq" : document.getElementById("roomnum").value
+	        	, "groupseq" : groupseq
 	    };
+    	//alert(idSet.groupseq);
     	$.ajax({
 			method   : 'post'
 			, url    : 'inviteGroup'
@@ -402,7 +432,7 @@
 			, dataType : 'json'
 			, contentType : 'application/json; charset=UTF-8'
 			, success: function(data) {
-				alert(data.id+"초대");
+				alert(data.resultMap.result);
 			}
 			, error: function(){
 				alert("통신에러");
@@ -422,7 +452,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
 <input type="hidden" id="MyID" value="${sessionScope.memberID}">
 <input type="hidden" id="friendID" value="${sessionScope.friendID}">
-<input type="hidden" id="roomnum" value="${sessionScope.groupmember.groupseq}">
+<input type="hidden" id="roomnum" value="${groupmember.groupseq}">
 <div class="wrapper">
 
   <header class="main-header">
@@ -613,9 +643,8 @@
     <!-- Main content --> 
     <section class="content"> 
       <div class="row"> 
+        
         <div class="col-md-3"> 
-          <a href="compose.html" class="btn btn-primary btn-block margin-bottom">Button</a> 
- 
           <div class="box box-solid"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">Group</h3> 
@@ -631,9 +660,44 @@
             </div> 
             <!-- /.box-body --> 
           </div> 
+          
+          <div class="box box-solid"> 
+            <div class="box-header with-border"> 
+              <h3 class="box-title">Group</h3> 
+              <div class="box-tools"> 
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i> 
+                </button> 
+              </div> 
+            </div> 
+            <div class="box-body no-padding"> 
+              <ul class="nav nav-pills nav-stacked"> 
+                <li>
+                  <form role="form"> 
+	                <!-- Function Key --> 
+	                <div class="form-group" id="leaderfunselectspan"> 
+	                  <select class="form-control" id="leaderfunselect" onchange="lfsChange()"> 
+	                    <option value="none" selected>==선택==</option>
+						<option value="quiz">퀴즈</option>
+						<option value="invite">초대</option>
+	                  </select> 
+	                </div> 
+	                
+	              </form>
+                  <div class="form-group" id="leaderfunctionview">
+                  </div>
+                  <div class="form-group" id="quizSelectBoard"> 
+                  </div>
+                </li>
+              </ul> 
+            </div> 
+            <!-- /.box-body --> 
+          </div>
           <!-- /. box --> 
         </div> 
         <!-- /.col --> 
+        
+        
+        
         <div class="col-md-9"> 
           
           
@@ -729,20 +793,15 @@
               <form role="form"> 
                  
                 <!-- Function Key --> 
-                <div class="form-group" id="leaderfunselectspan"> 
-                  <label>Text</label> 
+                <!-- <div class="form-group" id="leaderfunselectspan"> 
                   <select class="form-control" id="leaderfunselect" onchange="lfsChange()"> 
                     <option value="none" selected>==선택==</option>
-					<option value="authority">권한 부여</option>
-					<option value="sharing">화면공유</option>
+					<option value="quiz">퀴즈</option>
 					<option value="invite">초대</option>
                   </select> 
-                </div> 
+                </div>  -->
                  
                  
-                <div class="form-group" id="leaderfunctionview">
-                	
-                </div>
                 <div class="form-group" id="functionboard"> 
                 </div>
               </form> 
@@ -752,6 +811,7 @@
           <!-- /. box --> 
         </div> 
         <!-- /.col --> 
+        
       </div> 
       <!-- /.row --> 
     </section> 

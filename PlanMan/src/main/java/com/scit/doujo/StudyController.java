@@ -21,6 +21,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.scit.doujo.dao.alermDao;
 import com.scit.doujo.dao.memberDao;
 import com.scit.doujo.dao.studyDao;
 import com.scit.doujo.util.PageNavigator;
@@ -566,8 +567,9 @@ public class StudyController {
 		
 		//검색용 groupmember 만든다.
 		Map<String, String> groupmember = new HashMap<>();
+		String sNum = ""+num;
 		groupmember.put("id", id);
-		groupmember.put("groupseq", ""+num);
+		groupmember.put("groupseq", sNum);
 		groupmember.put("name", name);
 		
 		//id와 groupseq를 사용, 그룹에 유저가 등록되있는지 확인한다.
@@ -580,9 +582,9 @@ public class StudyController {
 		
 		//leaderID groupmember에 넣는다.
 		String leaderId = gdao.selectOneGroup(num).get("GROUPLEADER");
-		System.out.println("리더아이디"+leaderId);
+		//System.out.println("리더아이디"+leaderId);
 		groupmember.put("leaderId", leaderId);
-		
+		System.out.println("gma"+groupmember.toString());
 		model.addAttribute("groupmember", groupmember);
 		return "study/groupRoom";
 	}
@@ -1010,5 +1012,58 @@ public class StudyController {
 		 
 		 
 		resultMap.put("success", "Insert the Quiz"); 	
+	}
+	
+	
+	
+	/* 그룹 가입 신청 */
+	@RequestMapping(value = "/groupRegistApply", method = RequestMethod.POST)
+	public @ResponseBody Map<String, String> groupRegistApply(@RequestBody Map<String, String> group, HttpSession hs) {
+		alermDao adao = sqlSession.getMapper(alermDao.class);
+		String id = (String)hs.getAttribute("memberID"); 
+		group.put("content", group.get("groupnumber"));
+		group.put("friendid", group.get("leader"));
+		group.put("id", id);
+		System.out.println(group.toString());
+		ArrayList<Map<String, String>> groupList = new ArrayList<>();
+		Map<String,Map<String, String>> groupMap = new HashMap<>();
+		Map<String, String> check = new HashMap<>();
+		
+		
+		
+		int checkcount = adao.countGroupJoinCheck(group);
+		if(checkcount > 0) {
+			//1 이상일 경우 이미 해당 alerm은 등록된 것 이기에 집어넣지 않고 이미 했던 것임을 알려준다.
+			check.put("result", "already");
+			return check;
+		} else {
+			
+		}
+		
+		int result = adao.insertGroupJoin(group);
+		System.out.println("doGroupRegistApply/result/"+result);
+		check.put("result", "success");
+		
+		return check;
+	}
+	
+	
+	/* 그룹 초대 */
+	@RequestMapping(value = "/inviteGroup", method = RequestMethod.POST)
+	public @ResponseBody Map inviteGroup(@RequestBody Map<String, String> idSet, HttpSession hs) {
+		studyDao sdao = sqlSession.getMapper(studyDao.class);
+		ArrayList<Map<String, String>> groupList = new ArrayList<>();
+		Map<String,Map<String, String>> groupMap = new HashMap<>();
+		Map<String, String> resultMap = new HashMap<>();
+		
+		System.out.println("inviteGroup/idSet"+idSet.toString());
+		int result = sdao.insertGroupMember(idSet);
+		if(result>0) {
+			resultMap.put("result", "invite success");
+		}else {
+			resultMap.put("result", "invite fail");
+		}
+		groupMap.put("resultMap", resultMap);
+		return groupMap;
 	}
 } 
