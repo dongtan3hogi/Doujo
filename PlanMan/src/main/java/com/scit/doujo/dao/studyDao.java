@@ -116,5 +116,17 @@ public interface studyDao {
 	
 	//20.selectQuizrecordname��������
 	public String selectQuizrecordname(Map<String, String> quiz);
+	
+	//21_1.SELECT_searching the Quizrecordlist
+	public ArrayList<Map<String, String>> selectSearchingQuizrecordlist(Map<String, String> quiz, RowBounds rb);
 		
+	//21_2.COUNT_searching the Quizrecordlist
+	public int countSearchingQuizrecordlist(Map<String, String> quiz);
+	
+	//1_DUMMY
+	public int insertMQuiz2(Map<String, String> quiz);
+	public int insertJQuiz2(Map<String, String> quiz);
+	
+	//22
+	public int countQuizrecordlistForTaking(Map<String, String> quiz);
 }

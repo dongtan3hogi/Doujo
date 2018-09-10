@@ -90,7 +90,7 @@
 		
 		
 		
-		<!-- 1 -->
+	<!-- 1 -->
 	<insert id="insertMQuiz" parameterType="map">
 		INSERT INTO quiz
 		(quizseq, type, teg, question, answer1, answer2, answer3, answer4, answernumber, id)
@@ -358,5 +358,41 @@
 		AND r.quizseq = #{num}
 		AND l.id=#{id}
 	</select>
+	
+	<!-- 21_1 -->
+	<select id="selectSearchingQuizrecordlist" resultType="map" parameterType="map">
+  		SELECT quizrecordname TITLE, quizrecordcode CODE, id ID
+  		FROM quizrecordlist
+  		WHERE quizrecordname like '%' ||  #{search} || '%'
+	</select>
+	
+	<!-- 21_2 -->
+	<select id="countSearchingQuizrecordlist" resultType="integer" parameterType="map">
+  		SELECT count(*)
+  		FROM quizrecordlist
+  		WHERE quizrecordname like '%' ||  #{search} || '%'
+	</select>
 
+	<!-- 1_DUMMY -->
+	<insert id="insertMQuiz2" parameterType="map">
+		INSERT INTO quiz
+		(quizseq, type, teg, question, answer1, answer2, answer3, answer4, answernumber, id)
+		VALUES
+		(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ANSWER2}, #{ANSWER3}, #{ANSWER4}, #{ANSWERNUMBER}, #{ID})
+	</insert>
+	
+	<!-- 1_DUMMY -->
+	<insert id="insertJQuiz2" parameterType="map">
+		INSERT INTO quiz
+		(quizseq, type, teg, question, answer1, id)
+		VALUES
+		(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ID})
+	</insert>
+	
+	<!-- 22 -->
+	<select id="countQuizrecordlistForTaking" resultType="integer" parameterType="string">
+		SELECT COUNT(*)
+		FROM quizrecordlist
+		WHERE quizrecordcode = #{quizrecordcode}
+	</select>
 </mapper>
