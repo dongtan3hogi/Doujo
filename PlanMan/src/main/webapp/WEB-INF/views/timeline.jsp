@@ -349,7 +349,7 @@
 					 }
 				 }else if(eventtype=='friend'){
 					 if(confirm("friend 페이지로 이동하시겠습니까?")){
-						 location.href="gotoHealth?eventtitle="+ eventtitle;
+						 location.href="gotoSearchFriend?eventtitle="+ eventtitle;
 					 }else{
 					
 					 }

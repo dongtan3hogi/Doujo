@@ -36,7 +36,7 @@ public class FriendController {
 	SqlSession sqlSession;
 	
 	@RequestMapping (value="gotoSearchFriend", method=RequestMethod.GET)
-	public String friendMain(HttpSession session) {
+	public String friendMain(HttpSession session, String eventtitle) {
 		memberDao manager2=sqlSession.getMapper(memberDao.class);
 		String id=(String) session.getAttribute("memberID");
 		schedule result=new schedule();
