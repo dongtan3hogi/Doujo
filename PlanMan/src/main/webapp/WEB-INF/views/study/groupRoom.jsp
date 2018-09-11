@@ -512,11 +512,11 @@
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
+                 <div class="pull-left">
+                  <a href="gotoupdate" class="btn btn-default btn-flat">개인정보 수정</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                  <a href="gotologout" class="btn btn-default btn-flat">로그아웃</a>
                 </div>
               </li>
             </ul>

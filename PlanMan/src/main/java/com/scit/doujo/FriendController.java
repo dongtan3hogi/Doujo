@@ -323,26 +323,20 @@ public class FriendController {
 
 	}
 	
-	@RequestMapping (value="chooseOnefriend", method=RequestMethod.POST)
-	public @ResponseBody String chooseOnefriend (String id,HttpSession hs) {
-		friendDao chooseone = sqlSession.getMapper(friendDao.class);
-		member a = (member) hs.getAttribute("member");
-		String userid = a.getId();
-		friend check = chooseone.checkFriend(userid, id);
-		if(check !=null) {
-			return "already";
-		}
-		int result = chooseone.insert(userid, id);
-		chooseone.beInserted(userid,id);
-		return "result";
+
+	
+	//friendSchedule페이지로 이동하기
+	@RequestMapping (value="friendSchedule", method=RequestMethod.GET)
+	public String friendSchedule(HttpSession session, Model model) {
+		friendDao manager = sqlSession.getMapper(friendDao.class);
+		String userid=(String) session.getAttribute("memberID");
+		ArrayList<friend> fList=new ArrayList<>();
+		fList=manager.selectFriendLsit(userid);
+		model.addAttribute("fList", fList);
+		return "friend/friendCalendar";
 	}
 	
-	@RequestMapping (value="friend2", method=RequestMethod.GET)
-	public String friend2() {
-		
-		return "friend/friendMain2";
-	}
-	
+	//모임추천으로 이동하기
 	@RequestMapping (value="friend3", method=RequestMethod.GET)
 	public String friend3() {
 		

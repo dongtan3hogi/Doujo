@@ -13,9 +13,11 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.scit.doujo.dao.alermDao;
+import com.scit.doujo.dao.friendDao;
 import com.scit.doujo.dao.messageDao;
 import com.scit.doujo.dao.studyDao;
 import com.scit.doujo.util.PageNavigator;
+import com.scit.doujo.vo.friend;
 
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Controller; 
@@ -131,19 +133,30 @@ public class AlermController {
 	
 	/* 친구신청, 알람TABLE에 등록 ===================================================================*/ 
 	@RequestMapping(value = "/friendRegistApply", method = RequestMethod.POST) 
-	public @ResponseBody Map<String, Map<String,String>> friendRegistApply(@RequestBody Map<String, String> alerm, HttpSession hs) {
+	public @ResponseBody String friendRegistApply(String id, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
-		studyDao sdao = sqlSession.getMapper(studyDao.class);
-		String memberID = (String)hs.getAttribute("memberID");
-		alerm.put("id", memberID);
-		alerm.put("type", "friendapply");
-		int result = adao.insertFriendJoin(alerm);
+		friendDao chooseone = sqlSession.getMapper(friendDao.class);
+		String userid = (String)hs.getAttribute("memberID");
 		
-		Map<String, Map<String,String>> alermMap = new HashMap<>();
+		System.out.println("friend아이디"+id);
+		System.out.println("아이디"+userid);
 		
-		//해당 알람을 지운다.
-		
+		int check = chooseone.checkFriend(userid, id);
+		System.out.println(check);
+		if(check == 0) {
+			Map<String, String> alerm = new HashMap<>();
+			alerm.put("id", userid);
+			alerm.put("type", "friendapply");
+			alerm.put("friendId", id);
+			int result = adao.insertFriendJoin(alerm);
+			
+			return "sucess";
+		}else {
 
-		return alermMap; 
+			return "already";
+			
+		}
+		
+		
 	}
 } 

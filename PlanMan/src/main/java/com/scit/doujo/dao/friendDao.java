@@ -12,39 +12,41 @@ import com.scit.doujo.vo.member;
 
 public interface friendDao {
 
-	ArrayList<member> listMember(String searchText, int startRecord, int countPerPage);
+	public ArrayList<member> listMember(String searchText, int startRecord, int countPerPage);
 
-	int getTotal(String searchText);
+	public int getTotal(String searchText);
 
-	
+	public ArrayList<friend> listfriend(String searchText, int startRecord, int countPerPage);
 
-	ArrayList<friend> listfriend(String searchText, int startRecord, int countPerPage);
+	public void updateMember(member friend);
 
-	void updateMember(member friend);
+	public int getRecommendFriendsCount(Map<String,String> map);
 
-	int getRecommendFriendsCount(Map<String,String> map);
+	public List<friend> select(String searchItem, String searchWord, int startRecord, int countPerPage);
 
-	List<friend> select(String searchItem, String searchWord, int startRecord, int countPerPage);
+	public List<friend> select(Map<String, String> map, RowBounds rb);
 
-	List<friend> select(Map<String, String> map, RowBounds rb);
+	public List<member> getRecommendFriends(Map<String, String> map, RowBounds rb);
 
-	List<member> getRecommendFriends(Map<String, String> map, RowBounds rb);
-
-	int deletemember(member member);
+	public int deletemember(member member);
 	
 	public int delMember(String id);
 	
 	public int insertMember(member member);
 
-	void selectOne(String id);
+	public void selectOne(String id);
 
-	int insert(@Param(value="userid")String userid, @Param(value="id")String id);
-	void beInserted(String userid, String id);
+	public int insert(@Param(value="userid")String userid, @Param(value="id")String id);
 	
-	void acceptFriend(String userid, String fid);
+	public void beInserted(String userid, String id);
+	
+	public void acceptFriend(String userid, String fid);
 
-	List<friend> getMyFriends(Map<String, String> map, RowBounds rb);
+	public List<friend> getMyFriends(Map<String, String> map, RowBounds rb);
 
-	int getMyFriendsCount(Map<String, String> map);
-	friend checkFriend(String userid, String id);
+	public int getMyFriendsCount(Map<String, String> map);
+	
+	public int checkFriend(String userid, String id);
+
+	public ArrayList<friend> selectFriendLsit(String userid);
 }
