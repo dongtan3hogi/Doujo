@@ -353,6 +353,13 @@ public class FriendController {
 		model.addAttribute("fList", fList);
 		return "friend/friendCalendar";
 	}
+	@RequestMapping (value="friend3", method=RequestMethod.GET)
+	public String friend3() {
+		
+		return "friend/friendMain3";
+	}
+	
+	
 	
 	
 }

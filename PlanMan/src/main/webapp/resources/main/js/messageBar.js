@@ -1,5 +1,7 @@
+var onErrorResource="'resources/userData/image/unknown.png'";
 $(function(){ 
 	$(document).ready(function (){
+		//$('image').attr("onError", "this.src='resources/userData/image/unknown.png'");
 		showAlermList();
 		showNewMessageList();
 		var ssfi = document.getElementById("friendID").value;
@@ -100,7 +102,7 @@ function messageBoardChange(friendId){
 			var messageBarBoard = ""
 				messageBarBoard += '<li class="dropdown messages-menu" id="'+friendId+'Li">';
 				messageBarBoard += '<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">';
-				messageBarBoard += '<i class="fa fa-commenting"><img class="direct-chat-img" src="resources/userData/image/' + friendId + '.jpg" alt="message user image" style="width:25px;height:25px;"></i>';
+				messageBarBoard += '<i class="fa fa-commenting"><img class="direct-chat-img" src="resources/userData/image/' + friendId + '.jpg" alt="message user image" style="width:25px;height:25px;"  onError="this.src='+onErrorResource+';"></i>';
 				messageBarBoard += '<span class="label label-success"></span>';	//count
 				messageBarBoard += '</a>';
 				messageBarBoard += '<ul class="dropdown-menu" id="MessageBoard">';
@@ -128,7 +130,7 @@ function messageBoardChange(friendId){
 			    		messageBarBoard += '<span class="direct-chat-name pull-right">' + item.GIVEID + '</span>';
 			    		messageBarBoard += '<span class="direct-chat-timestamp pull-left">' + item.TIME + '</span>';
 			    		messageBarBoard += '</div>';
-			    		messageBarBoard += '<img class="direct-chat-img" src="resources/userData/image/' + item.GIVEID + '.jpg" alt="message user image">';
+			    		messageBarBoard += '<img class="direct-chat-img" src="resources/userData/image/' + item.GIVEID + '.jpg" alt="message user image" onError="this.src='+onErrorResource+';">';
 			    		messageBarBoard += '<div class="direct-chat-text">';
 			    		messageBarBoard += item.MESSAGE;
 			    		messageBarBoard += '</div>';
@@ -140,7 +142,7 @@ function messageBoardChange(friendId){
 			    		messageBarBoard += '<span class="direct-chat-name pull-left">' + item.GIVEID + '</span>';
 			    		messageBarBoard += '<span class="direct-chat-timestamp pull-right">' + item.TIME + '</span>';
 			    		messageBarBoard += '</div>';
-			    		messageBarBoard += '<img class="direct-chat-img" src="resources/userData/image/' + item.GIVEID + '.jpg" alt="message user image">';
+			    		messageBarBoard += '<img class="direct-chat-img" src="resources/userData/image/' + item.GIVEID + '.jpg" alt="message user image"  onError="this.src='+onErrorResource+';">';
 			    		messageBarBoard += '<div class="direct-chat-text">';
 			    		messageBarBoard += item.MESSAGE;
 			    		messageBarBoard += '</div>';
@@ -149,7 +151,6 @@ function messageBoardChange(friendId){
 			    	}
 				});
 				
-		    	
 				
 				
 				
@@ -206,7 +207,7 @@ function showFriendList(){
 				var dummyFriend = "'"+item.USERID+"'";
 				result += '<li><a onclick="messageBoardChange('+dummyFriend+')">';
 				result += '<div class="pull-left">';
-				result += '<img src="resources/userData/image/'+item.USERID+'.jpg" class="img-circle" alt="User Image">';
+				result += '<img src="resources/userData/image/'+item.USERID+'.jpg" class="img-circle" alt="User Image"  onError="this.src='+onErrorResource+';">';
 				result += '</div>';
 				result += '<h4>';
 				result += item.USERID;
@@ -255,7 +256,7 @@ function showNewMessageList(){
 					//result += '<!-- start message -->';
 					result += '<li id="SNMLLi'+dummyFriend+'"><a onclick="messageBoardChange('+dummyFriend+')">';
 					result += '<div class="pull-left">';
-					result += '<img src="resources/userData/image/'+item.GIVEID+'.jpg" class="img-circle" alt="resources/userData/image/unknown.png">';
+					result += '<img src="resources/userData/image/'+item.GIVEID+'.jpg" class="img-circle"  onError="this.src='+onErrorResource+';">';
 					result += '</div>';
 					result += '<h4>';
 					result += item.GIVEID+'<span class="label label-success">' + item.CT + '</span>';
@@ -372,7 +373,7 @@ function onMessage(evt) {
     		putMsg += '<span class="direct-chat-name pull-right">' + dataArray[2] + '</span>';
     		putMsg += '<span class="direct-chat-timestamp pull-left">' + time + '</span>';
     		putMsg += '</div>';
-    		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[2] + '.jpg" alt="message user image">';
+    		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[2] + '.jpg" alt="message user image"  onError="this.src='+onErrorResource+';">';
     		putMsg += '<div class="direct-chat-text">';
     		putMsg += dataArray[3];
     		putMsg += '</div>';
@@ -386,7 +387,7 @@ function onMessage(evt) {
     		putMsg += '<span class="direct-chat-name pull-left">' + dataArray[2] + '</span>';
     		putMsg += '<span class="direct-chat-timestamp pull-right">' + time + '</span>';
     		putMsg += '</div>';
-    		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[2] + '.jpg" alt="message user image">';
+    		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[2] + '.jpg" alt="message user image"  onError="this.src='+onErrorResource+';">';
     		putMsg += '<div class="direct-chat-text">';
     		putMsg += dataArray[3];
     		putMsg += '</div>';
@@ -462,7 +463,7 @@ function showAlermList(){
 			result +='<span class="label label-warning">' + data.alermCount.count + '</span>';
 			result +='</a>';
 			result +='<ul class="dropdown-menu">';
-			result +='<li class="header">' + data.alermCount.count + '개의 새로운 메세지가 있습니다.</li>';
+			result +='<li class="header">' + data.alermCount.count + '개의 확인하지 않은 알림이 있습니다.</li>';
 			result +='<li>';
 			result +='<ul class="menu">';
 			$.each(data, function(index, item){

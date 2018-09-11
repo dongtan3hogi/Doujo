@@ -394,7 +394,7 @@
 					              <td>${friend.job}</td>
 					              <td>${friend.hobby}</td>
 					              <c:if test="${friend.type==1 }">
-					              <td>접속중인지 아닌지 확인가능할까요?</td></c:if>
+					              <td>내 친구</td></c:if>
 					              <c:if test="${friend.type==2 }">
 					              <td>수락 대기중</td></c:if>
 					              <c:if test="${friend.type==3 }">

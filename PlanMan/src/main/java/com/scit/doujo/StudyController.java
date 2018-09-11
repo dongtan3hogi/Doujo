@@ -999,36 +999,7 @@ public class StudyController {
 	
 	
 	
-	/* 그룹 가입 신청 */
-	@RequestMapping(value = "/groupRegistApply", method = RequestMethod.POST)
-	public @ResponseBody Map<String, String> groupRegistApply(@RequestBody Map<String, String> group, HttpSession hs) {
-		alermDao adao = sqlSession.getMapper(alermDao.class);
-		String id = (String)hs.getAttribute("memberID"); 
-		group.put("content", group.get("groupnumber"));
-		group.put("friendid", group.get("leader"));
-		group.put("id", id);
-		System.out.println(group.toString());
-		ArrayList<Map<String, String>> groupList = new ArrayList<>();
-		Map<String,Map<String, String>> groupMap = new HashMap<>();
-		Map<String, String> check = new HashMap<>();
-		
-		
-		
-		int checkcount = adao.countGroupJoinCheck(group);
-		if(checkcount > 0) {
-			//1 이상일 경우 이미 해당 alerm은 등록된 것 이기에 집어넣지 않고 이미 했던 것임을 알려준다.
-			check.put("result", "already");
-			return check;
-		} else {
-			
-		}
-		
-		int result = adao.insertGroupJoin(group);
-		System.out.println("doGroupRegistApply/result/"+result);
-		check.put("result", "success");
-		
-		return check;
-	}
+	
 	
 	
 	/* 그룹 초대 */

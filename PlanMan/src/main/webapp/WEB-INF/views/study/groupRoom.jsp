@@ -686,7 +686,10 @@
                   <div class="form-group" id="leaderfunctionview">
                   </div>
                   <div class="form-group" id="quizSelectBoard"> 
+                  
                   </div>
+                  <div class="form-group" id="functionboard"> 
+                </div>
                 </li>
               </ul> 
             </div> 
@@ -700,12 +703,12 @@
         
         <div class="col-md-9"> 
           
-          <div class="box box-info"> 
+          <!-- <div class="box"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">Show Quiz</h3> 
             </div> 
-            <!-- /.box-header --> 
-            <!-- <div class="box-body">
+            /.box-header 
+            <div class="box-body">
                <div class="margin">
                  <div class="btn-group">
                   <button type="button" class="btn btn-info">function</button>
@@ -723,11 +726,11 @@
                 <span id="leaderfunctionview">
                 
                 </span>
-               </div> -->
+               </div>
             
               <form role="form"> 
                  
-                <!-- Function Key --> 
+                Function Key 
                 <div class="form-group" id="leaderfunselectspan"> 
                   <select class="form-control" id="leaderfunselect" onchange="lfsChange()"> 
                     <option value="none" selected>==선택==</option>
@@ -745,7 +748,7 @@
                 </div>
               </form> 
             
-          </div>
+          </div> -->
           <!-- /. box --> 
           
           

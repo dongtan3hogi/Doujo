@@ -1,4 +1,4 @@
-         
+﻿         
 CREATE TABLE friend (
      userid       VARCHAR2(20),
      friendid     VARCHAR2(20) constraints fk_member references member(id),

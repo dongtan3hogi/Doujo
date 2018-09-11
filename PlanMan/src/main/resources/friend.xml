@@ -42,6 +42,14 @@
 		where 
 			id like '%' || #{searchWord} || '%'
 		</if>
+		<if test="searchItem == 'hobby'">
+		where 
+			hobby like '%' || #{searchWord} || '%'
+		</if>
+		<if test="searchItem == 'job'">
+		where 
+			job like '%' || #{searchWord} || '%'
+		</if>
 	</select>
 	
 	<select id="getMyFriendsCount" parameterType="map" resultType="int">
@@ -65,13 +73,15 @@
 		where 
 			id like '%' || #{searchWord} || '%' and id not in #{meme} 
 		</if>
-		<if test="searchItem == 'nickname'">
+		
+		<if test="searchItem == 'job'">
 		where 
-			nickname like '%' || #{searchWord} || '%' and nickname not in #{meme} 
+			job like '%' || #{searchWord} || '%' and id not in #{meme} 
 		</if>
-	
-		
-		
+		<if test="searchItem == 'hobby'">
+		where 
+			hobby like '%' || #{searchWord} || '%' and id not in #{meme} 
+		</if>
 	</select>
 	
 	<select id="getMyFriends" parameterType="map" resultType="friend">
