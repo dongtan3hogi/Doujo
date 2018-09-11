@@ -367,7 +367,8 @@ function check() {
 							<div class="box-body no-padding">
 								<ul class="nav nav-pills nav-stacked">
 									<ul class="nav nav-pills nav-stacked">
-										<li><a href="gotoQuiz"><i class="fa fa-file-text-o"></i>QUIZ SOLVE</a></li> 
+										<li><a href="gotoQuiz"><i class="fa fa-file-text-o"></i>QUIZ SOLVE</a></li>
+										<li><a href="gotoQuizSearch"><i class="fa fa-envelope-o"></i>QUIZ SEARCH</a></li>
               							<li><a href="gotoQuizMake"><i class="fa fa-envelope-o"></i>QUIZ MAKE</a></li> 
 									</ul>
 								</ul>

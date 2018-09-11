@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 
 public interface alermDao {
 	
-	//1.INSERT
+	//1.INSERT GROUP
 	//일단 group가입신청에 필요한 양식으로 만들었는데 다른 구조가 필요하면 다시 만드는것도 좋을듯.
 	//시간처리는 일단 패스함.
 	//GROUPALERM에 최적화
@@ -27,5 +27,6 @@ public interface alermDao {
 	//GROUPALERM에 최적화
 	public int countGroupJoinCheck(Map<String, String> alerm);
 	
-	
+	//5.INSERT FRIEND
+	public int insertFriendJoin(Map<String, String> alerm);
 }	
