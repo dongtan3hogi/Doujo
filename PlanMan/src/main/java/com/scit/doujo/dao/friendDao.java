@@ -46,7 +46,7 @@ public interface friendDao {
 
 	public int getMyFriendsCount(Map<String, String> map);
 	
-	public friend checkFriend(String userid, String id);
+	public int checkFriend(String userid, String id);
 
 	public ArrayList<friend> selectFriendLsit(String userid);
 }

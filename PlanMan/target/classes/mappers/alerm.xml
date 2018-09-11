@@ -36,4 +36,12 @@
 		AND friendid = #{friendid}
 		AND eventtype = #{type}
 	</select>
+	
+	<!-- 5 -->
+	<insert id="insertFriendJoin" parameterType="map">
+		INSERT INTO alerm
+		(alermseq, eventtype, sendid, friendid, starttime, endtime)
+		VALUES
+		(alermseq.nextval, #{type}, #{id}, #{friendId}, 'none', 'none')
+	</insert>
 </mapper>

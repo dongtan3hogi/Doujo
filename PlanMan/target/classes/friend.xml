@@ -114,8 +114,8 @@
 	update friend set type=1 where userid= #{0} and friendid= #{1}
 	</update>
 
-	<select id="checkFriend" parameterType="String" resultType="friend">
-	select * from friend where userid= #{0} and friendid= #{1}
+	<select id="checkFriend" parameterType="String" resultType="int">
+		select count(*) from friend where userid= #{0} and friendid= #{1}
 	</select>
 	
 	<!-- 친구목록 불러오기 -->

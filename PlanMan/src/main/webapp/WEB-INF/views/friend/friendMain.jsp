@@ -466,11 +466,11 @@
     	 var flag = confirm('친구를 신청하시겠습니까?');
     	 if(flag){
     		 $.ajax({
- 				url : "chooseOnefriend",
+ 				url : "friendRegistApply",
  				method : "POST", 
  				data : {"id":id},
  				success : function(data){
- 					if(data="already"){
+ 					if(data=="already"){
  						alert("이미 친구 신청을 했습니다.");
  					}else{
  						alert("친구 신청이 접수되었습니다.");
