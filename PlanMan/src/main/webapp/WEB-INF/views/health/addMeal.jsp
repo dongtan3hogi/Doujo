@@ -296,7 +296,7 @@
         	</div>
 	      	<br/>
 	      	<div>식품군
-	      		<form action="gotoMeal" method="post" style="display: inline;">
+	      		<form action="gotoMeal" method="get" style="display: inline;">
 		      	<select name="FDGRP_NM">
 		      		<option selected="selected">${foodgroup}</option>
 		      		<option value="가공유류">가공유류</option>\

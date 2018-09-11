@@ -1,5 +1,6 @@
 $(function(){ 
 	$(document).ready(function (){
+		showAlermList();
 		showNewMessageList();
 		var ssfi = document.getElementById("friendID").value;
 		if ( ssfi != null & ssfi.length>0) {
@@ -269,7 +270,7 @@ function showNewMessageList(){
 			result += '<li class="footer"><a onclick="showFriendList()">See All Friend</a></li>';
 			result += '</ul>';
 			result += '</li>';
-			messageListBoard += '</ul></li>';
+			result += '</ul></li>';
 			
 			document.getElementById("pParentMessageBoard").innerHTML = result;
 		} 
@@ -363,7 +364,7 @@ function onMessage(evt) {
     	    leadingZeros(d.getHours(), 2) + ':' + leadingZeros(d.getMinutes(), 2);
     	var giveid = "";
     	var takeid = "";
-    	//alert(dataArray[0]+", "+dataArray[1]+", "+dataArray[2]);
+
     	if(dataArray[2] == MyID) {
     		//내가보낸 메세지는 우측
     		putMsg += '<div class="direct-chat-msg right">';
@@ -411,7 +412,7 @@ function onMessage(evt) {
     			
     		} 
     		, error: function(request,status,error){ 
-    	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+    	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
     	    } 
     			 
     	});
@@ -438,3 +439,118 @@ function leadingZeros(n, digits) {
 
 
 
+
+
+
+function showAlermList(){
+	var SNML = { 
+			"showAlermList" : "showAlermList"
+	}; 
+	//alert("흠1");
+	$.ajax({ 
+		method   : 'post' 
+		, url    : 'showAlermList' 
+		, data   : JSON.stringify(SNML) 
+		, dataType : 'json' 
+		, contentType : 'application/json; charset=UTF-8' 
+		, success: function (data){ 
+			
+			var result = '';
+			result +='<li class="dropdown notifications-menu">';
+			result +='<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">';
+			result +='<i class="fa fa-bell-o"></i>';
+			result +='<span class="label label-warning">' + data.alermCount.count + '</span>';
+			result +='</a>';
+			result +='<ul class="dropdown-menu">';
+			result +='<li class="header">' + data.alermCount.count + '개의 새로운 메세지가 있습니다.</li>';
+			result +='<li>';
+			result +='<ul class="menu">';
+			$.each(data, function(index, item){
+				if(item.count == 'ok'){
+					if(item.EVENTTYPE == "studygroupjoin"){
+						var codes = "'"+ item.CODE +"'";
+						result +='<li id=alermBoardLi"' +item.CODE+ '">';
+						result +='<a>';
+						result +='<i class="fa fa-users text-aqua"></i> '+item.SENDID+' want to join'+item.VARIABLE1;
+						result +='</a>';
+						result +='<button type="button" class="btn btn-default btn-sm" onclick="groupAlermOkBtn(' +codes+ ')"><i class="fa fa-check-circle-o"></i></button>';
+						result +='<button type="button" class="btn btn-default btn-sm" onclick="groupAlermNoBtn(' +codes+ ')"><i class="fa fa-remove"></i></button>';
+						result +='<input type="hidden" id="code' +item.CODE+ '" value="' + item.CODE + '" >';
+						result +='<input type="hidden" id="id' +item.CODE+ '" value="' + item.SENDID + '" >';
+						result +='<input type="hidden" id="roomnum' +item.CODE+ '" value="' + item.CONTENT + '" >';
+						result +='</li>';
+						
+					} else if(item.TYPE == "friend..."){
+						
+						
+						
+						
+						
+						
+					}
+				}
+			});
+			result +='</ul>';
+			result +='</li>';
+			result +='</ul>';
+			result +='</li>';
+			document.getElementById("topMenuBarUl").innerHTML = result + document.getElementById("topMenuBarUl").innerHTML;
+			
+			
+			
+			
+			
+		} 
+		, error: function(request,status,error){ 
+	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+	    } 
+			 
+	}); 
+}
+
+
+function groupAlermOkBtn(CODE) {
+	//var CODE = $(this).attr('name');
+	var id =  $("#id"+CODE).val();
+	var roomnum =  $("#roomnum"+CODE).val();
+	var alerm = {
+			"alermseq" : CODE
+			, "id" : id
+			, "groupseq" : roomnum
+	};
+	alert(alerm.alermseq + "," + alerm.id + "," + alerm.groupseq);
+	$.ajax({
+		method   : 'post'
+		, url    : 'groupAlermOk'
+		, data   : JSON.stringify(alerm)
+		, dataType : 'json'
+		, contentType : 'application/json; charset=UTF-8'
+		, success: function(data) {
+			alert(data.result1+"흠"+data.result2);
+			location.reload();
+		} 
+	});
+}
+
+function groupAlermNoBtn(CODE) {
+	//var CODE = $(this).attr('name');
+	var id =  $("#id"+CODE).val();
+	var roomnum =  $("#roomnum"+CODE).val();
+	var alerm = {
+			"alermseq" : CODE
+			, "id" : id
+			, "groupseq" : roomnum
+	};
+	alert(alerm.alermseq + "," + alerm.id + "," + alerm.groupseq);
+	$.ajax({
+		method   : 'post'
+		, url    : 'groupAlermNoBtn'
+		, data   : JSON.stringify(alerm)
+		, dataType : 'json'
+		, contentType : 'application/json; charset=UTF-8'
+		, success: function(data) {
+			alert(data.result1+"흠"+data.result2);
+			location.reload();
+		} 
+	});
+}

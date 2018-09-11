@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
+import com.scit.doujo.dao.alermDao;
 import com.scit.doujo.dao.messageDao;
 import com.scit.doujo.dao.studyDao;
 import com.scit.doujo.util.PageNavigator;
@@ -234,5 +235,71 @@ public class MessageController {
 		
 		System.out.println("최종적인 friendID"+(String)hs.getAttribute("friendID"));
 		return friendMap;
+	}
+	
+	
+	
+	
+	/* 페이지 시작시 alerm 가져오기===================================================================*/ 
+	@RequestMapping(value = "/showAlermList", method = RequestMethod.POST) 
+	public @ResponseBody Map<String, Map<String,String>> showAlermList(@RequestBody Map<String, String> message, HttpSession hs) {
+		alermDao adao = sqlSession.getMapper(alermDao.class);
+		String memberID = (String)hs.getAttribute("memberID");
+		Map<String, String> alerm = new HashMap<>();
+		alerm.put("id", memberID);
+		Map<String, Map<String,String>> alermMap = new HashMap<>();
+		ArrayList<Map<String,String>> alermList = new ArrayList<>();
+		//System.out.println(message.toString());
+		
+		alermList = adao.selectAlerm(alerm);
+		int count = 0;
+		for (Map<String, String> map : alermList) {
+			map.put("count", "ok");
+			alermMap.put(""+count, map);
+			count++;
+		}
+		Map<String,String> AlermCount = new HashMap<>();
+		AlermCount.put("count", ""+count);
+		alermMap.put("alermCount", AlermCount);
+		
+		return alermMap; 
+	}
+	
+	
+	/* alerm에서 수락 ===================================================================*/ 
+	@RequestMapping(value = "/groupAlermOk", method = RequestMethod.POST) 
+	public @ResponseBody Map<String, Map<String,String>> groupAlermOk(@RequestBody Map<String, String> alerm, HttpSession hs) {
+		alermDao adao = sqlSession.getMapper(alermDao.class);
+		studyDao sdao = sqlSession.getMapper(studyDao.class);
+		String memberID = (String)hs.getAttribute("memberID");
+		Map<String, Map<String,String>> alermMap = new HashMap<>();
+		System.out.println("groupAlermOk/alerm/"+alerm.toString());
+		//먼저 group에 해당 맴버를 넣는다.
+		int result1 = sdao.insertGroupMember(alerm);
+		
+		//해당 알람을 지운다.
+		int result2 = adao.deleteAlerm(alerm);
+		Map<String,String> AlermResult = new HashMap<>();
+		AlermResult.put("result1", ""+(result1+result2));
+		AlermResult.put("result2", "groupAlermOk");
+		alermMap.put("alermCount", AlermResult);
+		return alermMap; 
+	}
+	
+	/* alerm에서 거절해서 해당 alerm을 테이블에서 지운다. ===================================================================*/ 
+	@RequestMapping(value = "/groupAlermNoBtn", method = RequestMethod.POST) 
+	public @ResponseBody Map<String, Map<String,String>> groupAlermNoBtn(@RequestBody Map<String, String> alerm, HttpSession hs) {
+		alermDao adao = sqlSession.getMapper(alermDao.class);
+		studyDao sdao = sqlSession.getMapper(studyDao.class);
+		String memberID = (String)hs.getAttribute("memberID");
+		Map<String, Map<String,String>> alermMap = new HashMap<>();
+		
+		//해당 알람을 지운다.
+		int result1 = adao.deleteAlerm(alerm);
+		Map<String,String> AlermResult = new HashMap<>();
+		AlermResult.put("result1", ""+result1);
+		AlermResult.put("result2", "groupAlermNoBtn");
+		alermMap.put("alermCount", AlermResult);
+		return alermMap; 
 	}
 } 

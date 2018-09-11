@@ -29,6 +29,7 @@
 		<mapper resource="health.xml"/>
 		<mapper resource="friend.xml"/>
 		<mapper resource="mappers/message.xml"/>
+		<mapper resource="mappers/alerm.xml"/>
 	</mappers>
 	
 </configuration>

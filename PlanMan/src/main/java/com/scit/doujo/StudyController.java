@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map; 
  
 import javax.servlet.http.HttpSession;
@@ -21,6 +22,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.scit.doujo.dao.alermDao;
 import com.scit.doujo.dao.memberDao;
 import com.scit.doujo.dao.studyDao;
 import com.scit.doujo.util.PageNavigator;
@@ -566,8 +568,9 @@ public class StudyController {
 		
 		//검색용 groupmember 만든다.
 		Map<String, String> groupmember = new HashMap<>();
+		String sNum = ""+num;
 		groupmember.put("id", id);
-		groupmember.put("groupseq", ""+num);
+		groupmember.put("groupseq", sNum);
 		groupmember.put("name", name);
 		
 		//id와 groupseq를 사용, 그룹에 유저가 등록되있는지 확인한다.
@@ -580,9 +583,9 @@ public class StudyController {
 		
 		//leaderID groupmember에 넣는다.
 		String leaderId = gdao.selectOneGroup(num).get("GROUPLEADER");
-		System.out.println("리더아이디"+leaderId);
+		//System.out.println("리더아이디"+leaderId);
 		groupmember.put("leaderId", leaderId);
-		
+		System.out.println("gma"+groupmember.toString());
 		model.addAttribute("groupmember", groupmember);
 		return "study/groupRoom";
 	}
@@ -617,9 +620,9 @@ public class StudyController {
 	//
 	
 	
-	/* 그룹로비로 이동 */
+	/* 스터디 메인으로  이동 */
 	@RequestMapping(value = "/gotoStudy", method = RequestMethod.GET)
-	public String gotoStudy(String eventtitle, HttpSession session, Model model) {
+	public String gotoStudy(String eventtitle, HttpSession session, Model model, Locale locale) {
 		memberDao manager2=sqlSession.getMapper(memberDao.class);
 		String id=(String) session.getAttribute("memberID");
 		schedule result=new schedule();
@@ -631,23 +634,17 @@ public class StudyController {
 		
 		String countday=formatter.format(date);
 		Calendar cal = Calendar.getInstance();
-		String year=countday.split("-")[0];
-		String month=countday.split("-")[1];
-		String day=countday.split("-")[2];
-		cal.set(Calendar.YEAR, Integer.parseInt(year));
-		cal.set(Calendar.MONTH-1, Integer.parseInt(month));
-		cal.set(Calendar.DATE, Integer.parseInt(day));		
+		
 		int weekday=cal.get(cal.DAY_OF_WEEK);
 		
+		
 		ArrayList<schedule> schList=new ArrayList<>();
-		System.out.println(cal.getTime());
+		System.out.println("요일확인"+cal.getTime()+"weekday : "+weekday);
 		switch(weekday) {
 		case 1:
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			String weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			String weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -657,11 +654,9 @@ public class StudyController {
 		case 2:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -671,11 +666,9 @@ public class StudyController {
 		case 3:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 5);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -685,11 +678,9 @@ public class StudyController {
 		case 4:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 4);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -699,11 +690,9 @@ public class StudyController {
 		case 5:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 3);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -713,11 +702,9 @@ public class StudyController {
 		case 6:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 2);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -727,11 +714,9 @@ public class StudyController {
 		case 7:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 1);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -1010,5 +995,58 @@ public class StudyController {
 		 
 		 
 		resultMap.put("success", "Insert the Quiz"); 	
+	}
+	
+	
+	
+	/* 그룹 가입 신청 */
+	@RequestMapping(value = "/groupRegistApply", method = RequestMethod.POST)
+	public @ResponseBody Map<String, String> groupRegistApply(@RequestBody Map<String, String> group, HttpSession hs) {
+		alermDao adao = sqlSession.getMapper(alermDao.class);
+		String id = (String)hs.getAttribute("memberID"); 
+		group.put("content", group.get("groupnumber"));
+		group.put("friendid", group.get("leader"));
+		group.put("id", id);
+		System.out.println(group.toString());
+		ArrayList<Map<String, String>> groupList = new ArrayList<>();
+		Map<String,Map<String, String>> groupMap = new HashMap<>();
+		Map<String, String> check = new HashMap<>();
+		
+		
+		
+		int checkcount = adao.countGroupJoinCheck(group);
+		if(checkcount > 0) {
+			//1 이상일 경우 이미 해당 alerm은 등록된 것 이기에 집어넣지 않고 이미 했던 것임을 알려준다.
+			check.put("result", "already");
+			return check;
+		} else {
+			
+		}
+		
+		int result = adao.insertGroupJoin(group);
+		System.out.println("doGroupRegistApply/result/"+result);
+		check.put("result", "success");
+		
+		return check;
+	}
+	
+	
+	/* 그룹 초대 */
+	@RequestMapping(value = "/inviteGroup", method = RequestMethod.POST)
+	public @ResponseBody Map inviteGroup(@RequestBody Map<String, String> idSet, HttpSession hs) {
+		studyDao sdao = sqlSession.getMapper(studyDao.class);
+		ArrayList<Map<String, String>> groupList = new ArrayList<>();
+		Map<String,Map<String, String>> groupMap = new HashMap<>();
+		Map<String, String> resultMap = new HashMap<>();
+		
+		System.out.println("inviteGroup/idSet"+idSet.toString());
+		int result = sdao.insertGroupMember(idSet);
+		if(result>0) {
+			resultMap.put("result", "invite success");
+		}else {
+			resultMap.put("result", "invite fail");
+		}
+		groupMap.put("resultMap", resultMap);
+		return groupMap;
 	}
 } 
