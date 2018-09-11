@@ -151,10 +151,10 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
+                  <a href="gotoupdate" class="btn btn-default btn-flat">개인정보 수정</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                  <a href="gotologout" class="btn btn-default btn-flat">로그아웃</a>
                 </div>
               </li>
             </ul>
@@ -241,6 +241,7 @@
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
             <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
           </ul>
         </li>
         <li class="treeview">

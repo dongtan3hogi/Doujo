@@ -106,5 +106,12 @@
 
 	<select id="checkFriend" parameterType="String" resultType="friend">
 	select * from friend where userid= #{0} and friendid= #{1}
-	</select>	
+	</select>
+	
+	<!-- 친구목록 불러오기 -->
+	<select id="selectFriendLsit" parameterType="String" resultType="friend">
+		select * from friend where userid=#{userid}
+	</select>
+	
+		
 </mapper>

@@ -343,7 +343,16 @@ public class FriendController {
 		return "friend/friendMain2";
 	}
 	
-	
+	//friendSchedule페이지로 이동하기
+	@RequestMapping (value="friendSchedule", method=RequestMethod.GET)
+	public String friendSchedule(HttpSession session, Model model) {
+		friendDao manager = sqlSession.getMapper(friendDao.class);
+		String userid=(String) session.getAttribute("memberID");
+		ArrayList<friend> fList=new ArrayList<>();
+		fList=manager.selectFriendLsit(userid);
+		model.addAttribute("fList", fList);
+		return "friend/friendCalendar";
+	}
 	
 	
 }

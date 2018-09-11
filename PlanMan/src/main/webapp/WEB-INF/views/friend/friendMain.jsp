@@ -31,65 +31,7 @@
   <link rel="stylesheet" href="./resources/style/board.css" />
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
-<script type="text/javascript">
-function fn_btnChoice(){
-	 alert("친구신청이 접수되었습니다.");
-	 $("input:checkbox[name='selected']:checked").each(function(){
 
-		 var tdArr = new Array(); 
-		 var tr = $("input:checkbox[name=selected]:checked").closest('tr');
-		 
-		 var td = tr.children();
-
-		 td.each(function(index,value){
-			 if(index==0){
-				 return true;
-			 }
-		        tdArr.push(td.eq(index).text());
-		    }); 
-		 
-		 var id = tdArr[0];
-		  $.ajax({
-				url : "chooseOnefriend",
-				method : "POST", 
-				data : {"id":id},
-				success : function(data){
-					if(data="already"){
-						alert("이미 친구 신청을 했습니다.");
-					}else{
-						alert("친구 신청이 접수되었습니다.");
-					}
-					
-				},error : function(data){
-					alert("접속 불량");
-				} 
-				
-			}); 
-			 
-		 });	    	 
-}
-	
-/* function fn_delRow() { 
-
-	 ﻿         if ($("input:checkbox[name='selected']").is(":checked")){ 
-
-	 ﻿            if (confirm("삭제 하시겠습니까?")) { 
-
-	 ﻿                for(var i=$("input:checkbox[name='selected']:checked").length-1; i>-1; i--){ 
-
-	 ﻿                    $("input:checkbox[name='selected']:checked").eq(i).closest("tr").remove(); 
-
-	                 }﻿ 
-	             }﻿ 
-	          } else { 
-
-	 ﻿            alert("선택된 데이터가 없습니다.");  
-
-	          }﻿ 
-
-	     }﻿  */
-	    
-</script>
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -154,11 +96,11 @@ function fn_btnChoice(){
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
+                 <div class="pull-left">
+                  <a href="gotoupdate" class="btn btn-default btn-flat">개인정보 수정</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                  <a href="gotologout" class="btn btn-default btn-flat">로그아웃</a>
                 </div>
               </li>
             </ul>
@@ -217,7 +159,8 @@ function fn_btnChoice(){
           </a>
           <ul class="treeview-menu">
             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>
+                    
           </ul>
         </li>
         <li class="treeview">
@@ -245,6 +188,7 @@ function fn_btnChoice(){
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
             <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -367,15 +311,12 @@ function fn_btnChoice(){
 		    
 		             </div>
 		             <br/>
-		             <div>
-				      	<a href="tooldFriend">ToFriend_List</a>
-				      </div>
 		            </div> 
 		            <!-- /.box-header -->
 		            <div class="box-body table-responsive no-padding">
 		              <table class="table table-hover">
 		                <tr>
-		                  <th><input type="checkbox" onClick="fn_allChecked();"/></th>
+		                  <th>ICON</th>
 					      <th>ID</th>
 					      <th>NICKNAME</th>
 					      <th>NAME</th>
@@ -387,7 +328,8 @@ function fn_btnChoice(){
 					   <c:choose>
 					      <c:when test="${!empty list}">
 					       <c:forEach begin="0" var="member" items="${list}" varStatus="index">
-					          <tr class='sibal'><td><input type="checkbox" name='selected'></td>
+					          <tr>
+					              <td><img class="direct-chat-img" src="resources/userData/image/' + ${member.id} + '.jpg"  data-rno="${member.id}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
 					              <td>${member.id}</td>   
 					              <td>${member.nickname}</td>
 					              <td>${member.name}</td>
@@ -406,7 +348,6 @@ function fn_btnChoice(){
 		            </div>
 		            <!-- /.box-body -->
 		            <div>
-				        <a href="#" onClick="fn_btnChoice()">choose</a>
 				   	</div>
 				   	<div class="boardfooter">
 						   <a href="listfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
@@ -518,36 +459,35 @@ function fn_btnChoice(){
       }
         location.reload();
      });
-    
-   $('#saveMemo').click(function(){
-      var memo = $('#memo').val();
-      memo= memo.replace("\r\n","<br>");
-      alert(memo);
-      var today = new Date();
-      var mm= today.getMonth()+1; 
-      var dd =today.getDate();
-      var yy = today.getFullYear();
-      if(dd<10) {
-          dd='0'+dd;
-      } 
-      if(mm<10) {
-          mm='0'+mm;
-      } 
-      var td=yy+'-'+mm+'-'+dd;
-      $.ajax({
-         url:"saveMemo",
-         type:"post",
-         //client에서 server로 가는 값
-         data:{"userid": memo, "text":memo,"startDate":temp},
-         success: function(data){
-         if(data=="1"||data=="3"){
-            alert("저장 되었습니다");
-         }else{'오류 발생'};
-         },fail: function(){
-            alert("다음에 다시 시도해주세요");
-         }
-      });
-      });
+     
+     $('.direct-chat-img').on('click',function(){
+    	 var id=$(this).attr('data-rno');
+    	 alert(id);
+    	 var flag = confirm('친구를 신청하시겠습니까?');
+    	 if(flag){
+    		 $.ajax({
+ 				url : "chooseOnefriend",
+ 				method : "POST", 
+ 				data : {"id":id},
+ 				success : function(data){
+ 					if(data="already"){
+ 						alert("이미 친구 신청을 했습니다.");
+ 					}else{
+ 						alert("친구 신청이 접수되었습니다.");
+ 					}
+ 					
+ 				},error : function(data){
+ 					alert("접속 불량");
+ 				} 
+ 				
+ 		 	}); 	 
+    	 }else{
+    		
+    	 }
+    	 
+     });
+     
+  
   });
 </script>
 <script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
