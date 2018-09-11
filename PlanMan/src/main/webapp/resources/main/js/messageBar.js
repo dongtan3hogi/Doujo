@@ -472,7 +472,7 @@ function showAlermList(){
 						var codes = "'"+ item.CODE +"'";
 						result +='<li id=alermBoardLi"' +item.CODE+ '">';
 						result +='<a>';
-						result +='<i class="fa fa-users text-aqua"></i> '+item.SENDID+' want to join'+item.VARIABLE1;
+						result +='<i class="fa fa-users text-aqua"></i> '+item.SENDID+'님이 '+item.VARIABLE1+'에 가입을 원합니다. ';
 						result +='</a>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="groupAlermOkBtn(' +codes+ ')"><i class="fa fa-check-circle-o"></i></button>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="groupAlermNoBtn(' +codes+ ')"><i class="fa fa-remove"></i></button>';
@@ -481,11 +481,16 @@ function showAlermList(){
 						result +='<input type="hidden" id="roomnum' +item.CODE+ '" value="' + item.CONTENT + '" >';
 						result +='</li>';
 						
-					} else if(item.TYPE == "friend..."){
-						
-						
-						
-						
+					} else if(item.TYPE == "friendapply"){
+						var codes = "'"+ item.CODE +"'";
+						result +='<li id=alermBoardLi"' +item.CODE+ '">';
+						result +='<a>';
+						result +='<i class="fa fa-user text-red"></i> '+item.SENDID+' 님을 친구신청 하시겠습니까?';
+						result +='</a>';
+						result +='<button type="button" class="btn btn-default btn-sm" onclick="friendAlermOkBtn(' +codes+ ')"><i class="fa fa-check-circle-o"></i></button>';
+						result +='<button type="button" class="btn btn-default btn-sm" onclick="friendAlermNoBtn(' +codes+ ')"><i class="fa fa-remove"></i></button>';
+						result +='<input type="hidden" id="sendid' +item.SENDID+ '" value="' + item.SENDID + '" >';
+						result +='</li>';
 						
 						
 					}
@@ -519,7 +524,7 @@ function groupAlermOkBtn(CODE) {
 			, "id" : id
 			, "groupseq" : roomnum
 	};
-	alert(alerm.alermseq + "," + alerm.id + "," + alerm.groupseq);
+	//alert(alerm.alermseq + "," + alerm.id + "," + alerm.groupseq);
 	$.ajax({
 		method   : 'post'
 		, url    : 'groupAlermOk'
@@ -527,7 +532,7 @@ function groupAlermOkBtn(CODE) {
 		, dataType : 'json'
 		, contentType : 'application/json; charset=UTF-8'
 		, success: function(data) {
-			alert(data.result1+"흠"+data.result2);
+			//alert(data.result1+"흠"+data.result2);
 			location.reload();
 		} 
 	});
@@ -542,10 +547,51 @@ function groupAlermNoBtn(CODE) {
 			, "id" : id
 			, "groupseq" : roomnum
 	};
-	alert(alerm.alermseq + "," + alerm.id + "," + alerm.groupseq);
+	//alert(alerm.alermseq + "," + alerm.id + "," + alerm.groupseq);
 	$.ajax({
 		method   : 'post'
 		, url    : 'groupAlermNoBtn'
+		, data   : JSON.stringify(alerm)
+		, dataType : 'json'
+		, contentType : 'application/json; charset=UTF-8'
+		, success: function(data) {
+			//alert(data.result1+"흠"+data.result2);
+			location.reload();
+		} 
+	});
+}
+
+
+function friendAlermOkBtn(CODE) {
+	//var CODE = $(this).attr('name');
+	var sendid =  $("#sendid"+CODE).val();
+	var alerm = {
+			"alermseq" : CODE
+			, "sendid" : sendid
+	};
+	alert(alerm.alermseq + "," + alerm.sendid);
+	$.ajax({
+		method   : 'post'
+		, url    : 'friendAlermOkBtn'
+		, data   : JSON.stringify(alerm)
+		, dataType : 'json'
+		, contentType : 'application/json; charset=UTF-8'
+		, success: function(data) {
+			alert(data.result1+"흠"+data.result2);
+			location.reload();
+		} 
+	});
+}
+
+function friendAlermNoBtn(CODE) {
+	//var CODE = $(this).attr('name');
+	var alerm = {
+			"alermseq" : CODE
+	};
+	alert(alerm.alermseq);
+	$.ajax({
+		method   : 'post'
+		, url    : 'friendAlermNoBtn'
 		, data   : JSON.stringify(alerm)
 		, dataType : 'json'
 		, contentType : 'application/json; charset=UTF-8'
