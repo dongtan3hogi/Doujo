@@ -1,5 +1,6 @@
 package com.scit.doujo;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,11 +30,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scit.doujo.dao.friendDao;
+import com.scit.doujo.dao.friendDao;
 import com.scit.doujo.dao.memberDao;
+import com.scit.doujo.util.FileService;
 import com.scit.doujo.util.PageNavigator;
+import com.scit.doujo.util.work_PageNavi;
+import com.scit.doujo.vo.board;
 import com.scit.doujo.vo.friend;
 import com.scit.doujo.vo.member;
 import com.scit.doujo.vo.schedule;
+import com.scit.doujo.work.PagingContorller.HelloComponent;
 
 
 @Controller
@@ -40,6 +47,36 @@ public class FriendController {
 			
 	@Autowired
 	SqlSession sqlSession;
+	
+	@Component
+	public class HelloComponent {
+
+	private ArrayList<String[]> articles;
+	private void setValue(ArrayList<String[]> hello){
+	    articles = hello;
+	    
+	}
+	public ArrayList<String[]> getStaticHello(){
+	    return articles; // spring.profiles.active is default
+	}
+	public ArrayList<String[]> page(  int page) {
+		int size = (articles.size()+3)/3;
+		
+		ArrayList<String[]> result=new ArrayList<String[]>();
+		if(page==size) {
+			for(int a=(page-1)*3; a<articles.size(); a++) {
+				result.add(articles.get(a));
+			}
+		}
+		else {
+		for(int a=(page-1)*3; a<page*3; a++) {
+			result.add(articles.get(a));
+		}
+		}
+		return result;
+	}
+	}
+	HelloComponent article = new HelloComponent();
 	
 	@RequestMapping (value="gotoSearchFriend", method=RequestMethod.GET)
 	public String friendMain(HttpSession session, String eventtitle) {
@@ -327,37 +364,47 @@ public class FriendController {
 		model.addAttribute("currentPage", currentPage);
 				
 		return "friend/friendMain";
-			Document doc = null;
-			try {
-				doc = conn.get();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	}
+	@RequestMapping(value = "/searchMeeting", method = RequestMethod.POST)
+	public @ResponseBody Map<String,Object> searchMeeting(String search) {
+		String USER_AGENT = "Mozilla/5.0";
 
-			List<Element> a = doc.select("ul.todayEvent");
-			System.out.println(a.size());
-			ArrayList<String[]> result = new ArrayList<String[]>();
-			for (int i = 0; i < a.size(); i++) {
-				String[] ds = new String[3];
-				String link = a.get(i).select("li.eventThumbnail a").attr("href");
-				String image = a.get(i).select("li.eventThumbnail img").attr("src");
-				String title = a.get(i).select("li.eventThumbnail img").attr("alt");
-				ds[0] = link;
-				ds[1] = image;
-				ds[2] = title;
+		String request = "http://search.onoffmix.com/event?s=%23" + search;
+		System.out.println(request);
+		Connection conn = Jsoup.connect(request).header("Content-Type", "application/json;charset=UTF-8")
+				.userAgent(USER_AGENT).method(Connection.Method.GET).ignoreContentType(true);
 
-				result.add(ds);
-			}
-			article.setValue(result);
-			work_PageNavi pn = new work_PageNavi(3,1,result.size());
-			Map<String ,Object> data = new HashMap<String,Object>();
-			ArrayList<String[]> ab = article.page(1);
-			data.put("meeting", ab);
-			data.put("navi",pn);
-
-			return data;
-
+		Document doc = null;
+		try {
+			doc = conn.get();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+		List<Element> a = doc.select("ul.todayEvent");
+		System.out.println(a.size());
+		ArrayList<String[]> result = new ArrayList<String[]>();
+		for (int i = 0; i < a.size(); i++) {
+			String[] ds = new String[3];
+			String link = a.get(i).select("li.eventThumbnail a").attr("href");
+			String image = a.get(i).select("li.eventThumbnail img").attr("src");
+			String title = a.get(i).select("li.eventThumbnail img").attr("alt");
+			ds[0] = link;
+			ds[1] = image;
+			ds[2] = title;
+
+			result.add(ds);
+		}
+		article.setValue(result);
+		work_PageNavi pn = new work_PageNavi(3,1,result.size());
+		Map<String ,Object> data = new HashMap<String,Object>();
+		ArrayList<String[]> ab = article.page(1);
+		data.put("meeting", ab);
+		data.put("navi",pn);
+
+		return data;
+
+	}
 	@RequestMapping(value = "/goMPage", method = RequestMethod.POST)
 	public @ResponseBody Map<String ,Object> goMPage( int value) {
 		ArrayList<String[]> ab = article.page(value);
@@ -365,6 +412,7 @@ public class FriendController {
 		Map<String ,Object> data = new HashMap<String,Object>();
 		data.put("meeting", ab);
 		data.put("navi",pn);
+		return data;
 
 	}
 	
@@ -374,6 +422,7 @@ public class FriendController {
 		member a = (member) hs.getAttribute("member");
 		String userid = a.getId();
 		friend check = chooseone.checkFriend(userid, id);
+		System.out.println(check.toString());
 		if(check !=null) {
 			return "already";
 		}
@@ -389,52 +438,40 @@ public class FriendController {
 	}
 	
 	@RequestMapping (value="friend3", method=RequestMethod.GET)
-	public String friend3() {
-		
-		return "friend/friendMain3";
-	}
-	
-	
-	
-	
-	
-	@RequestMapping (value="chooseOnefriend", method=RequestMethod.POST)
-	public @ResponseBody String chooseOnefriend (String id,HttpSession hs) {
-		friendDao chooseone = sqlSession.getMapper(friendDao.class);
+	public String friend3(HttpSession hs ,Model model) {
+		friendDao bd = sqlSession.getMapper(friendDao.class);
 		member a = (member) hs.getAttribute("member");
 		String userid = a.getId();
-		
-		int result = chooseone.insert(userid, id);
-		System.out.println("result : "+result);
-		
-		return "";
+		List<board> flist = bd.selectAllBoard(userid);
+		model.addAttribute("flist", flist);
+		return "friend/friendMain3";
 	}
-	
-	@RequestMapping (value="friend2", method=RequestMethod.GET)
-	public String friend2() {
-		
-		return "friend/friendMain2";
-	}
-	
-	@RequestMapping (value="friend3", method=RequestMethod.GET)
-	   public String friend3() {
-	      
-	      return "friend/friendMain3";
-	   }
-	   
+ 
 	   @RequestMapping(value="/saveboard", method=RequestMethod.POST)
 	   public String writeboard(board board, MultipartFile upload, HttpSession session) {
-	      System.out.println("업로드 파일 :" + upload);
-	      
-	      String originalfile = upload.getOriginalFilename();
-	      String savedfile = FileService.saveFile(upload, uploadPath);
-	      board.setOriginalfile(originalfile);
-	      board.setSavedfile(savedfile);
-	      
-	      boardDao mapper = sqlSession.getMapper(boardDao.class);
-	      int result = mapper.insert(board);
-	   
-	      return "friend/friendMain3";
+	      System.out.println(board.toString());
+		   System.out.println("업로드 파일 :" + upload);
+	      String UPLOADPATH = "C:\\Doujo\\Doujo\\images\\";
+	      UUID uuid=UUID.randomUUID();
+			String saveFilename=uuid+"_"+upload.getOriginalFilename();
+			File saveFile=new File(UPLOADPATH, saveFilename);
+			String originalfile = upload.getOriginalFilename();
+		      board.setOriginalfile(originalfile);
+		      board.setSavedfile(saveFilename);
+			try {
+				upload.transferTo(saveFile);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			friendDao mapper = sqlSession.getMapper(friendDao.class);
+		      int result = mapper.insertBoard(board);
+		      if(result==1){System.out.println("게시판 등록 성공");}
+			return "friend/friendMain3";
+	  
 	   }
 	
 	

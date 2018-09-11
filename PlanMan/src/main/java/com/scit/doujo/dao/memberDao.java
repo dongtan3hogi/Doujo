@@ -37,7 +37,6 @@ public interface memberDao {
 	public void deletemember(member member);
 	//회원 정보 수정하기
 	public int updateMember(member vo);
-	
-	public void deletemember(member member);
+
 	
 }

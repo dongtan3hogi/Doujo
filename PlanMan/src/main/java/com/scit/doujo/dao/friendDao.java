@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
+import com.scit.doujo.vo.board;
 import com.scit.doujo.vo.friend;
 import com.scit.doujo.vo.member;
 
@@ -47,4 +48,7 @@ public interface friendDao {
 
 	int getMyFriendsCount(Map<String, String> map);
 	friend checkFriend(String userid, String id);
+	
+	  int insertBoard(board board);
+	   List<board> selectAllBoard(String userid);
 }
