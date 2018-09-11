@@ -295,5 +295,13 @@ public class HomeController {
 		return "home";
 	}
 	
+	
+	//로그아웃하기
+	@RequestMapping(value = "gotologout", method = RequestMethod.GET)
+	public String gotologout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
 }
 
