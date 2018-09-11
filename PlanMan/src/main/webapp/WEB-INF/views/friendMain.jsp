@@ -374,24 +374,8 @@
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               <input type="text" id="searchMeeting">&nbsp;<input type="button" id="goSearch" value="#으로 검색">
               <ul class="eventlist">
-                <%-- <li>
-                  <!-- drag handle -->
-                  <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                  <!-- checkbox -->
-                  <image>
-                  <!-- todo text -->
-                  <span class="text">${schList.eventtitle}//${schList.startday}</span>
-                  <!-- Emphasis label -->
-                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.starttime}~${schList.endtime}</small>
-                  <!-- General tools such as edit or delete-->
-                  <div class="tools">
-                    <i class="fa fa-edit"></i>
-                    <i class="fa fa-trash-o"></i>
-                  </div>
-                </li> --%>
+                
+               
               </ul>
               <div id="boardfooter"></div>
             </div>

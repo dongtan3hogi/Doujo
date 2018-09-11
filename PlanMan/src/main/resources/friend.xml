@@ -13,10 +13,21 @@
 		) VALUES
 			(#{userid},
 			 #{id},
-			 1
+			 2
 			)
 	</insert> 
-
+	<insert id="beInserted" parameterType="string">
+		INSERT INTO friend(
+			userid,
+			friendid,
+			type
+		) VALUES
+			(
+			 #{id},
+			 #{userid},
+			 3
+			)
+	</insert> 
 	<update id="updateMember" parameterType="member" >
 		update member set job=#{job}, hobby = #{hobby} where id =#{id} 
 	</update>
@@ -51,7 +62,7 @@
 			member 
 		<if test="searchItem == 'id'">
 		where 
-			id like '%' || #{searchWord} || '%'
+			id like '%' || #{searchWord} || '%' and not in #{userid}
 		</if>
 	</select>
 	
@@ -97,6 +108,31 @@
 		)
 	</select>
 	
-	
-	
+	   <insert id="insertBoard" parameterType="board">
+      INSERT INTO board
+      (
+          id, 
+         title, 
+         content,
+         location,
+         <if test="originalfile != null and savedfile != null">
+         originalfile,
+         savedfile
+         </if>
+      )
+      VALUES
+      (
+         #{id},
+         #{title},
+         #{content},
+         #{location},
+         <if test="originalfile != null and savedfile != null">
+         #{originalfile},
+         #{savedfile}
+         </if>
+      )
+   </insert>
+	<slect id="selectAllBoard" parameterType="String" resultType="board">
+	select * from board where id in (select friendid from friend where id = #{id})
+	</slect>
 </mapper>
