@@ -329,7 +329,11 @@ public class FriendController {
 		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
 		member a= (member) hs.getAttribute("member");
 		String userid =a.getId();
+		String hobby =a.getHobby();
+		String job =a.getJob();
 		map.put("meme", userid);
+		map.put("meme", hobby);
+		map.put("meme", job);
 		List<member> list = getfriend.getRecommendFriends(map,rb);	
 				
 		System.out.println(list);
@@ -361,6 +365,12 @@ public class FriendController {
 	public String friend2() {
 		
 		return "friend/friendMain2";
+	}
+	
+	@RequestMapping (value="friend3", method=RequestMethod.GET)
+	public String friend3() {
+		
+		return "friend/friendMain3";
 	}
 	
 	
