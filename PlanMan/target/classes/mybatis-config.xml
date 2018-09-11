@@ -19,7 +19,7 @@
 		<!-- <typeAlias type="com.scit.doujo.vo.work.friends" alias="friends"/> -->
 		<typeAlias type="com.scit.doujo.vo.work.friendquery" alias="fquery"/>
 		<typeAlias type="com.scit.doujo.vo.friend" alias="friend"/>
-
+	<typeAlias type="com.scit.doujo.vo.board" alias="board"/>
 	</typeAliases>
 	
 	<mappers>

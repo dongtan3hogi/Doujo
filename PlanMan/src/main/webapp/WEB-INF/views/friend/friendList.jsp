@@ -1,4 +1,3 @@
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -32,7 +31,61 @@
   <link rel="stylesheet" href="./resources/style/board.css" />
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+<script type="text/javascript">
+function fn_btnChoice(){
+	alert("emfdjdha");
+	 $("input:checkbox[name='selected']:checked").each(function(){
 
+		 var tdArr = new Array(); 
+		 var tr = $("input:checkbox[name=selected]:checked").closest('tr');
+		 
+		 var td = tr.children()
+		alert(td.length);
+		 td.each(function(index,value){
+			 if(index==0){
+				 return true;
+			 }
+		        tdArr.push(td.eq(index).text());
+		        alert(td.eq(index).text());
+		    });
+		 
+		 var id = tdArr[0];
+		  $.ajax({
+				url : "chooseOnefriend",
+				method : "POST", 
+				data : {"id":id},
+				success : function(data){
+					alert("친구 신청이 접수되었습니다.");
+				},error : function(data){
+					alert("접속 불량");
+				} 
+				
+			}); 
+			 
+		 });	    	 
+}
+	
+function fn_delRow() { 
+
+	 ﻿         if ($("input:checkbox[name='selected']").is(":checked")){ 
+
+	 ﻿            if (confirm("삭제 하시겠습니까?")) { 
+
+	 ﻿                for(var i=$("input:checkbox[name='selected']:checked").length-1; i>-1; i--){ 
+
+	 ﻿                    $("input:checkbox[name='selected']:checked").eq(i).closest("tr").remove(); 
+
+	                 }﻿ 
+	             }﻿ 
+	          } else { 
+
+	 ﻿            alert("선택된 데이터가 없습니다.");  
+
+	          }﻿ 
+
+	     }﻿ 
+	    
+</script>
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -97,11 +150,11 @@
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
-                 <div class="pull-left">
-                  <a href="gotoupdate" class="btn btn-default btn-flat">개인정보 수정</a>
+                <div class="pull-left">
+                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
                 </div>
                 <div class="pull-right">
-                  <a href="gotologout" class="btn btn-default btn-flat">로그아웃</a>
+                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
                 </div>
               </li>
             </ul>
@@ -160,8 +213,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>
-                    
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
           </ul>
         </li>
         <li class="treeview">
@@ -189,7 +241,6 @@
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
             <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -229,8 +280,8 @@
 
     <!-- Main content -->
     <section class="content">
-        
-        	  <!-- TO DO List -->
+      
+        <!-- TO DO List -->
 	          <div class="box box-success" style="width: 30%; float:left; margin-left:20px;">
 	            <div class="box-header">
 	              <i class="ion ion-clipboard"></i>
@@ -284,117 +335,107 @@
 	            </div>
 	          </div>
 	          <!-- /.box -->
-
-				<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
-					<script>
-					alert("취미 직업을 등록하러 갑니다");
-					location.href="joinfriend";
-					</script>
-				</c:if>
-				 
-				 <div class="box box-success" style="width: 60%; float:left; margin-left:20px;">
-		            <div class="box-header">
-		              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_Recommendation</h3>
-		
-		              <div class="box-tools">
-		               <div class="input-group input-group-sm"  style="width: 250px;">
-		                
-		                <form class="right" action="searchRecommendFriends" method="get">
-				         <select name="searchItem">
-				            <option value="id"${searchItem =='id'? 'selected':''}>ID</option>
-				            <option value="job" ${searchItem =='job'? 'selected':''}>JOB</option>
-				            <option value="hobby" ${searchItem =='hobby'? 'selected':''}>HOBBY</option>
-				         </select>
-				         <input type="text" placeholder="Search" name="searchWord" value="${searchWord}"/>
-				         <button type="submit" value="search"  class="btn btn-default" ><i class="fa fa-search"></i></button>
-				       </form>
-		              </div>
-		    
-		             </div>
-		             <br/>
-		            </div> 
-		            <!-- /.box-header -->
-		            <div class="box-body table-responsive no-padding">
-		              <table class="table table-hover">
-		                <tr>
-		                  <th>ICON</th>
-					      <th>ID</th>
-					      <th>NICKNAME</th>
-					      <th>NAME</th>
-					      <th>GENDER</th>
-					      <th>AGE</th>
-					      <th>JOB</th>
-					      <th>HOBBY</th>
-		                </tr>
-					   <c:choose>
-					      <c:when test="${!empty list}">
-					       <c:forEach begin="0" var="member" items="${list}" varStatus="index">
-					          <tr>
-					              <td><img class="direct-chat-img" src="resources/userData/image/' + ${member.id} + '.jpg"  data-rno="${member.id}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
-					              <td>${member.id}</td>   
-					              <td>${member.nickname}</td>
-					              <td>${member.name}</td>
-					              <td>${member.gender}</td>
-					              <td>${member.age}</td>
-					              <td>${member.job}</td>
-					              <td>${member.hobby}</td>
-					          </tr>    
-					       </c:forEach>   
-					      </c:when>
-					      <c:otherwise>
-					      <tr><td colspan="7" >No Information</td></tr>
-					      </c:otherwise>
-					   </c:choose>
-    	              </table>
-		            </div>
-		            <!-- /.box-body -->
-		            <div>
-				   	</div>
-				   	<div class="boardfooter">
-						   <a href="listfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
-						   <a href="listfriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
-						   &nbsp; &nbsp;
-						   <c:forEach var="page" begin="${navi.startPageGroup}" end="${navi.endPageGroup}">
-						      <c:if test="${page == currentPage}">
-						         <span style="color:red; font-weight:bolder;">${page}</span> &nbsp;
-						      </c:if>
-						      
-						      <c:if test="${page != currentPage}">
-						         <a href="listfriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
-						      </c:if>
-						   </c:forEach>
-						   &nbsp; &nbsp;
-						   <a href="listfriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
-						   <a href="listfriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>	   
-				   </div>
-				   <script type="text/javascript"> 
-					   	console.log('asdf');
-					   	console.log('${list}');
-				    </script>
-		          </div>
-		          <!-- /.box -->
-          	<div class="box box-primary" style="width: 30%; float:left;margin-right:20px;">
-            <div class="box-header">
-              <i class="ion ion-clipboard"></i>
-
-              <h3 class="box-title">Popular Meetings</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              <input type="text" id="searchMeeting">&nbsp;<input type="button" id="goSearch" value="#으로 검색">
-                
-              <ul class="eventlist">
-              </ul>
-            </div>
-              <div id="boardfooter"></div>
-          </div>
-				
-
-			  <!-- ========================================================================================================== -->
-			  <!-- ========================================================================================================== -->
-			  <!-- ========================================================================================================== -->
+      
+		    <c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
+				<script>alert("취미 직업을 등록하러 갑니다");
+				location.href="joinfriend";</script>
+			</c:if>
+			
+			<div class="box box-success" style="width: 60%; float:left; margin-left:20px;">
+	            <div class="box-header">
+	              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_List</h3>
 	
+	              <div class="box-tools">
+	               <div class="input-group input-group-sm"  style="width: 250px;">
+	                
+	                <form class="right" action="searchRecommendFriends" method="get">
+			         <select name="searchItem">
+			            <option value="id"${searchItem =='id'? 'selected':''}>ID</option>
+			            <option value="job" ${searchItem =='job'? 'selected':''}>JOB</option>
+			            <option value="hobby" ${searchItem =='hobby'? 'selected':''}>HOBBY</option>
+			         </select>
+			         <input type="text" placeholder="Search" name="searchWord" value="${searchWord}"/>
+			         <button type="submit" value="search"  class="btn btn-default" ><i class="fa fa-search"></i></button>
+			       </form>
+	              </div>
+	    
+	             </div>
+	             <br/>
+	             <div>
+			      	 <a href="tonewFriend">ToFriend_Recommendation</a>
+			      </div>
+	            </div> 
+	            <!-- /.box-header -->
+	            <div class="box-body table-responsive no-padding">
+	              <table class="table table-hover">
+	                <tr>
+	                  <th><input type="checkbox" onClick="fn_allChecked();"/></th>
+				      <th>ID</th>
+				      <th>NICKNAME</th>
+				      <th>NAME</th>
+				      <th>GENDER</th>
+				      <th>AGE</th>
+				      <th>JOB</th>
+				      <th>HOBBY</th>
+	                </tr>
+				   <c:choose>
+				      <c:when test="${!empty list}">
+				       <c:forEach begin="0" var="member" items="${list}" varStatus="index">
+				          <tr class='sibal'><td><input type="checkbox" name='selected'></td>
+				              <td>${member.id}</td>   
+				              <td>${member.nickname}</td>
+				              <td>${member.name}</td>
+				              <td>${member.gender}</td>
+				              <td>${member.age}</td>
+				              <td>${member.job}</td>
+				              <td>${member.hobby}</td>
+				          </tr>    
+				       </c:forEach>   
+				      </c:when>
+				      <c:otherwise>
+				      <tr><td colspan="7" >No Information</td></tr>
+				      </c:otherwise>
+				   </c:choose>
+   	              </table>
+	            </div>
+	            <!-- /.box-body -->
+	           	   <div>
+				        <a href="#" onClick="fn_btnChoice()">choose</a>
+				   </div>
+				   
+				   <div>
+				        <a href="#" onClick="fn_delRow()">delete</a>
+				   </div>
+			   	<div class="boardfooter">
+					   <a href="listfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
+					   <a href="listfriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
+					   &nbsp; &nbsp;
+					   <c:forEach var="page" begin="${navi.startPageGroup}" end="${navi.endPageGroup}">
+					      <c:if test="${page == currentPage}">
+					         <span style="color:red; font-weight:bolder;">${page}</span> &nbsp;
+					      </c:if>
+					      
+					      <c:if test="${page != currentPage}">
+					         <a href="listfriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
+					      </c:if>
+					   </c:forEach>
+					   &nbsp; &nbsp;
+					   <a href="listfriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
+					   <a href="listfriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>	   
+			   </div>
+			   <script type="text/javascript"> 
+				   	console.log('asdf');
+				   	console.log('${list}');
+			    </script>
+	          </div>
+	          <!-- /.box -->
+			
+		 	
+
+  <!-- ========================================================================================================== -->
+  <!-- ========================================================================================================== -->
+  <!-- ========================================================================================================== -->
+ 
 </div>
 <!-- ./wrapper -->
 
@@ -404,7 +445,6 @@
     </div>
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
-
 
 <!-- jQuery 3 -->
 <script src="resources/main/bower_components/jquery/dist/jquery.min.js"></script>
@@ -423,50 +463,9 @@
 <!-- fullCalendar -->
 <script src="resources/main/bower_components/moment/moment.js"></script>
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
-
 <!-- Page specific script -->
 <script>
-function goPage(a){
-	   $.ajax({
-			url:"goMPage",
-			type:"post",
-			//client에서 server로 가는 값
-			data:{"value": a},
-			success: function(data){
-				$(".eventlist").empty();
-				$.each(data.meeting, function(index, item){
-					
-					var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
-					$(".eventlist").append(result);
-					});
-					var navi = data.navi;
-					var line="";
-					var current= Number(0);
-					if(navi.currenPage >1){
-						current = Number(navi.currentPage);
-						current--;
-						line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
-					}
-					for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
-						if(navi.currentPage == i){
-							line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
-						}else{
-							line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
-						}
-					}
-					if(navi.currentPage <navi.totalPageCount){
-						current = Number(navi.currentPage);
-						
-						current++;
-						line+=	"<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
 
-					}
-				      $('#boardfooter').empty();
-
-				      $('#boardfooter').append(line);
-			}
-		});
-	}
   $(function () {    
      
      $('a.favorite').click(function() {
@@ -515,35 +514,36 @@ function goPage(a){
       }
         location.reload();
      });
-     
-     $('.direct-chat-img').on('click',function(){
-    	 var id=$(this).attr('data-rno');
-    	 alert(id);
-    	 var flag = confirm('친구를 신청하시겠습니까?');
-    	 if(flag){
-    		 $.ajax({
- 				url : "friendRegistApply",
- 				method : "POST", 
- 				data : {"id":id},
- 				success : function(data){
- 					if(data=="already"){
- 						alert("이미 친구 신청을 했습니다.");
- 					}else{
- 						alert("친구 신청이 접수되었습니다.");
- 					}
- 					
- 				},error : function(data){
- 					alert("접속 불량");
- 				} 
- 				
- 		 	}); 	 
-    	 }else{
-    		
-    	 }
-    	 
-     });
-     
-  
+    
+   $('#saveMemo').click(function(){
+      var memo = $('#memo').val();
+      memo= memo.replace("\r\n","<br>");
+      alert(memo);
+      var today = new Date();
+      var mm= today.getMonth()+1; 
+      var dd =today.getDate();
+      var yy = today.getFullYear();
+      if(dd<10) {
+          dd='0'+dd;
+      } 
+      if(mm<10) {
+          mm='0'+mm;
+      } 
+      var td=yy+'-'+mm+'-'+dd;
+      $.ajax({
+         url:"saveMemo",
+         type:"post",
+         //client에서 server로 가는 값
+         data:{"userid": memo, "text":memo,"startDate":temp},
+         success: function(data){
+         if(data=="1"||data=="3"){
+            alert("저장 되었습니다");
+         }else{'오류 발생'};
+         },fail: function(){
+            alert("다음에 다시 시도해주세요");
+         }
+      });
+      });
   });
 </script>
 <script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>

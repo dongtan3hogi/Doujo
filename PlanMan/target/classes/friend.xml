@@ -4,7 +4,8 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.scit.doujo.dao.friendDao">
-
+	  
+    
    <insert id="insert" parameterType="string">
 		INSERT INTO friend(
 			userid,
@@ -29,9 +30,7 @@
 			)
 	</insert> 
 
-	<update id="updateMember" parameterType="member" >
-		update member set job=#{job}, hobby = #{hobby} where id =#{id} 
-	</update>
+	
 	
 	<select id="getRecommendFriendsCount" parameterType="map" resultType="int">
 		select 
@@ -124,4 +123,51 @@
 	</select>
 	
 		
+	<update id="updateMember" parameterType="member" >
+		update member set job=#{job}, hobby = #{hobby} where id =#{id} 
+	</update>
+	
+	<select id="selectFriendList" parameterType="String" resultType="member">
+		select 
+			* 
+		from 
+			member 
+		where id in (
+			select 
+				friendid 
+			from 
+				friend
+			where 
+				userid = #{value}
+		)
+	</select>
+	
+	   <insert id="insertBoard" parameterType="board">
+      INSERT INTO board
+      (
+          id, 
+         title, 
+         content,
+         location,
+         <if test="originalfile != null and savedfile != null">
+         originalfile,
+         savedfile
+         </if>
+      )
+      VALUES
+      (
+         #{id},
+         #{title},
+         #{content},
+         #{location},
+         <if test="originalfile != null and savedfile != null">
+         #{originalfile},
+         #{savedfile}
+         </if>
+      )
+   </insert>
+	<select id="selectAllBoard" parameterType="String" resultType="board">
+	select * from board where id in (select friendid from friend where id = #{id})
+	</select>
+
 </mapper>

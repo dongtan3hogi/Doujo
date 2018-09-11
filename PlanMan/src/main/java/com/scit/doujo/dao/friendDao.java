@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
+import com.scit.doujo.vo.board;
 import com.scit.doujo.vo.friend;
 import com.scit.doujo.vo.member;
 
@@ -49,4 +50,5 @@ public interface friendDao {
 	public int checkFriend(String userid, String id);
 
 	public ArrayList<friend> selectFriendLsit(String userid);
+	  int insertBoard(board board);
 }
