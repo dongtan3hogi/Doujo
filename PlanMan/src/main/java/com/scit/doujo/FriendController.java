@@ -309,11 +309,7 @@ public class FriendController {
 		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
 		member a= (member) hs.getAttribute("member");
 		String userid =a.getId();
-		String hobby =a.getHobby();
-		String job =a.getJob();
 		map.put("meme", userid);
-		map.put("meme", hobby);
-		map.put("meme", job);
 		List<member> list = getfriend.getRecommendFriends(map,rb);	
 				
 		System.out.println(list);
