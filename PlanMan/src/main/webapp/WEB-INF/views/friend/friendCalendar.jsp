@@ -364,7 +364,7 @@
 		            </div>
 		            <!-- /.box-body -->
 		            <div>
-				       
+				       <input type="hidden" id="nowfriend">
 				   	</div>
 				   	
 		          </div>
@@ -427,16 +427,17 @@
 	  
 	$('.direct-chat-img').on('click',function(){
 		var friendID=$(this).attr('data-rno');
-		alert(friendID);
+		
 		var flag = confirm('친구의 스케쥴을 확인하시겠습니까?');
 		if(flag){
-			alert("!@!@"+friendID);
+			
 			$('#calendar').fullCalendar('removeEvents');
 			$.ajax({
 	    		  url:"selectFriendSchdule"
 	    		  ,type:'post'
 	    		  ,data:{"friendID":friendID}
 	    		  ,success:function(data){
+	    			$('#nowfriend').val(data[0].id);  
 	    			var events = [];
 	    			$(data).each(function(index, item) {
 	    				var col="";
@@ -510,7 +511,7 @@
  
         // When the user clicks on the button, open the modal 
         $('#sch-button').text('');
-        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='스케쥴 입력하기' class='btn btn-block btn-primary' onclick='return addevent()'/>");      	  
+        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='친구에게 스케쥴 신청하기' class='btn btn-block btn-success' onclick='return addevent()'/>");      	  
         modal.style.display = "block";
         $('#startday').val(date.format());
         
@@ -632,50 +633,20 @@
   		if($('#eventtitle').val().length==0){
   			alert("이벤트 타이틀을 입력해주세요.");
   			return false;
-  		}else if(stype=='sometimes'){
+  		}else{
   			endday=$('#startday').val()+" "+$('#timepicker2').val();
   			$.ajax({
-  				url:'addschdule2'
+  				url:'askShareSchedule'
   				,type:'post'
-  				,data:{"id":"${sessionScope.member.id}"
-  					,"eventtype":event
-  					,"eventtitle":eventtitle
-  					,"eventcontent":eventcontent
-  					,"startday":startday
-  					,"endday":endday
-  					,"starttime": $('#timepicker').val()
-  					,"endtime": $('#timepicker2').val()
-  					,"plusday": plusday
-  				}
-  				,success: function (data){
-					if(data=="success"){
-						alert("스케쥴을 입력했습니다.");
-						$('#eventtitle').val('');
-			            $('#eventcontent').val('');
-			            $('#endday').val(1);
-			            $('.event').prop('checked', false);
-			            var modal = document.getElementById('myModal');
-			            modal.style.display = "none";
-			            location.reload(); 
-			            return true;
-					}else{
-						alert("스케쥴  입력에 실패했습니다.");
-						return false;
-					}
-  				}
-  			});	
-  		}else{
-  			$.ajax({
-  				url:'addschdule'
-  				,type:'post'
-  				,data:{"id":"${sessionScope.member.id}"
-  					,"eventtype":event
-  					,"eventtitle":eventtitle
-  					,"eventcontent":eventcontent
-  					,"startday":startday
-  					,"endday":endday
-  					,"starttime": $('#timepicker').val()
-  					,"endtime": $('#timepicker2').val()
+  				,data:{"sendid":"${sessionScope.member.id}"
+  					,"friendid":$('#nowfriend').val()
+  					,"variable1":event
+  					,"variable2":eventtitle
+  					,"content":eventcontent
+  					,"starttime":startday
+  					,"endtime":endday
+  					,"variable3": plusday
+  					,"variable4":stype
   				}
   				,success: function (data){
 					if(data=="success"){

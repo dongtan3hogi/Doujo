@@ -57,6 +57,10 @@ CREATE TABLE alerm(
     starttime VARCHAR2(20) NOT NULL,
     endtime VARCHAR2(20) NOT NULL,
     variable1 VARCHAR2(1000),
-    variable2 VARCHAR2(1000)
+    variable2 VARCHAR2(1000),
+    variable3 VARCHAR2(1000),
+    variable4 VARCHAR2(1000),
+    variable5 VARCHAR2(1000)
+
 );
 CREATE SEQUENCE alermseq;

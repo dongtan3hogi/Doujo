@@ -336,14 +336,19 @@ public class FriendController {
 		return "friend/friendCalendar";
 	}
 	
-	//모임추천으로 이동하기
+	//모임장소 추천으로 이동하기
 	@RequestMapping (value="friend3", method=RequestMethod.GET)
 	public String friend3() {
 		
 		return "friend/friendMain3";
 	}
 	
-	
+	//동호회 추천으로 이동하기
+	@RequestMapping (value="friend2", method=RequestMethod.GET)
+	public String friend2() {
+		
+		return "friend/friendMain2";
+	}
 	
 	
 }

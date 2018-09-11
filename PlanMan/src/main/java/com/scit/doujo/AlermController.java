@@ -189,7 +189,6 @@ public class AlermController {
 	
 	
 	
-	
 	/* alerm에서 거절해서 해당 alerm을 테이블에서 지운다. ===================================================================*/ 
 	@RequestMapping(value = "/friendAlermNoBtn", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> friendAlermNoBtn(@RequestBody Map<String, String> alerm, HttpSession hs) {
@@ -205,4 +204,22 @@ public class AlermController {
 		alermMap.put("alermCount", AlermResult);
 		return alermMap; 
 	}
+	
+	/* alerm에서 거절해서 해당 alerm을 테이블에서 지운다. ===================================================================*/ 
+	@RequestMapping(value = "/askShareSchedule", method = RequestMethod.POST) 
+	public @ResponseBody Map<String, Map<String,String>> askShareSchedule(@RequestBody Map<String, String> alerm, HttpSession hs) {
+		alermDao adao = sqlSession.getMapper(alermDao.class);
+		studyDao sdao = sqlSession.getMapper(studyDao.class);
+		Map<String, Map<String,String>> alermMap = new HashMap<>();
+		
+		//해당 알람을 지운다.
+		int result1 = adao.deleteAlerm(alerm);
+		Map<String,String> AlermResult = new HashMap<>();
+		AlermResult.put("result1", ""+result1);
+		AlermResult.put("result2", "friendAlermNoBtn");
+		alermMap.put("alermCount", AlermResult);
+		return alermMap; 
+	}
+	
+	
 } 
