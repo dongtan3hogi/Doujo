@@ -328,7 +328,7 @@
         	<div>스케쥴내용</div>
         	<div><textarea type="text" class="form-control" id="eventcontent" name="eventcontent" style="height: 200px;"></textarea></div>
         	<br/>
-        	<div id="sch-button" align="right"><input type="submit" id="eventAdd" style="width: 200px;" value="스케쥴 입력하기" class="btn btn-block btn-primary" onclick="return addevent()"/></div>
+        	<div id="sch-button" align="right"><input type="submit" id="eventAdd" style="width: 200px;" value="친구에게 스케쥴 신청하기" class="btn btn-block btn-success" onclick="return askevent()"/></div>
         </div>
     </div>
     
@@ -356,7 +356,7 @@
 		                </tr>
 		                <c:forEach begin="0" var="friend" items="${fList}" varStatus="index">
 					          <tr>
-					              <td><img class="direct-chat-img" src="resources/userData/image/' + ${friend.friendid} + '.jpg"  data-rno="${friend.friendid}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
+					              <td><img class="direct-chat-img" src="resources/userData/image/${friend.friendid}.jpg"  data-rno="${friend.friendid}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
 					              <td>${friend.friendid}</td>
 					          </tr>    
 					    </c:forEach>    	              
@@ -430,214 +430,41 @@
 		alert(friendID);
 		var flag = confirm('친구의 스케쥴을 확인하시겠습니까?');
 		if(flag){
-			$('#calendar').fullCalendar({
-			      header    : {
-			        left  : 'prev,next today',
-			        center: 'title',
-			        right : 'month'
-			      },
-			      buttonText: {
-			        today: '오늘',
-			        month: 'month',
-			        week : 'week',
-			        day  : 'day'
-			      },
-			      dayClick: function(date){
-			    	
-			    	// Get the modal
-			        var modal = document.getElementById('myModal');
-			 
-			        // Get the <span> element that closes the modal
-			        var span = document.getElementsByClassName("close")[0];                                          
-			 
-			        // When the user clicks on the button, open the modal 
-			        $('#sch-button').text('');
-			        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='스케쥴 입력하기' class='btn btn-block btn-primary' onclick='return addevent()'/>");      	  
-			        modal.style.display = "block";
-			        $('#startday').val(date.format());
-			        
-			        // When the user clicks on <span> (x), close the modal
-			        span.onclick = function() {
-			        	$('#eventtitle').val('');
-			            $('#eventcontent').val('');
-			            $('.event').prop('checked', false);
-			            $('#timepicker').timepicker({
-			          		maxHours : 24,
-			        		showMeridian: false,
-			        		minuteStep: 10,
-			        		setTime: new Date()
-			              });
-			              $('#timepicker2').timepicker({
-			            		maxHours : 24,
-			            		showMeridian: false,
-			            		minuteStep: 10,
-			            		setTime: new Date()
-			              });
-			            modal.style.display = "none";
-			        }
-			 
-			        // When the user clicks anywhere outside of the modal, close it
-			        window.onclick = function(event) {
-			            if (event.target == modal) {
-			            	$('#eventtitle').val('');
-			                $('#eventcontent').val('');
-			                $('.event').prop('checked', false);  
-			                $('#timepicker').timepicker({
-			              		maxHours : 24,
-			            		showMeridian: false,
-			            		minuteStep: 10,
-			            		setTime: new Date()
-			                  });
-			                  $('#timepicker2').timepicker({
-			                		maxHours : 24,
-			                		showMeridian: false,
-			                		minuteStep: 10,
-			                		setTime: new Date()
-			                  });
-			                modal.style.display = "none";
-			            }
-			        }
-			      },
-			      events:function(start,end, timezone, callback){
-			    	  $.ajax({
-			    		  url:"selectSchdule"
-			    		  ,type:'post'
-			    		  ,success:function(data){
-			    			var events = [];
-			    			$(data).each(function(index, item) {
-			    				var col="";
-			    				if(item.eventtype=='study'){
-			   		         		col="#2ECCFA";
-			   		         	}else if(item.eventtype=='health'){
-			   		         		col="#FF0040";
-			   		         	}else if(item.eventtype=='work'){
-			   		         		col="#F7D358";
-			   		         	}else if(item.eventtype=='friend'){
-			   		         		col="#008000";
-			   		         	}
-			   				  events.push({
-			   					schseq: item.schseq,
-			   					id: item.id,	
-			   		            title: item.eventtitle,
-			   		            start: item.startday,
-			   		          	end: item.endday,
-			   		          	content: item.eventcontent,
-			   		          	event: item.eventtype,
-			   		         	diffDay : item.diffDay,
-			   		         	color : col
-			   				  });
-			   		        });
-			   		        callback(events);
-			  			  }
-			    	  });
-			      },
-			      editable  : true,
-			      eventClick: function(calEvent) {
-					  
-					  var schseq=calEvent.schseq;
-					  var eventtype=calEvent.event;
-					  
-					  var startday = new Date(calEvent.start);
-					  alert(startday);
-					  var endday = new Date(calEvent.end);
-					  var s_date = startday.getDate();
-				  	  var s_month = startday.getMonth() + 1;
-				  	  var s_year = startday.getFullYear();
-				  	 var start = s_year+"-"+s_month+"-"+s_date;
-				  		var e_date = endday.getDate();
-				  	  var e_month = endday.getMonth() + 1;
-				  	  var e_year = endday.getFullYear();
-				  	  var end = e_year+"-"+e_month+"-"+e_date;
-				  	  var hour = (startday.getHours()+15)%24;
-				  	  var minute = startday.getMinutes();
-				  	  var s_time = hour+':'+minute;
-				  	  	s_time = new Date(start+" "+s_time);
-
-				  	  	hour = (endday.getHours()+15)%24;	
-				  	  	minute = endday.getMinutes();
-				  	  	var e_time = hour+':'+minute;
-				  	  	e_time = new Date(end+" "+e_time);
-			    	  var modal = document.getElementById('myModal');
-			          var span = document.getElementsByClassName("close")[0];                                          
-			   		  alert(s_time+e_time);
-			          $('#seq').val(schseq);
-			          if(eventtype==$('#event1').val()){
-			        	  $('#event1').prop('checked', true);
-			          }else if(eventtype==$('#event2').val()){
-			        	  $('#event2').prop('checked', true);
-			          }else if(eventtype==$('#event3').val()){
-			        	  $('#event3').prop('checked', true);
-			          }else if(eventtype==$('#event4').val()){
-			        	  $('#event4').prop('checked', true);
-			          }else if(eventtype==$('#event5').val()){
-			        	  $('#event5').prop('checked', true);
-			          }
-			          $('#eventtitle').val(calEvent.title);
-			          $('#eventcontent').val(calEvent.content);
-			          $('#startday').val(start);
-			          $('#endday').val(calEvent.diffDay+1);
-			          $('#sch-button').text('');
-			          $('#timepicker').timepicker({
-			        		maxHours : 24,
-			      		showMeridian: false,
-			      		minuteStep: 10,
-			      		setTime: startday
-
-			            });
-			          $('#timepicker').timepicker('setTime', s_time);
-			            $('#timepicker2').timepicker({
-			          		maxHours : 24,
-			          		showMeridian: false,
-			          		minuteStep: 10,
-			            });
-			            $('#timepicker2').timepicker('setTime', e_time);
-
-			          $('#sch-button').append("<input type='submit' id='eventUpdate' style='width: 200px;' value='스케쥴 수정하기' class='btn btn-block btn-primary' onclick='return updateevent()'/><input type='submit' id='eventDel' style='width: 200px;' value='스케쥴 삭제하기' class='btn btn-block btn-primary' onclick='return deleteevent()'/>");      	
-			          modal.style.display = "block";
-			          
-			          
-			          span.onclick = function() {
-			          	  $('#eventtitle').val('');
-			              $('#eventcontent').val('');
-			              $('#endday').val(1);
-			              $('.event').prop('checked', false);
-			              $('#timepicker').timepicker({
-			          		maxHours : 24,
-			        		showMeridian: false,
-			        		minuteStep: 10
-
-			              });
-			              $('#timepicker2').timepicker({
-			            		maxHours : 24,
-			            		showMeridian: false,
-			            		minuteStep: 10
-			              });
-			              modal.style.display = "none";
-			          }
-
-			          window.onclick = function(event) {
-			              if (event.target == modal) {
-			              	$('#eventtitle').val('');
-			                $('#eventcontent').val('');
-			                $('#endday').val(1);
-			                $('.event').prop('checked', false);  
-			                $('#timepicker').timepicker({
-			             		maxHours : 24,
-			           			showMeridian: false,
-			           			minuteStep: 10
-			           			
-			                });
-			                $('#timepicker2').timepicker({
-			               		maxHours : 24,
-			               		showMeridian: false,
-			               		minuteStep: 10
-			                });
-			                modal.style.display = "none";
-			              }
-			          } 
-			      }
-			   	
-			    })
+			alert("!@!@"+friendID);
+			$('#calendar').fullCalendar('removeEvents');
+			$.ajax({
+	    		  url:"selectFriendSchdule"
+	    		  ,type:'post'
+	    		  ,data:{"friendID":friendID}
+	    		  ,success:function(data){
+	    			var events = [];
+	    			$(data).each(function(index, item) {
+	    				var col="";
+	    				if(item.eventtype=='study'){
+	   		         		col="#2ECCFA";
+	   		         	}else if(item.eventtype=='health'){
+	   		         		col="#FF0040";
+	   		         	}else if(item.eventtype=='work'){
+	   		         		col="#F7D358";
+	   		         	}else if(item.eventtype=='friend'){
+	   		         		col="#008000";
+	   		         	}
+	   				  events.push({
+	   					schseq: item.schseq,
+	   					id: item.id,	
+	   		            title: item.eventtitle,
+	   		            start: item.startday,
+	   		          	end: item.endday,
+	   		          	content: item.eventcontent,
+	   		          	event: item.eventtype,
+	   		         	diffDay : item.diffDay,
+	   		         	color : col
+	   				  });
+	   		        });
+	    			$('#calendar').fullCalendar('addEventSource',events);
+	    			}
+	    	});      
+			
 		}else{
 			
 		}
@@ -762,117 +589,14 @@
   			  }
     	  });
       },
-      editable  : true,
-      eventClick: function(calEvent) {
-		  
-		  var schseq=calEvent.schseq;
-		  var eventtype=calEvent.event;
-		  
-		  var startday = new Date(calEvent.start);
-		  alert(startday);
-		  var endday = new Date(calEvent.end);
-		  var s_date = startday.getDate();
-	  	  var s_month = startday.getMonth() + 1;
-	  	  var s_year = startday.getFullYear();
-	  	 var start = s_year+"-"+s_month+"-"+s_date;
-	  		var e_date = endday.getDate();
-	  	  var e_month = endday.getMonth() + 1;
-	  	  var e_year = endday.getFullYear();
-	  	  var end = e_year+"-"+e_month+"-"+e_date;
-	  	  var hour = (startday.getHours()+15)%24;
-	  	  var minute = startday.getMinutes();
-	  	  var s_time = hour+':'+minute;
-	  	  	s_time = new Date(start+" "+s_time);
-
-	  	  	hour = (endday.getHours()+15)%24;	
-	  	  	minute = endday.getMinutes();
-	  	  	var e_time = hour+':'+minute;
-	  	  	e_time = new Date(end+" "+e_time);
-    	  var modal = document.getElementById('myModal');
-          var span = document.getElementsByClassName("close")[0];                                          
-   		  alert(s_time+e_time);
-          $('#seq').val(schseq);
-          if(eventtype==$('#event1').val()){
-        	  $('#event1').prop('checked', true);
-          }else if(eventtype==$('#event2').val()){
-        	  $('#event2').prop('checked', true);
-          }else if(eventtype==$('#event3').val()){
-        	  $('#event3').prop('checked', true);
-          }else if(eventtype==$('#event4').val()){
-        	  $('#event4').prop('checked', true);
-          }else if(eventtype==$('#event5').val()){
-        	  $('#event5').prop('checked', true);
-          }
-          $('#eventtitle').val(calEvent.title);
-          $('#eventcontent').val(calEvent.content);
-          $('#startday').val(start);
-          $('#endday').val(calEvent.diffDay+1);
-          $('#sch-button').text('');
-          $('#timepicker').timepicker({
-        		maxHours : 24,
-      		showMeridian: false,
-      		minuteStep: 10,
-      		setTime: startday
-
-            });
-          $('#timepicker').timepicker('setTime', s_time);
-            $('#timepicker2').timepicker({
-          		maxHours : 24,
-          		showMeridian: false,
-          		minuteStep: 10,
-            });
-            $('#timepicker2').timepicker('setTime', e_time);
-
-          $('#sch-button').append("<input type='submit' id='eventUpdate' style='width: 200px;' value='스케쥴 수정하기' class='btn btn-block btn-primary' onclick='return updateevent()'/><input type='submit' id='eventDel' style='width: 200px;' value='스케쥴 삭제하기' class='btn btn-block btn-primary' onclick='return deleteevent()'/>");      	
-          modal.style.display = "block";
-          
-          
-          span.onclick = function() {
-          	  $('#eventtitle').val('');
-              $('#eventcontent').val('');
-              $('#endday').val(1);
-              $('.event').prop('checked', false);
-              $('#timepicker').timepicker({
-          		maxHours : 24,
-        		showMeridian: false,
-        		minuteStep: 10
-
-              });
-              $('#timepicker2').timepicker({
-            		maxHours : 24,
-            		showMeridian: false,
-            		minuteStep: 10
-              });
-              modal.style.display = "none";
-          }
-
-          window.onclick = function(event) {
-              if (event.target == modal) {
-              	$('#eventtitle').val('');
-                $('#eventcontent').val('');
-                $('#endday').val(1);
-                $('.event').prop('checked', false);  
-                $('#timepicker').timepicker({
-             		maxHours : 24,
-           			showMeridian: false,
-           			minuteStep: 10
-           			
-                });
-                $('#timepicker2').timepicker({
-               		maxHours : 24,
-               		showMeridian: false,
-               		minuteStep: 10
-                });
-                modal.style.display = "none";
-              }
-          } 
-      }
+      editable  : true
+     
    	
     })
     
   })
   
-  function addevent(){
+  function askevent(){
 		
 		var event=$('.event:checked').val();
 		var startday=$('#startday').val()+" "+$('#timepicker').val();
@@ -940,9 +664,7 @@
 					}
   				}
   			});	
-  		}
-  		
-  		else{
+  		}else{
   			$.ajax({
   				url:'addschdule'
   				,type:'post'

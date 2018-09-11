@@ -78,6 +78,11 @@
 		update member set password=#{password}, name=#{name}, nickname=#{nickname}, gender=#{gender}, age=#{age}, job=#{job}, hobby=#{hobby}, height=#{height}, weight=#{weight}
 		where id=#{id}
 	</update>
+	
+	<!-- 친구 스케쥴 가져오기-->
+	<select id="selectFriendSchdule" parameterType="String" resultType="Schedule">
+		select * from schedule where id=#{friendID}
+	</select>
 
 
 </mapper>
