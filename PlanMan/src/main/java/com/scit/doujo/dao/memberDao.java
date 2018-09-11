@@ -33,7 +33,10 @@ public interface memberDao {
 	public int didschcount(schedule result);
 	//타입별 스케쥴 개수 가져오기
 	public int allschcount(schedule result);
-	
+	//회원 탈퇴하기??
+	public void deletemember(member member);
+	//회원 정보 수정하기
+	public int updateMember(member vo);
 	
 	public void deletemember(member member);
 	

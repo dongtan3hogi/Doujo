@@ -16,7 +16,7 @@ public interface friendDao {
 
 	int getTotal(String searchText);
 
-	void insert(member member);
+	
 
 	ArrayList<friend> listfriend(String searchText, int startRecord, int countPerPage);
 
@@ -39,11 +39,12 @@ public interface friendDao {
 	void selectOne(String id);
 
 	int insert(@Param(value="userid")String userid, @Param(value="id")String id);
+	void beInserted(String userid, String id);
 	
-	List<member> selectFriendList(String userid);
+	void acceptFriend(String userid, String fid);
 
 	List<friend> getMyFriends(Map<String, String> map, RowBounds rb);
 
 	int getMyFriendsCount(Map<String, String> map);
-	
+	friend checkFriend(String userid, String id);
 }

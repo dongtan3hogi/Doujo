@@ -55,7 +55,7 @@ function makegroup() {
 		"name" : $(".name").val()
 		, "teg" : $(".teg").val()
 	};
-	alert("흠");
+	//alert("흠");
 	$.ajax({
 		method   : 'post'
 		, url    : 'makingGroup'
@@ -163,10 +163,36 @@ function showSearchGroup() {
 				, success: function (data){
 					var smgresult = '';
 					$.each(data, function(index, item){
-						smgresult += '<a class="btn btn-block btn-info" href="gotoGroup?num=' +item.NUM+ '&name=' +item.NAME+ '">' + item.NAME + "[" +item.NUM+ "]" + '</a><br/>';
+						smgresult += '<a class="btn btn-block btn-info GroupRegistApply" id="' +item.NUM+ '">' + item.NAME + ' [' +item.NUM+ ']' + '</a><br/>';
+						smgresult += '<input type="hidden" id="leaderId' +item.NUM+ '" value="' + item.GROUPLEADER + '" >';
+						smgresult += '<input type="hidden" id="roomname' +item.NUM+ '" value="' + item.NAME + '" >';
 					});
 					
 					document.getElementById("functionboard").innerHTML = smgresult;
+					
+					$('.GroupRegistApply').on('click', function () {
+						var GR = $(this).attr('id');
+						var leader =  $("#leaderId"+GR).val();
+						var roomname =  $("#roomname"+GR).val();
+						var group = {
+								"type" : "studygroupjoin"
+								, "groupnumber" : GR
+								, "leader" : leader
+								, "roomname" : roomname
+						};
+						//alert(group.groupnumber + "," + group.leader + "," + group.roomname);
+						$.ajax({
+							method   : 'post'
+							, url    : 'groupRegistApply'
+							, data   : JSON.stringify(group)
+							, dataType : 'json'
+							, contentType : 'application/json; charset=UTF-8'
+							, success: function(data) {
+								alert("흠"+data.result);
+								
+							} 
+						});
+					});
 				}
 				, error: function(request,status,error){
 			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -174,5 +200,8 @@ function showSearchGroup() {
 					
 			});
 		}
+		
+		
+		
 	});
 }

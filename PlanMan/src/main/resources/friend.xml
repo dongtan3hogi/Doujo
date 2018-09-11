@@ -5,6 +5,33 @@
 
 <mapper namespace="com.scit.doujo.dao.friendDao">
 
+	   <insert id="insertBoard" parameterType="board">
+	</slect>
+	select * from board where id in (select friendid from friend where id = #{id})
+	<slect id="selectAllBoard" parameterType="String" resultType="board">
+   </insert>
+      )
+         </if>
+         #{savedfile}
+         #{originalfile},
+         #{location},
+         <if test="originalfile != null and savedfile != null">
+         #{title},
+         #{content},
+      (
+         #{id},
+      )
+      VALUES
+      INSERT INTO board
+      (
+          id, 
+         title, 
+         location,
+         <if test="originalfile != null and savedfile != null">
+         originalfile,
+         savedfile
+         </if>
+         content,
    <insert id="insert" parameterType="string">
 		INSERT INTO friend(
 			userid,
@@ -23,11 +50,12 @@
 			type
 		) VALUES
 			(
-			 #{id},
-			 #{userid},
+			 #{1},
+			 #{0},
 			 3
 			)
 	</insert> 
+
 	<update id="updateMember" parameterType="member" >
 		update member set job=#{job}, hobby = #{hobby} where id =#{id} 
 	</update>
@@ -40,6 +68,14 @@
 		<if test="searchItem == 'id'">
 		where 
 			id like '%' || #{searchWord} || '%'
+		</if>
+		<if test="searchItem == 'hobby'">
+		where 
+			hobby like '%' || #{searchWord} || '%'
+		</if>
+		<if test="searchItem == 'job'">
+		where 
+			job like '%' || #{searchWord} || '%'
 		</if>
 	</select>
 	
@@ -62,18 +98,27 @@
 			member 
 		<if test="searchItem == 'id'">
 		where 
-			id like '%' || #{searchWord} || '%' and not in #{userid}
+			id like '%' || #{searchWord} || '%' and id not in #{meme} 
+		</if>
+		
+		<if test="searchItem == 'job'">
+		where 
+			job like '%' || #{searchWord} || '%' and id not in #{meme} 
+		</if>
+		<if test="searchItem == 'hobby'">
+		where 
+			hobby like '%' || #{searchWord} || '%' and id not in #{meme} 
 		</if>
 	</select>
 	
 	<select id="getMyFriends" parameterType="map" resultType="friend">
 		select 
-			*
+			a.userid,a.friendid,b.nickname,b.name,b.gender,b.age,b.job,b.hobby,a.type 
 		from 
-			friend 
-		<if test="searchItem2 == 'friendid'">
-		where 
-			friendid like '%' || #{searchWord2} || '%'
+			friend a,member b
+		where a.friendid = b.id and a.userid =#{id} 
+		<if test="searchItem == 'friendid'">
+		and a.friendid like '%' || #{searchWord} || '%'
 		</if>
 	</select>
    
@@ -92,47 +137,11 @@
 		where
 			id = #{value}
 	</delete>
-	
-	<select id="selectFriendList" parameterType="String" resultType="member">
-		select 
-			* 
-		from 
-			member 
-		where id in (
-			select 
-				friendid 
-			from 
-				friend
-			where 
-				userid = #{value}
-		)
-	</select>
-	
-	   <insert id="insertBoard" parameterType="board">
-      INSERT INTO board
-      (
-          id, 
-         title, 
-         content,
-         location,
-         <if test="originalfile != null and savedfile != null">
-         originalfile,
-         savedfile
-         </if>
-      )
-      VALUES
-      (
-         #{id},
-         #{title},
-         #{content},
-         #{location},
-         <if test="originalfile != null and savedfile != null">
-         #{originalfile},
-         #{savedfile}
-         </if>
-      )
-   </insert>
-	<slect id="selectAllBoard" parameterType="String" resultType="board">
-	select * from board where id in (select friendid from friend where id = #{id})
-	</slect>
+	<update id="acceptFriend" parameterType="String">
+	update friend set type=1 where userid= #{0} and friendid= #{1}
+	</update>
+
+	<select id="checkFriend" parameterType="String" resultType="friend">
+	select * from friend where userid= #{0} and friendid= #{1}
+	</select>	
 </mapper>

@@ -193,8 +193,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 1</a></li>
+            <li><a href=""><i class="fa fa-circle-o text-green"></i> Friend 2</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -281,40 +281,28 @@
               </div>
             </div>
             <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-              <table class="table table-hover">
-                <tr>
-                  <th></th>
-                  <th>User</th>
-                  <th>Title</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-                <tr>
-                  <td><img src="resources/userData/image/karulin.jpg" class="img-circle" alt="User Image" style="width:20px;height:20px;"></td>
-                  <td>karulin</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-success">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td><img src="resources/userData/image/sop2.jpg" class="img-circle" alt="User Image" style="width:20px;height:20px;"></td>
-                  <td>sop2</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-warning">Pending</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                
-              </table>
-            </div>
+            <div class="box-body no-padding">
+                  <ul class="users-list clearfix">
+                  <c:forEach var="RList" items="${searchResultList}">
+                    <li>
+                      <img src="resources/userData/image/${RList.ID}.jpg" alt="none" onError="this.src='resources/userData/image/unknown.png';" style="width:80px;height:80px;">
+                      <a class="users-list-name" href="doTakeQuizMyFolder?friendId=${RList.ID}&title=${RList.TITLE}">${RList.TITLE}</a>
+                      <span class="users-list-date">${RList.ID}</span>
+                    </li>
+                  </c:forEach>
+                    
+                    
+                  </ul>
+                  <!-- /.users-list -->
+                </div>
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="#">«</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">»</a></li>
+                <li><a href="gotoQuizSearch?page=${page-1}&search=${search}">«</a></li>
+                <c:forEach begin="${navi.startPageGroup}" end="${navi.endPageGroup}" step="1" varStatus="status">
+                    <li><a href="gotoQuizSearch?page=${navi.startPageGroup+status.count-1}">${navi.startPageGroup+status.count-1}	</a></li>
+                </c:forEach>
+                <li><a href="gotoQuizSearch?page=${page+1}&search=${search}">»</a></li>
               </ul>
             </div>
           </div>

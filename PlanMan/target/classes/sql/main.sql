@@ -45,3 +45,18 @@ CREATE TABLE messagecontent(
     readcheck VARCHAR2(10) check (readcheck in ('old','nor','new')),
     keyword VARCHAR2(2000)
 );
+
+
+
+CREATE TABLE alerm(
+    alermseq NUMBER PRIMARY KEY,
+    eventtype VARCHAR2(20) NOT NULL,
+    content VARCHAR2(1000),
+    sendid VARCHAR2(20) NOT NULL,
+    friendid VARCHAR2(20) NOT NULL,
+    starttime VARCHAR2(20) NOT NULL,
+    endtime VARCHAR2(20) NOT NULL,
+    variable1 VARCHAR2(1000),
+    variable2 VARCHAR2(1000)
+);
+CREATE SEQUENCE alermseq;

@@ -1,3 +1,4 @@
+   $("#goSearch").on("click",function(){
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -39,14 +40,13 @@ function fn_btnChoice(){
 		 var tdArr = new Array(); 
 		 var tr = $("input:checkbox[name=selected]:checked").closest('tr');
 		 
-		 var td = tr.children()
-		alert(td.length);
+		 var td = tr.children();
+
 		 td.each(function(index,value){
 			 if(index==0){
 				 return true;
 			 }
 		        tdArr.push(td.eq(index).text());
-		        alert(td.eq(index).text());
 		    }); 
 		 
 		 var id = tdArr[0];
@@ -55,7 +55,12 @@ function fn_btnChoice(){
 				method : "POST", 
 				data : {"id":id},
 				success : function(data){
-					alert("친구 신청이 접수되었습니다.");
+					if(data="already"){
+						alert("이미 친구 신청을 했습니다.");
+					}else{
+						alert("친구 신청이 접수되었습니다.");
+					}
+					
 				},error : function(data){
 					alert("접속 불량");
 				} 
@@ -87,10 +92,6 @@ function fn_btnChoice(){
 	    
 </script>
 <!-- head -->
-<style>
-.eImage { height: 80px;
-			width: auto; }
-</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <input type="hidden" id="MyID" value="${sessionScope.memberID}">
@@ -431,26 +432,7 @@ function fn_btnChoice(){
 				    </script>
 		          </div>
 		          <!-- /.box -->
-          	<div class="box box-primary" style="width: 30%; float:left;margin-right:20px;">
-            <div class="box-header">
-              <i class="ion ion-clipboard"></i>
-
-              <h3 class="box-title">Popular Meetings</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              <input type="text" id="searchMeeting">&nbsp;<input type="button" id="goSearch" value="#으로 검색">
-              <ul class="eventlist">
-                
-               
-              </ul>
-              <div id="boardfooter"></div>
-            </div>
-            <!-- /.box-body -->
-           
-          </div>
-  	
+          	
 				
 
 			  <!-- ========================================================================================================== -->
@@ -488,47 +470,7 @@ function fn_btnChoice(){
 
 <!-- Page specific script -->
 <script>
-function goPage(a){
-	   $.ajax({
-			url:"goMPage",
-			type:"post",
-			//client에서 server로 가는 값
-			data:{"value": a},
-			success: function(data){
-				$(".eventlist").empty();
-				$.each(data.meeting, function(index, item){
-					
-					var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
-					$(".eventlist").append(result);
-					});
-					var navi = data.navi;
-					var line="";
-					var current= Number(0);
-					if(navi.currenPage >1){
-						current = Number(navi.currentPage);
-						current--;
-						line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
-					}
-					for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
-						if(navi.currentPage == i){
-							line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
-						}else{
-							line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
-						}
-					}
-					if(navi.currentPage <navi.totalPageCount){
-						current = Number(navi.currentPage);
-						
-						current++;
-						line+=	"<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
 
-					}
-				      $('#boardfooter').empty();
-
-				      $('#boardfooter').append(line);
-			}
-		});
-	}
   $(function () {    
      
      $('a.favorite').click(function() {
@@ -607,51 +549,6 @@ function goPage(a){
          }
       });
       });
-   $("#goSearch").on("click",function(){
-	   var search= $("#searchMeeting").val();
-	   if(search==""){
-		   alert('입력해');
-	   }
-	   $.ajax({
-			url:"searchMeeting",
-			type:"post",
-			//client에서 server로 가는 값
-			data:{"search": search},
-			success: function(data){
-				$.each(data.meeting, function(index, item){
-				
-				var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
-				$(".eventlist").append(result);
-				});
-				var navi = data.navi;
-				var line="";
-				var current= Number(0);
-				if(navi.currenPage >1){
-					current = Number(navi.currentPage);
-					current--;
-					line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
-				}
-				for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
-					if(navi.currentPage == i){
-						line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
-					}else{
-						line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
-					}
-				}
-				if(navi.currentPage <navi.totalPageCount){
-					current = Number(navi.currentPage);
-					
-					current++;
-					line+=	"<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
-
-				}
-			      $('#boardfooter').append(line);
-			},fail: function(){
-				alert("다음에 다시 시도해주세요");
-			}
-		});
-   });
-   
   });
 </script>
 <script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
@@ -666,3 +563,104 @@ function goPage(a){
 <script src="resources/main/js/messageBar.js"></script> 
 </body>
 </html>
+	   var search= $("#searchMeeting").val();
+	   if(search==""){
+		   alert('입력해');
+	   }
+	   $.ajax({
+			url:"searchMeeting",
+			//client에서 server로 가는 값
+			type:"post",
+			data:{"search": search},
+			success: function(data){
+				$.each(data.meeting, function(index, item){
+				
+				$(".eventlist").append(result);
+				var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
+				var navi = data.navi;
+				});
+				var current= Number(0);
+				var line="";
+				if(navi.currenPage >1){
+					current = Number(navi.currentPage);
+					current--;
+					line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
+				}
+				for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
+					}else{
+					if(navi.currentPage == i){
+						line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
+						line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
+					}
+				}
+				if(navi.currentPage <navi.totalPageCount){
+					
+					current = Number(navi.currentPage);
+					current++;
+					line+=	"<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
+
+				}
+			      $('#boardfooter').append(line);
+				alert("다음에 다시 시도해주세요");
+   
+   });
+		});
+			}
+			},fail: function(){
+	   $.ajax({
+function goPage(a){
+			url:"goMPage",
+			//client에서 server로 가는 값
+			type:"post",
+			data:{"value": a},
+			success: function(data){
+				$(".eventlist").empty();
+				$.each(data.meeting, function(index, item){
+					
+					var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
+					$(".eventlist").append(result);
+					});
+					var navi = data.navi;
+					var current= Number(0);
+					var line="";
+					if(navi.currenPage >1){
+						current--;
+						current = Number(navi.currentPage);
+					}
+						line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
+					for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
+						if(navi.currentPage == i){
+							line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
+						}else{
+							line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
+						}
+					}
+					if(navi.currentPage <navi.totalPageCount){
+						current = Number(navi.currentPage);
+						
+						current++;
+						line+=	"<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
+				      $('#boardfooter').empty();
+					}
+
+
+				      $('#boardfooter').append(line);
+			}
+		});
+	}
+          	<div class="box box-primary" style="width: 30%; float:left;margin-right:20px;">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+
+              <h3 class="box-title">Popular Meetings</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              <input type="text" id="searchMeeting">&nbsp;<input type="button" id="goSearch" value="#으로 검색">
+                
+              <ul class="eventlist">
+              </ul>
+            </div>
+              <div id="boardfooter"></div>
+          </div>

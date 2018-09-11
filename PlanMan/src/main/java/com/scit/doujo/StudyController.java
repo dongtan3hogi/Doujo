@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map; 
  
 import javax.servlet.http.HttpSession;
@@ -21,6 +22,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import com.scit.doujo.dao.alermDao;
 import com.scit.doujo.dao.memberDao;
 import com.scit.doujo.dao.studyDao;
 import com.scit.doujo.util.PageNavigator;
@@ -566,8 +568,9 @@ public class StudyController {
 		
 		//검색용 groupmember 만든다.
 		Map<String, String> groupmember = new HashMap<>();
+		String sNum = ""+num;
 		groupmember.put("id", id);
-		groupmember.put("groupseq", ""+num);
+		groupmember.put("groupseq", sNum);
 		groupmember.put("name", name);
 		
 		//id와 groupseq를 사용, 그룹에 유저가 등록되있는지 확인한다.
@@ -580,9 +583,9 @@ public class StudyController {
 		
 		//leaderID groupmember에 넣는다.
 		String leaderId = gdao.selectOneGroup(num).get("GROUPLEADER");
-		System.out.println("리더아이디"+leaderId);
+		//System.out.println("리더아이디"+leaderId);
 		groupmember.put("leaderId", leaderId);
-		
+		System.out.println("gma"+groupmember.toString());
 		model.addAttribute("groupmember", groupmember);
 		return "study/groupRoom";
 	}
@@ -617,9 +620,9 @@ public class StudyController {
 	//
 	
 	
-	/* 그룹로비로 이동 */
+	/* 스터디 메인으로  이동 */
 	@RequestMapping(value = "/gotoStudy", method = RequestMethod.GET)
-	public String gotoStudy(String eventtitle, HttpSession session, Model model) {
+	public String gotoStudy(String eventtitle, HttpSession session, Model model, Locale locale) {
 		memberDao manager2=sqlSession.getMapper(memberDao.class);
 		String id=(String) session.getAttribute("memberID");
 		schedule result=new schedule();
@@ -631,23 +634,17 @@ public class StudyController {
 		
 		String countday=formatter.format(date);
 		Calendar cal = Calendar.getInstance();
-		String year=countday.split("-")[0];
-		String month=countday.split("-")[1];
-		String day=countday.split("-")[2];
-		cal.set(Calendar.YEAR, Integer.parseInt(year));
-		cal.set(Calendar.MONTH-1, Integer.parseInt(month));
-		cal.set(Calendar.DATE, Integer.parseInt(day));		
+		
 		int weekday=cal.get(cal.DAY_OF_WEEK);
 		
-		ArrayList<schedule> schList=new ArrayList<>();
 		
+		ArrayList<schedule> schList=new ArrayList<>();
+		System.out.println("요일확인"+cal.getTime()+"weekday : "+weekday);
 		switch(weekday) {
 		case 1:
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			String weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			String weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -657,11 +654,9 @@ public class StudyController {
 		case 2:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -671,11 +666,9 @@ public class StudyController {
 		case 3:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 5);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -685,11 +678,9 @@ public class StudyController {
 		case 4:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 4);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -699,11 +690,9 @@ public class StudyController {
 		case 5:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 3);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -713,11 +702,9 @@ public class StudyController {
 		case 6:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 2);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -727,11 +714,9 @@ public class StudyController {
 		case 7:
 			System.out.println(cal.getTime());
 			cal.add(cal.DATE, 1);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
 			cal.add(cal.DATE, -6);
-			cal.set(Calendar.YEAR, Integer.parseInt(year));
 			weekMonday=formatter.format(cal.getTime());
 			System.out.println(weekMonday);
 			result.setWeekMonday(weekMonday);
@@ -760,6 +745,7 @@ public class StudyController {
 		session.setAttribute("eventtitle", eventtitle);
 		return "study/studyMain";
 	}
+	
 	@RequestMapping(value = "/goWord", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<String[]> goWord( String type, HttpSession hs) {
 		 String aa = "오늘의 "+type+"단어";
@@ -811,11 +797,256 @@ public class StudyController {
 	
 	/*모든문제 검색 페이지로 이동 이동 ===================================================================*/ 
 	@RequestMapping(value = "/gotoQuizSearch", method = RequestMethod.GET) 
-	public String gotoQuizSearch(HttpSession hs, Model model) { 
+	public String gotoQuizSearch(HttpSession hs, Model model,
+			@RequestParam(value="page", defaultValue="1") int page,
+			@RequestParam(value="search", defaultValue="") String search) {
+		if(page<=0) {
+			page=1;
+		}
 		studyDao dao = sqlSession.getMapper(studyDao.class); 
-		String id = (String)hs.getAttribute("memberID"); 
+		String id = (String)hs.getAttribute("memberID");
+		Map<String, String> searchParameterMap = new HashMap<>();
+		searchParameterMap.put("search", search);
+		int countPerPage = 20;
+		int pagePerGroup = 5;
 		
+		System.out.println("2");
+		int total = dao.countSearchingQuizrecordlist(searchParameterMap);
+		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
+		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
+		ArrayList<Map<String, String>> searchResultList = dao.selectSearchingQuizrecordlist(searchParameterMap, rb);
+		model.addAttribute("navi", navi);
+		model.addAttribute("page", page);
+		model.addAttribute("search", search);
+		model.addAttribute("searchResultList", searchResultList);
+		System.out.println("3");
 		return "study/quizSearch"; 
 	}
+	
+	
+	/*문제를 내 문제로 가져오기 ===================================================================*/ 
+	@RequestMapping(value = "/doTakeQuizMyFolder", method = RequestMethod.GET) 
+	public String doTakeQuizMyFolder(HttpSession hs, Model model, String friendId, String title) { 
+		studyDao dao = sqlSession.getMapper(studyDao.class); 
+		String id = (String)hs.getAttribute("memberID");
+		Map<String, String> SARQ = new HashMap<>();
+		ArrayList<Map<String,String>> quizList = new ArrayList<>(); 
+		Map<String, Map<String,String>> quizMap = new HashMap<>(); 
+		SARQ.put("quizrecordcode", friendId+title);
+		SARQ.put("id", friendId);
+		quizList = dao.selectAllRecordQuiz(SARQ);
+		System.out.println("quizList//"+quizList.toString());
+		//(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ANSWER2}, #{ANSWER3}, #{ANSWER4}, #{ANSWERNUMBER}, #{ID})
+		//(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ID})
+		/*TO_CHAR(q.quizseq) NUM
+			,q.type type
+			,q.teg teg
+			,q.question question
+			,q.answer1 answer1
+        ,q.answer2 answer2
+        ,q.answer3 answer3
+        ,q.answer4 answer4
+			,TO_CHAR(q.answernumber) answernumber
+			,q.id id
+			,l.quizrecordname quizrecordname
+			,l.quizrecordcode quizrecordcode*/
 		
+		for (Map<String, String> map : quizList) {
+			map.put("type", map.get("TYPE"));
+			map.remove("TYPE");
+			map.put("teg", map.get("TEG"));
+			map.remove("TEG");
+			map.put("answer1", map.get("ANSWER1"));
+			map.remove("ANSWER1");
+			map.put("answer2", map.get("ANSWER2"));
+			map.remove("ANSWER2");
+			map.put("answer3", map.get("ANSWER3"));
+			map.remove("ANSWER3");
+			map.put("answer4", map.get("ANSWER4"));
+			map.remove("ANSWER4");
+			map.put("answernumber", map.get("ANSWERNUMBER"));
+			map.remove("ANSWERNUMBER");
+			map.put("id", id);
+			map.remove("ID");
+			map.put("question", map.get("QUESTION"));
+			map.remove("QUESTION");
+			map.put("quizrecordname", map.get("QUIZRECORDNAME"));
+			map.remove("QUIZRECORDNAME");
+			map.remove("QUIZRECORDCODE");
+			
+			if(map.get("type").equals("multiplechoice")) {
+				System.out.println(map.toString());
+				quizInsertFunction(map, id);
+				
+				
+			}else if(map.get("type").equals("shortanswer")) {
+				System.out.println(map.toString());
+				quizInsertFunction(map, id);
+				
+				
+			}
+		} 
+		
+		return "study/quizSolve"; 
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void quizInsertFunction(Map<String, String> quiz, String id) {
+		studyDao dao = sqlSession.getMapper(studyDao.class); 
+		Map<String, String> resultMap = new HashMap<>(); 
+		 
+		//insert the Teg
+		String tegString = quiz.get("teg");
+		String[] tegs;
+		if(tegString.contains("#")) {
+			tegs = quiz.get("teg").split("#"); 
+		}else {
+			tegs = new String[1];
+			tegs[0] = tegString;
+		}
+		
+		Map<String, String> tegMap = new HashMap<>(); 
+		if(tegs.length > 0) { 
+			for(int i=1; i<tegs.length; i++) { 
+				Map<String, String> teg = new HashMap<>(); 
+				teg.put("teg", tegs[i]); 
+				teg.put("id", id); 
+				teg.put("belong", "quiz"); 
+				System.out.println(teg.toString());
+				//이미 있는테그면 update로 숫자증가 
+				if(dao.findTeg(teg)>0) { 
+					teg.put("plus", "plus"); 
+					dao.recountTeg(teg); 
+					 
+				//없는 테그면 새로 추가 
+				} else if(dao.findTeg(teg)<=0) { 
+					dao.insertTeg(teg); 
+				} 
+			} 
+		} 
+		 
+		//System.out.println(quiz.get("answernumber")); 
+		//문제 넣기 
+		if(quiz.get("type").equals("multiplechoice")) { 
+			int result = dao.insertMQuiz(quiz); 
+		} else { 
+			int result = dao.insertJQuiz(quiz); 
+		} 
+		 
+		 
+		//list확인하고 없으면 생성 
+		//normal이 없었다면 생성 
+		if(quiz.get("quizrecordname").equals("normal")) { 
+			String quizrecordcode = id + quiz.get("quizrecordname"); 
+			if(dao.findQuizrecordlist(quizrecordcode)<=0) { 
+				quiz.put("quizrecordcode", quizrecordcode); 
+				dao.insertQuizrecordlist(quiz); 
+			} 
+		}else {
+			quiz.put("quizrecordcode", id + quiz.get("quizrecordname")); 
+		}
+		 
+		//new였다면 생성 
+		int i = dao.countQuizrecordlistForTaking(quiz);
+		if(i <= 0) { 
+			//일단 quizrecordcode를 생성한다. 
+			String quizrecordcode = id + quiz.get("quizrecordname"); 
+			quiz.put("quizrecordcode", quizrecordcode); 
+			quiz.put("quizrecordname", quiz.get("quizrecordname")); 
+			 
+			//quizrecordcode가 이미 존재하는지 확인하고 없을경우 입력한다. 
+			if(dao.findQuizrecordlist(quizrecordcode)>0) { 
+			 
+			} else { 
+				dao.insertQuizrecordlist(quiz); 
+				resultMap.put("newRecordName", quiz.get("quizrecordname")); 
+			} 
+		 
+		//new가 아닌경우 기존에 존재하는 record에 넣는다.		 
+		} else { 
+			quiz.put("quizrecordcode",id+quiz.get("quizrecordname")); 
+		} 
+		 
+		 
+		// record에 해당문제 기록  
+		quiz.put("num", ""+dao.findMaxQuizseq(quiz)); 
+		dao.insertQuizrecord(quiz); 
+		 
+		 
+		resultMap.put("success", "Insert the Quiz"); 	
+	}
+	
+	
+	
+	/* 그룹 가입 신청 */
+	@RequestMapping(value = "/groupRegistApply", method = RequestMethod.POST)
+	public @ResponseBody Map<String, String> groupRegistApply(@RequestBody Map<String, String> group, HttpSession hs) {
+		alermDao adao = sqlSession.getMapper(alermDao.class);
+		String id = (String)hs.getAttribute("memberID"); 
+		group.put("content", group.get("groupnumber"));
+		group.put("friendid", group.get("leader"));
+		group.put("id", id);
+		System.out.println(group.toString());
+		ArrayList<Map<String, String>> groupList = new ArrayList<>();
+		Map<String,Map<String, String>> groupMap = new HashMap<>();
+		Map<String, String> check = new HashMap<>();
+		
+		
+		
+		int checkcount = adao.countGroupJoinCheck(group);
+		if(checkcount > 0) {
+			//1 이상일 경우 이미 해당 alerm은 등록된 것 이기에 집어넣지 않고 이미 했던 것임을 알려준다.
+			check.put("result", "already");
+			return check;
+		} else {
+			
+		}
+		
+		int result = adao.insertGroupJoin(group);
+		System.out.println("doGroupRegistApply/result/"+result);
+		check.put("result", "success");
+		
+		return check;
+	}
+	
+	
+	/* 그룹 초대 */
+	@RequestMapping(value = "/inviteGroup", method = RequestMethod.POST)
+	public @ResponseBody Map inviteGroup(@RequestBody Map<String, String> idSet, HttpSession hs) {
+		studyDao sdao = sqlSession.getMapper(studyDao.class);
+		ArrayList<Map<String, String>> groupList = new ArrayList<>();
+		Map<String,Map<String, String>> groupMap = new HashMap<>();
+		Map<String, String> resultMap = new HashMap<>();
+		
+		System.out.println("inviteGroup/idSet"+idSet.toString());
+		int result = sdao.insertGroupMember(idSet);
+		if(result>0) {
+			resultMap.put("result", "invite success");
+		}else {
+			resultMap.put("result", "invite fail");
+		}
+		groupMap.put("resultMap", resultMap);
+		return groupMap;
+	}
 } 

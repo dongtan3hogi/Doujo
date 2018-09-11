@@ -262,7 +262,93 @@ function fn_btnChoice(){
     <!-- Main content -->
     <section class="content">
       
-       </section>
+        
+        <!-- /.col -->
+        
+          
+        <%--    <!-- general form elements disabled -->
+          <div class="box box-primary" style="width: 40%; height: 500px; float:left;margin-right:20px;">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+
+              <h3 class="box-title">Timeline</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              <ul class="todo-list">
+                <c:forEach var="schList" items="${schList}">
+                <li>
+                  <!-- drag handle -->
+                  <span class="handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <!-- checkbox -->
+                  <input type="checkbox" value="">
+                  <!-- todo text -->
+                  <span class="text">${schList.eventtitle}//${schList.startday}</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.starttime}~${schList.endtime}</small>
+                  <!-- General tools such as edit or delete-->
+                  <div class="tools">
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
+                  </div>
+                </li>
+                </c:forEach>
+              </ul>
+            </div>
+            
+          </div> --%>
+         
+<%--           <!-- /.box -->
+          <div class="box box-primary" style="width: 55%; float:right; margin-right:20px; ">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">My FriendList</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              
+              <c:if test="${empty article}">
+              <h3> 주요 뉴스가 없습니다.</h3>
+              </c:if>
+              <c:if test="${!empty article}">
+      <c:forEach var="news" items="${article }" varStatus="num">
+      <ul>
+      <c:set var="loop_flag" value="false" />
+      <c:forEach var='fcheck' items="${fcheck }">
+      
+      <c:if test="${fcheck.locations == news[1] }">
+       <c:set var="loop_flag" value="true" />
+      </c:if>
+      </c:forEach>
+      <c:if test="${not loop_flag }">   <li><a href="javascript:void(0);" class='favorite'><i class="fa fa-star-o text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+         <span>${news[2] }</span></li>
+      </c:if>
+      <c:if test="${ loop_flag}">     <li><a href="javascript:void(0);" class='favorite'><i class="fa fa-star text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+      <span>${news[2] }</span></li></c:if>
+      </ul>
+   
+      </c:forEach>
+      </c:if>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        
+          <!-- /. box -->
+        
+        <!-- /.col -->
+        
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+   
+  </div>
+  <!-- /.content-wrapper --> --%>
+      
 <c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 <script>
 alert("취미 직업을 등록하러 갑니다");

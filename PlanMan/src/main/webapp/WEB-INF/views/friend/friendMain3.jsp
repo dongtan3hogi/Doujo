@@ -29,30 +29,21 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   
   <link rel="stylesheet" href="./resources/style/board.css" />
-   <style>
- .footer {
-    position: fixed;
-    left: 0;
-    right: 100;
-    bottom: 0;
-    width: 100%;
-    text-align:right;
- }
- </style> 
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script type="text/javascript">
 function formCheck() {
-   var title = document.getElementById("title");
-   var content = document.getElementById("content");
-   
-   if (title.value == '' || content.value == '') {
-      alert('제목과 내용을 입력하세요.');
-      return false;
-   }
-   return true;
+	var title = document.getElementById("title");
+	var content = document.getElementById("content");
+	
+	if (title.value == '' || content.value == '') {
+		alert('제목과 내용을 입력하세요.');
+		return false;
+	}
+	return true;
 }
 function boardList() {
-   location.href = "";
+	location.href = "";
 }
 
 
@@ -249,6 +240,96 @@ function boardList() {
       </ol>
     </section>
 
+    <!-- Main content -->
+    <section class="content">
+      
+        
+        <!-- /.col -->
+        
+          
+        <%--    <!-- general form elements disabled -->
+          <div class="box box-primary" style="width: 40%; height: 500px; float:left;margin-right:20px;">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+
+              <h3 class="box-title">Timeline</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              <ul class="todo-list">
+                <c:forEach var="schList" items="${schList}">
+                <li>
+                  <!-- drag handle -->
+                  <span class="handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                  <!-- checkbox -->
+                  <input type="checkbox" value="">
+                  <!-- todo text -->
+                  <span class="text">${schList.eventtitle}//${schList.startday}</span>
+                  <!-- Emphasis label -->
+                  <small class="label label-danger"><i class="fa fa-clock-o"></i>${schList.starttime}~${schList.endtime}</small>
+                  <!-- General tools such as edit or delete-->
+                  <div class="tools">
+                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-o"></i>
+                  </div>
+                </li>
+                </c:forEach>
+              </ul>
+            </div>
+            
+          </div> --%>
+         
+<%--           <!-- /.box -->
+          <div class="box box-primary" style="width: 55%; float:right; margin-right:20px; ">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">My FriendList</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+              
+              <c:if test="${empty article}">
+              <h3> 주요 뉴스가 없습니다.</h3>
+              </c:if>
+              <c:if test="${!empty article}">
+      <c:forEach var="news" items="${article }" varStatus="num">
+      <ul>
+      <c:set var="loop_flag" value="false" />
+      <c:forEach var='fcheck' items="${fcheck }">
+      
+      <c:if test="${fcheck.locations == news[1] }">
+       <c:set var="loop_flag" value="true" />
+      </c:if>
+      </c:forEach>
+      <c:if test="${not loop_flag }">   <li><a href="javascript:void(0);" class='favorite'><i class="fa fa-star-o text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+         <span>${news[2] }</span></li>
+      </c:if>
+      <c:if test="${ loop_flag}">     <li><a href="javascript:void(0);" class='favorite'><i class="fa fa-star text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+      <span>${news[2] }</span></li></c:if>
+      </ul>
+   
+      </c:forEach>
+      </c:if>
+            </div>
+            <!-- /.box-body -->
+          </div>
+        
+          <!-- /. box -->
+        
+        <!-- /.col -->
+        
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+   
+  </div>
+  <!-- /.content-wrapper --> --%>
+      
 <c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 <script>
 alert("취미 직업을 등록하러 갑니다");
@@ -266,114 +347,64 @@ location.href="joinfriend";
   
             
      <h2>[ Place_Reply ]</h2>
-   
-   <form action="writeboard" method="post" enctype="multipart/form-data" onsubmit="return formCheck()">
-      <table>
-         
-         <tr>
-            <th>제목</th>
-            <td>
-               <input type="text" name="title" id="title">
-               <input type="hidden" name="id" value="${sessionScope.id}">
-            </td>
-            
-         </tr>
-         
-         <tr>
-            <th>내용</th>
-            <td>
-               <textarea rows="10" cols="50" name="content" id="content" style="min-width:46%" ></textarea>
-            </td>
-         </tr>
-         <tr>
-         
-         <tr>
-            <th>글쓴이</th>
-            <td>${id}</td>
-         </tr>
-         
-         <tr>
-            <th>첨부파일</th>
-            <td><input type="file" name="upload" /></td>
-         </tr>
-         
-         <tr>
-         
-            <td class="btn" colspan="2" >
-               <!-- <input type="button" value="취소" onclick="boardList()" /> -->
-               <input type="submit" value="저장">
-            </td>
-         </tr>
-      </table>
-   </form>
+	
+	<form action="writeboard" method="post" enctype="multipart/form-data" onsubmit="return formCheck()">
+		<table>
+			
+			<tr>
+				<th>제목</th>
+				<td>
+					<input type="text" name="title" id="title">
+					<input type="hidden" name="id" value="${sessionScope.id}">
+				</td>
+				
+			</tr>
+			
+			<tr>
+				<th>내용</th>
+				<td>
+					<textarea rows="10" cols="50" name="content" id="content" ></textarea>
+				</td>
+			</tr>
+			<tr>
+			
+			<tr>
+				<th>글쓴이</th>
+				<td>${id}</td>
+			</tr>
+			
+			<tr>
+				<th>첨부파일</th>
+				<td><input type="file" name="upload" /></td>
+			</tr>
+			
+			<tr>
+			
+				<td class="btn" colspan="2" >
+					<!-- <input type="button" value="취소" onclick="boardList()" /> -->
+					<input type="submit" value="저장">
+				</td>
+			</tr>
+		</table>
+	</form>
 
 </div>
 </div>
-
-  <section class="content-header">
-      <h1>
-        Friend
-        <small>${sessionScope.member.id}님의 타임라인 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="goWorkMain"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">title</li>
-      </ol>
-    </section>
-
-<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
-<script>
-alert("취미 직업을 등록하러 갑니다");
-location.href="joinfriend";
-</script>
-</c:if>
- <div class="box box-primary" style="width: 50%; height: 600px; float:left; margin-right:20px; ">
-            <div class="box-header">
-              <i class="ion ion-clipboard"></i>
-              <h3 class="box-title">Place_Recommendation</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-     <h2>[ Friend's Records ]</h2>
-      <table>
-         
-         <tr>
-            <th>제목</th>
-            <td>
-            </td>
-            
-         </tr>
-         
-         <tr>
-            <th>내용</th>
-            <td>
-            </td>
-         </tr>
-         <tr>
-            <th>글쓴이</th>
-            <td>${id}</td>
-         </tr>
-         
-         <tr>
-            <th>첨부파일</th>
-            <td></td>
-         </tr>
-         <tr>
-            <td class="btn" colspan="2" >
-            </td>
-         </tr>
-      </table>
-
-
-</div>
-</div>
-
 </div>
 
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
-
+ <style>
+ .footer {
+    position: fixed;
+    left: 0;
+    right: 100;
+    bottom: 0;
+    width: 100%;
+    text-align:right;
+ }
+ </style> 
  <footer class="footer">
      <div class="pull-right hidden-xs">
       <b>Version</b> 2.4.0
