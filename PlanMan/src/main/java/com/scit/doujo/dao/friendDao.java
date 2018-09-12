@@ -50,5 +50,8 @@ public interface friendDao {
 	public int checkFriend(String userid, String id);
 
 	public ArrayList<friend> selectFriendLsit(String userid);
-	  int insertBoard(board board);
+	
+	public int insertBoard(board board);
+
+	public List<board> selectAllBoard(String userid);
 }

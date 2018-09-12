@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scit.doujo.dao.friendDao;
-import com.scit.doujo.dao.friendDao;
 import com.scit.doujo.dao.memberDao;
 import com.scit.doujo.util.FileService;
 import com.scit.doujo.util.PageNavigator;
