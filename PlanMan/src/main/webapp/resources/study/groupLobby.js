@@ -41,7 +41,7 @@ function showMakeGroup() {
 					document.getElementById("functionboard").innerHTML = "";
 				}
 				, error: function(request,status,error){
-			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			    }
 					
 			});
@@ -54,6 +54,7 @@ function makegroup() {
 	var group = {
 		"name" : $(".name").val()
 		, "teg" : $(".teg").val()
+		, "secret" : $("#secret").val()
 	};
 	//alert("흠");
 	$.ajax({
@@ -63,8 +64,8 @@ function makegroup() {
 		, dataType : 'json'
 		, contentType : 'application/json; charset=UTF-8'
 		, success: function(resp) {
-			alert(JSON.stringify(resp));
-			alert(resp.username)
+			//alert(JSON.stringify(resp));
+			//alert(resp.username)
 		} 
 			
 	});
@@ -94,7 +95,7 @@ function showMyGroup() {
 				
 			}
 			, error: function(request,status,error){
-		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		        ////alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		        
 		    }
 		});
@@ -188,14 +189,14 @@ function showSearchGroup() {
 							, dataType : 'json'
 							, contentType : 'application/json; charset=UTF-8'
 							, success: function(data) {
-								alert("흠"+data.result);
+								//alert("흠"+data.result);
 								
 							} 
 						});
 					});
 				}
 				, error: function(request,status,error){
-			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			    }
 					
 			});

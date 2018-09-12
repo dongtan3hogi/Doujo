@@ -209,9 +209,11 @@
 	<select id="countTegQuiz" resultType="integer" parameterType="map">
   		SELECT count(*)
 		FROM quiz
-		WHERE  type = #{type}
-		AND teg like '%' ||  #{teg} || '%'
-		AND q.id=#{id}
+		WHERE teg like '%' ||  #{teg} || '%'
+		<if test="type != null">
+    		AND type = #{type}
+  		</if>
+		AND id=#{id}
 	</select>
 	
 	<!-- 12_3 -->

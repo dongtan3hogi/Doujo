@@ -181,6 +181,8 @@
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
             <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -249,7 +251,7 @@
             <div class="box-header with-border"> 
               <h3 class="box-title">GROUP MENU</h3>
               <div class="box-tools"> 
-                  <button type="button" class="btn btn-box-tool" data-widget="collapse" id="showmakegroup"><i class="fa fa-minus"></i> 
+                  <button type="button" class="btn btn-info" data-widget="collapse" id="showmakegroup"><i class="fa fa-minus"></i> 
                   </button> 
               </div>
             </div> 
@@ -307,7 +309,6 @@
 <script src="resources/main/dist/js/adminlte.min.js"></script> 
 <!-- AdminLTE for demo purposes --> 
 <script src="resources/main/dist/js/demo.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
 <script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
 <script type="text/javascript">
 

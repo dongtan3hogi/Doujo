@@ -194,7 +194,9 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>     
+            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li> 
           </ul>
         </li>
         <li class="treeview">
@@ -296,7 +298,7 @@
         	</div>
 	      	<br/>
 	      	<div>식품군
-	      		<form action="gotoMeal" method="post" style="display: inline;">
+	      		<form action="gotoMeal" method="get" style="display: inline;">
 		      	<select name="FDGRP_NM">
 		      		<option selected="selected">${foodgroup}</option>
 		      		<option value="가공유류">가공유류</option>\

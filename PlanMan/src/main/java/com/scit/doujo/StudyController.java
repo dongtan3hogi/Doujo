@@ -224,6 +224,8 @@ public class StudyController {
 		int pagePerGroup = 1;
 		int total = 0;
 		id = (String)hs.getAttribute("memberID"); 
+		
+		//System.out.println("getQuizSet/quizset"+quizSet.toString());
 		if(quizSet.containsKey("select")||quizSet.get("select")!=null) {
 			String select = quizSet.get("select");
 			set = select.substring(0, 1); 
@@ -234,13 +236,14 @@ public class StudyController {
 			page = Integer.parseInt(quizSet.get("page"))+1;
 		}
 		quizSet.put("id", id);
-		System.out.println(set +", "+ name +", "+ page);
+		//System.out.println(set +", "+ name +", "+ page);
 		//teg타입인지 record타입인지 먼저 확인한다. 
 		//type이 teg이면 태그를 사용해서 불러온다. 
 		
 		
 		if(set.equals("t")||set.equals("teg")) { 
 			quizSet.put("teg", name);
+			System.out.println("getQuizSet/quizset"+quizSet.toString());
 			total = dao.countTegQuiz(quizSet);
 			System.out.println("total"+total);
 			PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
@@ -529,6 +532,7 @@ public class StudyController {
 		group.put("id", id);
 		
 		//그룹생성
+		System.out.println("makingGroup/group"+group);
 		int ig = gdao.insertGroup(group);
 		int slmg =  gdao.selectLastMakeGroupseq(id);
 		
@@ -830,12 +834,12 @@ public class StudyController {
 		studyDao dao = sqlSession.getMapper(studyDao.class); 
 		String id = (String)hs.getAttribute("memberID");
 		Map<String, String> SARQ = new HashMap<>();
-		ArrayList<Map<String,String>> quizList = new ArrayList<>(); 
-		Map<String, Map<String,String>> quizMap = new HashMap<>(); 
+		ArrayList<Map<String,String>> quizList1 = new ArrayList<>(); 
+		Map<String, Map<String,String>> quizMap1 = new HashMap<>(); 
 		SARQ.put("quizrecordcode", friendId+title);
 		SARQ.put("id", friendId);
-		quizList = dao.selectAllRecordQuiz(SARQ);
-		System.out.println("quizList//"+quizList.toString());
+		quizList1 = dao.selectAllRecordQuiz(SARQ);
+		System.out.println("quizList//"+quizList1.toString());
 		//(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ANSWER2}, #{ANSWER3}, #{ANSWER4}, #{ANSWERNUMBER}, #{ID})
 		//(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ID})
 		/*TO_CHAR(q.quizseq) NUM
@@ -851,7 +855,7 @@ public class StudyController {
 			,l.quizrecordname quizrecordname
 			,l.quizrecordcode quizrecordcode*/
 		
-		for (Map<String, String> map : quizList) {
+		for (Map<String, String> map : quizList1) {
 			map.put("type", map.get("TYPE"));
 			map.remove("TYPE");
 			map.put("teg", map.get("TEG"));
@@ -886,6 +890,47 @@ public class StudyController {
 				
 			}
 		} 
+		
+		
+		
+		 
+		Map<String,ArrayList<Map<String, String>>> allMap = new HashMap<>(); 
+		 
+		ArrayList<Map<String, String>> recordList = dao.selectAllQuizrecordlist(id); 
+		Map<String,Map<String, String>> recordMap = new HashMap<>(); 
+		 
+		ArrayList<Map<String, String>> tegList = dao.selectAllTeg(id);  
+		Map<String, Map<String, String>> tegMap = new HashMap<>(); 
+		 
+		//일단 태그와 레코드목록 불러온다.
+		
+		if(dao.countQuizrecordlist(id)>0) {
+			for (Map<String, String> map : recordList) { 
+				recordMap.put(map.get("NAME"), map);
+				//System.out.println(map.toString());
+			} 
+		} 
+		if(dao.countTeg(id)>0) {
+			for (Map<String, String> map : tegList) { 
+				tegMap.put(map.get("TEG"), map); 
+				//System.out.println(map.toString());
+			} 
+		}
+		//allMap.put("recordMap", recordMap); 
+		//allMap.put("tegMap", tegMap);
+		allMap.put("recordList", recordList);
+		allMap.put("tegList", tegList);
+		
+		System.out.println(tegList.size());
+		
+		model.addAttribute("allMap",allMap);
+		
+		
+		
+		
+		
+		
+		
 		
 		return "study/quizSolve"; 
 	}
