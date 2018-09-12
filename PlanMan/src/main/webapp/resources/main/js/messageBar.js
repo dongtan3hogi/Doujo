@@ -20,10 +20,10 @@ $(function(){
 			
 		}
 		//$('.sidebar-toggle').trigger('click');
-		$('#quiztypeinput').on("click", function() {
-			alert("호우");
+		/*$('#quiztypeinput').on("click", function() {
+			//alert("호우");
 	        sendMessage();
-	    });
+	    });*/
 	});
 });
 
@@ -182,7 +182,7 @@ function messageBoardChange(friendId){
 		    });
 		} 
 		, error: function(request,status,error){ 
-	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 	    } 
 	});
 }	
@@ -221,7 +221,7 @@ function showFriendList(){
 			document.getElementById("parentMessageBoard").innerHTML = result;
 		} 
 		, error: function(request,status,error){ 
-	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 	    } 
 			 
 	}); 
@@ -413,7 +413,7 @@ function onMessage(evt) {
     			
     		} 
     		, error: function(request,status,error){ 
-    	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+    	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
     	    } 
     			 
     	});
@@ -569,7 +569,7 @@ function friendAlermOkBtn(CODE) {
 			"alermseq" : CODE
 			, "sendid" : sendid
 	};
-	alert(alerm.alermseq + "," + alerm.sendid);
+	//alert(alerm.alermseq + "," + alerm.sendid);
 	$.ajax({
 		method   : 'post'
 		, url    : 'friendAlermOkBtn'
@@ -577,7 +577,7 @@ function friendAlermOkBtn(CODE) {
 		, dataType : 'json'
 		, contentType : 'application/json; charset=UTF-8'
 		, success: function(data) {
-			alert(data.result1+"흠"+data.result2);
+			//alert(data.result1+"흠"+data.result2);
 			location.reload();
 		} 
 	});
@@ -588,7 +588,7 @@ function friendAlermNoBtn(CODE) {
 	var alerm = {
 			"alermseq" : CODE
 	};
-	alert(alerm.alermseq);
+	//alert(alerm.alermseq);
 	$.ajax({
 		method   : 'post'
 		, url    : 'friendAlermNoBtn'

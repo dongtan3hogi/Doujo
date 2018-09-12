@@ -268,7 +268,7 @@
                </div>
                <div>
                		<c:forEach var="record" items="${allMap.tegList}"> 
-						<input type="button" class="btn btn-info" value="#${record.TEG}" />
+						<input type="button" class="btn btn-info tegQuizChoice" value="${record.TEG}"/>
 					</c:forEach>
 			   </div>
 			   <br/>  
