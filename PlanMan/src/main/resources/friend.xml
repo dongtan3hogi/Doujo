@@ -4,34 +4,14 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.scit.doujo.dao.friendDao">
-	  
-    
-   <insert id="insert" parameterType="string">
-		INSERT INTO friend(
-			userid,
-			friendid,
-			type
-		) VALUES
-			(#{userid},
-			 #{id},
-			 2
-			)
-	</insert> 
-	<insert id="beInserted" parameterType="string">
-		INSERT INTO friend(
-			userid,
-			friendid,
-			type
-		) VALUES
-			(
-			 #{1},
-			 #{0},
-			 3
-			)
-	</insert> 
+	
+	<!-- 친구 수락하기(등록하기) -->  
+	<insert id="insertMyFriend" parameterType="friend">
+		insert into friend (USERID, FRIENDID, NICKNAME, NAME, GENDER, AGE, JOB, HOBBY) 
+		values (#{userid}, #{friendid}, #{nickname}, #{name}, #{gender}, #{age}, #{job}, #{hobby})
+	</insert>
+	
 
-	
-	
 	<select id="getRecommendFriendsCount" parameterType="map" resultType="int">
 		select 
 			count(*)
@@ -94,23 +74,9 @@
 		</if>
 	</select>
    
-    <delete id="deletemember" parameterType="member">
-		delete
-		from
-			member
-		where
-			id = #{id}
-	</delete>
 	
-	 <delete id="delMember" parameterType="String">
-		delete
-		from
-			member
-		where
-			id = #{value}
-	</delete>
 	<update id="acceptFriend" parameterType="String">
-	update friend set type=1 where userid= #{0} and friendid= #{1}
+		update friend set type=1 where userid= #{0} and friendid= #{1}
 	</update>
 
 	<select id="checkFriend" parameterType="String" resultType="int">
@@ -142,7 +108,7 @@
 		)
 	</select>
 	
-	   <insert id="insertBoard" parameterType="board">
+	<insert id="insertBoard" parameterType="board">
       INSERT INTO board
       (
           id, 

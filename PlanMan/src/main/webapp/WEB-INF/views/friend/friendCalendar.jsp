@@ -512,7 +512,7 @@
  
         // When the user clicks on the button, open the modal 
         $('#sch-button').text('');
-        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='친구에게 스케쥴 신청하기' class='btn btn-block btn-success' onclick='return addevent()'/>");      	  
+        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='친구에게 스케쥴 신청하기' class='btn btn-block btn-success' onclick='return askevent()'/>");      	  
         modal.style.display = "block";
         $('#startday').val(date.format());
         
@@ -636,10 +636,8 @@
   			return false;
   		}else{
   			endday=$('#startday').val()+" "+$('#timepicker2').val();
-  			$.ajax({
-  				url:'askShareSchedule'
-  				,type:'post'
-  				,data:{"sendid":"${sessionScope.member.id}"
+  			var alerm = {
+  					"sendid":"${sessionScope.member.id}"
   					,"friendid":$('#nowfriend').val()
   					,"variable1":event
   					,"variable2":eventtitle
@@ -648,7 +646,14 @@
   					,"endtime":endday
   					,"variable3": plusday
   					,"variable4":stype
-  				}
+  			};
+  			
+  			$.ajax({
+  				url:'askShareSchedule'
+  				,type:'post'
+  				,data:JSON.stringify(alerm)
+  				, dataType : 'json'
+				, contentType : 'application/json; charset=UTF-8'
   				,success: function (data){
 					if(data=="success"){
 						alert("스케쥴을 신청했습니다.");

@@ -14,10 +14,12 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.scit.doujo.dao.alermDao;
 import com.scit.doujo.dao.friendDao;
+import com.scit.doujo.dao.memberDao;
 import com.scit.doujo.dao.messageDao;
 import com.scit.doujo.dao.studyDao;
 import com.scit.doujo.util.PageNavigator;
 import com.scit.doujo.vo.friend;
+import com.scit.doujo.vo.member;
 
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Controller; 
@@ -162,19 +164,56 @@ public class AlermController {
 	
 	
 	
-	/* alerm에서 수락 ===================================================================*/ 
+	/* alerm에서 친구 신청수락 ===================================================================*/ 
 	@RequestMapping(value = "/friendAlermOkBtn", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> friendAlermOkBtn(@RequestBody Map<String, String> alerm, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
+		memberDao mdao = sqlSession.getMapper(memberDao.class);
 		friendDao sdao = sqlSession.getMapper(friendDao.class);
 		String memberID = (String)hs.getAttribute("memberID");
 		Map<String, Map<String,String>> alermMap = new HashMap<>();
 		System.out.println("friendAlermOkBtn/alerm/"+alerm.toString());
 		//DB에 친구등록
-		int result1 = 0;
-		
-		
-		
+		String sendid=alerm.get("sendid");
+		member vo=mdao.selectOneMember(sendid);
+		friend vo2=new friend();
+		vo2.setFriendid(sendid);
+		vo2.setUserid(memberID);
+		vo2.setAge(vo.getAge());
+		vo2.setGender(vo.getGender());
+		vo2.setName(vo.getName());
+		vo2.setNickname(vo.getNickname());
+		if(vo.getJob()==null) {
+			vo2.setJob("-");
+		}else {
+			vo2.setJob(vo.getJob());
+		}
+		if(vo.getHobby()==null) {
+			vo2.setHobby("-");
+		}else {
+			vo2.setHobby(vo.getHobby());
+		}
+		System.out.println(vo2.toString());
+		int result1 = sdao.insertMyFriend(vo2);
+		member vo3=mdao.selectOneMember(memberID);
+		vo2.setFriendid(memberID);
+		vo2.setUserid(sendid);
+		vo2.setAge(vo3.getAge());
+		vo2.setGender(vo3.getGender());
+		vo2.setName(vo3.getName());
+		vo2.setNickname(vo3.getNickname());
+		if(vo3.getJob()==null) {
+			vo2.setJob("-");
+		}else {
+			vo2.setJob(vo3.getJob());
+		}
+		if(vo3.getHobby()==null) {
+			vo2.setHobby("-");
+		}else {
+			vo2.setHobby(vo3.getHobby());
+		}
+		System.out.println(vo2.toString());
+		int result3 = sdao.insertMyFriend(vo2);
 		
 		
 		
@@ -205,12 +244,13 @@ public class AlermController {
 		return alermMap; 
 	}
 	
-	/* alerm에서 거절해서 해당 alerm을 테이블에서 지운다. ===================================================================*/ 
+	/* FRIEND에게 스케쥴 신청하기 ===================================================================*/ 
 	@RequestMapping(value = "/askShareSchedule", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> askShareSchedule(@RequestBody Map<String, String> alerm, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
-		studyDao sdao = sqlSession.getMapper(studyDao.class);
+		friendDao sdao = sqlSession.getMapper(friendDao.class);
 		Map<String, Map<String,String>> alermMap = new HashMap<>();
+		
 		
 		//해당 알람을 지운다.
 		int result1 = adao.deleteAlerm(alerm);
