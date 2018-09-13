@@ -496,7 +496,7 @@ function showAlermList(){
 						result +='<input type="hidden" id="roomnum' +item.CODE+ '" value="' + item.CONTENT + '" >';
 						result +='</li>';
 						
-					} else if(item.TYPE == "friendapply"){
+					} else if(item.EVENTTYPE == "friendapply"){
 						var codes = "'"+ item.CODE +"'";
 						result +='<li id=alermBoardLi"' +item.CODE+ '">';
 						result +='<a>';
@@ -504,7 +504,7 @@ function showAlermList(){
 						result +='</a>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="friendAlermOkBtn(' +codes+ ')"><i class="fa fa-check-circle-o"></i></button>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="friendAlermNoBtn(' +codes+ ')"><i class="fa fa-remove"></i></button>';
-						result +='<input type="hidden" id="sendid' +item.SENDID+ '" value="' + item.SENDID + '" >';
+						result +='<input type="hidden" id="sendid' +item.CODE+ '" value="' + item.SENDID + '" >';
 						result +='</li>';
 						
 						

@@ -262,6 +262,8 @@
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
             <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -454,7 +456,8 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_pwalk.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
+
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -474,7 +477,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_stair.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -494,7 +497,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_climb.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -514,7 +517,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_swim.gif' style='width:20%; height:20%; background:url(./resources/main/images/sp_bg_swim.png);'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -534,7 +537,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_yoga.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -554,7 +557,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_boxing.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -574,7 +577,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_pjump.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -594,7 +597,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_bike.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -614,7 +617,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_run.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -634,7 +637,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_psquat.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -654,7 +657,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_pbike.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -674,7 +677,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_tennis.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -694,7 +697,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_hula.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -714,7 +717,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_pwalk.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -734,7 +737,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_paerobic.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -754,7 +757,7 @@ var span = document.getElementsByClassName("close")[0];
 		 $("#content").text('');
 		 $("#content").append("<br><input type='text' id='weight' class='forkacl'>kg&nbsp&nbspX&nbsp&nbsp<input type='text' id='time' value='10' class='forkacl'>분&nbsp&nbsp=<input type='text' id='kacl' readonly='readonly' class='forkacl'>kacl");
 		 $("#content").append("<div><img src='./resources/main/images/ANY_psitup.gif' style='width:20%; height:20%;'></div>");
-		 
+		 $('#weight').val(${sessionScope.member.weight});
 		 $('#weight').keyup(function(){
 			var weight=$('#weight').val();
 			var time=$('#time').val();
@@ -771,6 +774,8 @@ var span = document.getElementsByClassName("close")[0];
 	 });
 	 
 	 $('#tab1').trigger('click');
+	 
+	 
 	 
 	 $('#addActivity').on('click',function(){
 		 if($('#addActDay').val().length==0){

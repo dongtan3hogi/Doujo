@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
+import com.scit.doujo.vo.board;
 import com.scit.doujo.vo.friend;
 import com.scit.doujo.vo.member;
 
@@ -28,18 +29,10 @@ public interface friendDao {
 
 	public List<member> getRecommendFriends(Map<String, String> map, RowBounds rb);
 
-	public int deletemember(member member);
-	
-	public int delMember(String id);
-	
-	public int insertMember(member member);
-
 	public void selectOne(String id);
-
+	
 	public int insert(@Param(value="userid")String userid, @Param(value="id")String id);
-	
-	public void beInserted(String userid, String id);
-	
+		
 	public void acceptFriend(String userid, String fid);
 
 	public List<friend> getMyFriends(Map<String, String> map, RowBounds rb);
@@ -49,4 +42,10 @@ public interface friendDao {
 	public int checkFriend(String userid, String id);
 
 	public ArrayList<friend> selectFriendLsit(String userid);
+	
+	public int insertBoard(board board);
+
+	public List<board> selectAllBoard(String userid);
+	//친구 등록하기(수락하기)
+	public int insertMyFriend(friend vo2);
 }

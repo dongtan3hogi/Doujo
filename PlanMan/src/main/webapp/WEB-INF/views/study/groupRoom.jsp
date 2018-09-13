@@ -605,6 +605,8 @@
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
             <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -647,7 +649,7 @@
       <div class="row"> 
         
         <div class="col-md-3"> 
-          <div class="box box-solid"> 
+          <div class="box box-info"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">Group</h3> 
               <div class="box-tools"> 
@@ -663,7 +665,7 @@
             <!-- /.box-body --> 
           </div> 
           
-          <div class="box box-solid"> 
+          <div class="box box-info"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">Group</h3> 
               <div class="box-tools"> 
@@ -704,55 +706,7 @@
         
         
         <div class="col-md-9"> 
-          
-          <!-- <div class="box"> 
-            <div class="box-header with-border"> 
-              <h3 class="box-title">Show Quiz</h3> 
-            </div> 
-            /.box-header 
-            <div class="box-body">
-               <div class="margin">
-                 <div class="btn-group">
-                  <button type="button" class="btn btn-info">function</button>
-                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a id="authority">권한부여</a></li>
-                    <li><a id="sharing">화면공유</a></li>
-                    <li><a id="invite">초대</a></li>
-                    <li class="divider"></li>
-                  </ul>
-                </div>
-                <span id="leaderfunctionview">
-                
-                </span>
-               </div>
-            
-              <form role="form"> 
-                 
-                Function Key 
-                <div class="form-group" id="leaderfunselectspan"> 
-                  <select class="form-control" id="leaderfunselect" onchange="lfsChange()"> 
-                    <option value="none" selected>==선택==</option>
-					<option value="authority">권한 부여</option>
-					<option value="sharing">화면공유</option>
-					<option value="invite">초대</option>
-                  </select> 
-                </div> 
-                 
-                 
-                <div class="form-group" id="leaderfunctionview">
-                	
-                </div>
-                <div class="form-group" id="functionboard"> 
-                </div>
-              </form> 
-            
-          </div> -->
-          <!-- /. box --> 
-          
+         
           
           
 		<div class="box box-info direct-chat direct-chat-warning">
@@ -805,7 +759,7 @@
                     	<div class="input-group">
                    			<input type="text" name="message" id="message" placeholder="Type Message ..." class="form-control">
                       		<span class="input-group-btn">
-                         		<button type="button" class="btn btn-warning btn-flat" id="chatSendBtn">Send</button>
+                         		<button type="button" class="btn btn-info btn-flat" id="chatSendBtn">Send</button>
                       		</span>
                     	</div>
                   	</form>
@@ -814,59 +768,25 @@
 			</div>
           </div>
           
-      	  <!-- general form elements disabled --> 
-      	
-          <div class="box box-primary"> 
-            <div class="box-header with-border"> 
-              <h3 class="box-title">Menu</h3> 
-            </div> 
-            <!-- /.box-header --> 
-            <!-- <div class="box-body">
-               <div class="margin">
-                 <div class="btn-group">
-                  <button type="button" class="btn btn-info">function</button>
-                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a id="authority">권한부여</a></li>
-                    <li><a id="sharing">화면공유</a></li>
-                    <li><a id="invite">초대</a></li>
-                    <li class="divider"></li>
-                  </ul>
-                </div>
-                <span id="leaderfunctionview">
-                
-                </span>
-               </div> -->
-            
-              <form role="form"> 
-                 
-                <!-- Function Key --> 
-                <!-- <div class="form-group" id="leaderfunselectspan"> 
-                  <select class="form-control" id="leaderfunselect" onchange="lfsChange()"> 
-                    <option value="none" selected>==선택==</option>
-					<option value="quiz">퀴즈</option>
-					<option value="invite">초대</option>
-                  </select> 
-                </div>  -->
-                 
-                 
-                <div class="form-group" id="functionboard"> 
-                </div>
-              </form> 
-            </div> 
-            <!-- /.box-body --> 
+      	  
           </div>
-          <!-- /. box --> 
+          <!-- /. col --> 
         </div> 
-        <!-- /.col --> 
+        <!-- /.row --> 
         
       </div> 
-      <!-- /.row --> 
+      <!-- /.content-wrapper --> 
     </section> 
     <!-- /.content --> 
+    
+    <footer class="main-footer"> 
+    <div class="pull-right hidden-xs"> 
+      <b>Version</b> 2.4.0 
+    </div> 
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
+    reserved. 
+  </footer> 
+    
   </div> 
   <!-- /.content-wrapper --> 
    
@@ -876,13 +796,7 @@
   <!-- ========================================================================================================== --> 
    
    
-  <footer class="main-footer"> 
-    <div class="pull-right hidden-xs"> 
-      <b>Version</b> 2.4.0 
-    </div> 
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
-    reserved. 
-  </footer> 
+  
  
 </div> 
 <!-- ./wrapper --> 

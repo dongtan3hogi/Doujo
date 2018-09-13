@@ -1,3 +1,4 @@
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -31,6 +32,10 @@
   <link rel="stylesheet" href="./resources/style/board.css" />
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+ <style>
+.eImage { height: 80px;
+         width: auto; }
+</style>
 
 <!-- head -->
 </head>
@@ -188,7 +193,8 @@
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
             <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -280,7 +286,23 @@
 	            </div>
 	            <!-- /.box-body -->
 	            <div class="box-footer clearfix no-border">
-	            </div>
+		        </div>
+		        <div class="box box-success">
+		            <div class="box-header">
+		              <i class="ion ion-clipboard"></i>
+		
+		              <h3 class="box-title">Popular Meetings</h3>
+		            </div>
+		            <!-- /.box-header -->
+		            <div class="box-body">
+		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+		              <input type="text" id="searchMeeting">&nbsp;<input type="button" id="goSearch" value="#으로 검색">
+		                
+		              <ul class="eventlist">
+		              </ul>
+		            </div>
+		              <div id="boardfooter"></div>
+	          </div>
 	          </div>
 	          <!-- /.box -->
 
@@ -410,8 +432,93 @@
 
 <!-- Page specific script -->
 <script>
+function goPage(a){
+	   $.ajax({
+			url:"goMPage",
+			type:"post",
+			//client에서 server로 가는 값
+			data:{"value": a},
+			success: function(data){
+				$(".eventlist").empty();
+				$.each(data.meeting, function(index, item){
+					
+					var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
+					$(".eventlist").append(result);
+					});
+					var navi = data.navi;
+					var line="";
+					var current= Number(0);
+					if(navi.currenPage >1){
+						current = Number(navi.currentPage);
+						current--;
+						line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
+					}
+					for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
+						if(navi.currentPage == i){
+							line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
+						}else{
+							line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
+						}
+					}
+					if(navi.currentPage <navi.totalPageCount){
+						current = Number(navi.currentPage);
+						
+						current++;
+						line+=	"<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
 
-  $(function () {    
+					}
+				      $('#boardfooter').empty();
+
+				      $('#boardfooter').append(line);
+			}
+		});
+	}
+  $(function () {
+	  
+	  $("#goSearch").on("click",function(){
+	      var search= $("#searchMeeting").val();
+	      if(search==""){
+	         alert('입력해');
+	      }
+	      $.ajax({
+	         url:"searchMeeting",
+	         type:"post",
+	         //client에서 server로 가는 값
+	         data:{"search": search},
+	         success: function(data){
+	            $.each(data.meeting, function(index, item){
+	            
+	            var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
+	            $(".eventlist").append(result);
+	            });
+	            var navi = data.navi;
+	            var line="";
+	            var current= Number(0);
+	            if(navi.currenPage >1){
+	               current = Number(navi.currentPage);
+	               current--;
+	               line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
+	            }
+	            for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
+	               if(navi.currentPage == i){
+	                  line+=    "<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
+	               }else{
+	                  line+=    "<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
+	               }
+	            }
+	            if(navi.currentPage <navi.totalPageCount){
+	               current = Number(navi.currentPage);
+	               
+	               current++;
+	               line+=   "<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
+
+	            }
+	               $('#boardfooter').append(line);
+	         },fail: function(){
+	            alert("다음에 다시 시도해주세요");
+	         }
+	      });
+	   }); 
      
      $('a.favorite').click(function() {
         alert("클릭");

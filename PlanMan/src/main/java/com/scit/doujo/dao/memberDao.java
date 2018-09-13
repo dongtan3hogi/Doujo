@@ -40,6 +40,8 @@ public interface memberDao {
 	public int updateMember(member vo);
 	//친구스케쥴 가져오기
 	public ArrayList<schedule> selectFriendSchdule(String friendID);
+	//회원 정보 가져오기
+	public member selectOneMember(String sendid);
 	
 	
 }
