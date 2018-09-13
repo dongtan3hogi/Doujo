@@ -88,103 +88,114 @@ var messageListBoard = '';
 //메세지창 생성.
 function messageBoardChange(friendId){
 	//alert("음"+messageBarBoard);
-	var idSet = { 
-			"friendID" : friendId
-	}; 
-	$.ajax({ 
-		method   : 'post' 
-		, url    : 'messageTypeNewToNor' 
-		, data   : JSON.stringify(idSet) 
-		, dataType : 'json' 
-		, contentType : 'application/json; charset=UTF-8' 
-		, success: function (data){ 
-			var dummyFriend = "'"+friendId+"'";
-			var messageBarBoard = ""
-				messageBarBoard += '<li class="dropdown messages-menu" id="'+friendId+'Li">';
-				messageBarBoard += '<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">';
-				messageBarBoard += '<i class="fa fa-commenting"><img class="direct-chat-img" src="resources/userData/image/' + friendId + '.jpg" alt="message user image" style="width:25px;height:25px;"  onError="this.src='+onErrorResource+';"></i>';
-				messageBarBoard += '<span class="label label-success"></span>';	//count
-				messageBarBoard += '</a>';
-				messageBarBoard += '<ul class="dropdown-menu" id="MessageBoard">';
-				messageBarBoard += '<div class="box box-solid direct-chat direct-chat-primary">';
-				messageBarBoard += '<div class="box-header with-border">';
-				messageBarBoard += '<h3 class="box-title">'+friendId+'</h3>';
-				messageBarBoard += '<div class="box-tools pull-right">';
-				messageBarBoard += '<button type="button" class="btn btn-box-tool" data-widget="remove" onclick="messageBoardClose(' + dummyFriend + ')"><i class="fa fa-times"></i>';
-				messageBarBoard += '</button>';
-				messageBarBoard += '</div>';
-				messageBarBoard += '</div>';
-				messageBarBoard += '<div class="box-body">';
-				messageBarBoard += '<div class="direct-chat-messages" id="'+friendId+'messageLog">';
+	if(document.getElementById(friendId+'Li')!=null){
+		//alert("이미있음");
+	} else{
+		//alert("없음.");
+		var idSet = { 
+				"friendID" : friendId
+		}; 
+		$.ajax({ 
+			method   : 'post' 
+			, url    : 'messageTypeNewToNor' 
+			, data   : JSON.stringify(idSet) 
+			, dataType : 'json' 
+			, contentType : 'application/json; charset=UTF-8' 
+			, success: function (data){ 
+				var dummyFriend = "'"+friendId+"'";
+				var messageBarBoard = ""
+					messageBarBoard += '<li class="dropdown messages-menu" id="'+friendId+'Li">';
+					messageBarBoard += '<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">';
+					messageBarBoard += '<i class="fa fa-commenting"><img class="direct-chat-img" src="resources/userData/image/' + friendId + '.jpg" alt="message user image" style="width:25px;height:25px;"  onError="this.src='+onErrorResource+';"></i>';
+					messageBarBoard += '<span class="label label-success"></span>';	//count
+					messageBarBoard += '</a>';
+					messageBarBoard += '<ul class="dropdown-menu" id="MessageBoard">';
+					messageBarBoard += '<div class="box box-solid direct-chat direct-chat-primary">';
+					messageBarBoard += '<div class="box-header with-border">';
+					messageBarBoard += '<h3 class="box-title">'+friendId+'</h3>';
+					messageBarBoard += '<div class="box-tools pull-right">';
+					messageBarBoard += '<button type="button" class="btn btn-box-tool" data-widget="remove" onclick="messageBoardClose(' + dummyFriend + ')"><i class="fa fa-times"></i>';
+					messageBarBoard += '</button>';
+					messageBarBoard += '</div>';
+					messageBarBoard += '</div>';
+					messageBarBoard += '<div class="box-body">';
+					messageBarBoard += '<div class="direct-chat-messages" id="'+friendId+'messageLog">';
+					
+					
+					
+					
+					var MyID = document.getElementById("MyID").value;
+					
+					$.each(data, function(index, item){
+						if(item.GIVEID == MyID) {
+				    		//내가보낸 메세지는 우측
+				    		messageBarBoard += '<div class="direct-chat-msg right">';
+				    		messageBarBoard += '<div class="direct-chat-info clearfix">';
+				    		messageBarBoard += '<span class="direct-chat-name pull-right">' + item.GIVEID + '</span>';
+				    		messageBarBoard += '<span class="direct-chat-timestamp pull-left">' + item.TIME + '</span>';
+				    		messageBarBoard += '</div>';
+				    		messageBarBoard += '<img class="direct-chat-img" src="resources/userData/image/' + item.GIVEID + '.jpg" alt="message user image" onError="this.src='+onErrorResource+';">';
+				    		messageBarBoard += '<div class="direct-chat-text">';
+				    		messageBarBoard += item.MESSAGE;
+				    		messageBarBoard += '</div>';
+				    		messageBarBoard += '</div>';
+				    	} else {
+				    		//상대가보낸 메세지는 좌측
+				    		messageBarBoard += '<div class="direct-chat-msg">';
+				    		messageBarBoard += '<div class="direct-chat-info clearfix">';
+				    		messageBarBoard += '<span class="direct-chat-name pull-left">' + item.GIVEID + '</span>';
+				    		messageBarBoard += '<span class="direct-chat-timestamp pull-right">' + item.TIME + '</span>';
+				    		messageBarBoard += '</div>';
+				    		messageBarBoard += '<img class="direct-chat-img" src="resources/userData/image/' + item.GIVEID + '.jpg" alt="message user image"  onError="this.src='+onErrorResource+';">';
+				    		messageBarBoard += '<div class="direct-chat-text">';
+				    		messageBarBoard += item.MESSAGE;
+				    		messageBarBoard += '</div>';
+				    		messageBarBoard += '</div>';
+				    		
+				    	}
+					});
+					
+					
+					
+					
+					
+					messageBarBoard += '</div>';
+					messageBarBoard += '<div class="box-footer">';
+					messageBarBoard += '<form action="#" method="post"  onsubmit="return false;">';
+					messageBarBoard += '<div class="input-group">';
+					messageBarBoard += '<input type="text" name="message" id="'+friendId+'message" placeholder="Type Message ..." class="form-control">';
+					messageBarBoard += '<span class="input-group-btn">';
+					messageBarBoard += '<button type="button" class="btn btn-warning btn-flat sendBtn" id="'+friendId+'">Send</button>';
+					messageBarBoard += '</span>';
+					messageBarBoard += '</div>';
+					messageBarBoard += '</form>';
+					messageBarBoard += '</div>';
+					messageBarBoard += '</div>';
+					messageBarBoard += '</div>';
+					messageBarBoard += '</ul>';
+					messageBarBoard += '</li>';
 				
 				
-				
-				
-				var MyID = document.getElementById("MyID").value;
-				
-				$.each(data, function(index, item){
-					if(item.GIVEID == MyID) {
-			    		//내가보낸 메세지는 우측
-			    		messageBarBoard += '<div class="direct-chat-msg right">';
-			    		messageBarBoard += '<div class="direct-chat-info clearfix">';
-			    		messageBarBoard += '<span class="direct-chat-name pull-right">' + item.GIVEID + '</span>';
-			    		messageBarBoard += '<span class="direct-chat-timestamp pull-left">' + item.TIME + '</span>';
-			    		messageBarBoard += '</div>';
-			    		messageBarBoard += '<img class="direct-chat-img" src="resources/userData/image/' + item.GIVEID + '.jpg" alt="message user image" onError="this.src='+onErrorResource+';">';
-			    		messageBarBoard += '<div class="direct-chat-text">';
-			    		messageBarBoard += item.MESSAGE;
-			    		messageBarBoard += '</div>';
-			    		messageBarBoard += '</div>';
-			    	} else {
-			    		//상대가보낸 메세지는 좌측
-			    		messageBarBoard += '<div class="direct-chat-msg">';
-			    		messageBarBoard += '<div class="direct-chat-info clearfix">';
-			    		messageBarBoard += '<span class="direct-chat-name pull-left">' + item.GIVEID + '</span>';
-			    		messageBarBoard += '<span class="direct-chat-timestamp pull-right">' + item.TIME + '</span>';
-			    		messageBarBoard += '</div>';
-			    		messageBarBoard += '<img class="direct-chat-img" src="resources/userData/image/' + item.GIVEID + '.jpg" alt="message user image"  onError="this.src='+onErrorResource+';">';
-			    		messageBarBoard += '<div class="direct-chat-text">';
-			    		messageBarBoard += item.MESSAGE;
-			    		messageBarBoard += '</div>';
-			    		messageBarBoard += '</div>';
-			    		
-			    	}
-				});
-				
-				
-				
-				
-				
-				messageBarBoard += '</div>';
-				messageBarBoard += '<div class="box-footer">';
-				messageBarBoard += '<form action="#" method="post"  onsubmit="return false;">';
-				messageBarBoard += '<div class="input-group">';
-				messageBarBoard += '<input type="text" name="message" id="'+friendId+'message" placeholder="Type Message ..." class="form-control">';
-				messageBarBoard += '<span class="input-group-btn">';
-				messageBarBoard += '<button type="button" class="btn btn-warning btn-flat sendBtn" id="'+friendId+'">Send</button>';
-				messageBarBoard += '</span>';
-				messageBarBoard += '</div>';
-				messageBarBoard += '</form>';
-				messageBarBoard += '</div>';
-				messageBarBoard += '</div>';
-				messageBarBoard += '</div>';
-				messageBarBoard += '</ul>';
-				messageBarBoard += '</li>';
-			
-			
-			document.getElementById("topMenuBarUl").innerHTML = messageBarBoard + document.getElementById("topMenuBarUl").innerHTML;
-			showNewMessageList();
-			$(document).ready(function() {
-		        $(".sendBtn").click(function() {
-		        	var FI = $(this).attr('id');
-		            sendMessage(FI);
-		        });
-		    });
-		} 
-		, error: function(request,status,error){ 
-	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
-	    } 
-	});
+				document.getElementById("topMenuBarUl").innerHTML = messageBarBoard + document.getElementById("topMenuBarUl").innerHTML;
+				$("#"+friendId+"messageLog").scrollTop($("#"+friendId+"messageLog")[0].scrollHeight);
+				showNewMessageList();
+				$(document).ready(function() {
+			        $(".sendBtn").click(function() {
+			        	var FI = $(this).attr('id');
+			            sendMessage(FI);
+			        });
+			    });
+			} 
+			, error: function(request,status,error){ 
+		        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+		    } 
+		});
+		
+		
+		
+		
+	}
+	
 }	
 
 
@@ -219,6 +230,9 @@ function showFriendList(){
 			messageListBoard += '</ul></li>';
 			
 			document.getElementById("parentMessageBoard").innerHTML = result;
+			$('#pParentMessageBoard').attr("class", "dropdown messages-menu open");
+			
+			$('#aariaexpanded').attr("aria-expanded", "true");
 		} 
 		, error: function(request,status,error){ 
 	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
@@ -244,7 +258,7 @@ function showNewMessageList(){
 		, contentType : 'application/json; charset=UTF-8' 
 		, success: function (data){ 
 			var result = '';
-			result += '<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">';
+			result += '<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="aariaexpanded">';
 			result += '<i class="fa fa-envelope-o"></i>';
 			result += '<span class="label label-success">' + data.countMessageMap.count + '</span>';
 			result += '</a>';
@@ -397,6 +411,7 @@ function onMessage(evt) {
     	//alert(putMsg);
     	var textarea = document.getElementById(takeid+"messageLog");
     	textarea.innerHTML += putMsg;
+    	$("#"+takeid+"messageLog").scrollTop($("#"+takeid+"messageLog")[0].scrollHeight);
     	var message = { 
     			"giveid" : MyID,
     			"takeid" : takeid,

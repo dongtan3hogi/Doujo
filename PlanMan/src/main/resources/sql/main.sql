@@ -41,7 +41,7 @@ CREATE TABLE messagecontent(
     giveid VARCHAR2(20) NOT NULL,
     takeid VARCHAR2(20) NOT NULL,
     message VARCHAR2(2000),
-    time VARCHAR2(20) DEFAULT TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MM'),
+    time VARCHAR2(20) DEFAULT TO_CHAR(SYSDATE, 'YYYY-MM-DD HH:MM:SS'),
     readcheck VARCHAR2(10) check (readcheck in ('old','nor','new')),
     keyword VARCHAR2(2000)
 );

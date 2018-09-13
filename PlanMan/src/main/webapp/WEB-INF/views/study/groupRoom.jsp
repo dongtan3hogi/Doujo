@@ -162,6 +162,8 @@
         		
         	}
         	textarea.innerHTML += putMsg;
+        	$("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
+        	//textarea.scrollTop = objDiv.scrollHeight;
         }
         
         if(dataArray[0] == 'quiznumber'){

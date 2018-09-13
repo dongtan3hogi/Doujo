@@ -124,12 +124,33 @@ public class MessageController {
 		}
 		
 		
-		//System.out.println("what"+friendMap.size());
+		
+		
+		
+		
 		String friendID = idSet.get("friendID");
+		String[] dummyAry;
+		
+		/*ArrayList<String> messOpenFriendList = new ArrayList<>();
+		ArrayList<String> messOpenFriendListBefore  = new ArrayList<>();
+		if(hs.getAttribute("messOpenFriendListBefore")!=null) {
+			messOpenFriendListBefore  = (ArrayList)hs.getAttribute("messOpenFriendListBefore");
+		} else {
+			
+		}
+		System.out.println("friendID:"+friendID);
+		messOpenFriendListBefore.add(friendID);
+		for (int i = 0; i < messOpenFriendListBefore.size(); i++) {
+            if (!messOpenFriendList.contains(messOpenFriendListBefore.get(i))) {
+            	messOpenFriendList.add(messOpenFriendListBefore.get(i));
+            }
+        }
+		hs.setAttribute("messOpenFriendList", messOpenFriendList);*/
+		
+		
+		String dummy = (String)hs.getAttribute("friendID");
 		if(hs.getAttribute("friendID") != null) { //섹션에 friendID가 없다면
-			String hsFriendID = (String)hs.getAttribute("friendID");
-			String dummy = hsFriendID;
-			String[] dummyAry;
+			
 			//#이 있다면 split로 쪼개고 없다면 하나라는 소리니 걍 [0]에 집어넣는다.
 			if(dummy.contains("#")) {	
 				dummyAry = dummy.split("#");
@@ -157,7 +178,9 @@ public class MessageController {
 		} else {
 			hs.setAttribute("friendID", friendID);
 		}
-		System.out.println("최종적인 friendID"+(String)hs.getAttribute("friendID"));
+		
+		
+		//System.out.println("최종적인 friendID"+(String)hs.getAttribute("friendID"));
 		return friendMap; 
 	}
 	
