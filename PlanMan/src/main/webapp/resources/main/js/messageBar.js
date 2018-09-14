@@ -506,6 +506,15 @@ function showAlermList(){
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="friendAlermNoBtn(' +codes+ ')"><i class="fa fa-remove"></i></button>';
 						result +='<input type="hidden" id="sendid' +item.CODE+ '" value="' + item.SENDID + '" >';
 						result +='</li>';
+					} else if(item.EVENTTYPE == "schedulesharing"){
+						var codes = "'"+ item.CODE +"'";
+						result +='<li id=alermBoardLi"' +item.CODE+ '">';
+						result +='<a>';
+						result +='<i class="fa fa-calendar-plus-o text-red"></i> '+item.SENDID+' 님의 스케쥴 공유하겠습니까?';
+						result +='</a>';
+						result +='<button type="button" class="btn btn-default btn-sm" onclick="scheduleAlermOkBtn(' +codes+ ')"><i class="fa fa-check-circle-o"></i></button>';
+						result +='<button type="button" class="btn btn-default btn-sm" onclick="scheduleAlermNoBtn(' +codes+ ')"><i class="fa fa-remove"></i></button>';
+						result +='</li>';
 						
 						
 					}
@@ -612,6 +621,44 @@ function friendAlermNoBtn(CODE) {
 		, contentType : 'application/json; charset=UTF-8'
 		, success: function(data) {
 			alert(data.result1+"흠"+data.result2);
+			location.reload();
+		} 
+	});
+}
+
+
+function scheduleAlermOkBtn(CODE) {
+	var alerm = {
+			"alermseq" : CODE
+	};
+	//alert(alerm.alermseq + "," + alerm.sendid);
+	$.ajax({
+		method   : 'post'
+		, url    : 'scheduleAlermOkBtn'
+		, data   : JSON.stringify(alerm)
+		, dataType : 'json'
+		, contentType : 'application/json; charset=UTF-8'
+		, success: function(data) {
+			//alert(data.result1+"흠"+data.result2);
+			location.reload();
+		} 
+	});
+}
+
+
+function scheduleAlermNoBtn(CODE) {
+	var alerm = {
+			"alermseq" : CODE
+	};
+	//alert(alerm.alermseq);
+	$.ajax({
+		method   : 'post'
+		, url    : 'scheduleAlermNoBtn'
+		, data   : JSON.stringify(alerm)
+		, dataType : 'json'
+		, contentType : 'application/json; charset=UTF-8'
+		, success: function(data) {
+			//alert(data.result1+"흠"+data.result2);
 			location.reload();
 		} 
 	});
