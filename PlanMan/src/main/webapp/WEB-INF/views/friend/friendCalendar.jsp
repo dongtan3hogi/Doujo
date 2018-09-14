@@ -358,16 +358,14 @@
 		                <c:forEach begin="0" var="friend" items="${fList}" varStatus="index">
 					          <tr>
 					              <td><img class="direct-chat-img" src="resources/userData/image/${friend.friendid}.jpg"  data-rno="${friend.friendid}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
-					              <td>${friend.friendid}</td>
+					              <td>${friend.friendid}<input type="hidden" id="nowfriend"></td>
 					          </tr>    
 					    </c:forEach>    	              
 					  </table>
 		            </div>
 		            <!-- /.box-body -->
-		            <div>
-				       <input type="hidden" id="nowfriend">
-				   	</div>
-				   	
+		            
+				   	<input type="hidden" id="nowfriend">
 		          </div>
 		          <!-- /.box -->
         </div>
@@ -438,7 +436,8 @@
 	    		  ,type:'post'
 	    		  ,data:{"friendID":friendID}
 	    		  ,success:function(data){
-	    			$('#nowfriend').val(data[0].id);  
+
+	    			$('#nowfriend').val(friendID);  
 	    			var events = [];
 	    			$(data).each(function(index, item) {
 	    				var col="";
@@ -599,7 +598,9 @@
   })
   
   function askevent(){
+		var friendid=$('#nowfriend').val();	
 		
+	  
 		var event=$('.event:checked').val();
 		var startday=$('#startday').val()+" "+$('#timepicker').val();
 		var startdatetime=new Date(startday);
@@ -636,9 +637,10 @@
   			return false;
   		}else{
   			endday=$('#startday').val()+" "+$('#timepicker2').val();
+  			alert(friendid);
   			var alerm = {
   					"sendid":"${sessionScope.member.id}"
-  					,"friendid":$('#nowfriend').val()
+  					,"friendid":friendid
   					,"variable1":event
   					,"variable2":eventtitle
   					,"content":eventcontent
@@ -655,7 +657,7 @@
   				, dataType : 'json'
 				, contentType : 'application/json; charset=UTF-8'
   				,success: function (data){
-					if(data=="success"){
+					
 						alert("스케쥴을 신청했습니다.");
 						$('#eventtitle').val('');
 			            $('#eventcontent').val('');
@@ -665,10 +667,7 @@
 			            modal.style.display = "none";
 			            location.reload(); 
 			            return true;
-					}else{
-						alert("스케쥴  신청에 실패했습니다.");
-						return false;
-					}
+					
   				}
   			});	
   		}

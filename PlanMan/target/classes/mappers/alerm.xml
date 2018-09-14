@@ -50,7 +50,7 @@
 		INSERT INTO alerm
 		(alermseq, eventtype, content, sendid, friendid, starttime, endtime, variable1, variable2, variable3, variable4)
 		VALUES
-		(alermseq.nextval, #{type}, #{eventcontent}, #{sendid}, #{friendid}, #{starttime}, #{friendid}, #{endtime}, #{eventtitle}, #{variable3}, #{variable4})
+		(alermseq.nextval, #{type}, #{content}, #{sendid}, #{friendid}, #{starttime}, #{endtime}, #{variable1}, #{variable2}, #{variable3}, #{variable4})
 	</insert>
 	
 	<!-- 스케쥴알람가져오기 -->

@@ -251,17 +251,10 @@ public class AlermController {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
 		friendDao sdao = sqlSession.getMapper(friendDao.class);
 		Map<String, Map<String,String>> alermMap = new HashMap<>();
-		alerm.put("sendid", alerm.get("sendid"));
+		
 		alerm.put("type", "schedulesharing");
-		alerm.put("friendid", alerm.get("friendid"));
-		alerm.put("variable1", alerm.get("variable1"));
-		alerm.put("variable2", alerm.get("variable2"));
-		alerm.put("content", alerm.get("content"));
-		alerm.put("starttime", alerm.get("starttime"));
-		alerm.put("endtime", alerm.get("endtime"));
-		alerm.put("friendid", alerm.get("leader"));
-		alerm.put("variable3", alerm.get("variable3"));
-		alerm.put("variable4", alerm.get("variable4"));
+		
+		System.out.println(alerm.toString());
 		
 		int result=adao.insertScheduleAlerm(alerm);
 		

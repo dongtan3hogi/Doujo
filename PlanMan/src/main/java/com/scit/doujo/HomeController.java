@@ -321,13 +321,15 @@ public class HomeController {
 				long diff=endDate.getTime()-startDate.getTime();
 				int diffDays =(int) (diff/(24*60*60*1000));
 				result.get(i).setDiffDay(diffDays);
+				
+				
 	        } catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	       
 	    }
-		
+	    
 		return result;
 	}
 	
