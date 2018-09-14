@@ -64,3 +64,7 @@ CREATE TABLE alerm(
 
 );
 CREATE SEQUENCE alermseq;
+
+
+DROP SEQUENCE schseq;
+DROP TABLE messagecontent;
