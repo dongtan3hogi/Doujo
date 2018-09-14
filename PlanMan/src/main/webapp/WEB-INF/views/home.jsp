@@ -49,7 +49,6 @@
       </div>
     </form>
 	<div align="right">
-    <a href="#">비밀번호 찾기</a><br>
     <a href="gotoSignIn" class="text-center">회원가입 하기</a>
 	</div>
 

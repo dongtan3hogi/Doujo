@@ -13,6 +13,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.scit.doujo.dao.alermDao;
+import com.scit.doujo.dao.friendDao;
 import com.scit.doujo.dao.messageDao;
 import com.scit.doujo.dao.studyDao;
 import com.scit.doujo.util.PageNavigator;
@@ -35,21 +36,27 @@ public class MessageController {
 	/* 친구 목록을 가져온다.===================================================================*/ 
 	@RequestMapping(value = "/getMyFriendList", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> getMyFriendList(@RequestBody Map<String, String> SFL, HttpSession hs) {
-		//messageDao dao = sqlSession.getMapper(messageDao.class);
+		friendDao fdao = sqlSession.getMapper(friendDao.class);
 		String memberID = (String)hs.getAttribute("memberID");
 		Map<String, Map<String,String>> friendMap = new HashMap<>();
+		ArrayList<Map<String,String>> friendList = new ArrayList<>();
 		//친구목록 가져오는 기능 구현된 이후 친구가져오기 구현.
 		
+		friendList = fdao.selectMyFriendList(memberID);
+		for (Map<String, String> map : friendList) { 
+			friendMap.put(map.get("USERID"), map);
+			//System.out.println(map.toString());
+		}
 		
 		//친구목록 가져오는 기능 구현 전까지 쓸 임시 테스트.
-		Map<String, String> friend1 = new HashMap<>();
+		/*Map<String, String> friend1 = new HashMap<>();
 		friend1.put("USERID", "sop2");
 		friend1.put("NICKNAME", "sop2");
 		friendMap.put(friend1.get("USERID"), friend1);
 		Map<String, String> friend2 = new HashMap<>();
 		friend2.put("USERID", "IDW");
 		friend2.put("NICKNAME", "IDW");
-		friendMap.put(friend2.get("USERID"), friend2);
+		friendMap.put(friend2.get("USERID"), friend2);*/
 		
 		return friendMap; 
 	} 

@@ -48,4 +48,7 @@ public interface friendDao {
 	public List<board> selectAllBoard(String userid);
 	//친구 등록하기(수락하기)
 	public int insertMyFriend(friend vo2);
+	//친구 목록가져오기
+	public ArrayList<Map<String,String>> selectMyFriendList(String userid);
+	
 }

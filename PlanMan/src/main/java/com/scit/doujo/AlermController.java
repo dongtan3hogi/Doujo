@@ -46,8 +46,7 @@ public class AlermController {
 		group.put("friendid", group.get("leader"));
 		group.put("id", id);
 		System.out.println(group.toString());
-		ArrayList<Map<String, String>> groupList = new ArrayList<>();
-		Map<String,Map<String, String>> groupMap = new HashMap<>();
+		
 		Map<String, String> check = new HashMap<>();
 		
 		
@@ -241,8 +240,10 @@ public class AlermController {
 		AlermResult.put("result1", ""+result1);
 		AlermResult.put("result2", "friendAlermNoBtn");
 		alermMap.put("alermCount", AlermResult);
-		return alermMap; 
+		return alermMap;
+		
 	}
+	
 	
 	/* FRIEND에게 스케쥴 신청하기 ===================================================================*/ 
 	@RequestMapping(value = "/askShareSchedule", method = RequestMethod.POST) 
@@ -250,14 +251,22 @@ public class AlermController {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
 		friendDao sdao = sqlSession.getMapper(friendDao.class);
 		Map<String, Map<String,String>> alermMap = new HashMap<>();
+		alerm.put("sendid", alerm.get("sendid"));
+		alerm.put("type", "schedulesharing");
+		alerm.put("friendid", alerm.get("friendid"));
+		alerm.put("variable1", alerm.get("variable1"));
+		alerm.put("variable2", alerm.get("variable2"));
+		alerm.put("content", alerm.get("content"));
+		alerm.put("starttime", alerm.get("starttime"));
+		alerm.put("endtime", alerm.get("endtime"));
+		alerm.put("friendid", alerm.get("leader"));
+		alerm.put("variable3", alerm.get("variable3"));
+		alerm.put("variable4", alerm.get("variable4"));
+		
+		int result=adao.insertScheduleAlerm(alerm);
 		
 		
-		//해당 알람을 지운다.
-		int result1 = adao.deleteAlerm(alerm);
-		Map<String,String> AlermResult = new HashMap<>();
-		AlermResult.put("result1", ""+result1);
-		AlermResult.put("result2", "friendAlermNoBtn");
-		alermMap.put("alermCount", AlermResult);
+		
 		return alermMap; 
 	}
 	

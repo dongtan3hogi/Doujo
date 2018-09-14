@@ -44,4 +44,20 @@
 		VALUES
 		(alermseq.nextval, #{type}, #{id}, #{friendId}, 'none', 'none')
 	</insert>
+	
+	<!-- 친구 스케쥴 공유 알람 인서트하기 -->
+	<insert id="insertScheduleAlerm" parameterType="map">
+		INSERT INTO alerm
+		(alermseq, eventtype, content, sendid, friendid, starttime, endtime, variable1, variable2, variable3, variable4)
+		VALUES
+		(alermseq.nextval, #{type}, #{eventcontent}, #{sendid}, #{friendid}, #{starttime}, #{friendid}, #{endtime}, #{eventtitle}, #{variable3}, #{variable4})
+	</insert>
+	
+	<!-- 스케쥴알람가져오기 -->
+	<select id="selectAlermUserSeq" parameterType="integer" resultType="map">
+      SELECT TO_CHAR(alermseq) CODE, eventtype, content, sendid, friendid, starttime, endtime, variable1
+      FROM alerm
+      WHERE alermseq= #{alermseq}
+   </select>
+	
 </mapper>

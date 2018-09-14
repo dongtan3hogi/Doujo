@@ -136,5 +136,12 @@
 	<select id="selectAllBoard" parameterType="String" resultType="board">
 	select * from board where id in (select friendid from friend where id = #{id})
 	</select>
+	
+	<!-- 친구 목록 불러오기 -->
+	<select id="selectMyFriendList" parameterType="String" resultType="Map">
+      SELECT friendid userid
+      FROM friend
+      WHERE userid = #{userid}
+   </select>
 
 </mapper>

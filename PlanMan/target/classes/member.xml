@@ -88,6 +88,7 @@
 	<select id="selectOneMember" parameterType="String" resultType="Member">
 		select * from member where id=#{sendid}
 	</select>
-
+	
+	
 
 </mapper>

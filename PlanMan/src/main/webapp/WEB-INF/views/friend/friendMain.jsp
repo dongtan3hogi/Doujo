@@ -318,16 +318,21 @@
 		              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_Recommendation</h3>
 		
 		              <div class="box-tools">
-		               <div class="input-group input-group-sm"  style="width: 250px;">
+		               <div class="input-group input-group-sm">
 		                
-		                <form class="right" action="searchRecommendFriends" method="get">
-				         <select name="searchItem">
+		                <form class="right" action="searchRecommendFriends" method="get" style="display: inline;">
+				         <select name="searchItem" style="height: 26px;">
 				            <option value="id"${searchItem =='id'? 'selected':''}>ID</option>
 				            <option value="job" ${searchItem =='job'? 'selected':''}>JOB</option>
 				            <option value="hobby" ${searchItem =='hobby'? 'selected':''}>HOBBY</option>
 				         </select>
 				         <input type="text" placeholder="Search" name="searchWord" value="${searchWord}"/>
-				         <button type="submit" value="search"  class="btn btn-default" ><i class="fa fa-search"></i></button>
+				         <button type="submit" value="search"  class="btn btn-success" ><i class="fa fa-search"></i></button>
+				       </form>
+				       
+				       <form action="tooldFriend" method="get" style="display: inline;">
+				       	 <input type="submit" value="My friend"  class="btn btn-success" />
+				       	 
 				       </form>
 		              </div>
 		    
@@ -474,6 +479,38 @@ function goPage(a){
 		});
 	}
   $(function () {
+	  
+	  $(".chkbox").change(function(){
+	        if($(this).is(":checked")){
+	            $.ajax({
+	            	url:'chkschdule'
+	      			,type:'post'
+	      			,data:{
+	      				"schseq":$(this).attr('data-rno')
+	      			}
+	      			,success: function (data){
+	    				if(data="success"){
+	    					alert("스케쥴 확인완료!")
+	    				}	
+	      			}
+	            })
+	            $(this).parent('li').addClass('done');
+	        }else if($(this).is(":not(:checked)")){
+	        	 $.ajax({
+		            	url:'unchkschdule'
+		      			,type:'post'
+		      			,data:{
+		      				"schseq":$(this).attr('data-rno')
+		      			}
+		      			,success: function (data){
+		      				if(data="success"){
+		    					alert("스케쥴 해제하기!")
+		    				}	
+		      			}
+		        })
+	            $(this).parent('li').removeClass('done');
+	        }
+	  });
 	  
 	  $("#goSearch").on("click",function(){
 	      var search= $("#searchMeeting").val();

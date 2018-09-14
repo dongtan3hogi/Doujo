@@ -29,4 +29,7 @@ public interface alermDao {
 	
 	//5.INSERT FRIEND
 	public int insertFriendJoin(Map<String, String> alerm);
+
+	//6.INSERT 스케쥴 공유하기 (스케쥴 공유하기 신청 알람)
+	public int insertScheduleAlerm(Map<String, String> alerm);
 }	
