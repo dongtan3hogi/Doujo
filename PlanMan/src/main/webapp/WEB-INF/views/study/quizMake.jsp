@@ -110,8 +110,7 @@ function check() {
 	var quiz = { 
 			"quizrecordname" : $("#quizrecordname").val() 
 			, "newrecord" : $("#newrecord").val() 
-			, "type" : $("#type").val() 
-			, "teg" : $("#teg").val() 
+			, "type" : $("#type").val()
 			, "question" : $("#question").val() 
 			, "answer1" : $("#answer1").val() 
 			, "answer2" : $("#answer2").val() 
@@ -124,7 +123,7 @@ function check() {
 			+ "\n, teg:" + quiz.teg + ", question:" + quiz.question  
 			+ "\n, answer1:" + quiz.answer1 + ", answer2:" + quiz.answer2  
 			+ ",\n answer3:" + quiz.answer3 + ", answer4:" + quiz.answer4 
-			+ ",\n answernumber:" + quiz.answernumber + ",\n id:" + quiz.id); */
+			+ ",\n answernumber:" + quiz.answernumber + ",\n id:" + quiz.id);*/
 	$.ajax({ 
 		method   : 'post' 
 		, url    : 'quizInsert' 
@@ -393,7 +392,7 @@ function check() {
 
 									<input type="hidden" id="id" value="${sessionScope.ID}">
 
-									<!-- TEG -->
+									<!-- TYPE -->
 									<div class="form-group">
 										<label>문제 타입</label> <input type="button" class="form-control"
 											id="quiztypeinput" value="multiplechoice" readonly="readonly">
@@ -416,11 +415,7 @@ function check() {
 									</div>
 
 
-									<!-- TEG -->
-									<div class="form-group">
-										<label>태그</label> <input type="text" class="form-control"
-											name="teg" id="teg" placeholder="#JPT450#listen">
-									</div>
+									
 
 
 									<!-- Question -->

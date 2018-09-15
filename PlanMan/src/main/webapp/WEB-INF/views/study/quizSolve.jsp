@@ -268,12 +268,6 @@
 					</c:forEach>
                   </select>
                </div>
-               <div>
-               		<c:forEach var="record" items="${allMap.tegList}"> 
-						<input type="button" class="btn btn-info tegQuizChoice" value="${record.TEG}"/>
-					</c:forEach>
-			   </div>
-			   <br/>  
                 
               </form> 
             </div> 

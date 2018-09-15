@@ -44,24 +44,9 @@ public interface studyDao {
 	public int insertMQuiz(Map<String, String> quiz);
 	public int insertJQuiz(Map<String, String> quiz);
 	
-	//insert
-	//�ױ� �߰��ϱ�
-	public int insertTeg(Map<String, String> teg);
-	
-	//4.find-ã������ �±װ� �����ϴ��� �˾ƺ���
-	public int findTeg(Map<String, String> teg);
-	
-	//5.update
-	//�±� ī��Ʈ ����
-	public int recountTeg(Map<String, String> teg);
-	
 	//select-����ڵ帮��Ʈ ���� ��� �̸� ��������
 	//����ڵ帮��Ʈ ���� ��� �̸� ��������
 	public ArrayList<Map<String, String>> selectAllQuizrecordlist(String id);
-	
-	//select-�±׿��� ��� ��������
-	//select-�±׿��� ��� ��������
-	public ArrayList<Map<String, String>> selectAllTeg(String id);
 	
 	//8.insert-����ڵ帮��Ʈ�� ���ο� ����ڵ� �߰��ϱ�
 	public int insertQuizrecordlist(Map<String, String> quiz);
@@ -71,20 +56,7 @@ public interface studyDao {
 	
 	//10.count-����ڵ� �� ��
 	public int countQuizrecordlist(String id);
-	
-	//11.count-�±� �� ��
-	public int countTeg(String id);
-	
-	//12_1.select
-	//id�� teg(type�� ���û���)���� quiz �����´�.
-	public ArrayList<Map<String, String>> selectTegQuiz(Map<String, String> quiz, RowBounds rb);
-	
-	//12_2.count
-	public int countTegQuiz(Map<String, String> quiz);
-	
-	//12_3. SELECT
-	public ArrayList<Map<String, String>> selectAllTegQuiz(Map<String, String> quiz);
-	
+
 	//select-����� ������ȣ�� ����ؼ� ���� �ϳ� ��������
 	//select-����� ������ȣ�� ����ؼ� ���� �ϳ� ��������
 	public Map<String, String> selectOneQuiz(int num);
