@@ -55,7 +55,7 @@
 	
 	<!-- 스케쥴알람가져오기 -->
 	<select id="selectAlermUserSeq" parameterType="integer" resultType="map">
-      SELECT TO_CHAR(alermseq) CODE, eventtype, content, sendid, friendid, starttime, endtime, variable1
+      SELECT TO_CHAR(alermseq) CODE, eventtype, content, sendid, friendid, starttime, endtime, variable1, variable2, variable3, variable4
       FROM alerm
       WHERE alermseq= #{alermseq}
    </select>

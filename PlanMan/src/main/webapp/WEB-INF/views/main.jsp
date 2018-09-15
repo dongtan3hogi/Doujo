@@ -485,6 +485,7 @@
     		  ,success:function(data){
     			var events = [];
     			$(data).each(function(index, item) {
+    				
     				var col="";
     				if(item.eventtype=='study'){
    		         		col="#2ECCFA";
@@ -523,20 +524,20 @@
 		  var s_date = startday.getDate();
 	  	  var s_month = startday.getMonth() + 1;
 	  	  var s_year = startday.getFullYear();
-	  	 var start = s_year+"-"+s_month+"-"+s_date;
-	  		var e_date = endday.getDate();
+	  	  var start = s_year+"-"+s_month+"-"+s_date;
+	  	  var e_date = endday.getDate();
 	  	  var e_month = endday.getMonth() + 1;
 	  	  var e_year = endday.getFullYear();
 	  	  var end = e_year+"-"+e_month+"-"+e_date;
 	  	  var hour = (startday.getHours()+15)%24;
 	  	  var minute = startday.getMinutes();
 	  	  var s_time = hour+':'+minute;
-	  	  	s_time = new Date(start+" "+s_time);
+	  	  s_time = new Date(start+" "+s_time);
 
-	  	  	hour = (endday.getHours()+15)%24;	
-	  	  	minute = endday.getMinutes();
-	  	  	var e_time = hour+':'+minute;
-	  	  	e_time = new Date(end+" "+e_time);
+	  	  hour = (endday.getHours()+15)%24;	
+	  	  minute = endday.getMinutes();
+	  	  var e_time = hour+':'+minute;
+	  	  e_time = new Date(end+" "+e_time);
     	  var modal = document.getElementById('myModal');
           var span = document.getElementsByClassName("close")[0];                                          
    		  alert(s_time+e_time);
