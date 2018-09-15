@@ -1,9 +1,11 @@
 package com.scit.doujo; 
  
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap; 
 import java.util.Map; 
  
@@ -20,6 +22,7 @@ import com.scit.doujo.dao.studyDao;
 import com.scit.doujo.util.PageNavigator;
 import com.scit.doujo.vo.friend;
 import com.scit.doujo.vo.member;
+import com.scit.doujo.vo.schedule;
 
 import org.springframework.beans.factory.annotation.Autowired; 
 import org.springframework.stereotype.Controller; 
@@ -245,7 +248,7 @@ public class AlermController {
 	}
 	
 	
-	/* FRIEND에게 스케쥴 신청하기 ===================================================================*/ 
+	/* FRIEND에게 스케쥴Schedule 신청하기 ===================================================================*/ 
 	@RequestMapping(value = "/askShareSchedule", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> askShareSchedule(@RequestBody Map<String, String> alerm, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
@@ -258,8 +261,141 @@ public class AlermController {
 		
 		int result=adao.insertScheduleAlerm(alerm);
 		
+		return alermMap; 
+	}
+	
+	/* alerm에서  스케쥴 공유 거절해서 해당 alerm을 테이블에서 지운다. ===================================================================*/ 
+	@RequestMapping(value = "/scheduleAlermNoBtn", method = RequestMethod.POST) 
+	public @ResponseBody Map<String, Map<String,String>> scheduleAlermNoBtn(@RequestBody Map<String, String> alerm, HttpSession hs) {
+		alermDao adao = sqlSession.getMapper(alermDao.class);
+		studyDao sdao = sqlSession.getMapper(studyDao.class);
+		Map<String, Map<String,String>> alermMap = new HashMap<>();
+		
+		//해당 알람을 지운다.
+		int result1 = adao.deleteAlerm(alerm);
+		Map<String,String> AlermResult = new HashMap<>();
+		AlermResult.put("result1", ""+result1);
+		AlermResult.put("result2", "scheduleAlermNoBtn");
+		alermMap.put("alermCount", AlermResult);
+		return alermMap;
+		
+	}
+	
+	/* alerm에서 스케쥴 공유 신청 수락 ===================================================================*/ 
+	@RequestMapping(value = "/scheduleAlermOkBtn", method = RequestMethod.POST) 
+	public @ResponseBody  Map<String, String> scheduleAlermOkBtn(@RequestBody Map<String, String> alerm, HttpSession hs) {
+		alermDao adao = sqlSession.getMapper(alermDao.class);
+		memberDao mdao = sqlSession.getMapper(memberDao.class);
+
+		String memberID = (String)hs.getAttribute("memberID");
+		Map<String,String> alermMap = new HashMap<>();
+		System.out.println("scheduleAlermOkBtn/alerm/"+alerm.toString());
+		//DB에 친구등록
+		String aseq=alerm.get("alermseq");
+		int alermseq=Integer.parseInt(aseq);
+		
+		alermMap=adao.selectAlermUserSeq(alermseq);
+		System.out.println(alermMap.toString());
+		
+		schedule result=new schedule();
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String variable4=alermMap.get("VARIABLE4");
+		System.out.println("variable4는 무엇인가"+variable4);
+		
+		int plusday=Integer.parseInt(alermMap.get("VARIABLE3"));
+		int result3;
+		int result4;
+		
+		if(variable4.equals("sometimes")) {
+			System.out.println("반복스케쥴"+plusday);
+			result.setId(memberID);
+			result.setEventtype(alermMap.get("VARIABLE1"));
+			result.setEventtitle(alermMap.get("VARIABLE2"));
+			result.setStartday(alermMap.get("STARTTIME"));
+			result.setEndday(alermMap.get("ENDTIME"));
+			result.setEventcontent(alermMap.get("CONTENT"));
+			result.setStarttime("0");
+			result.setEndtime("0");
+			for(int i= 0; i<plusday; i++) {
+				
+				result.setId(memberID);
+				
+				result3=mdao.addschdule(result);
+				
+				result.setId(alermMap.get("SENDID"));
+				
+				result4=mdao.addschdule(result);
+				
+				try {
+					Date date = format.parse(result.getEndday());
+					Calendar cal = Calendar.getInstance();
+		            cal.setTime(date);
+		            cal.add(Calendar.DATE, 1);	
+		            date=cal.getTime();
+		            System.out.println(date.toString());
+		            result.setEndday( format.format(date));
+		            date = format.parse(result.getStartday());
+					cal = Calendar.getInstance();
+		            cal.setTime(date);
+		            cal.add(Calendar.DATE, 1);	
+		            date=cal.getTime();
+		            System.out.println(date.toString());
+		            result.setStartday( format.format(date));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			System.out.println(result.toString()+")))1");
+			
+			result3=mdao.addschdule(result);
+			
+			result.setId(memberID);
+			
+			System.out.println(result.toString()+")))2");
+			
+			result4=mdao.addschdule(result);
+			
+		}else {
+			
+			System.out.println("지속스케쥴"+plusday);
+			
+			result.setStartday(alermMap.get("STARTTIME"));
+			result.setEndday(alermMap.get("ENDTIME"));
+			
+			try {
+				Date date = format.parse(result.getEndday());
+				Calendar cal = Calendar.getInstance();
+	            cal.setTime(date);
+	            cal.add(Calendar.DATE, plusday);	
+	            date=cal.getTime();
+	            System.out.println(date.toString());
+	            result.setEndday( format.format(date));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			result.setId(memberID);
+			result.setEventtype(alermMap.get("VARIABLE1"));
+			result.setEventtitle(alermMap.get("VARIABLE2"));
+			
+			result.setEventcontent(alermMap.get("CONTENT"));
+			result.setStarttime("0");
+			result.setEndtime("0");
+			
+			result3=mdao.addschdule(result);
+			
+			result.setId(alermMap.get("SENDID"));
+			
+			result4=mdao.addschdule(result);
+			
+		}
 		
 		
+		//해당 알람을 지운다.
+		int result2 = adao.deleteAlerm(alerm);
 		return alermMap; 
 	}
 	

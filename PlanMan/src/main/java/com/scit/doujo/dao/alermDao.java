@@ -32,4 +32,8 @@ public interface alermDao {
 
 	//6.INSERT 스케쥴 공유하기 (스케쥴 공유하기 신청 알람)
 	public int insertScheduleAlerm(Map<String, String> alerm);
+	
+	//7.스케쥴공유 알람 가져오기
+	public Map<String, String> selectAlermUserSeq(int alermseq);
+	
 }	

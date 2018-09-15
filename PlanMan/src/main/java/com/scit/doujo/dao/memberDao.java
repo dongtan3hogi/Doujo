@@ -44,4 +44,5 @@ public interface memberDao {
 	public member selectOneMember(String sendid);
 	
 	
+	
 }

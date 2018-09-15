@@ -600,6 +600,11 @@
   function askevent(){
 		var friendid=$('#nowfriend').val();	
 		
+		if(friendid.length==0){
+			alert("본인에게는 스케쥴을 신청할 수 없습니다.");
+			return false;
+		}
+		
 	  
 		var event=$('.event:checked').val();
 		var startday=$('#startday').val()+" "+$('#timepicker').val();
@@ -657,7 +662,7 @@
   				, dataType : 'json'
 				, contentType : 'application/json; charset=UTF-8'
   				,success: function (data){
-					
+						
 						alert("스케쥴을 신청했습니다.");
 						$('#eventtitle').val('');
 			            $('#eventcontent').val('');
