@@ -1,7 +1,10 @@
 package com.scit.doujo;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -10,11 +13,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,18 +34,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.scit.doujo.dao.friendDao;
 import com.scit.doujo.dao.friendDao;
 import com.scit.doujo.dao.memberDao;
-import com.scit.doujo.util.FileService;
+import com.scit.doujo.util.MsFaceAPI;
 import com.scit.doujo.util.PageNavigator;
 import com.scit.doujo.util.work_PageNavi;
 import com.scit.doujo.vo.board;
 import com.scit.doujo.vo.friend;
 import com.scit.doujo.vo.member;
 import com.scit.doujo.vo.schedule;
-import com.scit.doujo.work.PagingContorller.HelloComponent;
 
 
 @Controller
@@ -443,15 +446,55 @@ public class FriendController {
 		member a = (member) hs.getAttribute("member");
 		String userid = a.getId();
 		List<board> flist = bd.selectAllBoard(userid);
+		for(board ab : flist) {
+		String temp =ab.getContent();
+		temp=temp.replaceAll("<br>", "\r\n");
+		ab.setContent(temp);
+		}
 		model.addAttribute("flist", flist);
+
 		return "friend/friendMain3";
 	}
- 
+	
+	@RequestMapping("/display.do")
+	public void getImage(String path,HttpServletRequest req, HttpSession session, HttpServletResponse res, @RequestParam HashMap<String, String> map) throws Exception {
+	      String UPLOADPATH = "C:\\Doujo\\Doujo\\images\\"+path;
+		String realFile = "C:\\\\Doujo\\\\Doujo\\\\images\\\\";
+		String fileNm = path.split("_")[0];
+		System.out.println(path.split("\\.")[0]);
+		String ext = path.split("\\.")[1];
+		BufferedOutputStream out = null;
+		InputStream in = null;
+
+		try {
+			res.setContentType("image/."+ext);
+			res.setHeader("Content-Disposition", "inline;filename="+fileNm );
+			File file = new File(realFile);
+			if(file.exists()){
+				in = new FileInputStream(new File(UPLOADPATH));
+				out = new BufferedOutputStream(res.getOutputStream());
+				int len;
+				byte[] buf = new byte[1024];
+				while ((len = in.read(buf)) > 0) {
+					out.write(buf, 0, len);
+				}
+			}
+			} catch (Exception e) {
+		} finally {
+			if(out != null){ out.flush(); }
+			if(out != null){ out.close(); }
+			if(in != null){ in.close(); }
+		}
+		
+	}
 	   @RequestMapping(value="/saveboard", method=RequestMethod.POST)
 	   public String writeboard(board board, MultipartFile upload, HttpSession session) {
 	      System.out.println(board.toString());
 		   System.out.println("업로드 파일 :" + upload);
 	      String UPLOADPATH = "C:\\Doujo\\Doujo\\images\\";
+	      String text = board.getContent();
+			text=text.replaceAll("(\r\n|\r|\n|\n\r)", "<br>");
+			board.setContent(text);
 	      UUID uuid=UUID.randomUUID();
 			String saveFilename=uuid+"_"+upload.getOriginalFilename();
 			File saveFile=new File(UPLOADPATH, saveFilename);
@@ -467,12 +510,57 @@ public class FriendController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			MsFaceAPI fpi = new MsFaceAPI();
+			String faceResult =fpi.getImgInfo(saveFile);
+			JSONParser jParser = new JSONParser();
+			JSONObject jObject = new JSONObject();
+			JSONArray jArray = new JSONArray();
+			try {
+				double happiness=0;
+				double neutral=0;
+				double sadness=0;
+				double surprise=0;
+				jArray = (JSONArray)jParser.parse(faceResult);
+				for(int i=0; i<jArray.size(); i++) {
+					jObject = (JSONObject)jArray.get(i);
+					jObject = (JSONObject) jObject.get("faceAttributes");
+					jObject = (JSONObject) jObject.get("emotion");
+					happiness +=(double) jObject.get("happiness");
+					neutral +=(double) jObject.get("neutral");
+					sadness +=(double) jObject.get("sadness");
+					surprise +=(double) jObject.get("surprise");
+
+				}
+				happiness /=jArray.size();
+				neutral /=jArray.size();
+				sadness /=jArray.size();
+				surprise /=jArray.size();
+				board.setHappiness(happiness);
+				board.setNeutral(neutral);
+				board.setSadness(sadness);
+				board.setSurprise(surprise);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+			}
 			friendDao mapper = sqlSession.getMapper(friendDao.class);
 		      int result = mapper.insertBoard(board);
 		      if(result==1){System.out.println("게시판 등록 성공");}
-			return "friend/friendMain3";
+			return "redirect:friend3";
 	  
 	   }
-	
+
+		@RequestMapping (value="moreboard", method=RequestMethod.POST)
+		public @ResponseBody List<board> moreboard (int number,HttpSession hs) {
+			friendDao chooseone = sqlSession.getMapper(friendDao.class);
+			member a = (member) hs.getAttribute("member");
+			String userid = a.getId();
+			int first = number*3;
+			int second = (number+1)*3;
+			
+			List<board> flist = chooseone.boardpaging(userid, first, second);
+			System.out.println(flist.size());
+			
+			return flist;
+		}
 	
 }

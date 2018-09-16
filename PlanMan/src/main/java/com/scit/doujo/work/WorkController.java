@@ -322,4 +322,23 @@ public class WorkController {
 		
 		
 	}
+	
+	@RequestMapping(value = "/memodays", method = RequestMethod.POST)
+	public @ResponseBody String memodays( Model model,String id, String startdate) {
+		workDao um= sqlSession.getMapper(workDao.class);
+		String[] days = um.memodays(id);
+		String result = "";
+		for(int i=0; i<days.length; i++) {
+			if(i==days.length-1) {
+				result+=days[i];
+				continue;
+			}
+			
+			result+=days[i]+",";
+		}
+		
+		return result;
+
+	}
+	
 }

@@ -95,4 +95,7 @@
   delete from work_favorites where id= #{id}  and locations= #{locations}</delete>
   <select id="allFavorites" parameterType="String" resultType="favorites">
   select * from work_favorites where id= #{id}</select>
+  <select id="memodays" parameterType="String" resultType="String">
+  select startdate from work_memo where id= #{id}
+  </select>
 </mapper>

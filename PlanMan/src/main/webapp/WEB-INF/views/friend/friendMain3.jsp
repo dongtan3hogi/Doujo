@@ -3,10 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%> 
 <!DOCTYPE html>
 <html>
+
 <head>
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Welcome PlanMan</title>
@@ -41,17 +43,32 @@
  #imgs{
     width: 10%;
  height:60;}
+ .js-load {
+    display: none;
+}
+.js-load.active {
+    display: block;
+}
+.is_comp.js-load:after {
+    display: none;
+}
+.btn-wrap, .lists, .main {
+    display: block;
+}
  </style> 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+
 <script type="text/javascript">
 function formCheck() {
 	var title = document.getElementById("title");
-	var content = document.getElementById("content");
-	
-	if (title.value == '' || content.value == '') {
+	var content = document.getElementById("divedit");
+
+	if ($('#title').val()=="" || $('#divedit').text()==""||$('#location').val()=="") {
 		alert('제목과 내용을 입력하세요.');
 		return false;
 	}
+	$('input[name=content]').val($('#divedit').text());
+	alert($('input[name=content]').val());
 	return true;
 }
 function boardList() {
@@ -280,7 +297,7 @@ location.href="joinfriend";
 			<tr>
 				<th>제목</th>
 				<td>
-					<input type="text" name="title" id="title">
+					<input int="title" type="text" name="title" id="title">
 					<input type="hidden" name="id" value="${sessionScope.member.id}">
 				</td>
 			</tr>
@@ -288,7 +305,7 @@ location.href="joinfriend";
 				<th>내용</th>
 				<td><div contentEditable="true" id="divedit" >
 					</div>
-					<img id="imgs"/><input type="hidden" name="content" >
+					<img id="imgs"/><input id="content" type="hidden" name="content" >
 				</td>
 			</tr>
 			<tr>
@@ -301,7 +318,7 @@ location.href="joinfriend";
 			</tr>
 			<tr>
 				<th>위치</th>
-				<td><input type="text" name="location" /></td>
+				<td><input type="text" name="location" id="location" /></td>
 			</tr>
 			<tr>
 				<td class="btn" colspan="2" >
@@ -325,18 +342,17 @@ location.href="joinfriend";
             
      <h2>[ Friend' Records ]</h2>
      <c:if test="${!empty flist }">
+     <div id="js-list">
      <c:forEach var="flist" items="${ flist}">
-		<table>
+		<table class="flist_table">
 			<tr>
 				<th>제목</th>
-				<td>${ flist.title}
-				</td>
+				<td>${ flist.title}</td>
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td><div contentEditable="true">
-  ${flist.content}
-</div>
+				<td><div contentEditable="true">  ${flist.content}</div>
+<img src="/doujo/display.do?path=${flist.savedfile }" width="10%" height="60" onError="this.style.visibility='hidden'"/>
 				</td>
 			</tr>
 			<tr>
@@ -344,14 +360,18 @@ location.href="joinfriend";
 				<td>${flist.id }</td>
 			</tr>
 			<tr>
-				<th>첨부파일</th>
+				<th>행복도</th><td>행복함: ${flist.happiness }, 슬픔: ${flist.sadness }, 중립: ${flist.neutral }, 놀람: ${flist.surprise }
 			</tr>
 			<tr>
 				<th  >위치
 				</th><td>${flist.location }</td>
 			</tr>
 		</table>
+		<br>
 		</c:forEach>
+		 <div id="js-btn-wrap" class="btn-wrap"> <a href="javascript:;" class="button">더보기</a> </div>
+  </div>
+  </div>
 		</c:if>
 </div>
 </div>
@@ -399,10 +419,9 @@ location.href="joinfriend";
 <script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 <!-- Page specific script -->
 <script>
-function formCheck(){
-	alert($('#divedit').text())
-	$('input[name=content]').val($('#divedit').text());
-}
+
+
+
 function handleImgFileSelect(e){
 	var files =e.target.files;
 	var filesArr = Array.prototype.slice.call(files);
@@ -419,7 +438,38 @@ function handleImgFileSelect(e){
 		reader.readAsDataURL(f);
 	})
 }
-  $(function () {    
+	
+  $(function () {   
+	  var pageNum=1;
+		$("#js-btn-wrap .button").click(function(e){ // Load More를 위한 클릭 이벤트e
+	
+		$.ajax({
+			url:"moreboard",
+			type:"post",
+			data:{"number":pageNum},
+			success: function(data){
+				alert(data[0].title);
+				if(data.length !=3){
+					alert("마지막 게시물 입니다");
+					
+				}
+				$.each(data, function(index, item){
+					var line="";
+						line += "<table class='flist_table'><tr><th>제목</th><td>"+data[index].title+"</td></tr><tr><th>내용</th><td><div contentEditable='true'>"+ data[index].content+"</div>";
+						if(data[index].originalfile==null || data[index].originalfile==""||data[index].originalfile=="null" ){
+						}else{
+							line +="<img src='/doujo/display.do?path="+data[index].savedfile+"' width='10%' height='60' onError='this.style.visibility='hidden''/>";
+						}
+						line +="</td></tr><tr><th>글쓴이</th><td>"+data[index].id +"</td></tr><tr><th>행복도</th><td>행복함:"+data[index].happiness+", 슬픔: "+data[index].sadness+" }, 중립: "+data[index].neutral+" }, 놀람: "+data[index].surprise+" }</tr>";
+						line +="<tr><th  >위치</th><td>"+data[index].location+"</td></tr></table><br>";
+						alert(data[index].originalfile);
+						$('#js-list').append(line);
+			});
+				pageNum++;
+			}
+		});
+		
+		});
      $('#input_img').on('change',handleImgFileSelect);
      $('a.favorite').click(function() {
         alert("클릭");

@@ -144,7 +144,13 @@
          location,
          <if test="originalfile != null and savedfile != null">
          originalfile,
-         savedfile
+         savedfile,
+         <if test="happiness+sadness+surprise+neutral != 0">
+         happiness,
+         sadness,
+         surprise,
+         neutral
+         </if>
          </if>
       )
       VALUES
@@ -155,12 +161,30 @@
          #{location},
          <if test="originalfile != null and savedfile != null">
          #{originalfile},
-         #{savedfile}
+         #{savedfile},
+         <if test="happiness+sadness+surprise+neutral != 0">
+         #{happiness},
+         #{sadness},
+         #{surprise},
+         #{neutral}
+         </if>
          </if>
       )
    </insert>
 	<select id="selectAllBoard" parameterType="String" resultType="board">
-	select * from board where id in (select friendid from friend where id = #{id})
-	</select>
-
+SELECT * FROM (
+    SELECT
+      board.*,
+      row_number() over (ORDER BY board.id ASC) line_number
+    FROM board where id in (select friendid from friend where userid= #{id}) or id=#{id}
+  ) WHERE line_number BETWEEN 0 AND 3  ORDER BY line_number	</select>
+  
+	<select id="boardpaging"  resultType="board"><!-- parameterType="map" -->
+	SELECT * FROM (
+    SELECT
+      board.*,
+      row_number() over (ORDER BY board.id ASC) line_number
+    FROM board where id in (select friendid from friend where userid= #{id}) or  id=#{id}
+  ) WHERE line_number BETWEEN #{first} AND #{second}  ORDER BY line_number
+  </select>
 </mapper>
