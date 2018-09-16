@@ -520,6 +520,8 @@ function showAlermList(){
 						result +='<a>';
 						result +='<i class="fa fa-calendar-plus-o text-red"></i> '+ item.SENDID +' 님의  스케쥴 공유하겠습니까?';
 						result +='</a>';
+						result +='<div class="label label-default"><i class="fa fa-clock-o"></i>'+' 이벤트 타이틀 : '+item.VARIABLE2+'<br/><br/> 시간대 :'+item.STARTTIME+'~'+item.ENDTIME+'</div>';
+						result +='<br/><br/>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="scheduleAlermOkBtn(' +codes+ ')"><i class="fa fa-check-circle-o"></i></button>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="scheduleAlermNoBtn(' +codes+ ')"><i class="fa fa-remove"></i></button>';
 						result +='<input type="hidden" id="sendid' +item.CODE+ '" value="' + item.SENDID + '" >';

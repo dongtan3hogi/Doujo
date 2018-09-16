@@ -382,7 +382,7 @@ function check() {
 					<div class="col-md-9">
 
 						<!-- general form elements disabled -->
-						<div class="box box-info"  style="width: 90%;">
+						<div class="box box-info">
 							<div class="box-header with-border">
 								<h3 class="box-title">Insert the Quiz</h3>
 							</div>

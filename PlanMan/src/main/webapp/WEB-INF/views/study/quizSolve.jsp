@@ -280,7 +280,7 @@
         <div class="col-md-9"> 
           
           <!-- solve the quiz --> 
-          <div class="box box-info"  style="width: 90%;"> 
+          <div class="box box-info"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">Solve</h3> 
             </div> 

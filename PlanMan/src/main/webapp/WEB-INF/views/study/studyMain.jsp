@@ -220,8 +220,9 @@
     <!-- Main content -->
     <section class="content">
       <div class="row"> 
+      	<div class="col-md-3">
 		  <!-- TO DO List -->
-          <div class="box box-info" style="width: 30%; float:left; margin-right:20px; margin-left:20px;">
+          <div class="box box-info">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
 
@@ -290,8 +291,10 @@
 	          <!-- /.box -->
           </div>
           <!-- /.box -->
+        </div>  
           
-          <div class="box box-info" style="width: 60%; float:left; margin-right:20px; ">
+        <div class="col-md-9">  
+          <div class="box box-info">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
               <h3 class="box-title">Study Information</h3>
@@ -306,16 +309,16 @@
               	  </div>
               	  <br/>
               	  <div style="display: inline;">
-	              	  <input type="button" class="btn btn-block btn-info" id="English" style="width: 100px; display: inline; margin-left: 170px;" value="English" />
+	              	  <input type="button" class="btn btn-block btn-info" id="English" style="width: 100px; display: inline; margin-left: 200px;" value="English" />
 	              	  <input type="button" class="btn btn-block btn-info" id="Japanese" style="width: 100px; display: inline; margin-left: 10px;" value="Japanese" />
 	              	  <input type="button" class="btn btn-block btn-info" id="Chinese" style="width: 100px; display: inline; margin-left: 10px;" value="Chinese" />
-	              	  <input type="button" class="btn btn-block btn-info" id="Computer" style="width: 100px; display: inline; margin-left: 10px;" value="Computer" />
               	  </div>
               	  <br/>
               	  <div id="wordlist">
               	  </div>
             </div>
             <!-- /.box-body -->
+          </div>
           </div>
       </div>
       <!-- /.row -->

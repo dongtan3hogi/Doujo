@@ -268,10 +268,10 @@
 					<!-- /.col -->
 					
 					
-		<div class="col-xs-9">
+		<div class="col-md-9">
           <div class="box box-info">
             <div class="box-header">
-              <h3 class="box-title">Responsive Hover Table</h3>
+              <h3 class="box-title">Quiz Search</h3>
 
               <div class="box-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">

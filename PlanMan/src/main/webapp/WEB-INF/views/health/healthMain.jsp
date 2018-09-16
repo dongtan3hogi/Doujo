@@ -223,7 +223,8 @@
     <!-- Main content -->
     <section class="content">
       <div class="row"> 
-      	  <div class="box box-Danger" style="width: 30%; float:left; margin-right:20px; margin-left:20px;">
+      	<div class="col-md-3">
+      	  <div class="box box-Danger">
             	<div class="box-header">
               		<i class="fa fa-fw fa-exclamation"></i>
 	                <h3 class="box-title">Health Advice</h3>
@@ -284,8 +285,10 @@
 		          </div>
 		          <!-- /.box -->
           </div> 	
+          </div>
           
-          <div class="box box-danger" style="width: 60%; float:left; margin-right:20px; ">
+          <div class="col-md-9">
+          <div class="box box-danger">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
               <h3 class="box-title">Health News</h3>
@@ -307,6 +310,7 @@
      		  </c:if>
             </div>
             <!-- /.box-body -->
+          </div>
           </div>
 		  
       </div>

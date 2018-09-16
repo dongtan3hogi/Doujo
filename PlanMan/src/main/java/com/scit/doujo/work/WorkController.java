@@ -30,11 +30,6 @@ import com.scit.doujo.vo.work.friendquery;
 import com.scit.doujo.vo.work.keylist;
 
 
-
-
-
-
-
 @Controller
 public class WorkController {
 
@@ -64,120 +59,104 @@ public class WorkController {
 	      result.setEventtype(eventtype);
 	      result.setId(id);
 	      SimpleDateFormat formatter=new SimpleDateFormat("YYYY-MM-dd");
-	      Date date=new Date();
-	      
-	      String countday=formatter.format(date);
-	      Calendar cal = Calendar.getInstance();
-	      String year=countday.split("-")[0];
-	      String month=countday.split("-")[1];
-	      String day=countday.split("-")[2];
-	      cal.set(Calendar.YEAR, Integer.parseInt(year));
-	      cal.set(Calendar.MONTH-1, Integer.parseInt(month));
-	      cal.set(Calendar.DATE, Integer.parseInt(day));      
-	      int weekday=cal.get(cal.DAY_OF_WEEK);
-	      
-	      ArrayList<schedule> schList=new ArrayList<>();
-	      
-	      switch(weekday) {
-	      case 1:
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         String weekSunday =formatter.format(cal.getTime());
-	         System.out.println(weekSunday);
-	         cal.add(cal.DATE, -6);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         String weekMonday=formatter.format(cal.getTime());
-	         System.out.println(weekMonday);
-	         result.setWeekMonday(weekMonday);
-	         result.setWeekSunday(weekSunday);
-	         schList=manager2.selectEventByType(result);
-	         break;
-	      case 2:
-	         System.out.println(cal.getTime());
-	         cal.add(cal.DATE, 6);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekSunday =formatter.format(cal.getTime());
-	         System.out.println(weekSunday);
-	         cal.add(cal.DATE, -6);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekMonday=formatter.format(cal.getTime());
-	         System.out.println(weekMonday);
-	         result.setWeekMonday(weekMonday);
-	         result.setWeekSunday(weekSunday);
-	         schList=manager2.selectEventByType(result);
-	         break;
-	      case 3:
-	         System.out.println(cal.getTime());
-	         cal.add(cal.DATE, 5);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekSunday =formatter.format(cal.getTime());
-	         System.out.println(weekSunday);
-	         cal.add(cal.DATE, -6);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekMonday=formatter.format(cal.getTime());
-	         System.out.println(weekMonday);
-	         result.setWeekMonday(weekMonday);
-	         result.setWeekSunday(weekSunday);
-	         schList=manager2.selectEventByType(result);
-	         break;
-	      case 4:
-	         System.out.println(cal.getTime());
-	         cal.add(cal.DATE, 4);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekSunday =formatter.format(cal.getTime());
-	         System.out.println(weekSunday);
-	         cal.add(cal.DATE, -6);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekMonday=formatter.format(cal.getTime());
-	         System.out.println(weekMonday);
-	         result.setWeekMonday(weekMonday);
-	         result.setWeekSunday(weekSunday);
-	         schList=manager2.selectEventByType(result);
-	         break;
-	      case 5:
-	         System.out.println(cal.getTime());
-	         cal.add(cal.DATE, 3);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekSunday =formatter.format(cal.getTime());
-	         System.out.println(weekSunday);
-	         cal.add(cal.DATE, -6);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekMonday=formatter.format(cal.getTime());
-	         System.out.println(weekMonday);
-	         result.setWeekMonday(weekMonday);
-	         result.setWeekSunday(weekSunday);
-	         schList=manager2.selectEventByType(result);
-	         break;
-	      case 6:
-	         System.out.println(cal.getTime());
-	         cal.add(cal.DATE, 2);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekSunday =formatter.format(cal.getTime());
-	         System.out.println(weekSunday);
-	         cal.add(cal.DATE, -6);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekMonday=formatter.format(cal.getTime());
-	         System.out.println(weekMonday);
-	         result.setWeekMonday(weekMonday);
-	         result.setWeekSunday(weekSunday);
-	         schList=manager2.selectEventByType(result);
-	         break;
-	      case 7:
-	         System.out.println(cal.getTime());
-	         cal.add(cal.DATE, 1);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekSunday =formatter.format(cal.getTime());
-	         System.out.println(weekSunday);
-	         cal.add(cal.DATE, -6);
-	         cal.set(Calendar.YEAR, Integer.parseInt(year));
-	         weekMonday=formatter.format(cal.getTime());
-	         System.out.println(weekMonday);
-	         result.setWeekMonday(weekMonday);
-	         result.setWeekSunday(weekSunday);
-	         schList=manager2.selectEventByType(result);
-	         break;
-	      default:
-	         break;
-	      }
+		  Date date=new Date();
+			
+		  String countday=formatter.format(date);
+		  Calendar cal = Calendar.getInstance();
+			
+		  int weekday=cal.get(cal.DAY_OF_WEEK);
+			
+			
+		  ArrayList<schedule> schList=new ArrayList<>();
+		  System.out.println("요일확인"+cal.getTime()+"weekday : "+weekday);
+		  switch(weekday) {
+		  case 1:
+			 String weekSunday =formatter.format(cal.getTime());
+			 System.out.println(weekSunday);
+			 cal.add(cal.DATE, -6);
+			 String weekMonday=formatter.format(cal.getTime());
+			 System.out.println(weekMonday);
+			 result.setWeekMonday(weekMonday);
+			 result.setWeekSunday(weekSunday);
+			 schList=manager2.selectEventByType(result);
+			 break;
+		 case 2:
+			 System.out.println(cal.getTime());
+			 cal.add(cal.DATE, 6);
+			 weekSunday =formatter.format(cal.getTime());
+			 System.out.println(weekSunday);
+			 cal.add(cal.DATE, -6);
+			 weekMonday=formatter.format(cal.getTime());
+			 System.out.println(weekMonday);
+			 result.setWeekMonday(weekMonday);
+			 result.setWeekSunday(weekSunday);
+			 schList=manager2.selectEventByType(result);
+			 break;
+		 case 3:
+			 System.out.println(cal.getTime());
+			 cal.add(cal.DATE, 5);
+			 weekSunday =formatter.format(cal.getTime());
+			 System.out.println(weekSunday);
+			 cal.add(cal.DATE, -6);
+			 weekMonday=formatter.format(cal.getTime());
+			 System.out.println(weekMonday);
+			 result.setWeekMonday(weekMonday);
+			 result.setWeekSunday(weekSunday);
+			 schList=manager2.selectEventByType(result);
+			 break;
+		 case 4:
+			 System.out.println(cal.getTime());
+			 cal.add(cal.DATE, 4);
+			 weekSunday =formatter.format(cal.getTime());
+			 System.out.println(weekSunday);
+			 cal.add(cal.DATE, -6);
+			 weekMonday=formatter.format(cal.getTime());
+			 System.out.println(weekMonday);
+			 result.setWeekMonday(weekMonday);
+			 result.setWeekSunday(weekSunday);
+			 schList=manager2.selectEventByType(result);
+			 break;
+		 case 5:
+			 System.out.println(cal.getTime());
+			 cal.add(cal.DATE, 3);
+			 weekSunday =formatter.format(cal.getTime());
+			 System.out.println(weekSunday);
+			 cal.add(cal.DATE, -6);
+			 weekMonday=formatter.format(cal.getTime());
+			 System.out.println(weekMonday);
+			 result.setWeekMonday(weekMonday);
+			 result.setWeekSunday(weekSunday);
+			 schList=manager2.selectEventByType(result);
+			 break;
+		case 6:
+			 System.out.println(cal.getTime());
+			 cal.add(cal.DATE, 2);
+			 weekSunday =formatter.format(cal.getTime());
+			 System.out.println(weekSunday);
+			 cal.add(cal.DATE, -6);
+			 weekMonday=formatter.format(cal.getTime());
+			 System.out.println(weekMonday);
+			 result.setWeekMonday(weekMonday);
+			 result.setWeekSunday(weekSunday);
+			 schList=manager2.selectEventByType(result);
+			 break;
+		case 7:
+			 System.out.println(cal.getTime());
+			 cal.add(cal.DATE, 1);
+		  	 weekSunday =formatter.format(cal.getTime());
+		 	 System.out.println(weekSunday);
+			 cal.add(cal.DATE, -6);
+			 weekMonday=formatter.format(cal.getTime());
+			 System.out.println(weekMonday);
+			 result.setWeekMonday(weekMonday);
+			 result.setWeekSunday(weekSunday);
+			 schList=manager2.selectEventByType(result);
+			 break;
+		default:
+			 break;
+		}
+			
+			
 	      naverNews n = new naverNews();
 	      ArrayList<String[]> article = n.search("오늘의 주요뉴스", 5);
 	      workDao wd = sqlSession.getMapper(workDao.class);

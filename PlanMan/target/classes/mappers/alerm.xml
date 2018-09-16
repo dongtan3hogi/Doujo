@@ -15,7 +15,7 @@
 
 	<!-- 2 -->
 	<select id="selectAlerm" parameterType="map" resultType="map">
-		SELECT TO_CHAR(alermseq) CODE, eventtype, content, sendid, friendid, starttime, endtime, variable1
+		SELECT TO_CHAR(alermseq) CODE, eventtype, content, sendid, friendid, starttime, endtime, variable1, variable2 
 		FROM alerm
 		WHERE friendid = #{id}
 	</select>

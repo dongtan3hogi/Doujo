@@ -335,54 +335,54 @@
           
           
       	<div class="box box-danger" style="margin-left: 20px; margin-right: 20px; width: 90%;">
-      	<div class="box-header">
-              		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
-	                <h3 class="box-title">Add Activity</h3>
-        </div>
-    	<div align="right">
-    		날짜 선택&nbsp:&nbsp<input type="text" style="width: 150px;" class="datepicker" name="countday" id="addActDay" >&nbsp
-    		<input type="button" class="btn btn-Danger" id="addActivity" value="활동 입력하기" style="margin-right: 10px;">
-    	</div>
-    	<br/>
-    	<div id="actType">
-		 	<input id="tab1" value="걷기" type="radio" name="tabs" class="tab">
-		 	<label for="tab1">걷기</label>
-		 	<input id="tab2" value="계단" type="radio" name="tabs" class="tab">
-		 	<label for="tab2">계단</label>
-		 	<input id="tab3" value="등산" type="radio" name="tabs" class="tab">
-		 	<label for="tab3">등산</label>
-		 	<input id="tab4" value="수영" type="radio" name="tabs" class="tab">
-		 	<label for="tab4">수영</label>
-		 	<input id="tab5" value="요가" type="radio" name="tabs" class="tab">
-		 	<label for="tab5">요가</label>
-		 	<input id="tab6" value="복싱" type="radio" name="tabs" class="tab">
-		 	<label for="tab6">복싱</label>
-		 	<input id="tab7" value="줄넘기" type="radio" name="tabs" class="tab">
-		 	<label for="tab7">줄넘기</label>
-		 	<input id="tab8" value="자전거" type="radio" name="tabs" class="tab">
-		 	<label for="tab8">자전거</label>
-		 	<input id="tab9" value="달리기" type="radio" name="tabs" class="tab">
-		 	<label for="tab9">달리기</label>
-		 	<input id="tab10" value="스쿼트" type="radio" name="tabs" class="tab">
-		 	<label for="tab10">스쿼트</label>
-		 	<input id="tab11" value="사이클" type="radio" name="tabs" class="tab">
-		 	<label for="tab11">사이클</label>
-		 	<input id="tab12" value="스쿼시" type="radio" name="tabs" class="tab">
-		 	<label for="tab12">스쿼시</label>
-		 	<input id="tab13" value="훌라후프" type="radio" name="tabs" class="tab">
-		 	<label for="tab13">훌라후프</label>
-		 	<input id="tab14" value="런닝머신" type="radio" name="tabs" class="tab">
-		 	<label for="tab14">런닝머신</label>
-		 	<input id="tab15" value="에어로빅" type="radio" name="tabs" class="tab">
-		 	<label for="tab15">에어로빅</label>
-		 	<input id="tab16" value="윗몸일으키키" type="radio" name="tabs" class="tab">
-		 	<label for="tab16">윗몸일으키키</label>
-		</div>
-		
-		<div id="content" align="center" class="t">
-		<!--  	<br><input type="text" id="weight" class="forkacl">kg&nbsp&nbspX&nbsp&nbsp<input type="text" id="time" value="10" class="forkacl">분&nbsp&nbsp=<input type="text" id="kacl" readonly="readonly" class="forkacl">kacl
-			<div><img src="./resources/main/images/sp_pwalk.png" style="width:80%; height:250px;"></div>-->
-		</div>
+	      	<div class="box-header">
+	              		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
+		                <h3 class="box-title">Add Activity</h3>
+	        </div>
+	    	<div align="right">
+	    		날짜 선택&nbsp:&nbsp<input type="text" style="width: 150px;" class="datepicker" name="countday" id="addActDay" >&nbsp
+	    		<input type="button" class="btn btn-Danger" id="addActivity" value="활동 입력하기" style="margin-right: 10px;">
+	    	</div>
+	    	<br/>
+	    	<div id="actType">
+			 	<input id="tab1" value="걷기" type="radio" name="tabs" class="tab">
+			 	<label for="tab1">걷기</label>
+			 	<input id="tab2" value="계단" type="radio" name="tabs" class="tab">
+			 	<label for="tab2">계단</label>
+			 	<input id="tab3" value="등산" type="radio" name="tabs" class="tab">
+			 	<label for="tab3">등산</label>
+			 	<input id="tab4" value="수영" type="radio" name="tabs" class="tab">
+			 	<label for="tab4">수영</label>
+			 	<input id="tab5" value="요가" type="radio" name="tabs" class="tab">
+			 	<label for="tab5">요가</label>
+			 	<input id="tab6" value="복싱" type="radio" name="tabs" class="tab">
+			 	<label for="tab6">복싱</label>
+			 	<input id="tab7" value="줄넘기" type="radio" name="tabs" class="tab">
+			 	<label for="tab7">줄넘기</label>
+			 	<input id="tab8" value="자전거" type="radio" name="tabs" class="tab">
+			 	<label for="tab8">자전거</label>
+			 	<input id="tab9" value="달리기" type="radio" name="tabs" class="tab">
+			 	<label for="tab9">달리기</label>
+			 	<input id="tab10" value="스쿼트" type="radio" name="tabs" class="tab">
+			 	<label for="tab10">스쿼트</label>
+			 	<input id="tab11" value="사이클" type="radio" name="tabs" class="tab">
+			 	<label for="tab11">사이클</label>
+			 	<input id="tab12" value="스쿼시" type="radio" name="tabs" class="tab">
+			 	<label for="tab12">스쿼시</label>
+			 	<input id="tab13" value="훌라후프" type="radio" name="tabs" class="tab">
+			 	<label for="tab13">훌라후프</label>
+			 	<input id="tab14" value="런닝머신" type="radio" name="tabs" class="tab">
+			 	<label for="tab14">런닝머신</label>
+			 	<input id="tab15" value="에어로빅" type="radio" name="tabs" class="tab">
+			 	<label for="tab15">에어로빅</label>
+			 	<input id="tab16" value="윗몸일으키키" type="radio" name="tabs" class="tab">
+			 	<label for="tab16">윗몸일으키키</label>
+			</div>
+			
+			<div id="content" align="center" class="t">
+			<!--  	<br><input type="text" id="weight" class="forkacl">kg&nbsp&nbspX&nbsp&nbsp<input type="text" id="time" value="10" class="forkacl">분&nbsp&nbsp=<input type="text" id="kacl" readonly="readonly" class="forkacl">kacl
+				<div><img src="./resources/main/images/sp_pwalk.png" style="width:80%; height:250px;"></div>-->
+			</div>
 		
       	</div>
         

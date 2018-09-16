@@ -515,8 +515,29 @@ $('.datepicker').datepicker('setDate', 'today');
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">         
-      	 <div style="margin-left: 20px; float:left; width: 70%;'">
+      <div class="row">
+      
+   		<div class="col-md-3">
+ 		  <!-- /. 메모 box -->
+          <div class="box box-warning">
+            <div class="box-header with-border">
+              <h3 class="box-title">MEMO</h3>
+              <div class="box-tools">
+                <input type="button" class="datepicker btn btn-block btn-warning"  ></input>
+              </div>
+            </div>
+            <div class="box-body no-padding">
+               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
+	           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
+	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /. box -->
+ 	   </div> 
+      
+               
+      	 <div class="col-md-9">
       	  <!-- general form elements disabled -->
           <div class="box box-Warning">
             <div class="box-header with-border">
@@ -612,26 +633,7 @@ $('.datepicker').datepicker('setDate', 'today');
           </div>
           <!-- /. box -->
  		</div>
- 		<!-- /style="margin-left: 20px; float:left; width: 70%;'" -->  
- 		<div style="width: 20%; float:left; margin-left: 20px;">  
- 		  <!-- /. 메모 box -->
-          <div class="box box-warning">
-            <div class="box-header with-border">
-              <h3 class="box-title">MEMO</h3>
-              <div class="box-tools">
-                <input type="button" class="datepicker btn btn-block btn-warning"  ></input>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
-	           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
-	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /. box -->
- 		</div>
- 		<!-- /style="width: 20%; float:left; margin-left: 20px;" -->    	       
+ 		  
       </div>
       <!-- /.row -->
     </section>

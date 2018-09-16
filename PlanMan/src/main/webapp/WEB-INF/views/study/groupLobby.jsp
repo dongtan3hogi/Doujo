@@ -224,7 +224,7 @@
     <section class="content"> 
       <div class="row"> 
         <div class="col-md-3"> 
-          <div class="box box-info" style="margin-left: 20px;"> 
+          <div class="box box-info"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">GROUP MENU</h3> 
               <div class="box-tools"> 
@@ -247,7 +247,7 @@
         <div class="col-md-9"> 
            
       	  <!-- general form elements disabled --> 
-          <div class="box box-info" style="width: 80%; margin-left: 20px;"> 
+          <div class="box box-info"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">GROUP MENU</h3>
               <div class="box-tools"> 

@@ -221,13 +221,16 @@
 
     <!-- Main content -->
     <section class="content">
+    	<div class="row">
+    
+        <div class="col-md-3"> 
       
           <!-- TO DO List -->
-          <div class="box box-warning" style="width: 30%; float:left; margin-right:20px; margin-left:20px;">
+          <div class="box box-warning">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
 
-              <h3 class="box-title">이번주 Health Schedule</h3>
+              <h3 class="box-title">이번주 Work Schedule</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -287,9 +290,12 @@
           </div>
           </div>
           <!-- /.box -->
+       </div>
+       
+       <div class="col-md-9"> 
          
           <!-- /.box -->
-          <div class="box box-warning" style="width: 40%; float:left; margin-right:20px; ">
+          <div class="box box-warning">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
               <h3 class="box-title">Main News</h3>
@@ -322,28 +328,32 @@
 		      </c:if>
             </div>
             <!-- /.box-body -->
+            <div>
+            	<!-- /. 메모 box -->
+	          <div class="box box-warning">
+	            <div class="box-header with-border">
+	              <h3 class="box-title">MEMO</h3>
+	              <div class="box-tools">
+	                <input type="button" class="datepicker btn btn-block btn-warning"  ></input>
+	              </div>
+	            </div>
+	            <div class="box-body no-padding">
+	               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
+		           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; height:20%; border: 0;"></textarea> <br/>
+		           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
+	            </div>
+	            <!-- /.box-body -->
+	          </div>
+	          <!-- /. box -->
+            </div>
+            
           </div>
           
-          <!-- /. 메모 box -->
-          <div class="box box-warning" style="width: 20%; float:left; margin-left: 5px;">
-            <div class="box-header with-border">
-              <h3 class="box-title">MEMO</h3>
-              <div class="box-tools">
-                <input type="button" class="datepicker btn btn-block btn-warning"  ></input>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
-	           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
-	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /. box -->
-        
+          
+        </div>
         <!-- /.col -->
         
-     
+      </div>
       <!-- /.row -->
     </section>
     <!-- /.content -->
