@@ -230,198 +230,204 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-      	  <div class="box box-danger" style="margin-left: 20px; margin-right: 20px;">
-      	  <div class="box-header">
-              		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
-	                <h3 class="box-title">Show Hospital</h3>
-          </div>
-      		<input type="button" class="btn btn-info btn-danger" value="hospital" id="hospital" style="margin-top:1%; margin-left: 1%;">
-      		<input type="button" class="btn btn-info btn-danger" value="pharmacy" id="pharmacy" style="margin-top:1%; margin-left: 1%;">
-      		<input id="pac-input" class="form-control" type="text" placeholder="Search Box" style="margin-top:1%; width: 40%;">
-			<div id="map"></div>
+      	<div class="col-md-12">
+      	  <div class="box box-danger">
+	      	  <div class="box-header">
+	              		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
+		                <h3 class="box-title">Show Hospital</h3>
+	          </div>
+	      		<input type="button" class="btn btn-info btn-danger" value="hospital" id="hospital" style="margin-top:1%; margin-left: 1%;">
+	      		<input type="button" class="btn btn-info btn-danger" value="pharmacy" id="pharmacy" style="margin-top:1%; margin-left: 1%;">
+	      		<input id="pac-input" class="form-control" type="text" placeholder="Search Box" style="margin-top:1%; width: 40%;">
+				<div id="map"></div>
 		  </div>
-    <script>
-     var map;
-     var service;
-     var infowindow;
-     var bounds;
-     var korea = {lat:37.541, lng: 126.986};
-	 var japan = {lat: 35.41, lng: 139.46};
-	
-	 function initAutocomplete() {
-	        map = new google.maps.Map(document.getElementById('map'), {
-	          center: japan,
-	          zoom: 10,
-	          mapTypeControl: false,
-	          mapTypeId: 'roadmap'
-	        });
+		 </div>
+		    <script>
+		     var map;
+		     var service;
+		     var infowindow;
+		     var bounds;
+		     var korea = {lat:37.541, lng: 126.986};
+			 var japan = {lat: 35.41, lng: 139.46};
 			
-	        // Create the search box and link it to the UI element.
-	        var input = document.getElementById('pac-input');
-	        var hospital = document.getElementById('hospital');
-	        var pharmacy = document.getElementById('pharmacy');
-	        var searchBox = new google.maps.places.SearchBox(input);
-	        map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
-	        map.controls[google.maps.ControlPosition.TOP_CENTER].push(hospital);
-	        map.controls[google.maps.ControlPosition.TOP_CENTER].push(pharmacy);
-			
-	        infowindow = new google.maps.InfoWindow();
-	        // Bias the SearchBox results towards current map's viewport.
-	        map.addListener('bounds_changed', function() {
-	          searchBox.setBounds(map.getBounds());
-	        });
-
-	        var markers = [];
-	        // Listen for the event fired when the user selects a prediction and retrieve
-	        // more details for that place.
-	        searchBox.addListener('places_changed', function() {
-	          var places = searchBox.getPlaces();
+			 function initAutocomplete() {
+			        map = new google.maps.Map(document.getElementById('map'), {
+			          center: japan,
+			          zoom: 10,
+			          mapTypeControl: false,
+			          mapTypeId: 'roadmap'
+			        });
+					
+			        // Create the search box and link it to the UI element.
+			        var input = document.getElementById('pac-input');
+			        var hospital = document.getElementById('hospital');
+			        var pharmacy = document.getElementById('pharmacy');
+			        var searchBox = new google.maps.places.SearchBox(input);
+			        map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+			        map.controls[google.maps.ControlPosition.TOP_CENTER].push(hospital);
+			        map.controls[google.maps.ControlPosition.TOP_CENTER].push(pharmacy);
+					
+			        infowindow = new google.maps.InfoWindow();
+			        // Bias the SearchBox results towards current map's viewport.
+			        map.addListener('bounds_changed', function() {
+			          searchBox.setBounds(map.getBounds());
+			        });
+		
+			        var markers = [];
+			        // Listen for the event fired when the user selects a prediction and retrieve
+			        // more details for that place.
+			        searchBox.addListener('places_changed', function() {
+			          var places = searchBox.getPlaces();
+					 
+			          if (places.length == 0) {
+			            return;
+			          }
+		
+			          // Clear out the old markers.
+			          markers.forEach(function(marker) {
+			            marker.setMap(null);
+			          });
+			          markers = [];
+		
+			          // For each place, get the icon, name and location.
+			          bounds = new google.maps.LatLngBounds();
+			          places.forEach(function(place) {
+			            if (!place.geometry) {
+			              console.log("Returned place contains no geometry");
+			              return;
+			          }
+			          var icon = {
+			              url: place.icon,
+			              size: new google.maps.Size(71, 71),
+			              origin: new google.maps.Point(0, 0),
+			              anchor: new google.maps.Point(17, 34),
+			              scaledSize: new google.maps.Size(25, 25)
+			          };
+		
+			          // Create a marker for each place.
+			          markers.push(new google.maps.Marker({
+			              map: map,
+			              icon: icon,
+			              title: place.name,
+			              position: place.geometry.location
+			          }));
+		
+			          if (place.geometry.viewport) {
+			              // Only geocodes have viewport.
+			              bounds.union(place.geometry.viewport);
+			            } else {
+			              bounds.extend(place.geometry.location);
+			            }
+			          });
+			          map.fitBounds(bounds);
+			        });
+			          
+			          $('#hospital').on('click',function(){
+			        	
+			        	  var bound2=bounds.getCenter();
+			        	  var newbound=bound2.toString().split(',');
+			        	 	
+			        	  var lat=newbound[0].replace("(","");
+			        	  var lng=newbound[1].replace(")","");
+			        	 
+			        	  var pyrmont = new google.maps.LatLng(lat,lng);
+		
+			        	  map.setCenter(pyrmont);
+			        	  map.setZoom(14);
+		
+			        	  var request = {
+			        	    location: pyrmont,
+			        	    radius: '1500',
+			        	    type: ["hospital"]
+			        	  };
+						  
+			        	  var cityCircle = new google.maps.Circle({
+			                  strokeColor: '#FF0000',
+			                  strokeOpacity: 0.8,
+			                  strokeWeight: 2,
+			                  fillColor: '#FF0000',
+			                  fillOpacity: 0.35,
+			                  map: map,
+			                  center: pyrmont,
+			                  radius: 1500
+			              });		
+			        	  
+			        	  service = new google.maps.places.PlacesService(map);
+			        	  service.nearbySearch(request, callback);
+			        	 
+			        	  
+			  	          
+			          });
+			          
+					  $('#pharmacy').on('click',function(){
+						 
+						  var bound2=bounds.getCenter();
+			        	  var newbound=bound2.toString().split(',');
+			        	 
+			        	  var lat=newbound[0].replace("(","");
+			        	  var lng=newbound[1].replace(")","");
+			        	 
+			        	  var pyrmont = new google.maps.LatLng(lat,lng);
+			        	  
+			        	  map.setCenter(pyrmont);
+			        	  map.setZoom(14);
+		
+			        	  var request = {
+			        	    location: pyrmont,
+			        	    radius: '1500',
+			        	    type: ["pharmacy"]
+			        	  };
+						  
+			        	  var cityCircle = new google.maps.Circle({
+			                  strokeColor: '#FF0000',
+			                  strokeOpacity: 0.8,
+			                  strokeWeight: 2,
+			                  fillColor: '#FF0000',
+			                  fillOpacity: 0.35,
+			                  map: map,
+			                  center: pyrmont,
+			                  radius: 1500
+			              });	
+			        	  
+			        	  service = new google.maps.places.PlacesService(map);
+			        	  service.nearbySearch(request, callback);
+			        	  
+			        	 
+			          });
+			         
+			        
+			 }
 			 
-	          if (places.length == 0) {
-	            return;
-	          }
-
-	          // Clear out the old markers.
-	          markers.forEach(function(marker) {
-	            marker.setMap(null);
-	          });
-	          markers = [];
-
-	          // For each place, get the icon, name and location.
-	          bounds = new google.maps.LatLngBounds();
-	          places.forEach(function(place) {
-	            if (!place.geometry) {
-	              console.log("Returned place contains no geometry");
-	              return;
-	          }
-	          var icon = {
-	              url: place.icon,
-	              size: new google.maps.Size(71, 71),
-	              origin: new google.maps.Point(0, 0),
-	              anchor: new google.maps.Point(17, 34),
-	              scaledSize: new google.maps.Size(25, 25)
-	          };
-
-	          // Create a marker for each place.
-	          markers.push(new google.maps.Marker({
-	              map: map,
-	              icon: icon,
-	              title: place.name,
-	              position: place.geometry.location
-	          }));
-
-	          if (place.geometry.viewport) {
-	              // Only geocodes have viewport.
-	              bounds.union(place.geometry.viewport);
-	            } else {
-	              bounds.extend(place.geometry.location);
-	            }
-	          });
-	          map.fitBounds(bounds);
-	        });
-	          
-	          $('#hospital').on('click',function(){
-	        	
-	        	  var bound2=bounds.getCenter();
-	        	  var newbound=bound2.toString().split(',');
-	        	 	
-	        	  var lat=newbound[0].replace("(","");
-	        	  var lng=newbound[1].replace(")","");
-	        	 
-	        	  var pyrmont = new google.maps.LatLng(lat,lng);
-
-	        	  map.setCenter(pyrmont);
-	        	  map.setZoom(14);
-
-	        	  var request = {
-	        	    location: pyrmont,
-	        	    radius: '1500',
-	        	    type: ["hospital"]
-	        	  };
-				  
-	        	  var cityCircle = new google.maps.Circle({
-	                  strokeColor: '#FF0000',
-	                  strokeOpacity: 0.8,
-	                  strokeWeight: 2,
-	                  fillColor: '#FF0000',
-	                  fillOpacity: 0.35,
-	                  map: map,
-	                  center: pyrmont,
-	                  radius: 1500
-	              });		
-	        	  
-	        	  service = new google.maps.places.PlacesService(map);
-	        	  service.nearbySearch(request, callback);
-	        	 
-	        	  
-	  	          
-	          });
-	          
-			  $('#pharmacy').on('click',function(){
-				 
-				  var bound2=bounds.getCenter();
-	        	  var newbound=bound2.toString().split(',');
-	        	 
-	        	  var lat=newbound[0].replace("(","");
-	        	  var lng=newbound[1].replace(")","");
-	        	 
-	        	  var pyrmont = new google.maps.LatLng(lat,lng);
-	        	  
-	        	  map.setCenter(pyrmont);
-	        	  map.setZoom(14);
-
-	        	  var request = {
-	        	    location: pyrmont,
-	        	    radius: '1500',
-	        	    type: ["pharmacy"]
-	        	  };
-				  
-	        	  var cityCircle = new google.maps.Circle({
-	                  strokeColor: '#FF0000',
-	                  strokeOpacity: 0.8,
-	                  strokeWeight: 2,
-	                  fillColor: '#FF0000',
-	                  fillOpacity: 0.35,
-	                  map: map,
-	                  center: pyrmont,
-	                  radius: 1500
-	              });	
-	        	  
-	        	  service = new google.maps.places.PlacesService(map);
-	        	  service.nearbySearch(request, callback);
-	        	  
-	        	 
-	          });
-	         
-	        
-	 }
-	 
-	 
-	 function callback(results, status) {
-		  if (status == google.maps.places.PlacesServiceStatus.OK) {
-			for (var i = 0; i < results.length; i++) {
-			  var place = results[i];
-		      createMarker(results[i]);
-		    }
-		  }
-	 }
-	 
-	 function createMarker(place) {
-	        var placeLoc = place.geometry.location;
-	        var marker = new google.maps.Marker({
-	          map: map,
-	          position: place.geometry.location
-	        });
-
-	        google.maps.event.addListener(marker, 'click', function() {
-	          infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + '주소 : ' + place.vicinity + '</div>');
-	          infowindow.open(map, this);
-	        });
-	 }
-
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&libraries=places&callback=initAutocomplete" async defer></script></div>
+			 
+			 function callback(results, status) {
+				  if (status == google.maps.places.PlacesServiceStatus.OK) {
+					for (var i = 0; i < results.length; i++) {
+					  var place = results[i];
+				      createMarker(results[i]);
+				    }
+				  }
+			 }
+			 
+			 function createMarker(place) {
+			        var placeLoc = place.geometry.location;
+			        var marker = new google.maps.Marker({
+			          map: map,
+			          position: place.geometry.location
+			        });
+		
+			        google.maps.event.addListener(marker, 'click', function() {
+			          infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + '주소 : ' + place.vicinity + '</div>');
+			          infowindow.open(map, this);
+			        });
+			 }
+		
+		    </script>
+   			 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&libraries=places&callback=initAutocomplete" async defer></script>
+   			 
+   		
+      </div>
       <!-- /.row -->
+      
     </section>
     <!-- /.content -->
   </div>
@@ -440,6 +446,7 @@
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
 
+</div>
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->

@@ -227,7 +227,7 @@
     <!-- Main content --> 
     <section class="content"> 
       <div class="row"> 
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="box box-info"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">STUDY</h3> 
@@ -277,7 +277,7 @@
         </div> 
         <!-- /.col --> 
         
-        <div class="col-md-9"> 
+        <div class="col-md-8"> 
           
           <!-- solve the quiz --> 
           <div class="box box-info"> 
@@ -310,6 +310,11 @@
   <!-- ========================================================================================================== --> 
   <!-- ========================================================================================================== --> 
    
+  
+  
+  </div> 
+  <!-- /.content-wrapper --> 
+ 
   <footer class="main-footer"> 
     <div class="pull-right hidden-xs"> 
       <b>Version</b> 2.4.0 
@@ -317,10 +322,6 @@
     <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
     reserved. 
   </footer> 
-  
-  
-  </div> 
-  <!-- /.content-wrapper --> 
  
 </div> 
 <!-- ./wrapper --> 

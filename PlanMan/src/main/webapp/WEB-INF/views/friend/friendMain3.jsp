@@ -255,17 +255,66 @@ function boardList() {
 
     <!-- Main content -->
     <section class="content">
-      
-        
-    
-      
-<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
-<script>
-alert("취미 직업을 등록하러 갑니다");
-location.href="joinfriend";
-</script>
-</c:if>
- <div class="box box-primary" style="width: 40%; height: 600px; float:left; margin-right:30px; ">
+      <div class="row">
+     
+	<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
+	<script>
+	alert("취미 직업을 등록하러 갑니다");
+	location.href="joinfriend";
+	</script>
+	</c:if>
+ 	
+ 	<div class="box box-primary" style="width: 40%; height: 600px; float:left; margin-right:30px; ">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Place_Recommendation</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+  
+			     <h2>[ Place_Reply ]</h2>
+				
+				<form action="saveboard" method="post" enctype="multipart/form-data" onsubmit="return formCheck()">
+					<table>
+						<tr>
+							<th>제목</th>
+							<td>
+								<input type="text" name="title" id="title">
+								<input type="hidden" name="id" value="${sessionScope.member.id}">
+							</td>
+						</tr>
+						<tr>
+							<th>내용</th>
+							<td><div contentEditable="true" id="divedit" >
+								</div>
+								<img id="imgs"/><input type="hidden" name="content" >
+							</td>
+						</tr>
+						<tr>
+							<th>글쓴이</th>
+							<td>${id}</td>
+						</tr>
+						<tr>
+							<th>첨부파일</th>
+							<td><input id="input_img" type="file" name="upload" /></td>
+						</tr>
+						<tr>
+							<th>위치</th>
+							<td><input type="text" name="location" /></td>
+						</tr>
+						<tr>
+							<td class="btn" colspan="2" >
+								<input type="submit" value="저장">
+							</td>
+						</tr>
+					</table>
+				</form>
+			
+			</div>
+		</div>
+		
+		<div class="box box-primary" style="width: 40%; height: 600px; float:left; margin-right:20px; ">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
               <h3 class="box-title">Place_Recommendation</h3>
@@ -275,110 +324,56 @@ location.href="joinfriend";
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
   
             
-     <h2>[ Place_Reply ]</h2>
-	
-	<form action="saveboard" method="post" enctype="multipart/form-data" onsubmit="return formCheck()">
-		<table>
-			<tr>
-				<th>제목</th>
-				<td>
-					<input type="text" name="title" id="title">
-					<input type="hidden" name="id" value="${sessionScope.member.id}">
-				</td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td><div contentEditable="true" id="divedit" >
-					</div>
-					<img id="imgs"/><input type="hidden" name="content" >
-				</td>
-			</tr>
-			<tr>
-				<th>글쓴이</th>
-				<td>${id}</td>
-			</tr>
-			<tr>
-				<th>첨부파일</th>
-				<td><input id="input_img" type="file" name="upload" /></td>
-			</tr>
-			<tr>
-				<th>위치</th>
-				<td><input type="text" name="location" /></td>
-			</tr>
-			<tr>
-				<td class="btn" colspan="2" >
-					<input type="submit" value="저장">
-				</td>
-			</tr>
-		</table>
-	</form>
+     		<h2>[ Friend' Records ]</h2>
+				     <c:if test="${!empty flist }">
+				     <c:forEach var="flist" items="${ flist}">
+						<table>
+							<tr>
+								<th>제목</th>
+								<td>${ flist.title}
+								</td>
+							</tr>
+							<tr>
+								<th>내용</th>
+								<td><div contentEditable="true">
+				  ${flist.content}
+				</div>
+								</td>
+							</tr>
+							<tr>
+								<th>글쓴이</th>
+								<td>${flist.id }</td>
+							</tr>
+							<tr>
+								<th>첨부파일</th>
+							</tr>
+							<tr>
+								<th  >위치
+								</th><td>${flist.location }</td>
+							</tr>
+						</table>
+						</c:forEach>
+						</c:if>
+				</div>
+		</div>
+		
+		</div>
+	</section>
 
 </div>
-</div>
-<div class="box box-primary" style="width: 40%; height: 600px; float:left; margin-right:20px; ">
-            <div class="box-header">
-              <i class="ion ion-clipboard"></i>
-              <h3 class="box-title">Place_Recommendation</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-  
-            
-     <h2>[ Friend' Records ]</h2>
-     <c:if test="${!empty flist }">
-     <c:forEach var="flist" items="${ flist}">
-		<table>
-			<tr>
-				<th>제목</th>
-				<td>${ flist.title}
-				</td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td><div contentEditable="true">
-  ${flist.content}
-</div>
-				</td>
-			</tr>
-			<tr>
-				<th>글쓴이</th>
-				<td>${flist.id }</td>
-			</tr>
-			<tr>
-				<th>첨부파일</th>
-			</tr>
-			<tr>
-				<th  >위치
-				</th><td>${flist.location }</td>
-			</tr>
-		</table>
-		</c:forEach>
-		</c:if>
-</div>
-</div>
-</section>
 
-</div>
 
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
 
- <footer class="footer">
-     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
+ <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 0.0.1
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights<b>Version</b> 2.4.0
-    reserved.
- </footer>
+    <strong>Copyright &copy; 2018 PlanMan.</strong>
+  </footer>
 
-  <!-- Control Sidebar -->
-  
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 

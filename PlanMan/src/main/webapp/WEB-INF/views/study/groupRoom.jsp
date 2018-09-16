@@ -648,7 +648,7 @@
     <section class="content"> 
       <div class="row"> 
         
-        <div class="col-md-3"> 
+        <div class="col-md-4"> 
           <div class="box box-info"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">Group</h3> 
@@ -705,13 +705,13 @@
         
         
         
-        <div class="col-md-9"> 
+        <div class="col-md-8"> 
          
           
           
 		<div class="box box-info direct-chat direct-chat-warning">
 			<div class="box-header with-border">
-				<h3 class="box-title">Direct Chat</h3>
+				<h3 class="box-title">Group	 Chat</h3>
 
 				<div class="box-tools pull-right">
 					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -779,13 +779,6 @@
     </section> 
     <!-- /.content --> 
     
-    <footer class="main-footer"> 
-    <div class="pull-right hidden-xs"> 
-      <b>Version</b> 2.4.0 
-    </div> 
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
-    reserved. 
-  </footer> 
     
   </div> 
   <!-- /.content-wrapper --> 
@@ -795,7 +788,12 @@
   <!-- ========================================================================================================== --> 
   <!-- ========================================================================================================== --> 
    
-   
+    <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 0.0.1
+    </div>
+    <strong>Copyright &copy; 2018 PlanMan.</strong>
+  </footer>
   
  
 </div> 

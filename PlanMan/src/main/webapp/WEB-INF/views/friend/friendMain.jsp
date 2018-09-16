@@ -234,9 +234,10 @@
 
     <!-- Main content -->
     <section class="content">
-        
+        <div class="row">
+        	<div class="col-md-4">
         	  <!-- TO DO List -->
-	          <div class="box box-success" style="width: 30%; float:left; margin-left:20px;">
+	          <div class="box box-success">
 	            <div class="box-header">
 	              <i class="ion ion-clipboard"></i>
 	
@@ -305,7 +306,9 @@
 	          </div>
 	          </div>
 	          <!-- /.box -->
-
+	          
+	       </div>
+		   <div class="col-md-8">
 				<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 					<script>
 					alert("취미 직업을 등록하러 갑니다");
@@ -313,7 +316,7 @@
 					</script>
 				</c:if>
 				 
-				 <div class="box box-success" style="width: 60%; float:left; margin-left:20px;">
+				 <div class="box box-success">
 		            <div class="box-header">
 		              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_Recommendation</h3>
 		
@@ -330,14 +333,14 @@
 				         <button type="submit" value="search"  class="btn btn-success" ><i class="fa fa-search"></i></button>
 				       </form>
 				       
-				       <form action="tooldFriend" method="get" style="display: inline;">
-				       	 <input type="submit" value="My friend"  class="btn btn-success" />
-				       	 
-				       </form>
+				       
 		              </div>
 		    
 		             </div>
 		             <br/>
+		             <div>
+				      	<a href="tooldFriend"><label class="label label-success">My friend</label></a>
+				      </div>
 		            </div> 
 		            <!-- /.box-header -->
 		            <div class="box-body table-responsive no-padding">
@@ -399,22 +402,26 @@
 				    </script>
 		          </div>
 		          <!-- /.box -->
-          	
-				
-
-			  <!-- ========================================================================================================== -->
-			  <!-- ========================================================================================================== -->
-			  <!-- ========================================================================================================== -->
+		     </div>
+		          
+		</div>          
+	</section>
 	
-</div>
-<!-- ./wrapper -->
+  </div>	          	
+  <!-- ./content wrapper -->		
+ <!-- ========================================================================================================== -->
+ <!-- ========================================================================================================== -->
+ <!-- ========================================================================================================== -->
 
-   <footer class="main-footer">
+ <footer class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Version</b> 0.0.1
     </div>
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
+
+</div>
+<!-- ./wrapper -->				
 
 
 <!-- jQuery 3 -->

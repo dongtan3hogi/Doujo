@@ -263,15 +263,15 @@ function fn_btnChoice(){
 
     <!-- Main content -->
     <section class="content">
-      
-       </section>
-<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
-<script>
-alert("취미 직업을 등록하러 갑니다");
-location.href="joinfriend";
-</script>
-</c:if>
- <div class="box box-primary" style="width: 50%; height: 600px; float:left; margin-right:20px; ">
+      <div class="row">
+       
+		<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
+		<script>
+		alert("취미 직업을 등록하러 갑니다");
+		location.href="joinfriend";
+		</script>
+		</c:if>
+ 		<div class="box box-primary" style="width: 50%; height: 600px; float:left; margin-right:20px; ">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
               <h3 class="box-title">Friend_Recommendation</h3>
@@ -280,128 +280,116 @@ location.href="joinfriend";
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
   
-            <div>
-      <form class="right" action="searchRecommendFriends" method="get">
-         
-         <select name="searchItem">
-            <option value="id"${searchItem =='id'? 'selected':''}>ID</option>
-            <option value="job" ${searchItem =='job'? 'selected':''}>JOB</option>
-            <option value="hobby" ${searchItem =='hobby'? 'selected':''}>HOBBY</option>
-         </select>
-         
-         <input type="text" name="searchWord" value="${searchWord}"/>
-         <input type="submit" value="search" />
-         
-      </form>   
+		      <form class="right" action="searchRecommendFriends" method="get">
+		         
+		         <select name="searchItem">
+		            <option value="id"${searchItem =='id'? 'selected':''}>ID</option>
+		            <option value="job" ${searchItem =='job'? 'selected':''}>JOB</option>
+		            <option value="hobby" ${searchItem =='hobby'? 'selected':''}>HOBBY</option>
+		         </select>
+		         
+		         <input type="text" name="searchWord" value="${searchWord}"/>
+		         <input type="submit" value="search" />
+		         
+		      </form>   
       
-      <div class="left">
-      <a href="tooldFriend">ToFriend_List</a>
-      </div>
-      
-   <table summary="member" cellpadding="0" cellspacing="0" id="member" style="text-align:center">
-   <colgroup>
-   <col width="10%"/>
-   <col width="10%"/>
-   <col width="10%"/>
-   <col width="10%"/>
-   </colgroup>
-   <thead>
-      <th scope="col"><input type="checkbox" onClick="fn_allChecked();"/></th>
-      <th scope="col">ID</th>
-      <th scope="col">NICKNAME</th>
-      <th scope="col">NAME</th>
-      <th scope="col">GENDER</th>
-      <th scope="col">AGE</th>
-      <th scope="col">JOB</th>
-      <th scope="col">HOBBY</th>
-   </thead>
+		      <div class="left">
+		      <a href="tooldFriend">ToFriend_List</a>
+		      </div>
+		      
+				   <table summary="member" cellpadding="0" cellspacing="0" id="member" style="text-align:center">
+				   <colgroup>
+				   <col width="10%"/>
+				   <col width="10%"/>
+				   <col width="10%"/>
+				   <col width="10%"/>
+				   </colgroup>
+				   <thead>
+				      <th scope="col"><input type="checkbox" onClick="fn_allChecked();"/></th>
+				      <th scope="col">ID</th>
+				      <th scope="col">NICKNAME</th>
+				      <th scope="col">NAME</th>
+				      <th scope="col">GENDER</th>
+				      <th scope="col">AGE</th>
+				      <th scope="col">JOB</th>
+				      <th scope="col">HOBBY</th>
+				   </thead>
+				   
+				   <tbody>
+				   <c:choose>
+				      <c:when test="${!empty list}">
+				       <c:forEach begin="0" var="member" items="${list}" varStatus="index">
+				          <tr class='sibal'>
+				              <td><input type="checkbox" name='selected'></td>
+				              <td>${member.id}</td>   
+				              <td>${member.nickname}</td>
+				              <td>${member.name}</td>
+				              <td>${member.gender}</td>
+				              <td>${member.age}</td>
+				              <td>${member.job}</td>
+				              <td>${member.hobby}</td>
+				          </tr>    
+				       </c:forEach>   
+				      </c:when>
+				      <c:otherwise>
+				      <tr><td colspan="7" >No Information</td></tr>
+				      </c:otherwise>
+				   </c:choose>
+				   </tbody>
+				   </table>
+		   
+				   <div>
+				        <a href="#" onClick="fn_btnChoice()">choose</a>
+				   </div>
+				
+				</div>
+	   
+	   <!-- <div>
+	        <a href="#" onClick="fn_delRow()">삭제</a>
+	   </div> -->
    
-   <tbody>
-   <c:choose>
-      <c:when test="${!empty list}">
-       <c:forEach begin="0" var="member" items="${list}" varStatus="index">
-          <tr class='sibal'>
-              <td><input type="checkbox" name='selected'></td>
-              <td>${member.id}</td>   
-              <td>${member.nickname}</td>
-              <td>${member.name}</td>
-              <td>${member.gender}</td>
-              <td>${member.age}</td>
-              <td>${member.job}</td>
-              <td>${member.hobby}</td>
-          </tr>    
-       </c:forEach>   
-      </c:when>
-      <c:otherwise>
-      <tr><td colspan="7" >No Information</td></tr>
-      </c:otherwise>
-   </c:choose>
-   </tbody>
-   </table>
+	   <div class="boardfooter">
+	   <a href="listfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
+	   <a href="listfriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
+	   &nbsp; &nbsp;
+	   <c:forEach var="page" begin="${navi.startPageGroup}" end="${navi.endPageGroup}">
+	      <c:if test="${page == currentPage}">
+	         <span style="color:red; font-weight:bolder;">${page}</span> &nbsp;
+	      </c:if>
+	      
+	      <c:if test="${page != currentPage}">
+	         <a href="listfriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
+	      </c:if>
+	   </c:forEach>
+	   &nbsp; &nbsp;
+	   <a href="listfriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
+	   <a href="listfriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>
+	   
+	   </div>
+	   <script type="text/javascript">
+	   
+	   	console.log('asdf');
+	   	console.log('${list}');
+	   </script>
    
-   <div>
-        <a href="#" onClick="fn_btnChoice()">choose</a>
-   </div>
-   
-   <!-- <div>
-        <a href="#" onClick="fn_delRow()">삭제</a>
-   </div> -->
-   
-   <div class="boardfooter">
-   <a href="listfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
-   <a href="listfriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
-   &nbsp; &nbsp;
-   <c:forEach var="page" begin="${navi.startPageGroup}" end="${navi.endPageGroup}">
-      <c:if test="${page == currentPage}">
-         <span style="color:red; font-weight:bolder;">${page}</span> &nbsp;
-      </c:if>
-      
-      <c:if test="${page != currentPage}">
-         <a href="listfriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
-      </c:if>
-   </c:forEach>
-   &nbsp; &nbsp;
-   <a href="listfriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
-   <a href="listfriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>
-   
-   </div>
-   <script type="text/javascript">
-   
-   	console.log('asdf');
-   	console.log('${list}');
-   </script>
-   
-</div>
-</div>
-</div>
+		</div>
+	</div>
+	
+	</div>
+
+
 
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
- <style>
- .footer {
-    position: fixed;
-    left: 0;
-    right: 100;
-    bottom: 0;
-    width: 100%;
-    text-align:right;
- }
- </style> 
- <footer class="footer">
-     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
+
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 0.0.1
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights<b>Version</b> 2.4.0
-    reserved.
- </footer>
+    <strong>Copyright &copy; 2018 PlanMan.</strong>
+  </footer>
 
-  <!-- Control Sidebar -->
-  
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 

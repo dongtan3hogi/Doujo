@@ -223,7 +223,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="row"> 
-      	<div class="col-md-3">
+      	<div class="col-md-4">
       	  <div class="box box-Danger">
             	<div class="box-header">
               		<i class="fa fa-fw fa-exclamation"></i>
@@ -287,7 +287,7 @@
           </div> 	
           </div>
           
-          <div class="col-md-9">
+          <div class="col-md-8">
           <div class="box box-danger">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
@@ -333,6 +333,7 @@
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
 
+</div>
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->

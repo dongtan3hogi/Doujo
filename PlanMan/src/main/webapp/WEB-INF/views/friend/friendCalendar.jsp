@@ -338,7 +338,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-md-3" style="float: left; width: 20%; margin-left: 20px;">
+        <div class="col-md-3">
         		<div class="box box-success">
 		            <div class="box-header">
 		              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_List</h3>
@@ -370,7 +370,7 @@
 		          <!-- /.box -->
         </div>
         <!-- /.col -->
-        <div class="col-md-9" style="float: left; width: 70%; margin-left: 20px;">
+        <div class="col-md-9">
           <div class="box box-success">
             <div class="box-body no-padding">
               <!-- THE CALENDAR -->

@@ -225,7 +225,8 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-      	<div class="box box-danger" style="margin-left: 20px; margin-right: 20px;">
+      	<div class="col-md-12">
+      	<div class="box box-danger">
       	<div class="box-header">
               		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
 	                <h3 class="box-title">Meal Table : ${eatfoodList[0].countday}일의 식단표</h3>
@@ -272,8 +273,8 @@
         </tbody>
         </table>
         </div>
-        
         </div>
+        
       </div>
       <!-- /.row -->
     </section>
@@ -294,6 +295,7 @@
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
 
+</div>
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->

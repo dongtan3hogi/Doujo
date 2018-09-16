@@ -223,7 +223,7 @@
     <section class="content">
     	<div class="row">
     
-        <div class="col-md-3"> 
+        <div class="col-md-4"> 
       
           <!-- TO DO List -->
           <div class="box box-warning">
@@ -292,7 +292,7 @@
           <!-- /.box -->
        </div>
        
-       <div class="col-md-9"> 
+       <div class="col-md-5"> 
          
           <!-- /.box -->
           <div class="box box-warning">
@@ -328,8 +328,16 @@
 		      </c:if>
             </div>
             <!-- /.box-body -->
-            <div>
-            	<!-- /. 메모 box -->
+            
+            
+          </div>
+          
+          
+        </div>
+        <!-- /.col -->
+        
+        <div class="col-md-3">
+        	<!-- /. 메모 box -->
 	          <div class="box box-warning">
 	            <div class="box-header with-border">
 	              <h3 class="box-title">MEMO</h3>
@@ -339,19 +347,14 @@
 	            </div>
 	            <div class="box-body no-padding">
 	               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
-		           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; height:20%; border: 0;"></textarea> <br/>
+		           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
 		           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
 	            </div>
 	            <!-- /.box-body -->
 	          </div>
 	          <!-- /. box -->
-            </div>
-            
-          </div>
-          
-          
-        </div>
-        <!-- /.col -->
+        
+        </div> 
         
       </div>
       <!-- /.row -->
@@ -369,13 +372,13 @@
   <!-- ========================================================================================================== -->
   
   
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
-    </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-    reserved.
-  </footer>
+   <footer class="main-footer"> 
+    <div class="pull-right hidden-xs"> 
+      <b>Version</b> 2.4.0 
+    </div> 
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
+    reserved. 
+  </footer> 
   
 </div>
 <!-- ./wrapper -->

@@ -366,14 +366,14 @@
 		             </div>
 		             <br/>
 		             <div>
-				      	<a href="tonewFriend">ToFriend_Recommendation</a>
+				      	<a href="tonewFriend"><label class="label label-success">ToFriend_Recommendation</label></a>
 				      </div>
 		            </div> 
 		            <!-- /.box-header -->
 		            <div class="box-body table-responsive no-padding">
 		              <table class="table table-hover">
 		                <tr>
-		                  <th><input type="checkbox" onClick="fn_allChecked();"/></th>
+		                  <th>ICON</th>
 					      <th>ID</th>
 					      <th>NICKNAME</th>
 					      <th>NAME</th>
@@ -381,12 +381,12 @@
 					      <th>AGE</th>
 					      <th>JOB</th>
 					      <th>HOBBY</th>
-					      <th>TYPE</th>
 		                </tr>
 					   <c:choose>
 					      <c:when test="${!empty newlist}">
 					       <c:forEach begin="0" var="friend" items="${newlist}" varStatus="index">
-					          <tr class='sibal'><td><input type="checkbox" name='selected'></td>
+					          <tr>
+					          	  <td><img class="direct-chat-img" src="resources/userData/image/' + ${friend.friendid} + '.jpg"  data-rno="${friend.friendid}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
 					              <td>${friend.friendid}</td>   
 					              <td>${friend.nickname}</td>
 					              <td>${friend.name}</td>
@@ -394,27 +394,17 @@
 					              <td>${friend.age}</td>
 					              <td>${friend.job}</td>
 					              <td>${friend.hobby}</td>
-					              <c:if test="${friend.type==1 }">
-					              <td>내 친구</td></c:if>
-					              <c:if test="${friend.type==2 }">
-					              <td>수락 대기중</td></c:if>
-					              <c:if test="${friend.type==3 }">
-					              <td><input type="button" value="친구 수락" class="acceptFriend"/></td></c:if>
-					             
-					             
 					          </tr>    
 					       </c:forEach>   
 					      </c:when>
 					      <c:otherwise>
-					      <tr><td colspan="7" >No Information</td></tr>
+					      	<tr><td colspan="7" >No Information</td></tr>
 					      </c:otherwise>
 					   </c:choose>
     	              </table>
 		            </div>
 		            <!-- /.box-body -->
-		            <div>
-				        <a href="#" onClick="fn_btnChoice()">choose</a>
-				   	</div>
+		           
 				   	
 				   	<div class="boardfooter">
 						   <a href="listMyfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
@@ -439,17 +429,14 @@
 				    </script>
 		          </div>
 		          <!-- /.box -->
+    </section>
+</div>
           	
-				
+			  <!-- ========================================================================================================== -->
+			  <!-- ========================================================================================================== -->
+			  <!-- ========================================================================================================== -->
+	
 
-			  <!-- ========================================================================================================== -->
-			  <!-- ========================================================================================================== -->
-			  <!-- ========================================================================================================== -->
-	</section>
-</div>
-
-</div>
-<!-- ./wrapper -->
 
    <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -458,6 +445,8 @@
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
 
+</div>
+<!-- ./wrapper -->
 
 <!-- jQuery 3 -->
 <script src="resources/main/bower_components/jquery/dist/jquery.min.js"></script>
@@ -480,7 +469,41 @@
 <!-- Page specific script -->
 <script>
 
-  $(function () {    
+  $(function () {
+	  
+	  $(".chkbox").change(function(){
+	        if($(this).is(":checked")){
+	            $.ajax({
+	            	url:'chkschdule'
+	      			,type:'post'
+	      			,data:{
+	      				"schseq":$(this).attr('data-rno')
+	      			}
+	      			,success: function (data){
+	    				if(data="success"){
+	    					alert("스케쥴 확인완료!")
+	    				}	
+	      			}
+	            })
+	            $(this).parent('li').addClass('done');
+	        }else if($(this).is(":not(:checked)")){
+	        	 $.ajax({
+		            	url:'unchkschdule'
+		      			,type:'post'
+		      			,data:{
+		      				"schseq":$(this).attr('data-rno')
+		      			}
+		      			,success: function (data){
+		      				if(data="success"){
+		    					alert("스케쥴 해제하기!")
+		    				}	
+		      			}
+		        })
+	            $(this).parent('li').removeClass('done');
+	        }
+	  });
+	  
+	  
      $('.acceptFriend').each(function(index,value){
     	 $(this).on('click',function(){
     		 var tr = $(this).closest('tr');
@@ -539,35 +562,7 @@
         location.reload();
      });
     
-   $('#saveMemo').click(function(){
-      var memo = $('#memo').val();
-      memo= memo.replace("\r\n","<br>");
-      alert(memo);
-      var today = new Date();
-      var mm= today.getMonth()+1; 
-      var dd =today.getDate();
-      var yy = today.getFullYear();
-      if(dd<10) {
-          dd='0'+dd;
-      } 
-      if(mm<10) {
-          mm='0'+mm;
-      } 
-      var td=yy+'-'+mm+'-'+dd;
-      $.ajax({
-         url:"saveMemo",
-         type:"post",
-         //client에서 server로 가는 값
-         data:{"userid": memo, "text":memo,"startDate":temp},
-         success: function(data){
-         if(data=="1"||data=="3"){
-            alert("저장 되었습니다");
-         }else{'오류 발생'};
-         },fail: function(){
-            alert("다음에 다시 시도해주세요");
-         }
-      });
-      });
+   
   });
 </script>
 <script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>

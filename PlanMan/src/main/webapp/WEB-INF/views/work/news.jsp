@@ -516,27 +516,7 @@ $('.datepicker').datepicker('setDate', 'today');
     <!-- Main content -->
     <section class="content">
       <div class="row">
-      
-   		<div class="col-md-3">
- 		  <!-- /. 메모 box -->
-          <div class="box box-warning">
-            <div class="box-header with-border">
-              <h3 class="box-title">MEMO</h3>
-              <div class="box-tools">
-                <input type="button" class="datepicker btn btn-block btn-warning"  ></input>
-              </div>
-            </div>
-            <div class="box-body no-padding">
-               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
-	           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
-	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /. box -->
- 	   </div> 
-      
-               
+             
       	 <div class="col-md-9">
       	  <!-- general form elements disabled -->
           <div class="box box-Warning">
@@ -633,6 +613,25 @@ $('.datepicker').datepicker('setDate', 'today');
           </div>
           <!-- /. box -->
  		</div>
+ 		
+ 		<div class="col-md-3">
+ 		  <!-- /. 메모 box -->
+          <div class="box box-warning">
+            <div class="box-header with-border">
+              <h3 class="box-title">MEMO</h3>
+              <div class="box-tools">
+                <input type="button" class="datepicker btn btn-block btn-warning"  ></input>
+              </div>
+            </div>
+            <div class="box-body no-padding">
+               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
+	           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
+	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /. box -->
+ 	   </div> 
  		  
       </div>
       <!-- /.row -->
@@ -646,18 +645,14 @@ $('.datepicker').datepicker('setDate', 'today');
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
   
+   <footer class="main-footer"> 
+    <div class="pull-right hidden-xs"> 
+      <b>Version</b> 2.4.0 
+    </div> 
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
+    reserved. 
+  </footer> 
   
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
-    </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-    reserved.
-  </footer>
-
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 

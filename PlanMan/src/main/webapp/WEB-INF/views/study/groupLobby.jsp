@@ -223,7 +223,7 @@
     <!-- Main content --> 
     <section class="content"> 
       <div class="row"> 
-        <div class="col-md-3"> 
+        <div class="col-md-4"> 
           <div class="box box-info"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">GROUP MENU</h3> 
@@ -244,7 +244,7 @@
           <!-- /. box --> 
         </div> 
         <!-- /.col --> 
-        <div class="col-md-9"> 
+        <div class="col-md-8"> 
            
       	  <!-- general form elements disabled --> 
           <div class="box box-info"> 
@@ -283,14 +283,12 @@
   <!-- ========================================================================================================== --> 
   <!-- ========================================================================================================== --> 
    
-   
-  <footer class="main-footer"> 
-    <div class="pull-right hidden-xs"> 
-      <b>Version</b> 2.4.0 
-    </div> 
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
-    reserved. 
-  </footer> 
+   <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 0.0.1
+    </div>
+    <strong>Copyright &copy; 2018 PlanMan.</strong>
+  </footer>
  
 </div> 
 <!-- ./wrapper --> 

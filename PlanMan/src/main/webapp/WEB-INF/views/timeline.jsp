@@ -288,6 +288,7 @@
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
 
+</div>
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->

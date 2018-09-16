@@ -438,16 +438,18 @@ function fn_delRow() {
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
  
-</div>
-<!-- ./wrapper -->
-
-   <footer class="main-footer">
+  <footer class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Version</b> 0.0.1
     </div>
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
+ 
+ 
+</div>
+<!-- ./wrapper -->
 
+ 
 <!-- jQuery 3 -->
 <script src="resources/main/bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->

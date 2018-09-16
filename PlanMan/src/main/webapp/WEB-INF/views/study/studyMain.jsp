@@ -220,7 +220,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="row"> 
-      	<div class="col-md-3">
+      	<div class="col-md-4">
 		  <!-- TO DO List -->
           <div class="box box-info">
             <div class="box-header">
@@ -293,7 +293,7 @@
           <!-- /.box -->
         </div>  
           
-        <div class="col-md-9">  
+        <div class="col-md-8">  
           <div class="box box-info">
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
@@ -340,6 +340,7 @@
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
 
+</div>
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
