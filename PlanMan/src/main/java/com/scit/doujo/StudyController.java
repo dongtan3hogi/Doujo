@@ -1013,6 +1013,29 @@ public class StudyController {
 		SARQ.put("id", friendId);
 		quizList1 = dao.selectAllRecordQuiz(SARQ);
 		System.out.println("quizList//"+quizList1.toString());
+		
+		/*String newCheck = id+quizList1.get(0).get("QUIZRECORDNAME");
+		if(dao.findQuizrecordlist(newCheck)>0) {
+			Map<String, String> searchParameterMap = new HashMap<>();
+			searchParameterMap.put("search", "");
+			searchParameterMap.put("id", id);
+			int countPerPage = 20;
+			int pagePerGroup = 5;
+			
+			System.out.println("2");
+			int total = dao.countSearchingQuizrecordlist(searchParameterMap);
+			PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, 0, total);
+			RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
+			ArrayList<Map<String, String>> searchResultList = dao.selectSearchingQuizrecordlist(searchParameterMap, rb);
+			model.addAttribute("navi", navi);
+			model.addAttribute("page", 0);
+			model.addAttribute("search", "");
+			model.addAttribute("searchResultList", searchResultList);
+			System.out.println("3");
+			return "study/quizSearch"; 
+		}*/
+		
+		
 		//(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ANSWER2}, #{ANSWER3}, #{ANSWER4}, #{ANSWERNUMBER}, #{ID})
 		//(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ID})
 		/*TO_CHAR(q.quizseq) NUM
@@ -1186,16 +1209,26 @@ public class StudyController {
 	@RequestMapping(value = "/inviteGroup", method = RequestMethod.POST)
 	public @ResponseBody Map inviteGroup(@RequestBody Map<String, String> idSet, HttpSession hs) {
 		studyDao sdao = sqlSession.getMapper(studyDao.class);
+		memberDao fdao = sqlSession.getMapper(memberDao.class);
 		ArrayList<Map<String, String>> groupList = new ArrayList<>();
 		Map<String,Map<String, String>> groupMap = new HashMap<>();
 		Map<String, String> resultMap = new HashMap<>();
 		
+		int check = fdao.idDoubleCheck2(idSet.get("id"));
+		if(check<=0) {
+			resultMap.put("result", "존재하지 않는 아이디 입니다.");
+			groupMap.put("resultMap", resultMap);
+			return groupMap;
+		}
+		
+		
+		
 		System.out.println("inviteGroup/idSet"+idSet.toString());
 		int result = sdao.insertGroupMember(idSet);
 		if(result>0) {
-			resultMap.put("result", "invite success");
+			resultMap.put("result", "초대성공");
 		}else {
-			resultMap.put("result", "invite fail");
+			resultMap.put("result", "초대실패");
 		}
 		groupMap.put("resultMap", resultMap);
 		return groupMap;

@@ -226,9 +226,9 @@ function checking(){
 
 
 function NextPage(){
-	var name = document.getElementById('name').value;
-	var set = document.getElementById('set').value;
-	var page = document.getElementById('page').value;
+	var name = document.getElementById('name0').value;
+	var set = document.getElementById('set0').value;
+	var page = document.getElementById('page0').value;
 	var quizSet = {
 			"set": set
 			,"page": page
@@ -245,12 +245,12 @@ function NextPage(){
 			var result = '';
 			result += '';
 			$.each(data, function(index, item){
-				result += '<div class="form-group">';
-				result += '<input type="hidden" id="page" value="' + item.page + '">';
-				result += '<input class="form-control" type="hidden" id="type" value="' + item.TYPE + '">';
-				result += '<input class="form-control" type="hidden" id="num" value="' + item.NUM + '">';
-				result += '<input class="form-control" type="hidden" id="set" value="' + item.set + '">';
-				result += '<input type="hidden" id="name" value="' + item.name + '">';
+				result += '<div class="form-group quiz' + index + '">';
+				result += '<input type="hidden" id="page' + index + '" value="' + item.page + '">';
+				result += '<input class="form-control" type="hidden" id="type' + index + '" value="' + item.TYPE + '">';
+				result += '<input class="form-control" type="hidden" id="num' + index + '" value="' + item.NUM + '">';
+				result += '<input class="form-control" type="hidden" id="set' + index + '" value="' + item.set + '">';
+				result += '<input type="hidden" id="name' + index + '" value="' + item.name + '">';
 				result += '<label>질문</label>';
 				result += '<br/>';
 				result += item.QUESTION;
@@ -259,21 +259,20 @@ function NextPage(){
 				result += '<div class="form-group">';
 				result += '<label>정답</label><br/>';
 				if(item.TYPE == 'multiplechoice'){
-					result += '<label><input type="radio" name="answer" value="1" class="minimal" checked>' + item.ANSWER1 + '</label><br/>';
-					result += '<label><input type="radio" name="answer" value="2" class="minimal">' + item.ANSWER2 + '</label><br/>';
-					result += '<label><input type="radio" name="answer" value="3" class="minimal">' + item.ANSWER3 + '</label><br/>';
-					result += '<label><input type="radio" name="answer" value="4" class="minimal">' + item.ANSWER4 + '</label><br/>';
+					result += '<label><input type="radio" name="answer' + index + '" value="1" class="minimal" checked>' + item.ANSWER1 + '</label><br/>';
+					result += '<label><input type="radio" name="answer' + index + '" value="2" class="minimal">' + item.ANSWER2 + '</label><br/>';
+					result += '<label><input type="radio" name="answer' + index + '" value="3" class="minimal">' + item.ANSWER3 + '</label><br/>';
+					result += '<label><input type="radio" name="answer' + index + '" value="4" class="minimal">' + item.ANSWER4 + '</label><br/>';
 					
 				} else if(item.TYPE == 'shortanswer') {
-					result += '<input class="form-control" type="text" name="answer"><br/>';
+					result += '<input class="form-control" type="text" name="answer' + index + '"><br/>';
 				}
 				result += '</div>';
 				
-				result += '<div class="form-group" id="checkDiv">';
-				result += '<input class="form-control" type="button" id="checkBtn" value="체점" onclick="checking()">';
-				result += '</div>';
 			});
-			
+			result += '<div class="form-group" id="checkDiv">';
+			result += '<input class="form-control" type="button" id="checkBtn" value="체점" onclick="checking()">';
+			result += '</div>';
 			//$("#quizSolveBoard").innerHTML = result;
 			document.getElementById("quizSolveBoard").innerHTML = result;
 			

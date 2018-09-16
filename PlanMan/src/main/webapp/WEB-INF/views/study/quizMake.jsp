@@ -42,10 +42,10 @@
  
 $(function(){ 
 	$(document).ready(function (){ 
-		$('#quiztypeinput').on("click", function(){ 
-			var qt = document.getElementById("quiztypeinput").value; 
-			if(qt == "shortanswer"){ 
-				document.getElementById("quiztypeinput").value = "multiplechoice"; 
+		$('.quiztypeinput').on("click", function(){ 
+			var qt = $(this).val(); 
+			if(qt == "multiplechoice"){ 
+				//document.getElementById("quiztypeinput").value = "multiplechoice"; 
 				document.getElementById("type").value = "multiplechoice"; 
 				 
 				var contentAnswerDIV = '<div>'; 
@@ -61,8 +61,8 @@ $(function(){
 				 
 				$("#answerDIV > div").remove(); 
 				$("#answerDIV").append(contentAnswerDIV);		 
-			} else if(qt == "multiplechoice"){	 
-				document.getElementById("quiztypeinput").value = "shortanswer"; 
+			} else if(qt == "shortanswer"){	 
+				//document.getElementById("quiztypeinput").value = "shortanswer"; 
 				document.getElementById("type").value = "shortanswer"; 
 				$("#answerDIV > div").remove(); 
 				$("#answerDIV").append('<div><label>정답</label><input type="text" class="form-control" name="answer1" id="answer1"></div>'); 
@@ -353,7 +353,7 @@ function check() {
 			<!-- Main content -->
 			<section class="content">
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<div class="box box-info">
 							<div class="box-header with-border">
 								<h3 class="box-title">STUDY</h3>
@@ -379,10 +379,10 @@ function check() {
 						<!-- /. box -->
 					</div>
 					<!-- /.col -->
-					<div class="col-md-8">
+					<div class="col-md-9">
 
 						<!-- general form elements disabled -->
-						<div class="box box-info">
+						<div class="box box-info"  style="width: 90%;">
 							<div class="box-header with-border">
 								<h3 class="box-title">Insert the Quiz</h3>
 							</div>
@@ -394,10 +394,14 @@ function check() {
 
 									<!-- TYPE -->
 									<div class="form-group">
-										<label>문제 타입</label> <input type="button" class="form-control"
-											id="quiztypeinput" value="multiplechoice" readonly="readonly">
-										<input type="hidden" id="type" name="type"
-											value="multiplechoice">
+										<label>문제 타입</label>
+										<br/>
+										<div class="btn-group">
+										  <input type="button" class="btn btn-default quiztypeinput" value="multiplechoice" readonly="readonly">
+										  <input type="button" class="btn btn-default quiztypeinput" value="shortanswer" readonly="readonly">
+					                    </div> 
+										
+										<input type="hidden" id="type" name="type" value="multiplechoice">
 									</div>
 
 									<!-- Quiz folder -->
@@ -472,18 +476,19 @@ function check() {
 	<!-- ========================================================================================================== -->
 	<!-- ========================================================================================================== -->
 
+	<footer class="main-footer">
+		<div class="pull-right hidden-xs">
+			<b>Version</b> 2.4.0
+		</div>
+		<strong>Copyright &copy; 2014-2016 <a
+			href="https://adminlte.io">Almsaeed Studio</a>.
+		</strong> All rights reserved.
+	</footer>
 		
 		
 	</div>
 	<!-- /.content-wrapper -->
 	
-	<footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 0.0.1
-    </div>
-    <strong>Copyright &copy; 2018 PlanMan.</strong>
-  </footer>
-		
 	
 	</div>
 	<!-- ./wrapper -->
