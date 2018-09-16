@@ -163,7 +163,7 @@ function messageBoardChange(friendId){
 					messageBarBoard += '<div class="box-footer">';
 					messageBarBoard += '<form action="#" method="post"  onsubmit="return false;">';
 					messageBarBoard += '<div class="input-group">';
-					messageBarBoard += '<input type="text" name="message" id="'+friendId+'message" placeholder="Type Message ..." class="form-control">';
+					messageBarBoard += '<input type="text" id="'+friendId+'message"  placeholder="Type Message ..." class="form-control messageCon">';
 					messageBarBoard += '<span class="input-group-btn">';
 					messageBarBoard += '<button type="button" class="btn btn-warning btn-flat sendBtn" id="'+friendId+'">Send</button>';
 					messageBarBoard += '</span>';
@@ -184,6 +184,13 @@ function messageBoardChange(friendId){
 			        	var FI = $(this).attr('id');
 			            sendMessage(FI);
 			        });
+			        
+			        $(".messageCon").keypress(function (e) {
+			        	if (e.which == 13){
+				        	var FI = $(".sendBtn").attr('id');
+				            sendMessage(FI);
+				        }
+				    });
 			    });
 			} 
 			, error: function(request,status,error){ 
@@ -412,6 +419,7 @@ function onMessage(evt) {
     	var textarea = document.getElementById(takeid+"messageLog");
     	textarea.innerHTML += putMsg;
     	$("#"+takeid+"messageLog").scrollTop($("#"+takeid+"messageLog")[0].scrollHeight);
+    	$(".messageCon").val('');
     	var message = { 
     			"giveid" : MyID,
     			"takeid" : takeid,

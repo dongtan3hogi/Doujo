@@ -110,8 +110,8 @@ function showSearchGroup() {
 	var result = '';
 		result += '<div class="input-group input-group-lg">';
 		result += '<div class="input-group-btn">';
-		result += '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">type';
-		result += '<span class="fa fa-caret-down"></span></button>';
+		result += '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
+		result += '<span class="fa fa-caret-down selectors" id="">Group name</span></button>';
 		result += '<ul class="dropdown-menu">';
 		result += '<li><a id="SBGN">Group name</a></li>';
 		result += '<li><a id="SBGC">Group code</a></li>';
@@ -127,26 +127,41 @@ function showSearchGroup() {
 	
 	
 	$(document).ready(function (){
+		
 		var type = "";
 		$('#SBGN').on('click', function makegroup() {
 			type = "groupname";
-			searchGroup();
+			//searchGroup();
+			$('.selectors').html('Group name');
+			$('.selectors').attr("id", "SBGN");
 		});
 		
 		$('#SBGC').on('click', function makegroup() {
 			type = "groupseq";
-			searchGroup();
+			//searchGroup();
+			$('.selectors').html('Group code');
+			$('.selectors').attr("id", "SBGC");
 		});
 		
 		$('#SBLI').on('click', function makegroup() {
 			type = "groupleader";
-			searchGroup();
+			//searchGroup();
+			$('.selectors').html('leader id');
+			$('.selectors').attr("id", "SBLI");
 		});
 		
 		$('#SBTG').on('click', function makegroup() {
 			type = "groupteg";
-			searchGroup();
+			//searchGroup();
+			$('.selectors').html('TEG');
+			$('.selectors').attr("id", "SBTG");
 		});
+		
+		$("#search").keypress(function (e) {
+	        if (e.which == 13){
+	        	searchGroup();  // 실행할 이벤트
+	        }
+	    });
 		
 		
 		function searchGroup() {
@@ -154,7 +169,7 @@ function showSearchGroup() {
 				"type" : type
 				,"search" : $("#search").val()
 			};
-			
+			alert(searching.type + searching.search);
 			$.ajax({
 				method   : 'post'
 				, url    : 'searchGroup'
