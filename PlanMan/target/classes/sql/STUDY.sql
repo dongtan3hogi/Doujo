@@ -12,9 +12,10 @@ CREATE TABLE quiz(
 );
 
 CREATE TABLE quizrecordlist(
-	quizrecordcode VARCHAR2(50) PRIMARY KEY,
+	quizrecordcode VARCHAR2(50) NOT NULL,
     id VARCHAR2(20) REFERENCES member(id),
-	quizrecordname VARCHAR2(30) NOT NULL
+	quizrecordname VARCHAR2(30) NOT NULL,
+    recordlistseq VARCHAR2(30) PRIMARY KEY
 );
 
 CREATE TABLE quizrecord(
@@ -41,7 +42,7 @@ CREATE TABLE groupmember(
 
 CREATE SEQUENCE quizseq;
 CREATE SEQUENCE groupseq;
-
+CREATE SEQUENCE recordlistseq;
 
 insert into member(id, password, name, nickname, gender, age, job)
 values('karulin', '1111', 'karulin', 'karulin', 'male', 20, 'student');

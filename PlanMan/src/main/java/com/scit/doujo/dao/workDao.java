@@ -25,5 +25,5 @@ public interface workDao {
 	public int insertFavorites(favorites fv);
 	public int deleteFavorites(favorites fv);
 	public List<favorites> allFavorites(String userid);
-	
+	public String[] memodays (String userid);
 }
