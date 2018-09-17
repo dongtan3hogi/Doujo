@@ -259,16 +259,28 @@
 	<select id="selectSearchingQuizrecordlist" resultType="map" parameterType="map">
   		SELECT quizrecordname TITLE, quizrecordcode CODE, id ID
   		FROM quizrecordlist
-  		WHERE quizrecordname like '%' ||  #{search} || '%'
-  		AND id != #{id}
+		WHERE quizrecordname like '%' ||  #{search} || '%'
+		AND id != #{id}
+		AND quizrecordname != 'normal'
+		AND NOT quizrecordname IN (
+		    SELECT quizrecordname
+		    FROM quizrecordlist
+		    WHERE id = #{id}
+		)
 	</select>
 	
 	<!-- 21_2 -->
 	<select id="countSearchingQuizrecordlist" resultType="integer" parameterType="map">
   		SELECT count(*)
-  		FROM quizrecordlist
-  		WHERE quizrecordname like '%' ||  #{search} || '%'
-  		AND id != #{id}
+		FROM quizrecordlist
+		WHERE quizrecordname like '%' ||  #{search} || '%'
+		AND id != #{id}
+		AND quizrecordname != 'normal'
+		AND NOT quizrecordname IN (
+		    SELECT quizrecordname
+		    FROM quizrecordlist
+		    WHERE id = #{id}
+		)
 	</select>
 
 	<!-- 1_DUMMY -->
