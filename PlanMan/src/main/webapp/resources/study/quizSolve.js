@@ -215,7 +215,8 @@ function checking(){
 			$.each(data, function(index, item){
 				quizResult += index + '번 : ' + item + '\n';
 			});
-			alert(quizResult);
+			swal(quizResult);
+			//alert(quizResult);
 			document.getElementById("checkDiv").innerHTML = '<input class="form-control" type="button" id="nextPageBtn" value="NEXT" onclick="NextPage()">';
 			
 			//$('#nextPageBtn').on("click", NextPage());

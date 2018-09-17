@@ -63,6 +63,20 @@
 <script src="resources/main/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
 <script>
+var doccc = '<script src="https:/';
+doccc += '/unpkg.com/sweetalert/dist/sweetalert.min.js"></';
+doccc += 'script>';
+document.write(doccc);
+$(function(){ 
+	$(document).ready(function (){
+		var res = '';
+		res += "${loginResult}";
+		if(res == 'loginfail'){
+			swal("로그인 실패");
+		}
+	});
+});
+
 	function loginChk(){
 		
 		if($('#id').val().length==0||$('#password').val().length==0){

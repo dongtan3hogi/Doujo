@@ -80,7 +80,9 @@ public class HomeController {
 		member result=manager.doLogin(vo);
 		if(result==null) {
 			//로그인 실패시 메인페이지로 이동
-			return "redirect:/";
+			//System.out.println("로그인 실패");
+			model.addAttribute("loginResult", "loginfail");
+			return "home";
 		}else {
 			//로그인 성공시 세션에 member로 회원정보 저장
 			session.setAttribute("member", result);
