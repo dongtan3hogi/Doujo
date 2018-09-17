@@ -194,7 +194,7 @@ public class HomeController {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
 		System.out.println("스케쥴 입력용:"+vo.toString());
 		int result=0;
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 		for(int i= 0; i<plusday; i++) {
 			result=manager.addschdule(vo);	

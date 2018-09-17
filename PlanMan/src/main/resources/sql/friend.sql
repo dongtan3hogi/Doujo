@@ -27,4 +27,3 @@ create table board(
 create sequence friend_seq;
 
 insert into friend values('1', 'abc123', 'abc123', '도우조', 'male', '30', '학생', '수영);
-

@@ -27,7 +27,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <!-- Date Picker -->
   <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
-
+<style>
+.colordate{
+	background:yellow}
+</style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -276,10 +279,31 @@ $('#saveMemo').click(function(){
 });
 
 
+var memodays="";
+	$.ajax({
+	   url:'memodays',
+	    type: 'post',
+	    data: {
+	    	'id': '${sessionScope.member.id}'
+	    },
+	    success: function(data){
+	    	memodays=data;
+	    	
+			},
+	    error: function() {
+	      alert('there was an error while fetching events!');
+	    }
+  });
+	
 $( ".datepicker" ).datepicker({ 
        changeMonth: true, 
        changeYear: true,
        dateFormat: "yy-mm-dd",
+       beforeShowDay: function(day) {
+    	   if(memodays.indexOf($.datepicker.formatDate('yy-mm-dd', day)) != -1) return [true, "colordate","" ];
+            else return [true, "", ""];
+            
+        },
        onSelect: function(dateText) {  
     	   alert(dateText);
     	   $.ajax({
@@ -305,10 +329,7 @@ $( ".datepicker" ).datepicker({
     		    }
  		  });
       }
-});
-
-$('.datepicker').datepicker('setDate', 'today');
-
+	});
 });
 </script>
   <style>
@@ -473,7 +494,6 @@ $('.datepicker').datepicker('setDate', 'today');
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
             <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
             <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>

@@ -1,10 +1,8 @@
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -192,7 +190,6 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
             <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
             <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
@@ -297,7 +294,7 @@
 		            <!-- /.box-header -->
 		            <div class="box-body">
 		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-		              <input type="text" id="searchMeeting">&nbsp;<input type="button" id="goSearch" value="#으로 검색">
+		              <input type="text" id="searchMeeting">&nbsp;<input type="button" class="btn btn-success" id="goSearch" value="#으로 검색">
 		                
 		              <ul class="eventlist">
 		              </ul>

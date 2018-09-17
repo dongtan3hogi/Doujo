@@ -50,5 +50,7 @@ public interface friendDao {
 	public int insertMyFriend(friend vo2);
 	//친구 목록가져오기
 	public ArrayList<Map<String,String>> selectMyFriendList(String userid);
+
+	public List<board> boardpaging(String userid, int first, int second);
 	
 }

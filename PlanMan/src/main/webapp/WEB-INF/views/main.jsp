@@ -8,22 +8,22 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="resources/main/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./resources/main/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="resources/main/bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./resources/main/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="resources/main/bower_components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="./resources/main/bower_components/Ionicons/css/ionicons.min.css">
   <!-- fullCalendar -->
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css">
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
+  <link rel="stylesheet" href="./resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css">
+  <link rel="stylesheet" href="./resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
   <!-- Theme style -->
-  <link rel="stylesheet" href="resources/main/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="./resources/main/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="./resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <!-- Date Picker -->
-  <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
+  <link rel="stylesheet" href="./resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
   <!-- Time Picker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.css">
   
@@ -256,7 +256,6 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
             <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
             <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
@@ -821,7 +820,7 @@
 	   });	
    }
 </script>
-<script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
+<script type="text/javascript" src="<c:url value="./resources/study/sockjs-0.3.4.js"/>"></script>
 <script type="text/javascript">
 
     var sock;
@@ -830,6 +829,6 @@
     sock = new SockJS("<c:url value="/echo2"/>");
     
 </script>
-<script src="resources/main/js/messageBar.js"></script> 
+<script src="./resources/main/js/messageBar.js"></script> 
 </body>
 </html>

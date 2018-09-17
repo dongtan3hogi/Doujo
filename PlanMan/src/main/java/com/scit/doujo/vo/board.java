@@ -1,5 +1,7 @@
 package com.scit.doujo.vo;
 
+import java.awt.Image;
+
 public class board {
      String id;
      String title;
@@ -7,8 +9,80 @@ public class board {
      String location;
      String originalfile;
      String savedfile;
-     
-     public board() {
+     Image image;
+     double happiness;
+		double neutral ;
+		double sadness ;
+		double surprise;
+     public board(String id, String title, String content, String location, String originalfile, String savedfile,
+				Image image, double happiness, double neutral, double sadness, double surprise) {
+			super();
+			this.id = id;
+			this.title = title;
+			this.content = content;
+			this.location = location;
+			this.originalfile = originalfile;
+			this.savedfile = savedfile;
+			this.image = image;
+			this.happiness = happiness;
+			this.neutral = neutral;
+			this.sadness = sadness;
+			this.surprise = surprise;
+		}
+
+	public double getHappiness() {
+			return happiness;
+		}
+
+		public void setHappiness(double happiness) {
+			this.happiness = happiness;
+		}
+
+		public double getNeutral() {
+			return neutral;
+		}
+
+		public void setNeutral(double neutral) {
+			this.neutral = neutral;
+		}
+
+		public double getSadness() {
+			return sadness;
+		}
+
+		public void setSadness(double sadness) {
+			this.sadness = sadness;
+		}
+
+		public double getSurprise() {
+			return surprise;
+		}
+
+		public void setSurprise(double surprise) {
+			this.surprise = surprise;
+		}
+
+	public board(String id, String title, String content, String location, String originalfile, String savedfile,
+			Image image) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.content = content;
+		this.location = location;
+		this.originalfile = originalfile;
+		this.savedfile = savedfile;
+		this.image = image;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
+
+	public board() {
     	 
      }
 
