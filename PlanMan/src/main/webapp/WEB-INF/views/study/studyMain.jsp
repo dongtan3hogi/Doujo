@@ -174,7 +174,6 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
             <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
             <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
@@ -309,7 +308,7 @@
               	  </div>
               	  <br/>
               	  <div style="display: inline;">
-	              	  <input type="button" class="btn btn-block btn-info" id="English" style="width: 100px; display: inline; margin-left: 200px;" value="English" />
+	              	  <input type="button" class="btn btn-block btn-info" id="English" style="width: 100px; display: inline; margin-left: 230px;" value="English" />
 	              	  <input type="button" class="btn btn-block btn-info" id="Japanese" style="width: 100px; display: inline; margin-left: 10px;" value="Japanese" />
 	              	  <input type="button" class="btn btn-block btn-info" id="Chinese" style="width: 100px; display: inline; margin-left: 10px;" value="Chinese" />
               	  </div>

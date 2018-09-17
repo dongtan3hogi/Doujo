@@ -231,7 +231,6 @@ function boardList() {
           </a>
           <ul class="treeview-menu">
            <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
             <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
             <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
@@ -274,107 +273,112 @@ function boardList() {
     <section class="content">
       <div class="row">
      
-	<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
-	<script>
-	alert("취미 직업을 등록하러 갑니다");
-	location.href="joinfriend";
-	</script>
-	</c:if>
- 	
- 	<div class="box box-primary" style="width: 40%; height: 600px; float:left; margin-right:30px; ">
-            <div class="box-header">
-              <i class="ion ion-clipboard"></i>
-              <h3 class="box-title">Place_Recommendation</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-  
-            
-     <h2>[ Place_Reply ]</h2>
-	
-	<form action="saveboard" method="post" enctype="multipart/form-data" onsubmit="return formCheck()">
-		<table>
-			<tr>
-				<th>제목</th>
-				<td>
-					<input int="title" type="text" name="title" id="title">
-					<input type="hidden" name="id" value="${sessionScope.member.id}">
-				</td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td><div contentEditable="true" id="divedit" >
-					</div>
-					<img id="imgs"/><input id="content" type="hidden" name="content" >
-				</td>
-			</tr>
-			<tr>
-				<th>글쓴이</th>
-				<td>${id}</td>
-			</tr>
-			<tr>
-				<th>첨부파일</th>
-				<td><input id="input_img" type="file" name="upload" /></td>
-			</tr>
-			<tr>
-				<th>위치</th>
-				<td><input type="text" name="location" id="location" /></td>
-			</tr>
-			<tr>
-				<td class="btn" colspan="2" >
-					<input type="submit" value="저장">
-				</td>
-			</tr>
-		</table>
-	</form>
-
-</div>
-</div>
-<div class="box box-primary" style="width: 40%; height: 600px; float:left; margin-right:20px; ">
-            <div class="box-header">
-              <i class="ion ion-clipboard"></i>
-              <h3 class="box-title">Place_Recommendation</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-  
-            
-     <h2>[ Friend' Records ]</h2>
-     <c:if test="${!empty flist }">
-     <div id="js-list">
-     <c:forEach var="flist" items="${ flist}">
-		<table class="flist_table">
-			<tr>
-				<th>제목</th>
-				<td>${ flist.title}</td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td><div contentEditable="true">  ${flist.content}</div>
-<img src="/doujo/display.do?path=${flist.savedfile }" width="10%" height="60" onError="this.style.visibility='hidden'"/>
-				</td>
-			</tr>
-			<tr>
-				<th>글쓴이</th>
-				<td>${flist.id }</td>
-			</tr>
-			<tr>
-				<th>행복도</th><td>행복함: ${flist.happiness }, 슬픔: ${flist.sadness }, 중립: ${flist.neutral }, 놀람: ${flist.surprise }
-			</tr>
-			<tr>
-				<th  >위치
-				</th><td>${flist.location }</td>
-			</tr>
-		</table>
-		<br>
-		</c:forEach>
-		 <div id="js-btn-wrap" class="btn-wrap"> <a href="javascript:;" class="button">더보기</a> </div>
-  </div>
-  </div>
+		<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
+		<script>
+		alert("취미 직업을 등록하러 갑니다");
+		location.href="joinfriend";
+		</script>
 		</c:if>
-</div>
+ 		
+ 		<div class="col-md-6">
+		 	<div class="box box-success">
+		            <div class="box-header">
+		              <i class="ion ion-clipboard"></i>
+		              <h3 class="box-title">Place_Recommendation</h3>
+		            </div>
+		            <!-- /.box-header -->
+		            <div class="box-body">
+		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+		  
+		            
+		     <h2>[ Place_Reply ]</h2>
+			
+			<form action="saveboard" method="post" enctype="multipart/form-data" onsubmit="return formCheck()">
+				<table>
+					<tr>
+						<th>제목</th>
+						<td>
+							<input int="title" type="text" name="title" id="title">
+							<input type="hidden" name="id" value="${sessionScope.member.id}">
+						</td>
+					</tr>
+					<tr>
+						<th>내용</th>
+						<td><div contentEditable="true" id="divedit" >
+							</div>
+							<img id="imgs"/><input id="content" type="hidden" name="content" >
+						</td>
+					</tr>
+					<tr>
+						<th>글쓴이</th>
+						<td>${id}</td>
+					</tr>
+					<tr>
+						<th>첨부파일</th>
+						<td><input id="input_img" type="file" name="upload" /></td>
+					</tr>
+					<tr>
+						<th>위치</th>
+						<td><input type="text" name="location" id="location" /></td>
+					</tr>
+					<tr>
+						<td class="btn" colspan="2" >
+							<input type="submit" value="저장">
+						</td>
+					</tr>
+				</table>
+			</form>
+		
+		</div>
+		</div>
+	</div>
+	
+		<div class="col-md-6">
+			<div class="box box-success">
+			            <div class="box-header">
+			              <i class="ion ion-clipboard"></i>
+			              <h3 class="box-title">Place_Recommendation</h3>
+			            </div>
+			            <!-- /.box-header -->
+			            <div class="box-body">
+			              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+			  
+			            
+			     <h2>[ Friend' Records ]</h2>
+			     <c:if test="${!empty flist }">
+			     <div id="js-list">
+			     <c:forEach var="flist" items="${ flist}">
+					<table class="flist_table">
+						<tr>
+							<th>제목</th>
+							<td>${ flist.title}</td>
+						</tr>
+						<tr>
+							<th>내용</th>
+							<td><div contentEditable="true">  ${flist.content}</div>
+			<img src="/doujo/display.do?path=${flist.savedfile }" width="10%" height="60" onError="this.style.visibility='hidden'"/>
+							</td>
+						</tr>
+						<tr>
+							<th>글쓴이</th>
+							<td>${flist.id }</td>
+						</tr>
+						<tr>
+							<th>행복도</th><td>행복함: ${flist.happiness }, 슬픔: ${flist.sadness }, 중립: ${flist.neutral }, 놀람: ${flist.surprise }
+						</tr>
+						<tr>
+							<th  >위치
+							</th><td>${flist.location }</td>
+						</tr>
+					</table>
+					<br>
+					</c:forEach>
+					 <div id="js-btn-wrap" class="btn-wrap"> <a href="javascript:;" class="button">더보기</a> </div>
+			  </div>
+			  </div>
+					</c:if>
+			</div>
+		</div>
 </div>
 </section>
 

@@ -556,12 +556,5 @@ public class FriendController {
 			return flist;
 		}
 	
-	//동호회 추천으로 이동하기
-	@RequestMapping (value="friend2", method=RequestMethod.GET)
-	public String friend2() {
-		
-		return "friend/friendMain2";
-	}
-	
 	
 }

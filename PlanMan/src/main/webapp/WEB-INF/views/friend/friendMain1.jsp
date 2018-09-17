@@ -240,7 +240,6 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
             <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
             <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
@@ -282,9 +281,10 @@
 
     <!-- Main content -->
     <section class="content">
-        
+        <div class="row">
+        	<div class="col-md-4">
         	  <!-- TO DO List -->
-	          <div class="box box-success" style="width: 30%; float:left; margin-left:20px;">
+	          <div class="box box-success">
 	            <div class="box-header">
 	              <i class="ion ion-clipboard"></i>
 	
@@ -335,9 +335,26 @@
 	            <!-- /.box-body -->
 	            <div class="box-footer clearfix no-border">
 	            </div>
+	            <div class="box box-success">
+		            <div class="box-header">
+		              <i class="ion ion-clipboard"></i>
+		
+		              <h3 class="box-title">Popular Meetings</h3>
+		            </div>
+		            <!-- /.box-header -->
+		            <div class="box-body">
+		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+		              <input type="text" id="searchMeeting">&nbsp;<input type="button" class="btn btn-success" id="goSearch" value="#으로 검색">
+		                
+		              <ul class="eventlist">
+		              </ul>
+		            </div>
+		              <div id="boardfooter"></div>
+	          </div>
 	          </div>
 	          <!-- /.box -->
-
+	        </div>
+			<div class="col-md-8">
 				<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 					<script>
 					alert("취미 직업을 등록하러 갑니다");
@@ -345,7 +362,7 @@
 					</script>
 				</c:if>
 				 
-				 <div class="box box-success" style="width: 60%; float:left; margin-left:20px;">
+				 <div class="box box-success">
 		            <div class="box-header">
 		              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_List</h3>
 		
@@ -359,7 +376,7 @@
 				            <option value="hobby" ${searchItem =='hobby'? 'selected':''}>HOBBY</option>
 				         </select>
 				         <input type="text" placeholder="Search" name="searchWord" value="${searchWord}"/>
-				         <button type="submit" value="search"  class="btn btn-default" ><i class="fa fa-search"></i></button>
+				         <button type="submit" value="search"  class="btn btn-success" ><i class="fa fa-search"></i></button>
 				       </form>
 		              </div>
 		    
@@ -429,6 +446,9 @@
 				    </script>
 		          </div>
 		          <!-- /.box -->
+		       </div>
+		          
+		</div>          
     </section>
 </div>
           	
@@ -503,18 +523,53 @@
 	        }
 	  });
 	  
-	  
-     $('.acceptFriend').each(function(index,value){
-    	 $(this).on('click',function(){
-    		 var tr = $(this).closest('tr');
-    		 var td = tr.children();
+	  $("#goSearch").on("click",function(){
+	      var search= $("#searchMeeting").val();
+	      if(search==""){
+	         alert('입력해');
+	      }
+	      $.ajax({
+	         url:"searchMeeting",
+	         type:"post",
+	         //client에서 server로 가는 값
+	         data:{"search": search},
+	         success: function(data){
+	            $.each(data.meeting, function(index, item){
+	            
+	            var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
+	            $(".eventlist").append(result);
+	            });
+	            var navi = data.navi;
+	            var line="";
+	            var current= Number(0);
+	            if(navi.currenPage >1){
+	               current = Number(navi.currentPage);
+	               current--;
+	               line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
+	            }
+	            for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
+	               if(navi.currentPage == i){
+	                  line+=    "<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
+	               }else{
+	                  line+=    "<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
+	               }
+	            }
+	            if(navi.currentPage <navi.totalPageCount){
+	               current = Number(navi.currentPage);
+	               
+	               current++;
+	               line+=   "<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
 
-    		 var friend=td.eq(1).text();
-        	 alert(friend);
-        	 location.href="accept?fid="+friend;
-    	 });
-    	
-     });
+	            }
+	               $('#boardfooter').append(line);
+	         },fail: function(){
+	            alert("다음에 다시 시도해주세요");
+	         }
+	      });
+	   }); 
+     
+	  
+	  
      $('a.favorite').click(function() {
         alert("클릭");
         var locations = $(this).next().attr('href');

@@ -27,16 +27,3 @@ create table board(
 create sequence friend_seq;
 
 insert into friend values('1', 'abc123', 'abc123', '도우조', 'male', '30', '학생', '수영);
-
-
-
-create sequence friend_seq;
-
-create table board(
- id VARCHAR2(20) not null,
- title VARCHAR2(200) not null,
- content VARCHAR2(2000) not null,
- location VARCHAR2(20) not null,
- originalfile VARCHAR2(200),
- savedfile VARCHAR2(200)
-);
