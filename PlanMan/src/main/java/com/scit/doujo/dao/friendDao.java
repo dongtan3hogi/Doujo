@@ -21,9 +21,8 @@ public interface friendDao {
 	void updateMember(member friend);
 
 	int getRecommendFriendsCount(Map<String,String> map);
-
+	
 	List<member> getRecommendFriends(Map<String, String> map, RowBounds rb);
-	void selectOne(String id);
 	int insert(@Param(value="userid")String userid, @Param(value="id")String id);
 	void beInserted(String userid, String id);
 	void acceptFriend(String userid, String fid);
@@ -33,4 +32,7 @@ public interface friendDao {
 	 int insertBoard(board board);
 	 List<board> selectAllBoard(String userid);
 	 List<board> boardpaging(@Param(value="id") String id, @Param(value="first") int first, @Param(value="second") int second);
+	 List<board> listpaging(@Param(value="id") String id, @Param(value="first") int first, @Param(value="second") int second);
+	 List<board> selectListBoard(String userid);
+	 board selectOne(String path);
 }
