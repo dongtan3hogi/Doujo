@@ -101,9 +101,6 @@
 	   color: #0000FF;
 	 } 
 	 
-	 #profileImg:hover{
-	 	
-	 }
 	 
   </style>	
 <!-- head -->
@@ -115,7 +112,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="redirect:/" class="logo">
+    <a href="gotoCalendar" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>Pm</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -156,12 +153,10 @@
               
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="gotoupdate" class="btn btn-default btn-flat">개인정보 수정</a>
-                </div>
-                
-                <div class="pull-right">
-                  <a href="gotologout" class="btn btn-default btn-flat">로그아웃</a>
+                <div align="center">
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">MyPage</a>
+                  <a href="profileChange" class="btn btn-primary btn-flat">Profile</a>
+                  <a href="gotologout" class="btn btn-primary btn-flat">LogOut</a>
                 </div>
               </li>
             </ul>
@@ -373,6 +368,10 @@
 <!-- Page specific script -->
 <script>
   $(function () {
+	$('#profileImg').on('click',function(){
+		alert("!");
+	}); 
+	  
 	$('.datepicker').datepicker({
 		dateFormat: 'yy-mm-dd'
 	});
@@ -800,6 +799,8 @@
 			}
 	   });	
    }
+   
+   
 </script>
 <script type="text/javascript" src="<c:url value="./resources/study/sockjs-0.3.4.js"/>"></script>
 <script type="text/javascript">

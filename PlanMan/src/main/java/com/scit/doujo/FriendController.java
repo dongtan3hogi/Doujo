@@ -258,7 +258,8 @@ public class FriendController {
 	public String listMyfriend(
 			@RequestParam(value="searchItem", defaultValue="id") String searchItem, 
 			@RequestParam(value="searchWord", defaultValue="") String searchWord, 
-			Model model
+			Model model,
+			HttpSession session
 	)  
 	{
 		int currentPage=1;
@@ -278,10 +279,117 @@ public class FriendController {
 		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
 				
 		List<friend> newlist = getfriend.getMyFriends(map,rb);	
-			System.out.println(newlist.size());
+		System.out.println(newlist.size());
+		
 		model.addAttribute("newlist", newlist);
 		model.addAttribute("navi", navi);
-
+		
+		memberDao manager2=sqlSession.getMapper(memberDao.class);
+		
+		String id=(String) session.getAttribute("memberID");
+		schedule result=new schedule();
+		String eventtype="friend";
+		result.setEventtype(eventtype);
+		result.setId(id);
+		
+		SimpleDateFormat formatter=new SimpleDateFormat("YYYY-MM-dd");
+		Date date=new Date();
+		
+		String countday=formatter.format(date);
+		Calendar cal = Calendar.getInstance();
+		int weekday=cal.get(cal.DAY_OF_WEEK);
+		
+		ArrayList<schedule> schList=new ArrayList<>();
+		
+		switch(weekday) {
+		case 1:
+			String weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			String weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 2:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 6);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 3:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 5);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 4:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 4);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 5:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 3);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 6:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 2);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 7:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 1);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		default:
+			break;
+		}
+		
+		session.setAttribute("schList", schList);
+		
 				
 		return "friend/friendMain1";
 
