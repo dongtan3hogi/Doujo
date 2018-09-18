@@ -48,6 +48,12 @@ public class MessageController {
 			//System.out.println(map.toString());
 		}
 		
+		if(friendList.size()<=0) {
+			Map<String, String> friend1 = new HashMap<>();
+			friend1.put("none", "none");
+			friendMap.put("friend1", friend1);
+		}
+		
 		//친구목록 가져오는 기능 구현 전까지 쓸 임시 테스트.
 		/*Map<String, String> friend1 = new HashMap<>();
 		friend1.put("USERID", "sop2");

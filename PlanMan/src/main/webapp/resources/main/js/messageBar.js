@@ -1,4 +1,7 @@
 var onErrorResource="'resources/userData/image/unknown.png'";
+var doccc = '<script src="https:/';
+doccc += '/unpkg.com/sweetalert/dist/sweetalert.min.js"></script>';
+document.write(doccc);
 $(function(){ 
 	$(document).ready(function (){
 		//$('image').attr("onError", "this.src='resources/userData/image/unknown.png'");
@@ -218,9 +221,13 @@ function showFriendList(){
 		, data   : JSON.stringify(SFL) 
 		, dataType : 'json' 
 		, contentType : 'application/json; charset=UTF-8' 
-		, success: function (data){ 
+		, success: function (data){
 			var result = '';
 				result += '<li><ul class="menu">';
+			if(data.friend1 != null){
+				swal("친구가 없습니다.");
+				return;
+			}
 			$.each(data, function(index, item){
 				var dummyFriend = "'"+item.USERID+"'";
 				result += '<li><a onclick="messageBoardChange('+dummyFriend+')">';

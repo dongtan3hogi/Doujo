@@ -1233,4 +1233,13 @@ public class StudyController {
 		groupMap.put("resultMap", resultMap);
 		return groupMap;
 	}
+	
+	
+	
+	/*테스트 ===================================================================*/ 
+	@RequestMapping(value = "/sample01", method = RequestMethod.GET) 
+	public String sample01() { 
+		
+		return "sample/sample01"; 
+	} 
 } 
