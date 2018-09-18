@@ -180,7 +180,7 @@
 				, contentType : 'application/json; charset=UTF-8'
 				, success: function(data) {
 					selectedID = dataArray[1];
-		        	var sqlsr = '<select id="quiznumberselect" onchange="qnChange()"><option>=퀴즈번호=</option>';
+		        	var sqlsr = '<select id="quiznumberselect" onchange="qnChange()"  class="form-control"><option>=퀴즈번호=</option>';
 					$.each(data, function(index, item){
 						sqlsr += '<option value="' + item.NUM + '">' + item.NUM + '</option>';
 					});
@@ -205,15 +205,19 @@
 				, dataType : 'json'
 				, contentType : 'application/json; charset=UTF-8'
 				, success: function(data){
-					var result = '<div>[질문]<br/>' + data.QUESTION + '<input type="hidden" id="quiznum" value="' + data.NUM +'"><input type="hidden" id="type" value="' + data.TYPE + '"></div>';
-					
+					var result = '';
+					result += '<div><label>문제</label> ' + data.QUESTION + '<input type="hidden" id="quiznum" value="' + data.NUM +'"><input type="hidden" id="type" value="' + data.TYPE + '"></div>';
+					result += '';
 					//객관식인지 주관식인지 판정
 					if(data.TYPE == 'multiplechoice'){
-						result += '<input type="radio" name="answer" value="1">' + data.ANSWER1 +'<input type="radio" name="answer" value="2">' + data.ANSWER2 +'<input type="radio" name="answer" value="3">' + data.ANSWER3 +'<input type="radio" name="answer" value="4">' + data.ANSWER4 +'';
+						result += '<input type="radio" name="answer" value="1">' + data.ANSWER1;
+						result += '<input type="radio" name="answer" value="2">' + data.ANSWER2;
+						result += '<input type="radio" name="answer" value="3">' + data.ANSWER3;
+						result += '<input type="radio" name="answer" value="4">' + data.ANSWER4;
 					} else if(data.TYPE == 'shortanswer'){
 						result += '<input type="text" name="answer">' + data.ANSWER1 +'';
 					}
-					result += '<input type="button" id="quizcheck" value="체점">';
+					result += '<br/><input type="button" id="quizcheck" value="체점">';
 					document.getElementById("functionboard").innerHTML = result;
 					
 					$(document).ready(function (){
@@ -261,7 +265,6 @@
 						
 						
 					});
-					
 					
 				},
 				error: function(){
@@ -322,12 +325,8 @@
 					$.each(data.recordMap, function(index, item){
 						qsr += '<option value="r' + item.NAME + '">' + item.NAME + '</option>';
 					});
-					qsr += '<option>=태그명=</option>';
-					$.each(data.tegMap, function(index, item){
-						qsr += '<option value="r' + item.TEG + '">' + item.TEG + '[' + item.NUM + ']' + '</option>';
-					});
-					qsr += '</select><input type="button" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
-					alert(qsr);
+					qsr += '</select><input type="button"  class="form-control" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
+					//alert(qsr);
 					document.getElementById("leaderfunctionview").innerHTML = qsr;
 					$(document).ready(function() {
 				       	$("#quiznumBtn").click(function() {
@@ -342,8 +341,9 @@
 			
 			
 		} else if(select == 'invite'){
-			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><br/><label for="1"><span style="font-size:20px;">아이디</span><input type="text" class="input-field" name="inviteId" id="inviteId" value="" /><input type="button" id="inviteBtn" value="확인" /></label>';
+			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><br/><label for="1"><span style="font-size:20px;">아이디를 입력하세요.</span><br/><input type="text" class="input-field" name="inviteId" id="inviteId" value="" /><input type="button" id="inviteBtn" value="확인" /></label>';
 			$(document).ready(function() {
+				document.getElementById("functionboard").innerHTML = '';
 		       	$("#inviteBtn").click(function() {
 		       		var inviteId = document.getElementById("inviteId").value;
 		       		var groupseq = document.getElementById("roomnum").value;
@@ -682,8 +682,10 @@
 	                    <option value="none" selected>==선택==</option>
 						<option value="quiz">퀴즈</option>
 						<option value="invite">초대</option>
-	                  </select> 
-	                </div> 
+	                  </select>
+	                  
+	                </div>
+	                
 	                
 	              </form>
                   <div class="form-group" id="leaderfunctionview">
@@ -691,11 +693,18 @@
                   <div class="form-group" id="quizSelectBoard"> 
                   
                   </div>
-                  <div class="form-group" id="functionboard"> 
-                </div>
+                  <div class="form-group" id="functionboard" >
+                  	
+                   
+                  </div>
                 </li>
               </ul> 
-            </div> 
+            </div>
+            
+            
+           
+            
+            
             <!-- /.box-body --> 
           </div>
           <!-- /. box --> 
@@ -724,7 +733,7 @@
                     
                     
 					<!-- Message. Default to the left -->
-                    <div class="direct-chat-msg">
+                    <!-- <div class="direct-chat-msg">
                     	<div class="direct-chat-info clearfix">
                     		<span class="direct-chat-name pull-left">{NAME}</span>
                     		<span class="direct-chat-timestamp pull-right">{TIME}</span>
@@ -733,11 +742,11 @@
                     	<div class="direct-chat-text">
                         	{CONTENT}
                     	</div>
-                    </div>
+                    </div> -->
 
 
                     <!-- Message to the right -->
-                    <div class="direct-chat-msg right">
+                    <!-- <div class="direct-chat-msg right">
                     	<div class="direct-chat-info clearfix">
                     		<span class="direct-chat-name pull-right">{NAME}</span>
                         	<span class="direct-chat-timestamp pull-left">{TIME}</span>
@@ -746,7 +755,7 @@
                       	<div class="direct-chat-text">
                         	{CONTENT}
                       	</div>
-                    </div>
+                    </div> -->
 
 
                    
