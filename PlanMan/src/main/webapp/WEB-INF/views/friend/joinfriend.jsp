@@ -40,7 +40,25 @@
         	 <div align="center">직업</div>
 			    <select id="job" name="job" class="form-control">
 			  	<option value="student" selected="selected">학생</option>
-			  	<option value="worker">회사원</option>
+			  	<option value="salesman">회사원</option>
+			  	<option value="teacher">선생님</option>
+			  	<option value="lawyer">변호사</option>
+			  	<option value="architect">건축가</option>
+			  	<option value="nurse">간호사</option>
+			  	<option value="doctor">의사</option>
+			  	<option value="accountant">회계사</option>
+			  	<option value="nutritionist">영양사</option>
+			  	<option value="soldier">군인</option>
+			  	<option value="marine">해군</option>
+			  	<option value="developer">개발자</option>
+			  	<option value="projectmanager">프로젝트 매니저</option>
+			  	<option value="fireman">소방관</option>
+			  	<option value="scientist">과학자</option>
+			  	<option value="writer">작가</option>
+			  	<option value="photographer">사진가</option>
+			  	<option value="actor">배우</option>
+			  	<option value="singer">가수</option>
+			  	<option value="journalist">기자</option>
 			  </select>	  
       	</div>
       	

@@ -352,7 +352,7 @@ function check() {
 			<!-- Main content -->
 			<section class="content">
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<div class="box box-info">
 							<div class="box-header with-border">
 								<h3 class="box-title">STUDY</h3>
@@ -378,7 +378,7 @@ function check() {
 						<!-- /. box -->
 					</div>
 					<!-- /.col -->
-					<div class="col-md-9">
+					<div class="col-md-8">
 
 						<!-- general form elements disabled -->
 						<div class="box box-info"  style="width: 90%;">
@@ -396,8 +396,8 @@ function check() {
 										<label>문제 타입</label>
 										<br/>
 										<div class="btn-group">
-										  <input type="button" class="btn btn-default quiztypeinput" value="multiplechoice" readonly="readonly">
-										  <input type="button" class="btn btn-default quiztypeinput" value="shortanswer" readonly="readonly">
+										  <input type="button" class="btn btn-info quiztypeinput" value="multiplechoice" readonly="readonly">
+										  <input type="button" class="btn btn-info quiztypeinput" value="shortanswer" readonly="readonly" style="margin-left: 10px;">
 					                    </div> 
 										
 										<input type="hidden" id="type" name="type" value="multiplechoice">
@@ -450,7 +450,7 @@ function check() {
 
 
 									<a href="" class="btn btn-info btn-block margin-bottom"
-										onclick="check()">Button</a>
+										onclick="check()">문제 등록하기</a>
 
 
 

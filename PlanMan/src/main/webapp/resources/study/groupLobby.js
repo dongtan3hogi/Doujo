@@ -19,7 +19,10 @@ function showMakeGroup() {
 		result += '<label>태그</label><input type="text" class="form-control" id="teg" name="teg" placeholder="#insert#teg">';
 		result += '<label>공개여부</label><select class="form-control" id="secret" name="secret">';
 		result += '<option value="public">Public</option><option value="private">Private</option></select>';
-		result += '<a href="" class="btn btn-primary btn-block margin-bottom" id="makegroup" onclick="makegroup()">Select</a>';
+		result += '<br/>';
+		result += '<div  align="right">';
+		result += '<a href="" class="btn btn-info btn-block margin-bottom" id="makegroup" onclick="makegroup()" style="width: 20%;">그룹 만들기</a>';
+		result += '</div>';
 		result += '</div>';
 	document.getElementById("functionboard").innerHTML = result;
 	
