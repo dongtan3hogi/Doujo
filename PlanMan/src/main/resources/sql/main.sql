@@ -3,6 +3,25 @@
 );
 
 insert into job values('student');
+insert into job values('teacher');
+insert into job values('lawyer');
+insert into job values('salesman');
+insert into job values('architect');
+insert into job values('nurse');
+insert into job values('doctor');
+insert into job values('accountant');
+insert into job values('nutritionist');
+insert into job values('soldier');
+insert into job values('marine');
+insert into job values('developer');
+insert into job values('projectmanager');
+insert into job values('fireman');
+insert into job values('scientist');
+insert into job values('writer');
+insert into job values('photographer');
+insert into job values('actor');
+insert into job values('singer');
+insert into job values('journalist');
 
 CREATE TABLE member (
     id VARCHAR2(20) PRIMARY KEY,
