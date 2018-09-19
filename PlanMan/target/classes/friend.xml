@@ -153,9 +153,8 @@
       board.*,
       row_number() over (ORDER BY board.happiness DESC nulls last) line_number
     FROM board where id in (select friendid from friend where userid= #{id}) or id=#{id}
-  ) WHERE line_number BETWEEN 1 AND 3  ORDER BY line_number	</select>
-  ) WHERE line_number BETWEEN 0 AND 3  ORDER BY line_number
-	</select>
+  ) WHERE line_number BETWEEN 1 AND 3  ORDER BY line_number	
+  </select>
 	
 	<!-- 친구 목록 불러오기 -->
 	<select id="selectMyFriendList" parameterType="String" resultType="Map">
@@ -172,6 +171,7 @@
     FROM board where id in (select friendid from friend where userid= #{id}) or  id=#{id}
   ) WHERE line_number BETWEEN #{first} AND #{second}  ORDER BY line_number
   </select>
+  
   <select id="selectListBoard" parameterType="String" resultType="board">
   SELECT * FROM (
     SELECT
@@ -180,6 +180,7 @@
     FROM board where id in (select friendid from friend where userid= #{id}) or id=#{id}
   ) WHERE line_number BETWEEN 1 AND 30  ORDER BY line_number
   </select>
+  
   <select id="listpaging"  resultType="board"><!-- parameterType="map" -->
 	SELECT * FROM (
     SELECT
@@ -188,8 +189,8 @@
     FROM board where id in (select friendid from friend where userid= #{id}) or  id=#{id}
   ) WHERE line_number BETWEEN #{first} AND #{second}  ORDER BY line_number
   </select>
+  
   <select id="selectOne" parameterType="String" resultType="board">
   select * from board where savedfile=#{0}
   </select>
-  
 </mapper>

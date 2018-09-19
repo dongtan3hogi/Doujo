@@ -29,7 +29,7 @@ public interface friendDao {
 
 	public List<member> getRecommendFriends(Map<String, String> map, RowBounds rb);
 
-	public void selectOne(String id);
+	public board selectOne(String id);
 	
 	public int insert(@Param(value="userid")String userid, @Param(value="id")String id);
 		
@@ -52,5 +52,7 @@ public interface friendDao {
 	public ArrayList<Map<String,String>> selectMyFriendList(String userid);
 
 	public List<board> boardpaging(String userid, int first, int second);
+
+	public List<board> selectListBoard(String userid);
 	
 }

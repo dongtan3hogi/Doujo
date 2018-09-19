@@ -217,7 +217,9 @@
 					} else if(data.TYPE == 'shortanswer'){
 						result += '<input type="text" name="answer">' + data.ANSWER1 +'';
 					}
-					result += '<br/><input type="button" id="quizcheck" value="체점">';
+					result += '<div align="right">';
+					result += '<br/><input type="button" class="btn btn-info" id="quizcheck" value="채점">';
+					result += '</div>';
 					document.getElementById("functionboard").innerHTML = result;
 					
 					$(document).ready(function (){
@@ -325,7 +327,7 @@
 					$.each(data.recordMap, function(index, item){
 						qsr += '<option value="r' + item.NAME + '">' + item.NAME + '</option>';
 					});
-					qsr += '</select><input type="button"  class="form-control" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
+					qsr += '</select><input type="button"  class="form-control btn btn-info" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
 					//alert(qsr);
 					document.getElementById("leaderfunctionview").innerHTML = qsr;
 					$(document).ready(function() {
@@ -341,7 +343,7 @@
 			
 			
 		} else if(select == 'invite'){
-			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><br/><label for="1"><span style="font-size:20px;">아이디를 입력하세요.</span><br/><input type="text" class="input-field" name="inviteId" id="inviteId" value="" /><input type="button" id="inviteBtn" value="확인" /></label>';
+			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><br/><label for="1"><span style="font-size:20px;">아이디를 입력하세요.</span><br/><input type="text" class="input-field" name="inviteId" id="inviteId" value="" /><input type="button" class="btn btn-info" id="inviteBtn" value="확인" /></label>';
 			$(document).ready(function() {
 				document.getElementById("functionboard").innerHTML = '';
 		       	$("#inviteBtn").click(function() {
