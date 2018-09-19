@@ -133,6 +133,7 @@
 	    			leadingZeros2(d.getHours(), 2) + ':' + leadingZeros2(d.getMinutes(), 2);
         if(dataArray[0] == 'chat') {
         	var putMsg = '';
+        	var onErrorResource2="'resources/userData/image/unknown.png'";
         	if(dataArray[1] == document.getElementById("MyID").value) {
         		//동일하다면 우측메시지
         		putMsg += '<div class="direct-chat-msg right">';
@@ -140,7 +141,7 @@
         		putMsg += '<span class="direct-chat-name pull-right">' + dataArray[1] + '</span>';
         		putMsg += '<span class="direct-chat-timestamp pull-left">' + time + '</span>';
         		putMsg += '</div>';
-        		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image">';
+        		putMsg += '<img class="direct-chat-img"  src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image" onError="this.src='+onErrorResource2+';">';
         		putMsg += '<div class="direct-chat-text">';
         		putMsg += dataArray[2];
         		putMsg += '</div>';
@@ -154,7 +155,7 @@
         		putMsg += '<span class="direct-chat-name pull-left">' + dataArray[1] + '</span>';
         		putMsg += '<span class="direct-chat-timestamp pull-right">' + time + '</span>';
         		putMsg += '</div>';
-        		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image">';
+        		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image" onError="this.src='+onErrorResource2+';"';
         		putMsg += '<div class="direct-chat-text">';
         		putMsg += dataArray[2];
         		putMsg += '</div>';
@@ -215,7 +216,7 @@
 						result += '<input type="radio" name="answer" value="3">' + data.ANSWER3;
 						result += '<input type="radio" name="answer" value="4">' + data.ANSWER4;
 					} else if(data.TYPE == 'shortanswer'){
-						result += '<input type="text" name="answer">' + data.ANSWER1 +'';
+						result += '<input type="text" name="answer">';
 					}
 					result += '<div align="right">';
 					result += '<br/><input type="button" class="btn btn-info" id="quizcheck" value="채점">';
@@ -246,8 +247,8 @@
 							}
 							
 							var solveSet = {
-									"answer": answer
-									,"num": quizseq
+									"answer1": answer
+									,"num1": quizseq
 									,"id": document.getElementById('MyID').value
 							}
 							//alert(solveSet.answer + ", " +solveSet.num + ", " + solveSet.id);
@@ -258,7 +259,12 @@
 								, dataType : 'json'
 								, contentType : 'application/json; charset=UTF-8'
 								, success: function(data) {
-									alert(data.result);
+									var quizResult = "";
+									$.each(data, function(index, item){
+										quizResult += item + '\n';
+									});
+									swal(quizResult);
+									//(data.result);
 								} 
 										
 							});
