@@ -507,6 +507,21 @@ public class FriendController {
 		friendDao bd = sqlSession.getMapper(friendDao.class);
 		member a = (member) hs.getAttribute("member");
 		String userid = a.getId();
+		List<board> flist = bd.selectListBoard(userid);
+		for(board ab : flist) {
+		String temp =ab.getContent();
+		temp=temp.replaceAll("<br>", "\r\n");
+		ab.setContent(temp);
+		}
+		model.addAttribute("allList", flist);
+		System.out.println(flist.size());
+		return "friend/friendMain3";
+	}
+	@RequestMapping (value="showFriendList", method=RequestMethod.GET)
+	public String showFriendList(HttpSession hs ,Model model) {
+		friendDao bd = sqlSession.getMapper(friendDao.class);
+		member a = (member) hs.getAttribute("member");
+		String userid = a.getId();
 		List<board> flist = bd.selectAllBoard(userid);
 		for(board ab : flist) {
 		String temp =ab.getContent();
@@ -517,8 +532,19 @@ public class FriendController {
 
 		return "friend/friendMain3";
 	}
-	
-	@RequestMapping("/display.do")
+	@RequestMapping (value="showDetail", method=RequestMethod.GET) //한장의 사진 만 가져오기
+	public String showDetail(HttpSession hs ,Model model,String path) {
+		friendDao bd = sqlSession.getMapper(friendDao.class);
+		board flist = bd.selectOne(path);
+		String temp =flist.getContent();
+		temp=temp.replaceAll("<br>", "\r\n");
+		flist.setContent(temp);
+		
+		model.addAttribute("oneboard", flist);
+
+		return "friend/friendMain3";
+	}
+	@RequestMapping("/display.do") //사진 불러오기
 	public void getImage(String path,HttpServletRequest req, HttpSession session, HttpServletResponse res, @RequestParam HashMap<String, String> map) throws Exception {
 	      String UPLOADPATH = "C:\\Doujo\\Doujo\\images\\"+path;
 		String realFile = "C:\\\\Doujo\\\\Doujo\\\\images\\\\";
@@ -527,7 +553,6 @@ public class FriendController {
 		String ext = path.split("\\.")[1];
 		BufferedOutputStream out = null;
 		InputStream in = null;
-
 		try {
 			res.setContentType("image/."+ext);
 			res.setHeader("Content-Disposition", "inline;filename="+fileNm );
@@ -578,31 +603,40 @@ public class FriendController {
 			JSONObject jObject = new JSONObject();
 			JSONArray jArray = new JSONArray();
 			try {
-				double happiness=0;
-				double neutral=0;
-				double sadness=0;
-				double surprise=0;
+				double happiness=0.0;
+				double neutral=0.0;
+				double sadness=0.0;
+				double surprise=0.0;
 				jArray = (JSONArray)jParser.parse(faceResult);
 				for(int i=0; i<jArray.size(); i++) {
 					jObject = (JSONObject)jArray.get(i);
 					jObject = (JSONObject) jObject.get("faceAttributes");
 					jObject = (JSONObject) jObject.get("emotion");
-					happiness +=(double) jObject.get("happiness");
-					neutral +=(double) jObject.get("neutral");
-					sadness +=(double) jObject.get("sadness");
-					surprise +=(double) jObject.get("surprise");
-
+					System.out.println(jObject.toString());
+					System.out.println(jObject.get("happiness").toString()+jObject.get("neutral").toString()+jObject.get("sadness").toString()+jObject.get("surprise").toString());
+					
+					happiness +=Double.parseDouble(jObject.get("happiness").toString());
+					neutral +=Double.parseDouble(jObject.get("neutral").toString());
+					sadness +=Double.parseDouble(jObject.get("sadness").toString());
+					surprise +=Double.parseDouble(jObject.get("surprise").toString());
 				}
-				happiness /=jArray.size();
-				neutral /=jArray.size();
-				sadness /=jArray.size();
-				surprise /=jArray.size();
-				board.setHappiness(happiness);
+				System.out.println("행복"+happiness+"중립"+neutral+"슬픔:"+sadness+"놀람:"+surprise);
+				happiness /=(double)jArray.size();
+				neutral /=(double)jArray.size();
+				sadness /=(double)jArray.size();
+				surprise /=(double)jArray.size();
+				System.out.println("행복"+happiness+"중립"+neutral+"슬픔:"+sadness+"놀람:"+surprise);
+				happiness = Math.round(happiness*1000)/1000;
+				neutral = Math.round(neutral*1000)/1000;
+				sadness = Math.round(sadness*1000)/1000;
+				surprise = Math.round(surprise*1000)/1000;
+				board.setHappiness(happiness);	
 				board.setNeutral(neutral);
 				board.setSadness(sadness);
 				board.setSurprise(surprise);
+				System.out.println("행복"+happiness+"중립"+neutral+"슬픔:"+sadness+"놀람:"+surprise);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			friendDao mapper = sqlSession.getMapper(friendDao.class);
 		      int result = mapper.insertBoard(board);
@@ -616,8 +650,21 @@ public class FriendController {
 			friendDao chooseone = sqlSession.getMapper(friendDao.class);
 			member a = (member) hs.getAttribute("member");
 			String userid = a.getId();
-			int first = number*3;
+			int first = number*3+1;
 			int second = (number+1)*3;
+			
+			List<board> flist = chooseone.boardpaging(userid, first, second);
+			System.out.println(flist.size());
+			
+			return flist;
+		}
+		@RequestMapping (value="morelist", method=RequestMethod.POST)
+		public @ResponseBody List<board> morelist (int number,HttpSession hs) {
+			friendDao chooseone = sqlSession.getMapper(friendDao.class);
+			member a = (member) hs.getAttribute("member");
+			String userid = a.getId();
+			int first = number*30+1;
+			int second = (number+1)*30;
 			
 			List<board> flist = chooseone.boardpaging(userid, first, second);
 			System.out.println(flist.size());

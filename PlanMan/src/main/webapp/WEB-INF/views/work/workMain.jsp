@@ -542,7 +542,6 @@
  		    },
  		    success: function(data){
  		    	memodays=data;
- 		    	
  				},
  		    error: function() {
  		      alert('there was an error while fetching events!');
@@ -559,7 +558,6 @@
 		            
 		        },
 		       onSelect: function(dateText) {  
-		    	   alert(dateText);
 		    	   $.ajax({
 		    		   url:'findmemo',
 		    		    type: 'post',
