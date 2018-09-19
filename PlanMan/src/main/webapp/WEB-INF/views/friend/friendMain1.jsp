@@ -383,7 +383,7 @@
 		             </div>
 		             <br/>
 		             <div>
-				      	<a href="tonewFriend"><label class="label label-success">ToFriend_Recommendation</label></a>
+				      	<a href="gotoSearchFriend"><label class="label label-success">ToFriend_Recommendation</label></a>
 				      </div>
 		            </div> 
 		            <!-- /.box-header -->

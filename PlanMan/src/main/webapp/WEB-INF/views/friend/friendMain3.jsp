@@ -291,45 +291,45 @@ function boardList() {
 		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
 		  
 		            
-		     <h2>[ Place_Reply ]</h2>
+		     		<h2>[ Place_Reply ]</h2>
 			
-			<form action="saveboard" method="post" enctype="multipart/form-data" onsubmit="return formCheck()">
-				<table>
-					<tr>
-						<th>제목</th>
-						<td>
-							<input int="title" type="text" name="title" id="title">
-							<input type="hidden" name="id" value="${sessionScope.member.id}">
-						</td>
-					</tr>
-					<tr>
-						<th>내용</th>
-						<td><div contentEditable="true" id="divedit" >
-							</div>
-							<img id="imgs"/><input id="content" type="hidden" name="content" >
-						</td>
-					</tr>
-					<tr>
-						<th>글쓴이</th>
-						<td>${id}</td>
-					</tr>
-					<tr>
-						<th>첨부파일</th>
-						<td><input id="input_img" type="file" name="upload" /></td>
-					</tr>
-					<tr>
-						<th>위치</th>
-						<td><input type="text" name="location" id="location" /></td>
-					</tr>
-					<tr>
-						<td class="btn" colspan="2" >
-							<input type="submit" value="저장">
-						</td>
-					</tr>
-				</table>
-			</form>
+						<form action="saveboard" method="post" enctype="multipart/form-data" onsubmit="return formCheck()">
+							<table>
+								<tr>
+									<th>제목</th>
+									<td>
+										<input int="title" type="text" name="title" id="title">
+										<input type="hidden" name="id" value="${sessionScope.member.id}">
+									</td>
+								</tr>
+								<tr>
+									<th>내용</th>
+									<td><div contentEditable="true" id="divedit" >
+										</div>
+										<img id="imgs"/><input id="content" type="hidden" name="content" >
+									</td>
+								</tr>
+								<tr>
+									<th>글쓴이</th>
+									<td>${id}</td>
+								</tr>
+								<tr>
+									<th>첨부파일</th>
+									<td><input id="input_img" type="file" name="upload" /></td>
+								</tr>
+								<tr>
+									<th>위치</th>
+									<td><input type="text" name="location" id="location" /></td>
+								</tr>
+								<tr>
+									<td class="btn" colspan="2" >
+										<input type="submit" value="저장">
+									</td>
+								</tr>
+							</table>
+						</form>
 		
-		</div>
+					</div>
 		</div>
 	</div>
 	
@@ -356,7 +356,7 @@ function boardList() {
 						<tr>
 							<th>내용</th>
 							<td><div contentEditable="true">  ${flist.content}</div>
-			<img src="/doujo/display.do?path=${flist.savedfile }" width="10%" height="60" onError="this.style.visibility='hidden'"/>
+							<img src="/doujo/display.do?path=${flist.savedfile }" width="10%" height="60" onError="this.style.visibility='hidden'"/>
 							</td>
 						</tr>
 						<tr>

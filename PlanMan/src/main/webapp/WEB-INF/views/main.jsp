@@ -101,6 +101,14 @@
 	   color: #0000FF;
 	 } 
 	 
+	 .upload-button:hover {
+		  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+		  color: #999;
+	 }
+	 
+	 .file-upload{
+	     display: none;
+	 }
 	 
   </style>	
 <!-- head -->
@@ -137,14 +145,14 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" id="profileImg" onError="this.src=./resources/userData/image/unknown.png;" alt="User Image">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src=./resources/userData/image/unknown.png;">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" id="profileImg" onError="this.src=./resources/userData/image/unknown.png;" alt="User Image">
-
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src=./resources/userData/image/unknown.png;">
+				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
@@ -154,9 +162,9 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div align="center">
-                  <a href="gotoupdate" class="btn btn-primary btn-flat">MyPage</a>
-                  <a href="profileChange" class="btn btn-primary btn-flat">Profile</a>
-                  <a href="gotologout" class="btn btn-primary btn-flat">LogOut</a>
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
+                  <input class="file-upload" type="file" accept="image/*"/>
+                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
             </ul>
@@ -172,7 +180,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src=./resources/userData/image/unknown.png;">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
@@ -368,9 +376,15 @@
 <!-- Page specific script -->
 <script>
   $(function () {
-	$('#profileImg').on('click',function(){
-		alert("!");
-	}); 
+	
+
+    $(".file-upload").on('change', function(){
+        
+    });
+	    
+    $(".upload-button").on('click', function() {
+       $(".file-upload").click();
+    });  
 	  
 	$('.datepicker').datepicker({
 		dateFormat: 'yy-mm-dd'

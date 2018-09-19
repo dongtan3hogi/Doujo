@@ -343,13 +343,11 @@
 		              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_List</h3>
 		             
 		              <br/>
-		              <div>
-				      	<a href="tonewFriend">ToFriend_Recommendation</a>
-				      </div>
+		              
 		            </div> 
 		            <!-- /.box-header -->
 		            <div class="box-body table-responsive no-padding">
-		              <table class="table table-hover">
+		              <table class="table table-hover">;
 		                <tr>
 		                  <th>USER ICON</th>
 					      <th>ID</th>

@@ -254,39 +254,34 @@ public class FriendController {
 
 	}
 	
-	@RequestMapping(value="/listMyfriend", method=RequestMethod.GET)
-	public String listMyfriend(
-			@RequestParam(value="searchItem", defaultValue="id") String searchItem, 
-			@RequestParam(value="searchWord", defaultValue="") String searchWord, 
-			Model model,
-			HttpSession session
-	)  
-	{
+	
+	
+	//프렌드 리스트로 가기
+	@RequestMapping (value="tooldFriend", method=RequestMethod.GET)
+	public String tooldFriend(HttpSession session, Model model) {
 		int currentPage=1;
-		System.out.println();
 		Map<String, String> map = new HashMap<>();
-	    System.out.println(searchItem + ", " + searchWord);
 	    
-	    map.put("searchItem", searchItem);
-	    map.put("searchWord", searchWord);
+	    map.put("searchItem", "");
+	    map.put("searchWord", "");
 		friendDao getfriend = sqlSession.getMapper(friendDao.class);
 		int totalRecordCount = getfriend.getMyFriendsCount(map);
 		
 		int countPerPage = 10;
 		int pagePerGroup = 5;
-		
+		member a = (member)session.getAttribute("member");
+		String id = a.getId();
+		map.put("id", id);
 		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, currentPage, totalRecordCount);
 		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
 				
 		List<friend> newlist = getfriend.getMyFriends(map,rb);	
-		System.out.println(newlist.size());
-		
+			System.out.println(newlist.size());
 		model.addAttribute("newlist", newlist);
 		model.addAttribute("navi", navi);
 		
 		memberDao manager2=sqlSession.getMapper(memberDao.class);
 		
-		String id=(String) session.getAttribute("memberID");
 		schedule result=new schedule();
 		String eventtype="friend";
 		result.setEventtype(eventtype);
@@ -389,47 +384,12 @@ public class FriendController {
 		}
 		
 		session.setAttribute("schList", schList);
-		
-				
-		return "friend/friendMain1";
-
-	}
-	
-	
-	
-	//프렌드 리스트로 가기
-	@RequestMapping (value="tooldFriend", method=RequestMethod.GET)
-	public String tooldFriend(HttpSession session, Model model) {
-		int currentPage=1;
-		Map<String, String> map = new HashMap<>();
-	    
-	    map.put("searchItem", "");
-	    map.put("searchWord", "");
-		friendDao getfriend = sqlSession.getMapper(friendDao.class);
-		int totalRecordCount = getfriend.getMyFriendsCount(map);
-		
-		int countPerPage = 10;
-		int pagePerGroup = 5;
-		member a = (member)session.getAttribute("member");
-		String id = a.getId();
-		map.put("id", id);
-		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, currentPage, totalRecordCount);
-		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
-				
-		List<friend> newlist = getfriend.getMyFriends(map,rb);	
-			System.out.println(newlist.size());
-		model.addAttribute("newlist", newlist);
-		model.addAttribute("navi", navi);
 
 				
 		return "friend/friendMain1";
 	}
 	
-	@RequestMapping (value="/tonewFriend", method=RequestMethod.GET)
-	public String tonewFriend() {
-		
-		return "friend/friendMain";
-	}
+	
 	@RequestMapping (value="/accept", method=RequestMethod.GET)
 	public String accept(String fid,HttpSession hs) {
 		member a = (member) hs.getAttribute("member");
@@ -441,6 +401,7 @@ public class FriendController {
 		return "redirect: tooldFriend";
 
 	}
+	
 	@RequestMapping(value="/searchRecommendFriends", method=RequestMethod.GET)
 	public String listoldfriend(
 		@RequestParam(value="currentPage", defaultValue="1") int currentPage,
