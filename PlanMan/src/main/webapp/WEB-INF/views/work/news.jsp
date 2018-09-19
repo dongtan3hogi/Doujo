@@ -44,12 +44,12 @@ function goPage(a){
 function goSearch(){
 	var search=	document.getElementById("search").value;
 	if(search==""){
-		alert("검색어 입력해주세요 ");
+		swal("검색어 입력해주세요 ");
 		return;
 	}
 	var special_pattern = /[`~!@#$%^&*|\\\";:\/]/gi;
 	if(special_pattern.test(search)==true){
-		alert("특수문자는 사용할 수 없습니다.");
+		swal("특수문자는 사용할 수 없습니다.");
 		return false;
 	}
 	
@@ -58,10 +58,10 @@ function goSearch(){
 		data: {"search" : search},
 		type: "POST",
 		error: function (res) {
-		    alert("error: "+ res);
+		    //swal("error: "+ res);
 		},
 		success: function (res) {
-			alert(res);
+			swal(res);
 			
 		} 
 	});	
@@ -88,7 +88,7 @@ $(document).ready(function(){
 $('#saveMemo').click(function(){
 	var memo = $('#memo').val();
 	memo= memo.replace("\r\n","<br>");
-	alert(memo);
+	//alert(memo);
 	var today = new Date();
 	var mm= today.getMonth()+1; 
 	var dd =today.getDate();
@@ -107,10 +107,10 @@ $('#saveMemo').click(function(){
 		data:{"userid": memo, "text":memo,"startDate":td},
 		success: function(data){
 		if(data=="success"){
-			alert("저장 되었습니다");
+			swal("저장 되었습니다");
 		}
 		},fail: function(){
-			alert("다음에 다시 시도해주세요");
+			swal("다음에 다시 시도해주세요");
 		}
 	});
 	});
@@ -120,11 +120,11 @@ $('#translate').on('click',function(){
 		  type:'post',
 		  data:{'text': $('#search').val(),  'src': $('#src').val(), 'target':$('#target').val()},
 		  success: function(data){
-			  alert(data);
+			  //swal(data);
 			  $('#search').val(data);
 		  },error:function(request,status,error){
 			  if(decodeURIComponent(request.responseText)=="undefined"){
-				  alert("잘못된 문자입니다");
+				  swal("잘못된 문자입니다");
 				  return;
 			  }
 			  $('#search').val(decodeURIComponent(request.responseText));
@@ -170,7 +170,7 @@ $('#keylist').on('click',function(){
 					}
 					}
 				result += "<a class='goSearch' href='javascript:void(0)' onclick='goSearch2(this)'>"+data[i].keyword+"</a> ";
-				result += "<input class='deleteBtn' type='button' value='삭제' onclick=\'return deleteKey(" + "\""+data[i].keyword+"\""+ ")\' style ='display:none'> &nbsp";
+				result += "<input class='deleteBtn btn btn-warning' type='button' class='btn btn-warning' value='삭제' onclick=\'return deleteKey(" + "\""+data[i].keyword+"\""+ ")\' style ='display:none'> &nbsp";
 			}
 			if(cnt<4){
 				$('#list'+cnt).html(result);
@@ -178,7 +178,7 @@ $('#keylist').on('click',function(){
 			
 		},
 		error:function(){
-			alert("실패");
+			swal("실패 하셨습니다.");
 		}
 	});	
 });
@@ -206,7 +206,7 @@ $('#ff').on('submit',function(){
 		$('#friendlist').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
 		},
 		error:function(){
-			alert("실패");
+			swal("실패 하셨습니다.");
 		}
 	});	
 	});
@@ -229,7 +229,7 @@ $(document).on("click",".friendBtn",function(){
 		$('#flist0').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
 		},
 		error:function(){
-			alert("실패");
+			swal("실패 하셨습니다.");
 		}
 	});	
 });
@@ -270,10 +270,10 @@ $('#saveMemo').click(function(){
 			data:{"userid": memo, "text":memo,"startDate":temp},
 			success: function(data){
 			if(data=="1"||data=="3"){
-				alert("저장 되었습니다");
+				swal("저장 되었습니다");
 			}else{'오류 발생'};
 			},fail: function(){
-				alert("다음에 다시 시도해주세요");
+				swal("다음에 다시 시도해주세요");
 			}
 		});
 });
@@ -291,11 +291,13 @@ var memodays="";
 	    	
 			},
 	    error: function() {
-	      alert('there was an error while fetching events!');
+	      swal('there was an error while fetching events!');
 	    }
   });
 	
-$( ".datepicker" ).datepicker({ 
+	$('#datepicker1').val("날짜 선택");	
+	
+	$( ".datepicker" ).datepicker({ 
        changeMonth: true, 
        changeYear: true,
        dateFormat: "yy-mm-dd",
@@ -305,7 +307,7 @@ $( ".datepicker" ).datepicker({
             
         },
        onSelect: function(dateText) {  
-    	   alert(dateText);
+    	   //alert(dateText);
     	   $.ajax({
     		   url:'findmemo',
     		    type: 'post',
@@ -314,7 +316,7 @@ $( ".datepicker" ).datepicker({
     		    },
     		    success: function(data){
     				if(data==null)	{
-    					alert("메모가 없습니다");	    			
+    					swal("메모가 없습니다");	    			
     		            }else{
     		            	if(dateText==td){
 	    		            	$('#memoTitle').html("오늘의 메모");
@@ -374,41 +376,26 @@ $( ".datepicker" ).datepicker({
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
+				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능1</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능2</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능3</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                 <div class="pull-left">
-                  <a href="gotoupdate" class="btn btn-default btn-flat">개인정보 수정</a>
-                </div>
-                <div class="pull-right">
-                  <a href="gotologout" class="btn btn-default btn-flat">로그아웃</a>
+                <div align="center">
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
+                  
+                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
             </ul>
@@ -424,24 +411,14 @@ $( ".datepicker" ).datepicker({
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src='./resources/userData/image/unknown.png;'">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
+     
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
@@ -546,9 +523,9 @@ $( ".datepicker" ).datepicker({
             <!-- /.box-header -->
           <div class="box-body">
 		    <!--The div element for the map -->
-		    <input type="text" id="search"  >&nbsp<input type="button" onclick="goSearch()"value="검색">&nbsp <select id='src'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>-->
+		    <input type="text" id="search"  >&nbsp<input type="button" class="btn btn-warning" onclick="goSearch()"value="검색">&nbsp <select id='src'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>-->
 	        <select id='target'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>
-	        &nbsp<input type="button" id="translate" value="번역"><br>
+	        &nbsp<input type="button" class="btn btn-warning" id="translate" value="번역"><br>
 	        <c:if test="${!empty result}">
 			<c:forEach var="news" items="${result }">
 			<ul>
@@ -640,7 +617,7 @@ $( ".datepicker" ).datepicker({
             <div class="box-header with-border">
               <h3 class="box-title">MEMO</h3>
               <div class="box-tools">
-                <input type="button" class="datepicker btn btn-block btn-warning"  ></input>
+                <input type="button" class="datepicker btn btn-block btn-warning"  id="datepicker1"></input>
               </div>
             </div>
             <div class="box-body no-padding">

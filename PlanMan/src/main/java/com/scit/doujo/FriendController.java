@@ -612,9 +612,6 @@ public class FriendController {
 					jObject = (JSONObject)jArray.get(i);
 					jObject = (JSONObject) jObject.get("faceAttributes");
 					jObject = (JSONObject) jObject.get("emotion");
-					System.out.println(jObject.toString());
-					System.out.println(jObject.get("happiness").toString()+jObject.get("neutral").toString()+jObject.get("sadness").toString()+jObject.get("surprise").toString());
-					
 					happiness +=Double.parseDouble(jObject.get("happiness").toString());
 					neutral +=Double.parseDouble(jObject.get("neutral").toString());
 					sadness +=Double.parseDouble(jObject.get("sadness").toString());
@@ -626,10 +623,10 @@ public class FriendController {
 				sadness /=(double)jArray.size();
 				surprise /=(double)jArray.size();
 				System.out.println("행복"+happiness+"중립"+neutral+"슬픔:"+sadness+"놀람:"+surprise);
-				happiness = Math.round(happiness*1000)/1000;
-				neutral = Math.round(neutral*1000)/1000;
-				sadness = Math.round(sadness*1000)/1000;
-				surprise = Math.round(surprise*1000)/1000;
+				happiness = (double)Math.round(happiness*1000)/1000.0;
+				neutral = (double)Math.round(neutral*1000)/1000.0;
+				sadness = (double)Math.round(sadness*1000)/1000.0;
+				surprise = (double)Math.round(surprise*1000)/1000.0;
 				board.setHappiness(happiness);	
 				board.setNeutral(neutral);
 				board.setSadness(sadness);

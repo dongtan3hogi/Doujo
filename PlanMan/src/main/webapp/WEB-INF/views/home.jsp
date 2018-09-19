@@ -71,7 +71,7 @@ $(function(){
 		var res = '';
 		res += "${loginResult}";
 		if(res == 'loginfail'){
-			swal("로그인 실패");
+			swal("아이디나 비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.");
 		}
 	});
 });
@@ -79,7 +79,7 @@ $(function(){
 	function loginChk(){
 		
 		if($('#id').val().length==0||$('#password').val().length==0){
-			alert('아이디나 비밀번호가 입력되지 않았습니다.');
+			swal('아이디나 비밀번호가 입력되지 않았습니다.');
 			return false;
 		}
 		

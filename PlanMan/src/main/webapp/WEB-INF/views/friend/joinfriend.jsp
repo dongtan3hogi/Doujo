@@ -90,13 +90,13 @@ function formCheck() {
 	var hobby = document.getElementById('hobby');
 	
 	if (job.value.length < 1) {
-		alert("직업 입력해라.");
+		swal("직업을 입력해주세요.");
 		id.focus();
 		id.select();
 		return false;
 	}
 	if (hobby.value.length < 1) {
-		alert("취미 입력해라");
+		swal("취미를 입력해주세요.");
 		id.focus();
 		id.select();
 		return false;

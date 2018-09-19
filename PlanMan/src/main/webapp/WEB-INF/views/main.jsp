@@ -23,7 +23,7 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <!-- Date Picker -->
-  <link rel="stylesheet" href="./resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
+  <link rel="stylesheet" href="./resources/main/bower_components/bootstrap-/dist/css/datepicker.css">
   <!-- Time Picker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.css">
   
@@ -372,15 +372,6 @@
 <!-- Page specific script -->
 <script>
   $(function () {
-	
-
-    $(".file-upload").on('change', function(){
-        
-    });
-	    
-    $(".upload-button").on('click', function() {
-       $(".file-upload").click();
-    });  
 	  
 	$('.datepicker').datepicker({
 		dateFormat: 'yy-mm-dd'
@@ -508,7 +499,6 @@
 		  var eventtype=calEvent.event;
 		  
 		  var startday = new Date(calEvent.start);
-		  alert(startday);
 		  var endday = new Date(calEvent.end);
 		  var s_date = startday.getDate();
 	  	  var s_month = startday.getMonth() + 1;
@@ -529,7 +519,6 @@
 	  	  e_time = new Date(end+" "+e_time);
     	  var modal = document.getElementById('myModal');
           var span = document.getElementsByClassName("close")[0];                                          
-   		  alert(s_time+e_time);
           $('#seq').val(schseq);
           if(eventtype==$('#event1').val()){
         	  $('#event1').prop('checked', true);
@@ -630,22 +619,22 @@
 	    var stype = $('input[name="sType"]:checked').val();
 
 		if($('.event:checked').val()==null){
-  			alert("이벤트 타입을 선택해 주세요.");
+  			swal("이벤트 타입을 선택해 주세요.");
   			return false;
   		}
   		
   		if($('#endday').val()<=0){
-  			alert("기간을 다시 선택해주세요.");
+  			swal("기간을 다시 선택해주세요.");
   			return false;
   		}
 		
   		if($('#timepicker').val()>=$('#timepicker2').val()){
-  			alert("시간대를 다시 선택해주세요.");
+  			swal("시간대를 다시 선택해주세요.");
   			return false;
   		}
   		
   		if($('#eventtitle').val().length==0){
-  			alert("이벤트 타이틀을 입력해주세요.");
+  			swal("이벤트 타이틀을 입력해주세요.");
   			return false;
   		}else if(stype=='sometimes'){
   			endday=$('#startday').val()+" "+$('#timepicker2').val();
@@ -664,7 +653,7 @@
   				}
   				,success: function (data){
 					if(data=="success"){
-						alert("스케쥴을 입력했습니다.");
+						swal("스케쥴을 입력했습니다.");
 						$('#eventtitle').val('');
 			            $('#eventcontent').val('');
 			            $('#endday').val(1);
@@ -674,7 +663,7 @@
 			            location.reload(); 
 			            return true;
 					}else{
-						alert("스케쥴  입력에 실패했습니다.");
+						swal("스케쥴  입력에 실패했습니다.");
 						return false;
 					}
   				}
@@ -696,7 +685,7 @@
   				}
   				,success: function (data){
 					if(data=="success"){
-						alert("스케쥴을 입력했습니다.");
+						swal("스케쥴을 입력했습니다.");
 						$('#eventtitle').val('');
 			            $('#eventcontent').val('');
 			            $('#endday').val(1);
@@ -706,7 +695,7 @@
 			            location.reload(); 
 			            return true;
 					}else{
-						alert("스케쥴  입력에 실패했습니다.");
+						swal("스케쥴  입력에 실패했습니다.");
 						return false;
 					}
   				}
@@ -734,22 +723,22 @@
 	   var eventcontent=$('#eventcontent').val();  
    
 	   if($('.event:checked').val()==null){
- 			alert("이벤트 타입을 선택해 주세요.");
+ 			swal("이벤트 타입을 선택해 주세요.");
  			return false;
  		}
  		
 	    if($('#endday').val()<=0){
-			alert("기간을 다시 선택해주세요.");
+			swal("기간을 다시 선택해주세요.");
 			return false;
 		}
 	   
 	    if($('#timepicker').val()>=$('#timepicker2').val()){
- 			alert("시간대를 다시 선택해주세요.");
+ 			swal("시간대를 다시 선택해주세요.");
  			return false;
  		}
  		
  		if($('#eventtitle').val().length==0){
- 			alert("이벤트 타이틀을 입력해주세요.");
+ 			swal("이벤트 타이틀을 입력해주세요.");
  			return false;
  		}else{
  			$.ajax({
@@ -767,7 +756,7 @@
  				}
  				,success: function (data){
 					if(data=="success"){
-						alert("스케쥴을 변경했습니다.");
+						swal("스케쥴을 변경했습니다.");
 						$('#eventtitle').val('');
 			            $('#eventcontent').val('');
 			            $('#endday').val(1);
@@ -777,7 +766,7 @@
 			            location.reload(); 
 			            return true;
 					}else{
-						alert("스케쥴  변경에 실패했습니다.");
+						swal("스케쥴  변경에 실패했습니다.");
 						return false;
 					}
  				}
@@ -793,7 +782,7 @@
 			,data:{"schseq": schseq}
 			,success: function (data){
 				if(data=="success"){
-					alert("스케쥴을 삭제했습니다.");
+					swal("스케쥴을 삭제했습니다.");
 					$('#eventtitle').val('');
 		            $('#eventcontent').val('');
 		            $('#endday').val(1);
@@ -803,7 +792,7 @@
 		            location.reload(); 
 		            return true;
 				}else{
-					alert("스케쥴  삭제에 실패했습니다.");
+					swal("스케쥴  삭제에 실패했습니다.");
 					return false;
 				}
 			}

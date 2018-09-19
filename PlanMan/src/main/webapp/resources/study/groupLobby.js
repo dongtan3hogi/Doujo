@@ -44,7 +44,7 @@ function showMakeGroup() {
 					document.getElementById("functionboard").innerHTML = "";
 				}
 				, error: function(request,status,error){
-			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        //swal("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			    }
 					
 			});
@@ -172,7 +172,7 @@ function showSearchGroup() {
 				"type" : type
 				,"search" : $("#search").val()
 			};
-			alert(searching.type + searching.search);
+			//swal(searching.type + searching.search);
 			$.ajax({
 				method   : 'post'
 				, url    : 'searchGroup'

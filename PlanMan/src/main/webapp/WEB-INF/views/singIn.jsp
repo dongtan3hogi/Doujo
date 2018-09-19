@@ -193,42 +193,42 @@
   function insertChk(){
 	  
 	  if($('#id').val().length==0){
-		  alert("아이디를 입력해 주세요");
+		  swal("아이디를 입력해 주세요");
 		  return false;
 	  }
 	  
 	  if($('#id').val().length < 3 || $('#id').val().length > 15){
-		  alert("아이디 길이는 3~15 사이로 입력해주세요.");
+		  swal("아이디 길이는 3~15 사이로 입력해주세요.");
 		  return false;
 	  }
 	  
 	  if(!flag){
-		  alert("중복된 아이디로는 가입이 불가능 합니다.");
+		  swal("중복된 아이디로는 가입이 불가능 합니다.");
 		  return false;
 	  }
 	  
 	  if(!flag2){
-		  alert("잘못된 비밀번호 입니다. 다시 입력해주세요.");
+		  swal("잘못된 비밀번호 입니다. 다시 입력해주세요.");
 		  return false;
 	  }
 	  
 	  if($('#password').val().length==0){
-		  alert("비밀번호를 입력해 주세요");
+		  swal("비밀번호를 입력해 주세요");
 		  return false;
 	  }
 	  
 	  if($('#password2').val().length==0){
-		  alert("비밀번호 확인을 입력해 주세요");
+		  swal("비밀번호 확인을 입력해 주세요");
 		  return false;
 	  }
 	  
 	  if($('#name').val().length==0){
-		  alert("이름을 입력해 주세요");
+		  swal("이름을 입력해 주세요");
 		  return false;
 	  }
 	  
 	  if($('#age').val().length==0){
-		  alert("나이를 입력해 주세요");
+		  swal("나이를 입력해 주세요");
 		  return false;
 	  }
 	  

@@ -40,7 +40,7 @@ var messageListBoard = '';
 	messageListBoard += '<!-- start message -->';
 	messageListBoard += '<li><a onclick="messageBoardChange()">';
 	messageListBoard += '<div class="pull-left">';
-	messageListBoard += '<img src="" class="img-circle" alt="User Image">';
+	messageListBoard += '<img src="" class="img-circle" onError="this.src=./resources/userData/image/unknown.png;">';
 	messageListBoard += '</div>';
 	messageListBoard += '<h4>';
 	messageListBoard += 'USERID01';

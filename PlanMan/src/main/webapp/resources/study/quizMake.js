@@ -46,17 +46,17 @@ function check() {
 	var selecter = document.getElementById("quizrecordname"); 
 	 
 	if(selecter.value == 'new' && document.getElementById("newrecord").value.length <= 0){ 
-		alert("새로운 폴더명을 입력하세요."); 
+		swal("새로운 폴더명을 입력하세요."); 
 		document.getElementById("newrecord").focus(); 
 		document.getElementById("newrecord").select(); 
 		return false; 
 	} else if(q.value.length <= 0){ 
-		alert("질문을 입력하세요."); 
+		swal("질문을 입력하세요."); 
 		q.focus(); 
 		q.select(); 
 		return false; 
 	} else if(a.value.length <= 0){ 
-		alert("정답을 입력하세요."); 
+		swal("정답을 입력하세요."); 
 		a.focus(); 
 		a.select(); 
 		return false; 

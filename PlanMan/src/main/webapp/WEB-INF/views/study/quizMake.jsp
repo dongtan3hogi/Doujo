@@ -88,25 +88,25 @@ function check() {
 	var selecter = document.getElementById("quizrecordname"); 
 	 
 	if(selecter.value == 'new' && document.getElementById("newrecord").value.length <= 0){ 
-		alert("새로운 폴더명을 입력하세요."); 
+		swal("새로운 폴더명을 입력하세요."); 
 		document.getElementById("newrecord").focus(); 
 		document.getElementById("newrecord").select(); 
 		return false; 
 	} else if(q.value.length <= 0){ 
-		alert("질문을 입력하세요."); 
+		swal("질문을 입력하세요."); 
 		q.focus(); 
 		q.select(); 
 		return false; 
 	} else if(a.value.length <= 0){ 
-		alert("정답을 입력하세요."); 
+		swal("정답을 입력하세요."); 
 		a.focus(); 
 		a.select(); 
 		return false; 
 	} 
 	 
-	/* alert(a + q); */ 
+	/* swal(a + q); */ 
 	var radioVal = $('input[name="answernumber"]:checked').val(); 
-	//alert(radioVal); 
+	//swal(radioVal); 
 	var quiz = { 
 			"quizrecordname" : $("#quizrecordname").val() 
 			, "newrecord" : $("#newrecord").val() 
@@ -119,7 +119,7 @@ function check() {
 			, "answernumber" : radioVal 
 			, "id" :  $("#id").val() 
 	}; 
-	/* alert("quizrecordname:" +quiz.quizrecordname + ", newrecord:" + quiz.newrecord + ", type:" + quiz.type  
+	/* swal("quizrecordname:" +quiz.quizrecordname + ", newrecord:" + quiz.newrecord + ", type:" + quiz.type  
 			+ "\n, teg:" + quiz.teg + ", question:" + quiz.question  
 			+ "\n, answer1:" + quiz.answer1 + ", answer2:" + quiz.answer2  
 			+ ",\n answer3:" + quiz.answer3 + ", answer4:" + quiz.answer4 
@@ -131,7 +131,7 @@ function check() {
 		, dataType : 'json' 
 		, contentType : 'application/json; charset=UTF-8' 
 		, success: function (data){ 
-			//alert('[0] '+data.success + ', ' + data.newRecordName); 
+			//swal('[0] '+data.success + ', ' + data.newRecordName); 
 			$("form").each(function() {   
 	            this.reset(); 
 	        }); 
@@ -147,7 +147,7 @@ function check() {
 			//$('#quizrecordname').append(data.newRecordName); 
 		} 
 		, error: function(request,status,error){ 
-	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+	        //swal("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 	    } 
 			 
 	}); 
@@ -186,41 +186,26 @@ function check() {
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
+				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능1</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능2</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능3</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                 <div class="pull-left">
-                  <a href="gotoupdate" class="btn btn-default btn-flat">개인정보 수정</a>
-                </div>
-                <div class="pull-right">
-                  <a href="gotologout" class="btn btn-default btn-flat">로그아웃</a>
+                <div align="center">
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
+                  
+                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
             </ul>
@@ -236,24 +221,14 @@ function check() {
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src='./resources/userData/image/unknown.png;'">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
+
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>

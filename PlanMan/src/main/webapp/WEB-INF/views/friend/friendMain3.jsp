@@ -83,9 +83,8 @@ div.all-list {
 	function formCheck() {
 		var title = document.getElementById("title");
 		var content = document.getElementById("divedit");
-
-		if ($('#title').val() == "" || $('#divedit').text() == ""
-				|| $('#location').val() == "") {
+		
+		if ($('#title').val() == "" || $('#divedit').text() == ""|| $('#location').val() == "") {
 			alert('제목과 내용을 입력하세요.');
 			return false;
 		}
@@ -131,41 +130,26 @@ div.all-list {
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
+				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능1</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능2</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능3</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="gotoupdate" class="btn btn-default btn-flat">개인정보 수정</a>
-                </div>
-                <div class="pull-right">
-                  <a href="gotologout" class="btn btn-default btn-flat">로그아웃</a>
+                <div align="center">
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
+                  
+                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
             </ul>
@@ -181,24 +165,14 @@ div.all-list {
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src='./resources/userData/image/unknown.png;'">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
+      
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
@@ -295,7 +269,7 @@ div.all-list {
 			<div class="row">
 			<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 				<script>
-					alert("취미 직업을 등록하러 갑니다");
+					swal("취미 직업을 등록하러 갑니다");
 					location.href = "joinfriend";
 				</script>
 			</c:if>
@@ -498,7 +472,7 @@ div.all-list {
 			var filesArr = Array.prototype.slice.call(files);
 			filesArr.forEach(function(f) {
 				if (!f.type.match("image.*")) {
-					alert("확장자는 이미지 만 가능합니다");
+					swal("확장자는 이미지 만 가능합니다");
 					return;
 				}
 				sel_file = f;
@@ -558,9 +532,9 @@ div.all-list {
 												"number" : pageNum
 											},
 											success : function(data) {
-												alert(data[0].title);
+												//alert(data[0].title);
 												if (data.length != 3) {
-													alert("마지막 게시물 입니다");
+													swal("마지막 게시물 입니다");
 
 												}
 												$
@@ -596,7 +570,7 @@ div.all-list {
 																	line += "<tr><th  >위치</th><td>"
 																			+ data[index].location
 																			+ "</td></tr></table><br>";
-																	alert(data[index].originalfile);
+																	//alert(data[index].originalfile);
 																	$(	'#js-list')	.append(line);
 																});
 												pageNum++;
@@ -607,7 +581,7 @@ div.all-list {
 			$('a.favorite')
 					.click(
 							function() {
-								alert("클릭");
+								//alert("클릭");
 								var locations = $(this).next().attr('href');
 								if ($(this).children('i').attr('class') == 'fa fa-star text-yellow') {
 									$
@@ -626,12 +600,12 @@ div.all-list {
 																.attr('class',
 																		'fa fa-star-o text-yellow');
 													} else {
-														alert("다시 시도해주세용");
+														swal("다시 시도해주세요.");
 													}
 
 												},
 												fail : function(res) {
-													alert("다시 시도해주세용");
+													swal("다시 시도해주세요.");
 												}
 											});
 								} else if ($(this).children('i').attr('class') == 'fa fa-star-o text-yellow') {
@@ -640,7 +614,7 @@ div.all-list {
 										return;
 									}
 									var locations = $(this).next().attr('href');
-									alert(title + "\n" + locations);
+									//alert(title + "\n" + locations);
 									$
 											.ajax({
 												url : "insertFavorites",
@@ -658,12 +632,12 @@ div.all-list {
 																.attr('class',
 																		'fa fa-star text-yellow');
 													} else {
-														alert("다시 시도해주세용");
+														swal("다시 시도해주세요.");
 													}
 
 												},
 												fail : function(res) {
-													alert("다시 시도해주세용");
+													swal("다시 시도해주세요.");
 												}
 											});
 
@@ -675,7 +649,7 @@ div.all-list {
 				var memo = $('#memo').val();
 				if(memo==""){return false;}
 				memo = memo.replace("\r\n", "<br>");
-				alert(memo);
+				//swal(memo);
 				var today = new Date();
 				var mm = today.getMonth() + 1;
 				var dd = today.getDate();
@@ -698,14 +672,14 @@ div.all-list {
 					},
 					success : function(data) {
 						if (data == "1" || data == "3") {
-							alert("저장 되었습니다");
+							swal("저장 되었습니다");
 						} else {
 							'오류 발생'
 						}
 						;
 					},
 					fail : function() {
-						alert("다음에 다시 시도해주세요");
+						swal("다음에 다시 시도해주세요");
 					}
 				});
 			});
