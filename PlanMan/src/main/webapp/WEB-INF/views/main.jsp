@@ -106,10 +106,6 @@
 		  color: #999;
 	 }
 	 
-	 .file-upload{
-	     display: none;
-	 }
-	 
   </style>	
 <!-- head -->
 </head>
@@ -145,13 +141,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src=./resources/userData/image/unknown.png;">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src=./resources/userData/image/unknown.png;">
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
 				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
@@ -163,7 +159,7 @@
               <li class="user-footer">
                 <div align="center">
                   <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
-                  <input class="file-upload" type="file" accept="image/*"/>
+                  
                   <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
@@ -180,7 +176,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src=./resources/userData/image/unknown.png;">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src='./resources/userData/image/unknown.png;'">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
