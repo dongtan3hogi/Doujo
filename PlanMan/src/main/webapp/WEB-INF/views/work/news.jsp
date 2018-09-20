@@ -682,7 +682,6 @@ var memodays="";
             <div class="box-body">
             <div class="row">
 			        <div class="col-md-3 col-sm-6 mb-4" id="list0">
-			          
 			        </div>
 			        <div class="col-md-3 col-sm-6 mb-4" id="list1">         
 			        </div>
@@ -693,19 +692,19 @@ var memodays="";
 			      </div>
 			            </div>  
 			            <div class="box-header with-border">
-			              <h3 class="box-title"><a href="javascript:;">다른 사람들 키워드 검색	</a></h3>
+			              <h3 class="box-title"><a href="javascript:;">다른 사람들 키워드 검색</a></h3>
 			            </div>
 			            <div class="row2">
 			     <form id= "ff"  method="post">
 					성별:&nbsp<select name="sex"><option value="둘다">상관없음</option><option value="남">남자</option><option value="여">여자</option></select>
 			  나이:&nbsp<select name="age"><option value="0">상관없음</option><option value="10">10대</option><option value="20">20대</option><option value="30">30대</option><option value="40">40대</option><option value="50">50대 이상</option></select>
-			&nbsp<input type="submit" value="찾기" >
+			&nbsp<input type="submit" class="btn btn-warning" value="찾기" >
 			</form>
-			<div class="col-md-3 col-sm-6 mb-4" id="friendlist"></div>
-			  <div class="col-md-3 col-sm-6 mb-4" id="flist0">
-			        </div>
+			<div class="box box-warning" id="friendlist"></div>
+			  <div class="box-body no-padding" id="flist0">
+			  </div>
 			
-			      </div>
+			</div>
           </div>
           <!-- /. box -->
  		</div>

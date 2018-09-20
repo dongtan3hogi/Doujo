@@ -82,8 +82,5 @@ CREATE TABLE alerm(
     variable5 VARCHAR2(1000)
 
 );
+
 CREATE SEQUENCE alermseq;
-
-
-DROP SEQUENCE schseq;
-DROP TABLE messagecontent;
