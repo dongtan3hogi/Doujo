@@ -671,6 +671,30 @@ public class FriendController {
 			
 			return flist;
 		}
+		
+		
+		@RequestMapping(value="/profileImage", method=RequestMethod.POST)
+	    public String profileImage (MultipartFile upload, board board, HttpSession session) {
+	        String saveFilename=(String)session.getAttribute("memberID")+".jpg";
+	        
+	        System.out.println("업로드 파일 :" + upload);
+	        String UPLOADPATH = "C:\\Doujo\\PlanMan\\src\\main\\webapp\\resources\\userData\\image\\";
+	        
+	        File saveFile=new File(UPLOADPATH, saveFilename);
+	        //String originalfile = upload.getOriginalFilename();
+	            try {
+	                upload.transferTo(saveFile);
+	            } catch (IllegalStateException e) {
+	                // TODO Auto-generated catch block
+	                e.printStackTrace();
+	            } catch (IOException e) {
+	                // TODO Auto-generated catch block
+	                e.printStackTrace();
+	            } finally {
+	            }
+	            
+	        return "main";
+	    }
 	
 	
 }

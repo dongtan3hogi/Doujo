@@ -5,6 +5,33 @@ document.write(doccc);
 $(function(){ 
 	$(document).ready(function (){
 		//$('image').attr("onError", "this.src='resources/userData/image/unknown.png'");
+		var MyID2 = document.getElementById("MyID").value; 
+		var pprroo = '';
+		pprroo += '<div id="forProfileDiv" class="modal" style="display: none;">';
+		pprroo += '<div class="modal-content">';
+		pprroo += '<form id="fileForm" action="profileImage"  method="post" enctype="multipart/form-data">';
+		pprroo += '<div class="modal-header">';
+		pprroo += '<span class="close">&times;</span>';
+		pprroo += '프로필 사진 변경';
+        pprroo += '</div>';
+		pprroo += '<div class="modal-body">';
+		pprroo += '<br/>';
+        pprroo += '<img src="./resources/userData/image/'+MyID2+'.jpg" class="img-circle" onError="this.src='+onErrorResource+'" style="width:50px;height:50px;">';
+        pprroo += '<img src="./resources/userData/image/unknown.png;" class="img-circle" id="proImg" style="width:50px;height:50px;float:right;">';
+        pprroo += '</div>';
+        pprroo += '<div class="modal-footer">';
+        pprroo += '<input id="input_proImg" type="file" name="upload" />';
+        pprroo += '<div align="right"><input type="submit" id="changeBtn" style="width: 200px;" value="확인" class="btn btn-block btn-primary" onclick="changeProfile()"/></div>';
+        pprroo += '</div>';
+        pprroo += '</form>';
+        pprroo += '</div>';
+        pprroo += '</div>';
+        
+        document.getElementsByClassName("sidebar-mini")[0].innerHTML += pprroo;
+		
+		
+		
+		
 		showAlermList();
 		showNewMessageList();
 		var ssfi = document.getElementById("friendID").value;
@@ -677,4 +704,74 @@ function scheduleAlermNoBtn(CODE) {
 			location.reload();
 		} 
 	});
+}
+
+function profileImgBtn(){
+	// Get the modal
+    var modal2 = document.getElementById('forProfileDiv');
+
+    // Get the <span> element that closes the modal
+    var span2 = document.getElementsByClassName("close")[0];                                          
+
+    // When the user clicks on the button, open the modal 
+    //$('#sch-button').text('');
+    //$('#sch-button').append("<input type='button' id='eventAdd' style='width: 200px;' value='스케쥴 입력하기' class='btn btn-block btn-primary' onclick='return addevent()'/>");      	  
+    modal2.style.display = "block";
+    //$('#startday').val(date.format());
+    
+    // When the user clicks on <span> (x), close the modal
+    span2.onclick = function() {
+        modal2.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal2) {
+            modal2.style.display = "none";
+        }
+    }
+    
+    $('#input_proImg').on('change', input_proImgFunction);
+    
+ 
+}
+
+function input_proImgFunction(e) {
+	var files2 = e.target.files;
+	var filesArr2 = Array.prototype.slice.call(files2);
+	filesArr2.forEach(function(f) {
+		if (!f.type.match("image.*")) {
+			swal("확장자는 이미지 만 가능합니다");
+			return;
+		}
+		//sel_file = f;
+		var reader2 = new FileReader();
+		reader2.onload = function(e) {
+			$('#proImg').attr('src', e.target.result);
+		}
+		reader2.readAsDataURL(f);
+	});
+}
+
+
+function changeProfile(){
+	
+	
+	var formData = new FormData($("#input_proImg")[0]);
+    $.ajax({
+        type : 'post',
+        url : 'profileImage',
+        data : formData,
+        processData : false,
+        contentType : false,
+        success : function(html) {
+            //alert("파일 업로드하였습니다.");
+        },
+        error : function(error) {
+            //alert("파일 업로드에 실패하였습니다.");
+            console.log(error);
+            console.log(error.status);
+        }
+    });
+
 }
