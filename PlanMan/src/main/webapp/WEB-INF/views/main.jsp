@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="./resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
   <!-- Time Picker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.css">
-  
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <style type="text/css">
 	 /* The Modal (background) */
      .modal {
@@ -311,7 +311,8 @@
         </div>
     </div>
     
-    
+    <div id="fortheprofilediv">
+	</div>
 
     <!-- Main content -->
     <section class="content">
