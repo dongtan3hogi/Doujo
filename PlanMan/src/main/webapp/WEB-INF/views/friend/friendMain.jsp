@@ -352,8 +352,8 @@
 		            <div>
 				   	</div>
 				   	<div class="boardfooter">
-						   <a href="listfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
-						   <a href="listfriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
+						   <a href="searchRecommendFriends?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
+						   <a href="searchRecommendFriends?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
 						   &nbsp; &nbsp;
 						   <c:forEach var="page" begin="${navi.startPageGroup}" end="${navi.endPageGroup}">
 						      <c:if test="${page == currentPage}">
@@ -361,12 +361,12 @@
 						      </c:if>
 						      
 						      <c:if test="${page != currentPage}">
-						         <a href="listfriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
+						         <a href="searchRecommendFriends?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
 						      </c:if>
 						   </c:forEach>
 						   &nbsp; &nbsp;
-						   <a href="listfriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
-						   <a href="listfriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>	   
+						   <a href="searchRecommendFriends?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
+						   <a href="searchRecommendFriends?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>	   
 				   </div>
 				   <script type="text/javascript"> 
 					   	console.log('asdf');
