@@ -1,7 +1,4 @@
 var onErrorResource="'resources/userData/image/unknown.png'";
-var doccc = '<script src="https:/';
-doccc += '/unpkg.com/sweetalert/dist/sweetalert.min.js"></script>';
-document.write(doccc);
 $(function(){ 
 	$(document).ready(function (){
 		//$('image').attr("onError", "this.src='resources/userData/image/unknown.png'");
@@ -27,7 +24,7 @@ $(function(){
         pprroo += '</div>';
         pprroo += '</div>';
         
-        document.getElementsByClassName("sidebar-mini")[0].innerHTML += pprroo;
+        document.getElementsByClassName("content")[0].innerHTML += pprroo;
 		
 		
 		

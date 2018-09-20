@@ -23,7 +23,7 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <!-- Date Picker -->
-  <link rel="stylesheet" href="./resources/main/bower_components/bootstrap-/dist/css/datepicker.css">
+  <link rel="stylesheet" href="./resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
   <!-- Time Picker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.css">
   
