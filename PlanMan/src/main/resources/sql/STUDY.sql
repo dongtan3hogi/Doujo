@@ -44,8 +44,7 @@ CREATE SEQUENCE quizseq;
 CREATE SEQUENCE groupseq;
 CREATE SEQUENCE recordlistseq;
 
-insert into member(id, password, name, nickname, gender, age, job)
-values('karulin', '1111', 'karulin', 'karulin', 'male', 20, 'student');
+
 commit;
 
 
