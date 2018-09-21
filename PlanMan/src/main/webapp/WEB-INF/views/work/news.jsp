@@ -207,6 +207,7 @@ $('#ff').on('submit',function(){
 		data:{"userid": "${sessionScope.member.id}","sex": sex, "age" : age},
 		success: function(data){
 			if(data.length==0){
+				$('#friendlist').html("");
 				$('#flist').html("");
 				$('#friendlist').html("키워드가 부족하여 친구를 검색할 수 없습니다 ㅠㅠ 좀 더 이용해 주세요");
 			return;
@@ -612,7 +613,7 @@ var memodays="";
 			            </div>
 			            <div class="row2">
 			     <form id= "ff"  method="post">
-					성별:&nbsp<select name="sex"><option value="둘다">상관없음</option><option value="남">남자</option><option value="여">여자</option></select>
+					성별:&nbsp<select name="sex"><option value="둘다">상관없음</option><option value="male">남자</option><option value="female">여자</option></select>
 			  나이:&nbsp<select name="age"><option value="0">상관없음</option><option value="10">10대</option><option value="20">20대</option><option value="30">30대</option><option value="40">40대</option><option value="50">50대 이상</option></select>
 			&nbsp<input type="submit" class="btn btn-warning" value="찾기" >
 			</form>

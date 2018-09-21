@@ -332,97 +332,97 @@ $(document).ready(function(){
             <!-- /.box-header -->
             <div class="box-body">
               <label>뉴스나 검색엔진 선택</label><select id="selectNews" class="form-control" ><option> </option><option>naver</option><option>BBC</option><option>nhk</option><option>google</option><option>baidu</option></select>
-             <br/><br/><!--The div element for the map -->
-             <div id="map"></div>
-             <script>
-             
-               var uk = {lat: 51.507, lng:  -0.127};
-              var usa = {lat: 40.664, lng: -73.938};
-              var korea = {lat:37.541, lng: 126.986};
-            //  var china = {lat:38.037057, lng:114.468665};
-              var japan = {lat: 35.41, lng: 139.46};
-              var google = {lat: 37.3993, lng: -122.079}
-              var baidu= {lat: 39.9035, lng: 116.388}
-              var pList=[];
-              pList.push(korea);
-            //  pList.push(china);
-              pList.push(uk);
-              pList.push(japan);
-              pList.push(google);
-              pList.push(baidu);
-             function initMap() { 
-               var choose="";
-               var prev_infowindow=false;
-              var map = new google.maps.Map(
-                  document.getElementById('map'), {zoom: 2, center: korea});
-              for (var i = 0; i < 5; i++) {
-                   // init markers
-                   var marker = new google.maps.Marker({
-                       position: pList[i],
-                       map: map,
-                       
-                 });
+			    <br/><br/><!--The div element for the map -->
+			    <div id="map"></div>
+			    <script>
+			    
+			      var uk = {lat: 51.507, lng:  -0.127};
+				  var usa = {lat: 40.664, lng: -73.938};
+				  var korea = {lat:37.541, lng: 126.986};
+				//  var china = {lat:38.037057, lng:114.468665};
+				  var japan = {lat: 35.41, lng: 139.46};
+				  var google = {lat: 37.3993, lng: -122.079}
+				  var baidu= {lat: 39.9035, lng: 116.388}
+				  var pList=[];
+				  pList.push(korea);
+				//  pList.push(china);
+				  pList.push(uk);
+				  pList.push(japan);
+				  pList.push(google);
+				  pList.push(baidu);
+			    function initMap() { 
+					var choose="";
+					var prev_infowindow=false;
+				  var map = new google.maps.Map(
+				      document.getElementById('map'), {zoom: 2, center: korea});
+				  for (var i = 0; i < 5; i++) {
+			          // init markers
+			          var marker = new google.maps.Marker({
+			              position: pList[i],
+			              map: map,
+			              
+         		  });
 
-                // process multiple info windows
-                (function(marker, i) {
-                    // add click event
-                    
-                    google.maps.event.addListener(marker, 'click', function() {
-                       
-                       if(i==0)choose="naver";
-                        else if(i==1)choose="BBC";
-                        else if(i==2)choose="yahoo";
-                        else if(i==3)choose="google";
-                        else if(i==4)choose="baidu";
-                        
-                       
-                        infowindow = new google.maps.InfoWindow({
-                            content: "<a href='goNews?type="+choose+"' ><img width='80' src='./resources/work/"+choose+".png' ></a>",
-                                  maxWidth:300
-                        });
-                        if( prev_infowindow ) {
-                           prev_infowindow.close();
-                         }
-                        prev_infowindow = infowindow;
-                        infowindow.open(map, marker);
-                    });
-                })(marker, i);
-            }
-              
-           $( "#selectNews" ).change(function() {
-              choose=$(this).val();
-                  if($(this).val()=="naver"){
-                     var center = new google.maps.LatLng(korea);
-                     map.panTo(center);
-                     map.setZoom(10);
-                  }else if($(this).val()=="BBC"){
-                     var center = new google.maps.LatLng(uk);
-                     map.panTo(center);
-                     map.setZoom(10);
-                  }else if($(this).val()=="yahoo"){
-                     var center = new google.maps.LatLng(japan);
-                     map.panTo(center);
-                     map.setZoom(10);
-                  }else if($(this).val()=="google"){
-                     var center = new google.maps.LatLng(google);
-                     map.panTo(center);
-                     map.setZoom(10);
-                  }
-                  else if($(this).val()=="baidu"){
-                     var center = new google.maps.LatLng(baidu);
-                     map.panTo(center);
-                     map.setZoom(10);
-                  }
-                  else{
-                     var center = new google.maps.LatLng(korea);
-                     map.panTo(center);
-                     map.setZoom(2);
-                  }
-                });
-          }
-   
-               </script>
-            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&callback=initMap" type="text/javascript"></script>
+		          // process multiple info windows
+		          (function(marker, i) {
+		              // add click event
+		              
+		              google.maps.event.addListener(marker, 'click', function() {
+		            	  
+		            	  if(i==0)choose="naver";
+		                  else if(i==1)choose="BBC";
+		                  else if(i==2)choose="yahoo";
+		                  else if(i==3)choose="google";
+		                  else if(i==4)choose="baidu";
+		                  
+		            	  
+		                  infowindow = new google.maps.InfoWindow({
+		                      content: "<a href='goNews?type="+choose+"' ><img width='80' src='./resources/work/"+choose+".png' ></a>",
+		                    		  maxWidth:300
+		                  });
+		                  if( prev_infowindow ) {
+		                	  prev_infowindow.close();
+		                   }
+		                  prev_infowindow = infowindow;
+		                  infowindow.open(map, marker);
+		              });
+		          })(marker, i);
+		      }
+				  
+			  $( "#selectNews" ).change(function() {
+				  choose=$(this).val();
+			    	  if($(this).val()=="naver"){
+			    		  var center = new google.maps.LatLng(korea);
+			    		  map.panTo(center);
+			    		  map.setZoom(10);
+			    	  }else if($(this).val()=="BBC"){
+			    		  var center = new google.maps.LatLng(uk);
+			    		  map.panTo(center);
+			    		  map.setZoom(10);
+			    	  }else if($(this).val()=="yahoo"){
+			    		  var center = new google.maps.LatLng(japan);
+			    		  map.panTo(center);
+			    		  map.setZoom(10);
+			    	  }else if($(this).val()=="google"){
+			    		  var center = new google.maps.LatLng(google);
+			    		  map.panTo(center);
+			    		  map.setZoom(10);
+			    	  }
+			    	  else if($(this).val()=="baidu"){
+			    		  var center = new google.maps.LatLng(baidu);
+			    		  map.panTo(center);
+			    		  map.setZoom(10);
+			    	  }
+			    	  else{
+			    		  var center = new google.maps.LatLng(korea);
+			    		  map.panTo(center);
+			    		  map.setZoom(2);
+			    	  }
+			    	});
+			 }
+	
+	   	 	  </script>
+	    	  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&callback=initMap" type="text/javascript"></script>
             </div>
             <!-- /.box-body -->
           </div>      
