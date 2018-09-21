@@ -1,60 +1,44 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%
-	pageContext.setAttribute("br", "<br/>");
-	pageContext.setAttribute("cn", "\n");
-%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<% pageContext.setAttribute("br","<br/>");
+	pageContext.setAttribute("cn","\n");%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Welcome PlanMan</title>
-<!-- Tell the browser to be responsive to screen width -->
-<meta
-	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-	name="viewport">
-<!-- Bootstrap 3.3.7 -->
-<link rel="stylesheet"
-	href="resources/main/bower_components/bootstrap/dist/css/bootstrap.min.css">
-<!-- Font Awesome -->
-<link rel="stylesheet"
-	href="resources/main/bower_components/font-awesome/css/font-awesome.min.css">
-<!-- Ionicons -->
-<link rel="stylesheet"
-	href="resources/main/bower_components/Ionicons/css/ionicons.min.css">
-<!-- fullCalendar -->
-<link rel="stylesheet"
-	href="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css">
-<link rel="stylesheet"
-	href="resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css"
-	media="print">
-<!-- Theme style -->
-<link rel="stylesheet" href="resources/main/dist/css/AdminLTE.min.css">
-<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-<link rel="stylesheet"
-	href="resources/main/dist/css/skins/_all-skins.min.css">
-<!-- Google Font -->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-<!-- Date Picker -->
-<link rel="stylesheet"
-	href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Welcome PlanMan</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="resources/main/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="resources/main/bower_components/font-awesome/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="resources/main/bower_components/Ionicons/css/ionicons.min.css">
+  <!-- fullCalendar -->
+  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css">
+  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="resources/main/dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- Date Picker -->
+  <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
 <style>
-.colordate {
-	background: yellow
-}
+.colordate{
+	background:yellow}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-
 function goPage(a){
 	if("${type}"=='naver'){
 		location.href="goPage?value="+a;
 	}else{
-		location.href="goPaging?value="+a;
+	location.href="goPaging?value="+a;
 	}
 }
 function goSearch(){
@@ -84,15 +68,14 @@ function goSearch(){
 	if("${type}"=="naver"){
 		location.href="search?value="+search;
 	}else{
-		location.href="crawling?search="+search+"&type=${type}";
+	location.href="crawling?search="+search+"&type=${type}";
 	}
 	/* var blank_pattern = /[\s]/g;
 	if(blank_pattern.test(search)==true){
 		alert("공백은 사용할 수 없습니다");
 		return false;
 	} */
-}
-	
+	}
 function goSearch2(key){
 	var search=	key.innerHTML;
 	if("${type}"=="naver"){
@@ -100,10 +83,8 @@ function goSearch2(key){
 	}else{
 	location.href="crawling?search="+search+"&type=${type}";
 	}
-}
-
+	}	
 $(document).ready(function(){
-
 $('#saveMemo').click(function(){
 	var memo = $('#memo').val();
 	memo= memo.replace("\r\n","<br>");
@@ -253,6 +234,20 @@ $(document).on("click",".friendBtn",function(){
 	});	
 });
 
+var today = new Date();
+var mm= today.getMonth()+1; 
+var dd =today.getDate();
+var yy = today.getFullYear();
+if(dd<10) {
+    dd='0'+dd;
+} 
+if(mm<10) {
+    mm='0'+mm;
+} 
+var td=yy+'-'+mm+'-'+dd;
+var temp=td;
+
+
 $('#saveMemo').click(function(){
 		var memo = $('#memo').val();
 		
@@ -308,7 +303,7 @@ var memodays="";
        dateFormat: "yy-mm-dd",
        beforeShowDay: function(day) {
     	   if(memodays.indexOf($.datepicker.formatDate('yy-mm-dd', day)) != -1) return [true, "colordate","" ];
-           else return [true, "", ""];
+            else return [true, "", ""];
             
         },
        onSelect: function(dateText) {  
@@ -337,23 +332,22 @@ var memodays="";
  		  });
       }
 	});
-	
 });
 </script>
-<style>
-/* Set the size of the div element that contains the map */
-#map {
-	height: 400px; /* The height is 400 pixels */
-	width: 100%; /* The width is the width of the web page */
-}
-</style>
+  <style>
+      /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
+    </style>
 
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-	<input type="hidden" id="MyID" value="${sessionScope.memberID}">
-	<input type="hidden" id="friendID" value="${sessionScope.friendID}">
-	<div class="wrapper">
+<input type="hidden" id="MyID" value="${sessionScope.memberID}">
+<input type="hidden" id="friendID" value="${sessionScope.friendID}">
+<div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
@@ -371,7 +365,7 @@ var memodays="";
         <span class="sr-only">Toggle navigation</span>
        <!--   <span class="icon-bar"></span>
         <span class="icon-bar"></span> -->
-				</a>
+      </a>
 
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav" id="topMenuBarUl">
@@ -543,130 +537,37 @@ var memodays="";
 			<c:if test="${navi.currentPage <= 5 }">
 			◁◁
 			</c:if>
-										<c:if test="${navi.currentPage > 5 }">
-											<a href="javascript:void(0);"
-												onclick="goPage(${navi.currentPage-navi.pagePerGroup})">
-												◁◁</a>
-										</c:if>
-										<c:if test="${navi.currentPage > 1}">
-											<a href="javascript:void(0);"
-												onclick="goPage(${navi.currentPage-1 })">◀</a>
-										</c:if>
-										<c:if test="${navi.currentPage <= 1 }">
+			<c:if test="${navi.currentPage > 5 }">
+			<a href="javascript:void(0);" onclick="goPage(${navi.currentPage-navi.pagePerGroup})">
+			◁◁</a>
+			</c:if>
+			<c:if test="${navi.currentPage > 1}">
+			<a href="javascript:void(0);" onclick="goPage(${navi.currentPage-1 })">◀</a>		</c:if>
+			<c:if test="${navi.currentPage <= 1 }">
 			◀
 			</c:if>
-
-										<c:forEach var="page" begin="${navi.startPageGroup}"
-											end="${navi.endPageGroup}">
-											<c:if test="${navi.currentPage == page}">
-												<a href="javascript:void(0);" onclick="goPage(${page })"
-													style="color: red">${page}</a> &nbsp;
+			
+			<c:forEach var="page" begin = "${navi.startPageGroup}" end="${navi.endPageGroup}">
+			<c:if test="${navi.currentPage == page}">
+			<a href="javascript:void(0);" onclick="goPage(${page })" style="color : red">${page}</a> &nbsp;
 			</c:if>
-											<c:if test="${navi.currentPage != page}">
-												<a href="javascript:void(0);" onclick="goPage(${page })">${page }</a> &nbsp;
+			<c:if test="${navi.currentPage != page}">
+			<a href="javascript:void(0);" onclick="goPage(${page })">${page }</a> &nbsp;
+			</c:if>	<!-- &nbsp;한칸 띄어주는 거  -->
+			</c:forEach>
+			<c:if test="${navi.currentPage < navi.totalPageCount }">
+			<a href="javascript:void(0);" onclick="goPage(${navi.currentPage+1 })">▶</a>
 			</c:if>
-											<!-- &nbsp;한칸 띄어주는 거  -->
-										</c:forEach>
-										<c:if test="${navi.currentPage < navi.totalPageCount }">
-											<a href="javascript:void(0);"
-												onclick="goPage(${navi.currentPage+1 })">▶</a>
-										</c:if>
-										<c:if test="${navi.currentPage >= navi.totalPageCount }">
+			<c:if test="${navi.currentPage >= navi.totalPageCount }">
 			▶
 			</c:if>
-										<c:if test="${navi.currentPage <= navi.totalPageCount-5 }">
-											<a href="javascript:void(0);"
-												onclick="goPage(${navi.currentPage+navi.pagePerGroup})">
-												▷▷</a>
-										</c:if>
-										<c:if test="${navi.currentPage > navi.totalPageCount-5 }">
+			<c:if test="${navi.currentPage <= navi.totalPageCount-5 }">
+			<a href="javascript:void(0);" onclick="goPage(${navi.currentPage+navi.pagePerGroup})">
+			▷▷</a>
+			</c:if>
+			<c:if test="${navi.currentPage > navi.totalPageCount-5 }">
 			▷▷
 			</c:if>
-									</div>
-								</c:if>
-							</div>
-							<!-- /.box-body -->
-						</div>
-
-
-						<div class="box box-Warning">
-							<div class="box-header with-border">
-								<h3 class="box-title">
-									<a id="keylist" href="javascript:;">내가 검색한 단어들</a>
-								</h3>
-							</div>
-							<!-- /.box-header -->
-							<div class="box-body">
-								<div class="row">
-									<div class="col-md-3 col-sm-6 mb-4" id="list0"></div>
-									<div class="col-md-3 col-sm-6 mb-4" id="list1"></div>
-									<div class="col-md-3 col-sm-6 mb-4" id="list2"></div>
-									<div class="col-md-3 col-sm-6 mb-4" id="list3"></div>
-								</div>
-							</div>
-							<div class="box-header with-border">
-								<h3 class="box-title">
-									<a href="javascript:;">다른 사람들 키워드 검색 </a>
-								</h3>
-							</div>
-							<div class="row2">
-								<form id="ff" method="post">
-									성별:&nbsp<select name="sex"><option value="둘다">상관없음</option>
-										<option value="남">남자</option>
-										<option value="여">여자</option></select> 나이:&nbsp<select name="age"><option
-											value="0">상관없음</option>
-										<option value="10">10대</option>
-										<option value="20">20대</option>
-										<option value="30">30대</option>
-										<option value="40">40대</option>
-										<option value="50">50대 이상</option></select> &nbsp<input type="submit"
-										value="찾기">
-								</form>
-								<div class="col-md-3 col-sm-6 mb-4" id="friendlist"></div>
-								<div class="col-md-3 col-sm-6 mb-4" id="flist0"></div>
-
-							</div>
-						</div>
-						<!-- /. box -->
-					</div>
-
-					<div class="col-md-3">
-						<!-- /. 메모 box -->
-						<div class="box box-warning">
-							<div class="box-header with-border">
-								<h3 class="box-title">MEMO</h3>
-								<div class="box-tools">
-									<input type="button"
-										class="datepicker btn btn-block btn-warning" />
-								</div>
-							</div>
-							<div class="box-body no-padding">
-								<h5 id='memoTitle' class="box-title">오늘의 메모</h5>
-								<textarea id="memo" rows="20" value="text"
-									style="min-width: 100%; border: 0;"></textarea>
-								<br /> <input type="button" class="btn btn-block btn-warning"
-									value="저장" id="saveMemo">
-							</div>
-							<!-- /.box-body -->
-						</div>
-						<!-- /. box -->
-					</div>
-
-				</div>
-				<!-- /.row -->
-			</section>
-			<!-- /.content -->
-		</div>
-		<!-- /.content-wrapper -->
-
-
-		<!-- ========================================================================================================== -->
-		<!-- ========================================================================================================== -->
-		<!-- ========================================================================================================== -->
-
-		<footer class="main-footer">
-			<div class="pull-right hidden-xs">
-				<b>Version</b> 2.4.0
 			</div>
 			</c:if>
             </div>
@@ -736,37 +637,43 @@ var memodays="";
   <!-- /.content-wrapper -->
   
 
-	</div>
-	<!-- ./wrapper -->
+  <!-- ========================================================================================================== -->
+  <!-- ========================================================================================================== -->
+  <!-- ========================================================================================================== -->
+  
+   <footer class="main-footer"> 
+    <div class="pull-right hidden-xs"> 
+      <b>Version</b> 2.4.0 
+    </div> 
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
+    reserved. 
+  </footer> 
+  
+</div>
+<!-- ./wrapper -->
 
-	<!-- jQuery 3 -->
-	<script src="resources/main/bower_components/jquery/dist/jquery.min.js"></script>
-	<!-- Bootstrap 3.3.7 -->
-	<script
-		src="resources/main/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-	<!-- jQuery UI 1.11.4 -->
-	<script
-		src="resources/main/bower_components/jquery-ui/jquery-ui.min.js"></script>
-	<!-- Slimscroll -->
-	<script
-		src="resources/main/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	<!-- FastClick -->
-	<script
-		src="resources/main/bower_components/fastclick/lib/fastclick.js"></script>
-	<!-- AdminLTE App -->
-	<script src="resources/main/dist/js/adminlte.min.js"></script>
-	<!-- AdminLTE for demo purposes -->
-	<script src="resources/main/dist/js/demo.js"></script>
-	<!-- fullCalendar -->
-	<script src="resources/main/bower_components/moment/moment.js"></script>
-	<script
-		src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
-	<!-- datepicker -->
-	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<!-- Page specific script -->
-	<script type="text/javascript"
-		src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
-	<script type="text/javascript">
+<!-- jQuery 3 -->
+<script src="resources/main/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="resources/main/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="resources/main/bower_components/jquery-ui/jquery-ui.min.js"></script>
+<!-- Slimscroll -->
+<script src="resources/main/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="resources/main/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="resources/main/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="resources/main/dist/js/demo.js"></script>
+<!-- fullCalendar -->
+<script src="resources/main/bower_components/moment/moment.js"></script>
+<script src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<!-- datepicker -->
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- Page specific script -->
+<script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
+<script type="text/javascript">
 
     var sock;
 
@@ -774,6 +681,6 @@ var memodays="";
     sock = new SockJS("<c:url value="/echo2"/>");
     
 </script>
-	<script src="resources/main/js/messageBar.js"></script>
+<script src="resources/main/js/messageBar.js"></script> 
 </body>
 </html>

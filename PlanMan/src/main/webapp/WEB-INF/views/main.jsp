@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="./resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
   <!-- Time Picker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.css">
-  
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <style type="text/css">
 	 /* The Modal (background) */
      .modal {
@@ -309,6 +309,8 @@
         	<br/>
         	<div id="sch-button" align="right"><input type="submit" id="eventAdd" style="width: 200px;" value="스케쥴 입력하기" class="btn btn-block btn-primary" onclick="return addevent()"/></div>
         </div>
+        
+        <div id="fortheprofilediv"></div>
     </div>
     
     

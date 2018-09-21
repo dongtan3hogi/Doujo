@@ -23,8 +23,9 @@
 <body class="hold-transition login-page">
 <div class="login-box">
    <div class="login-logo"> 
-   <img src="./resources/images/planmanlogo(2).png" > <!--  <a href="redirect:/"> <b>Plan</b>Man</a> --> 
-   <img src="./resources/images/PMcha(3).gif">
+	   <img src="./resources/images/PMcha(3).gif" style="width: 100px; height: 100px;" align="right">
+	   <img src="./resources/images/planmanlogo(2).png" > <!--  <a href="redirect:/"> <b>Plan</b>Man</a> --> 
+   
    </div> 
   <!-- /.login-logo -->
   <div class="login-box-body">

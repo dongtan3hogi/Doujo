@@ -678,7 +678,7 @@ public class FriendController {
 	        String saveFilename=(String)session.getAttribute("memberID")+".jpg";
 	        
 	        System.out.println("업로드 파일 :" + upload);
-	        String UPLOADPATH = "C:\\Doujo\\PlanMan\\src\\main\\webapp\\resources\\userData\\image\\";
+	        String UPLOADPATH = "C:\\Doujo\\doujo\\PlanMan\\src\\main\\webapp\\resources\\userData\\image\\";
 	        
 	        File saveFile=new File(UPLOADPATH, saveFilename);
 	        //String originalfile = upload.getOriginalFilename();

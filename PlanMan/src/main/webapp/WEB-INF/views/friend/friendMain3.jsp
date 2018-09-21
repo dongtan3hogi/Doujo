@@ -49,8 +49,8 @@
 }
 
 #imgs {
-	width: 10%;
-	height: 60;
+	width: 100%;
+	height: 100%;;
 }
 
 .js-load {
@@ -287,35 +287,33 @@ div.all-list {
 	
 	
 					<form action="saveboard" method="post" enctype="multipart/form-data" onsubmit="return formCheck()">
-						<table>
-							<tr>
-								<th>제목</th>
-								<td><input type="text" name="title" id="title"> <input
-									type="hidden" name="id" value="${sessionScope.member.id}">
-								</td>
-							</tr>
-							<tr>
-								<th>내용</th>
-								<td><div contentEditable="true" id="divedit"></div> <img
-									id="imgs" /><input id="content" type="hidden" name="content">
-								</td>
-							</tr>
-							<tr>
-								<th>글쓴이</th>
-								<td>${id}</td>
-							</tr>
-							<tr>
-								<th>첨부파일</th>
-								<td><input id="input_img" type="file" name="upload" /></td>
-							</tr>
-							<tr>
-								<th>위치</th>
-								<td><input type="text" name="location" id="location" /></td>
-							</tr>
-							<tr align="right">
-								<td class="btn" colspan="2"><input type="submit" class="btn btn-success" value="저장"></td>
-							</tr>
-						</table>
+						<div>
+							<div>
+								<strong>제목</strong>
+								<input type="text" name="title" id="title"><input	type="hidden" name="id" value="${sessionScope.member.id}">
+							</div>
+							<div>
+								<div><strong>내용</strong></div>
+								<div>
+									<div contentEditable="true" id="divedit"></div>
+									<img id="imgs"/><input id="content" type="hidden" name="content">
+								</div>
+							</div>
+							<div>
+								<strong>글쓴이</strong>
+								${sessionScope.member.id}
+							</div>
+							<div>
+								<strong>첨부파일</strong> <input id="input_img" type="file" name="upload" />
+							</div>
+							<div>
+								<strong>위치</strong>
+								<input type="text" name="location" id="location" />
+							</div>
+							<div align="right">
+								<input type="submit" class="btn btn-success" value="저장">
+							</div>
+						</div>
 					</form>
 	
 				</div>
@@ -350,32 +348,29 @@ div.all-list {
 					<c:if test="${!empty flist }">
 						<div id="js-list">
 							  <c:forEach var="flist" items="${ flist}">
-								<table class="flist_table">
-									<tr>
-										<th>제목</th>
-										<td>${ flist.title}</td>
-									</tr>
-									<tr>
-										<th>내용</th>
-										<td><div >${flist.content}</div> 
-										<img
-											src="/doujo/display.do?path=${flist.savedfile }" width="30%"
-											height="auto" onError="this.style.visibility='hidden'" /></td>
-									</tr>
-									<tr>
-										<th>글쓴이</th>
-										<td>${flist.id }</td>
-									</tr>
-									<tr>
-										<th>행복도</th>
-										<td>행복함: ${flist.happiness }, 슬픔: ${flist.sadness }, 중립:
+								<div class="flist_table">
+									<div>
+										<strong>제목</strong>
+										${ flist.title}
+									</div>
+									<div>
+										<div><strong>내용</strong></div>
+										<div><div>${flist.content}</div> 
+										<img src="/doujo/display.do?path=${flist.savedfile }" width="30%" height="auto" onError="this.style.visibility='hidden'" /></td>
+									</div>
+									<div>
+										<strong>글쓴이</strong>
+										${flist.id}
+									</div>
+									<div>
+										<strong>행복도</strong>
+										행복함: ${flist.happiness }, 슬픔: ${flist.sadness }, 중립:
 											${flist.neutral }, 놀람: ${flist.surprise }
-									</tr>
-									<tr>
-										<th>위치</th>
-										<td>${flist.location }</td>
-									</tr>
-								</table>
+									<div>
+										<strong>위치</strong>
+										${flist.location }
+									</div>
+								</div>
 								<br>
 							</c:forEach> 
 	
@@ -386,33 +381,30 @@ div.all-list {
 					</c:if>
 					  <c:if test="${!empty oneboard}">
 						<div id="one-list">
-							<table class="flist_table">
-								<tr>
-									<th>제목</th>
-									<td>${ oneboard.title}</td>
-								</tr>
-								<tr>
-									<th>내용</th>
-									<td><div contentEditable="true">
-											${oneboard.content}</div> <img
-										src="/doujo/display.do?path=${oneboard.savedfile }"
-										width="10%" height="60"
-										onError="this.style.visibility='hidden'" /></td>
-								</tr>
-								<tr>
-									<th>글쓴이</th>
-									<td>${oneboard.id }</td>
-								</tr>
-								<tr>
-									<th>행복도</th>
-									<td>행복함: ${oneboard.happiness }, 슬픔: ${oneboard.sadness },
+							<div class="flist_table">
+								<div>
+									<strong>제목</strong>
+									${ oneboard.title}
+								</div>
+								<div>
+									<div><strong>내용</strong></div>
+									<div><div contentEditable="true">${oneboard.content}</div> 
+									<img src="/doujo/display.do?path=${oneboard.savedfile }" width="10%" height="auto" onError="this.style.visibility='hidden'" /></div>
+								</div>
+								<div>
+									<strong>글쓴이</strong>
+									${oneboard.id }
+								</div>
+								<div>
+									<strong>행복도</strong>
+									행복함: ${oneboard.happiness }, 슬픔: ${oneboard.sadness },
 										중립: ${oneboard.neutral }, 놀람: ${oneboard.surprise }
-								</tr>
-								<tr>
-									<th>위치</th>
-									<td>${oneboard.location }</td>
-								</tr>
-							</table>
+						
+								<div>
+									<strong>위치</strong>
+									${oneboard.location }
+								</div>
+							</div>
 							<br>
 						</div>
 						<div id="back-btn-wrap" class="btn-wrap">
@@ -543,9 +535,9 @@ div.all-list {
 																function(index,
 																		item) {
 																	var line = "";
-																	line += "<table class='flist_table'><tr><th>제목</th><td>"
+																	line += "<div class='flist_table'><div><div>제목</div><div>"
 																			+ data[index].title
-																			+ "</td></tr><tr><th>내용</th><td><div>"
+																			+ "</div></div><div><div>내용</div><div><div>"
 																			+ data[index].content
 																			+ "</div>";
 																	if (data[index].originalfile == null
@@ -556,9 +548,9 @@ div.all-list {
 																				+ data[index].savedfile
 																				+ "' width='30%' height='auto' onError='this.style.visibility='hidden''/>";
 																	}
-																	line += "</td></tr><tr><th>글쓴이</th><td>"
+																	line += "</div></div><div><div>글쓴이</div><div>"
 																			+ data[index].id
-																			+ "</td></tr><tr><th>행복도</th><td>행복함:"
+																			+ "</div></div><div><div>행복도</div><div>행복함:"
 																			+ data[index].happiness
 																			+ ", 슬픔: "
 																			+ data[index].sadness
@@ -567,9 +559,9 @@ div.all-list {
 																			+ " }, 놀람: "
 																			+ data[index].surprise
 																			+ " }</tr>";
-																	line += "<tr><th  >위치</th><td>"
+																	line += "<div><div>위치</div><div>"
 																			+ data[index].location
-																			+ "</td></tr></table><br>";
+																			+ "</div></div></div><div>";
 																	//alert(data[index].originalfile);
 																	$(	'#js-list')	.append(line);
 																});
