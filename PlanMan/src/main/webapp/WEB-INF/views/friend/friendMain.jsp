@@ -333,7 +333,7 @@
 					      <c:when test="${!empty list}">
 					       <c:forEach begin="0" var="member" items="${list}" varStatus="index">
 					          <tr>
-					              <td><img class="direct-chat-img" src="resources/userData/image/' + ${member.id} + '.jpg"  data-rno="${member.id}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
+					              <td><img class="direct-chat-img" src="./resources/userData/image/${member.id}.jpg"  data-rno="${member.id}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
 					              <td>${member.id}</td>   
 					              <td>${member.nickname}</td>
 					              <td>${member.name}</td>
