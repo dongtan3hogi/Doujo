@@ -1,12 +1,15 @@
 package com.scit.doujo.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.scit.doujo.vo.work.count;
 import com.scit.doujo.vo.work.favorites;
 import com.scit.doujo.vo.work.friendquery;
 import com.scit.doujo.vo.work.keylist;
 import com.scit.doujo.vo.work.memo;
+import com.scit.doujo.vo.work.wordCloud;
 
 
 public interface workDao {
@@ -26,4 +29,5 @@ public interface workDao {
 	public int deleteFavorites(favorites fv);
 	public List<favorites> allFavorites(String userid);
 	public String[] memodays (String userid);
+	public List<wordCloud> wordList();
 }

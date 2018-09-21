@@ -98,4 +98,7 @@
   <select id="memodays" parameterType="String" resultType="String">
   select startdate from work_memo where id= #{id}
   </select>
+  <select id="wordList" resultType="wordcloud">
+    select count(keyword) count, keyword from work_word group by keyword
+  </select>
 </mapper>
