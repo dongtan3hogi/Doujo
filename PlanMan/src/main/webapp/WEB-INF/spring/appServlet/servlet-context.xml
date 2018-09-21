@@ -29,7 +29,8 @@
             <exclude-mapping path="/insertMember"/>      
             <exclude-mapping path="/gotoLogin"/>      
             <exclude-mapping path="/doLogin"/>
-
+			<exclude-mapping path="/"/>
+			
          <beans:ref bean="MvcInterceptor"/>
       </interceptor>
    </interceptors>

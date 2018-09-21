@@ -84,28 +84,7 @@ public class StudyController {
 		quiz.put("id", id);
 		Map<String, String> resultMap = new HashMap<>(); 
 		 
-		//insert the Teg 
-		String[] tegs = quiz.get("teg").split("#"); 
-		Map<String, String> tegMap = new HashMap<>(); 
-		if(tegs.length > 0) { 
-			for(int i=1; i<tegs.length; i++) { 
-				Map<String, String> teg = new HashMap<>(); 
-				teg.put("teg", tegs[i]); 
-				teg.put("id", id); 
-				teg.put("belong", "quiz"); 
-				 
-				//이미 있는테그면 update로 숫자증가 
-				if(dao.findTeg(teg)>0) { 
-					teg.put("plus", "plus"); 
-					dao.recountTeg(teg); 
-					 
-				//없는 테그면 새로 추가 
-				} else if(dao.findTeg(teg)<=0) { 
-					dao.insertTeg(teg); 
-				} 
-			} 
-		} 
-		 
+		System.out.println("quizInsert/quiz/"+quiz.toString());
 		//System.out.println(quiz.get("answernumber")); 
 		//문제 넣기 
 		if(quiz.get("type").equals("multiplechoice")) { 
@@ -125,6 +104,7 @@ public class StudyController {
 			} 
 		} 
 		 
+		
 		//new였다면 생성 
 		if(quiz.get("quizrecordname").equals("new")) { 
 			//일단 quizrecordcode를 생성한다. 
@@ -177,29 +157,17 @@ public class StudyController {
 		ArrayList<Map<String, String>> recordList = dao.selectAllQuizrecordlist(id); 
 		Map<String,Map<String, String>> recordMap = new HashMap<>(); 
 		 
-		ArrayList<Map<String, String>> tegList = dao.selectAllTeg(id);  
-		Map<String, Map<String, String>> tegMap = new HashMap<>(); 
-		 
 		//일단 태그와 레코드목록 불러온다.
+		System.out.println("gotoQuiz/recordList/"+recordList.toString());
 		
-		if(dao.countQuizrecordlist(id)>0) {
+		/*if(dao.countQuizrecordlist(id)>0) {
 			for (Map<String, String> map : recordList) { 
 				recordMap.put(map.get("NAME"), map);
 				//System.out.println(map.toString());
 			} 
-		} 
-		if(dao.countTeg(id)>0) {
-			for (Map<String, String> map : tegList) { 
-				tegMap.put(map.get("TEG"), map); 
-				//System.out.println(map.toString());
-			} 
-		}
-		//allMap.put("recordMap", recordMap); 
-		//allMap.put("tegMap", tegMap);
-		allMap.put("recordList", recordList);
-		allMap.put("tegList", tegList);
+		} */
 		
-		System.out.println(tegList.size());
+		allMap.put("recordList", recordList);
 		
 		model.addAttribute("allMap",allMap);
 		
@@ -220,10 +188,12 @@ public class StudyController {
 		String set = ""; 
 		String name = ""; 
 		String id = "";
-		int countPerPage = 1;
+		int countPerPage = 5;
 		int pagePerGroup = 1;
 		int total = 0;
 		id = (String)hs.getAttribute("memberID"); 
+		
+		//System.out.println("getQuizSet/quizset"+quizSet.toString());
 		if(quizSet.containsKey("select")||quizSet.get("select")!=null) {
 			String select = quizSet.get("select");
 			set = select.substring(0, 1); 
@@ -234,28 +204,18 @@ public class StudyController {
 			page = Integer.parseInt(quizSet.get("page"))+1;
 		}
 		quizSet.put("id", id);
-		System.out.println(set +", "+ name +", "+ page);
+		//System.out.println(set +", "+ name +", "+ page);
 		//teg타입인지 record타입인지 먼저 확인한다. 
 		//type이 teg이면 태그를 사용해서 불러온다. 
 		
 		
-		if(set.equals("t")||set.equals("teg")) { 
-			quizSet.put("teg", name);
-			total = dao.countTegQuiz(quizSet);
-			System.out.println("total"+total);
-			PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
-			RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
-			quizList = dao.selectTegQuiz(quizSet, rb);
-			
-		//type이 record이면 아이디와 레코드코드를 사용해서 불러온다. 
-		} else if(set.equals("r")||set.equals("record")) { 
-			quizSet.put("quizrecordcode", id+name); 
-			total = dao.countRecordQuiz(quizSet);
-			System.out.println("total"+total);
-			PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
-			RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
-			quizList = dao.selectRecordQuiz(quizSet, rb); 
-		} 
+		quizSet.put("quizrecordcode", id+name); 
+		total = dao.countRecordQuiz(quizSet);
+		System.out.println("total"+total);
+		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, page, total);
+		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
+		quizList = dao.selectRecordQuiz(quizSet, rb); 
+		
 		System.out.println("total"+total);
 		int count = 0;
 		for (Map<String, String> map : quizList) { 
@@ -278,74 +238,313 @@ public class StudyController {
 		Map<String, String> resultMap = new HashMap<>(); 
 		String result = ""; 
 		String id = (String)hs.getAttribute("memberID"); 
-		int num = Integer.parseInt(solveSet.get("num"));
-		String yourAns = solveSet.get("answer"); 
-		studyDao dao = sqlSession.getMapper(studyDao.class);	  
-		Map<String, String> quiz = dao.selectOneQuiz(num); 
-		 
-		/*정답오답 판정*/ 
-		//주관식일 경우 
-		if(quiz.get("TYPE").equals("shortanswer")) { 
-			if(quiz.get("ANSWER1").equals(yourAns)) { 
-				result = "CORRECT"; 
-			} else { 
-				result = "WRONG"; 
+		System.out.println("grading/solveSeq/"+solveSet.toString());
+		
+		
+		if(solveSet.containsKey("answer1")) {
+			int num = Integer.parseInt(solveSet.get("num1"));
+			String yourAns = solveSet.get("answer1"); 
+			studyDao dao = sqlSession.getMapper(studyDao.class);	  
+			Map<String, String> quiz = dao.selectOneQuiz(num); 
+			 
+			/*정답오답 판정*/ 
+			//주관식일 경우 
+			if(quiz.get("TYPE").equals("shortanswer")) { 
+				if(quiz.get("ANSWER1").equals(yourAns)) { 
+					result = "CORRECT"; 
+				} else { 
+					result = "WRONG"; 
+				} 
+				 
+			//객관식일 경우 
+			} else if(quiz.get("TYPE").equals("multiplechoice")) { 
+				if(yourAns.equals(quiz.get("ANSWERNUMBER"))) { 
+					result = "CORRECT"; 
+				} else { 
+					result = "WRONG"; 
+				} 
+				 
 			} 
 			 
-		//객관식일 경우 
-		} else if(quiz.get("TYPE").equals("multiplechoice")) { 
-			if(yourAns.equals(quiz.get("ANSWERNUMBER"))) { 
-				result = "CORRECT"; 
-			} else { 
-				result = "WRONG"; 
+			
+			/*정오답 결과 기록*/ 
+			//만약 문제를 푼게 최초일 경우 기록을 위한 기본 record생성한다. 
+			//추후 회원가입때 발동하는 것 고려. 일단 회원가입안만들었으니 유저아이디는 직접기입 
+			Map<String, String> quizR = new HashMap<>(); 
+			quizR.put("id", id); 
+			quizR.put("num", ""+num); 
+			String quizrecordname = dao.selectQuizrecordname(quizR); 
+			String quizrecordcode = id + quizrecordname; 
+			quizR.put("quizrecordcode", quizrecordcode); 
+			quizR.put("quizrecordname", quizrecordname); 
+			System.out.println(quizR.toString()); 
+			 
+			/*int normalrecordcount = dao.findQuizrecordlist(quizrecordcode); 
+			if(normalrecordcount<=0) { 
+				//0���� = ���� = ������ 
+				dao.insertQuizrecordlist(quiz); 
+			}*/ 
+			 
+			
+			/*퀴즈레코드에 내가 푼 문제가 등록되있는지 확인해서 최초로 푼 문제라면 추가, 이미 풀어봤다면 업데이트를 하자.*/ 
+			//먼저 정답일 경우 corr~증가, 오답일 경우 wor~증가. 
+			if(result.equals("CORRECT")) { 
+				dao.updateCQuizrecord(quizR); 
+				resultMap.put("1", "CORRECT"); 
+				 
+			} else if(result.equals("WRONG")){ 
+				dao.updateWQuizrecord(quizR); 
+				resultMap.put("1", "WRONG"); 
 			} 
 			 
-		} 
+			//문제이미 풀어봤는지 확인 
+			/*int quiznew = dao.findQuizrecord(quiz); 
+			if(quiznew<=0) { 
+				//0이하 = 없다 = 문제 풀어본 기록 추가 
+				dao.insertQuizrecord(quiz); 
+				 
+			}else if(quiznew>0) { 
+				//0이상 = 있다 = 정답&오답 수 증가 
+				dao.updateQuizrecord(quiz); 
+			}*/
+		}
+		
+		
+		
+		if(solveSet.containsKey("answer2")) {
+			int num = Integer.parseInt(solveSet.get("num2"));
+			String yourAns = solveSet.get("answer2"); 
+			studyDao dao = sqlSession.getMapper(studyDao.class);	  
+			Map<String, String> quiz = dao.selectOneQuiz(num); 
+			 
+			/*정답오답 판정*/ 
+			//주관식일 경우 
+			if(quiz.get("TYPE").equals("shortanswer")) { 
+				if(quiz.get("ANSWER1").equals(yourAns)) { 
+					result = "CORRECT"; 
+				} else { 
+					result = "WRONG"; 
+				} 
+				 
+			//객관식일 경우 
+			} else if(quiz.get("TYPE").equals("multiplechoice")) { 
+				if(yourAns.equals(quiz.get("ANSWERNUMBER"))) { 
+					result = "CORRECT"; 
+				} else { 
+					result = "WRONG"; 
+				} 
+				 
+			} 
+			 
+			
+			/*정오답 결과 기록*/ 
+			//만약 문제를 푼게 최초일 경우 기록을 위한 기본 record생성한다. 
+			//추후 회원가입때 발동하는 것 고려. 일단 회원가입안만들었으니 유저아이디는 직접기입 
+			Map<String, String> quizR = new HashMap<>(); 
+			quizR.put("id", id); 
+			quizR.put("num", ""+num); 
+			String quizrecordname = dao.selectQuizrecordname(quizR); 
+			String quizrecordcode = id + quizrecordname; 
+			quizR.put("quizrecordcode", quizrecordcode); 
+			quizR.put("quizrecordname", quizrecordname); 
+			System.out.println(quizR.toString()); 
+			 
+			/*int normalrecordcount = dao.findQuizrecordlist(quizrecordcode); 
+			if(normalrecordcount<=0) { 
+				//0���� = ���� = ������ 
+				dao.insertQuizrecordlist(quiz); 
+			}*/ 
+			 
+			
+			/*퀴즈레코드에 내가 푼 문제가 등록되있는지 확인해서 최초로 푼 문제라면 추가, 이미 풀어봤다면 업데이트를 하자.*/ 
+			//먼저 정답일 경우 corr~증가, 오답일 경우 wor~증가. 
+			if(result.equals("CORRECT")) { 
+				dao.updateCQuizrecord(quizR); 
+				resultMap.put("2", "CORRECT"); 
+				 
+			} else if(result.equals("WRONG")){ 
+				dao.updateWQuizrecord(quizR); 
+				resultMap.put("2", "WRONG"); 
+			} 
+			 
+		}
+		
+		
+		if(solveSet.containsKey("answer3")) {
+			int num = Integer.parseInt(solveSet.get("num3"));
+			String yourAns = solveSet.get("answer3"); 
+			studyDao dao = sqlSession.getMapper(studyDao.class);	  
+			Map<String, String> quiz = dao.selectOneQuiz(num); 
+			 
+			/*정답오답 판정*/ 
+			//주관식일 경우 
+			if(quiz.get("TYPE").equals("shortanswer")) { 
+				if(quiz.get("ANSWER1").equals(yourAns)) { 
+					result = "CORRECT"; 
+				} else { 
+					result = "WRONG"; 
+				} 
+				 
+			//객관식일 경우 
+			} else if(quiz.get("TYPE").equals("multiplechoice")) { 
+				if(yourAns.equals(quiz.get("ANSWERNUMBER"))) { 
+					result = "CORRECT"; 
+				} else { 
+					result = "WRONG"; 
+				} 
+				 
+			} 
+			 
+			
+			/*정오답 결과 기록*/ 
+			//만약 문제를 푼게 최초일 경우 기록을 위한 기본 record생성한다. 
+			//추후 회원가입때 발동하는 것 고려. 일단 회원가입안만들었으니 유저아이디는 직접기입 
+			Map<String, String> quizR = new HashMap<>(); 
+			quizR.put("id", id); 
+			quizR.put("num", ""+num); 
+			String quizrecordname = dao.selectQuizrecordname(quizR); 
+			String quizrecordcode = id + quizrecordname; 
+			quizR.put("quizrecordcode", quizrecordcode); 
+			quizR.put("quizrecordname", quizrecordname); 
+			System.out.println(quizR.toString()); 
+			 
+			/*int normalrecordcount = dao.findQuizrecordlist(quizrecordcode); 
+			if(normalrecordcount<=0) { 
+				//0���� = ���� = ������ 
+				dao.insertQuizrecordlist(quiz); 
+			}*/ 
+			 
+			
+			/*퀴즈레코드에 내가 푼 문제가 등록되있는지 확인해서 최초로 푼 문제라면 추가, 이미 풀어봤다면 업데이트를 하자.*/ 
+			//먼저 정답일 경우 corr~증가, 오답일 경우 wor~증가. 
+			if(result.equals("CORRECT")) { 
+				dao.updateCQuizrecord(quizR); 
+				resultMap.put("3", "CORRECT"); 
+				 
+			} else if(result.equals("WRONG")){ 
+				dao.updateWQuizrecord(quizR); 
+				resultMap.put("3", "WRONG"); 
+			} 
+			 
+		}
 		 
 		
-		/*정오답 결과 기록*/ 
-		//만약 문제를 푼게 최초일 경우 기록을 위한 기본 record생성한다. 
-		//추후 회원가입때 발동하는 것 고려. 일단 회원가입안만들었으니 유저아이디는 직접기입 
-		Map<String, String> quiz2 = new HashMap<>(); 
-		quiz2.put("id", id); 
-		quiz2.put("num", ""+num); 
-		String quizrecordname = dao.selectQuizrecordname(quiz2); 
-		String quizrecordcode = id + quizrecordname; 
-		quiz2.put("quizrecordcode", quizrecordcode); 
-		quiz2.put("quizrecordname", quizrecordname); 
-		System.out.println(quiz2.toString()); 
-		 
-		/*int normalrecordcount = dao.findQuizrecordlist(quizrecordcode); 
-		if(normalrecordcount<=0) { 
-			//0���� = ���� = ������ 
-			dao.insertQuizrecordlist(quiz); 
-		}*/ 
+		if(solveSet.containsKey("answer4")) {
+			int num = Integer.parseInt(solveSet.get("num4"));
+			String yourAns = solveSet.get("answer4"); 
+			studyDao dao = sqlSession.getMapper(studyDao.class);	  
+			Map<String, String> quiz = dao.selectOneQuiz(num); 
+			 
+			/*정답오답 판정*/ 
+			//주관식일 경우 
+			if(quiz.get("TYPE").equals("shortanswer")) { 
+				if(quiz.get("ANSWER1").equals(yourAns)) { 
+					result = "CORRECT"; 
+				} else { 
+					result = "WRONG"; 
+				} 
+				 
+			//객관식일 경우 
+			} else if(quiz.get("TYPE").equals("multiplechoice")) { 
+				if(yourAns.equals(quiz.get("ANSWERNUMBER"))) { 
+					result = "CORRECT"; 
+				} else { 
+					result = "WRONG"; 
+				} 
+				 
+			} 
+			 
+			
+			/*정오답 결과 기록*/ 
+			//만약 문제를 푼게 최초일 경우 기록을 위한 기본 record생성한다. 
+			//추후 회원가입때 발동하는 것 고려. 일단 회원가입안만들었으니 유저아이디는 직접기입 
+			Map<String, String> quizR = new HashMap<>(); 
+			quizR.put("id", id); 
+			quizR.put("num", ""+num); 
+			String quizrecordname = dao.selectQuizrecordname(quizR); 
+			String quizrecordcode = id + quizrecordname; 
+			quizR.put("quizrecordcode", quizrecordcode); 
+			quizR.put("quizrecordname", quizrecordname); 
+			System.out.println(quizR.toString()); 
+			 
+			/*int normalrecordcount = dao.findQuizrecordlist(quizrecordcode); 
+			if(normalrecordcount<=0) { 
+				//0���� = ���� = ������ 
+				dao.insertQuizrecordlist(quiz); 
+			}*/ 
+			 
+			
+			/*퀴즈레코드에 내가 푼 문제가 등록되있는지 확인해서 최초로 푼 문제라면 추가, 이미 풀어봤다면 업데이트를 하자.*/ 
+			//먼저 정답일 경우 corr~증가, 오답일 경우 wor~증가. 
+			if(result.equals("CORRECT")) { 
+				dao.updateCQuizrecord(quizR); 
+				resultMap.put("4", "CORRECT"); 
+				 
+			} else if(result.equals("WRONG")){ 
+				dao.updateWQuizrecord(quizR); 
+				resultMap.put("4", "WRONG"); 
+			} 
+			
+		}
 		 
 		
-		/*퀴즈레코드에 내가 푼 문제가 등록되있는지 확인해서 최초로 푼 문제라면 추가, 이미 풀어봤다면 업데이트를 하자.*/ 
-		//먼저 정답일 경우 corr~증가, 오답일 경우 wor~증가. 
-		if(result.equals("CORRECT")) { 
-			dao.updateCQuizrecord(quiz2); 
-			resultMap.put("result", "CORRECT"); 
+		
+		
+		if(solveSet.containsKey("answer5")) {
+			int num = Integer.parseInt(solveSet.get("num5"));
+			String yourAns = solveSet.get("answer5"); 
+			studyDao dao = sqlSession.getMapper(studyDao.class);	  
+			Map<String, String> quiz = dao.selectOneQuiz(num); 
 			 
-		} else if(result.equals("WRONG")){ 
-			dao.updateWQuizrecord(quiz2); 
-			resultMap.put("result", "WRONG"); 
-		} 
-		 
-		//문제이미 풀어봤는지 확인 
-		/*int quiznew = dao.findQuizrecord(quiz); 
-		if(quiznew<=0) { 
-			//0이하 = 없다 = 문제 풀어본 기록 추가 
-			dao.insertQuizrecord(quiz); 
+			/*정답오답 판정*/ 
+			//주관식일 경우 
+			if(quiz.get("TYPE").equals("shortanswer")) { 
+				if(quiz.get("ANSWER1").equals(yourAns)) { 
+					result = "CORRECT"; 
+				} else { 
+					result = "WRONG"; 
+				} 
+				 
+			//객관식일 경우 
+			} else if(quiz.get("TYPE").equals("multiplechoice")) { 
+				if(yourAns.equals(quiz.get("ANSWERNUMBER"))) { 
+					result = "CORRECT"; 
+				} else { 
+					result = "WRONG"; 
+				} 
+				 
+			} 
 			 
-		}else if(quiznew>0) { 
-			//0이상 = 있다 = 정답&오답 수 증가 
-			dao.updateQuizrecord(quiz); 
-		}*/ 
-		 
-		 
-		 
+			
+			/*정오답 결과 기록*/ 
+			//만약 문제를 푼게 최초일 경우 기록을 위한 기본 record생성한다. 
+			//추후 회원가입때 발동하는 것 고려. 일단 회원가입안만들었으니 유저아이디는 직접기입 
+			Map<String, String> quizR = new HashMap<>(); 
+			quizR.put("id", id); 
+			quizR.put("num", ""+num); 
+			String quizrecordname = dao.selectQuizrecordname(quizR); 
+			String quizrecordcode = id + quizrecordname; 
+			quizR.put("quizrecordcode", quizrecordcode); 
+			quizR.put("quizrecordname", quizrecordname); 
+			System.out.println(quizR.toString()); 
+			 
+			 
+			
+			/*퀴즈레코드에 내가 푼 문제가 등록되있는지 확인해서 최초로 푼 문제라면 추가, 이미 풀어봤다면 업데이트를 하자.*/ 
+			//먼저 정답일 경우 corr~증가, 오답일 경우 wor~증가. 
+			if(result.equals("CORRECT")) { 
+				dao.updateCQuizrecord(quizR); 
+				resultMap.put("5", "CORRECT"); 
+				 
+			} else if(result.equals("WRONG")){ 
+				dao.updateWQuizrecord(quizR); 
+				resultMap.put("5", "WRONG"); 
+			} 
+			 
+			
+		}
+		System.out.println("grading/resultMap/"+resultMap.toString());
+		
 		return resultMap; 
 	} 
 	 
@@ -394,9 +593,6 @@ public class StudyController {
 		ArrayList<Map<String, String>> recordList = null;
 		Map<String,Map<String, String>> recordMap = new HashMap<>(); 
 		 
-		ArrayList<Map<String, String>> tegList = null; 
-		Map<String, Map<String, String>> tegMap = new HashMap<>(); 
-		 
 		//일단 태그와 레코드목록 불러온다. 
 		if(dao.countQuizrecordlist(id)>0) { 
 			recordList = dao.selectAllQuizrecordlist(id); 
@@ -404,16 +600,9 @@ public class StudyController {
 				recordMap.put(map.get("NAME"), map); 
 			} 
 		} 
-		if(dao.countTeg(id)>0) { 
-			tegList = dao.selectAllTeg(id); 
-			for (Map<String, String> map : tegList) { 
-				tegMap.put(map.get("TEG"), map); 
-			} 
-		} 
+		
 		System.out.println("recordMapSize:"+recordMap.size()); 
-		System.out.println("tegMapSize:"+tegMap.size()); 
 		maps.put("recordMap", recordMap); 
-		maps.put("tegMap", tegMap); 
 		 
 		 
 		 
@@ -438,17 +627,12 @@ public class StudyController {
 		String name = selectSet.get("select").substring(1); 
 		String id = selectSet.get("id"); 
 		String num = ""; 
-		//type이 teg이면 태그를 사용해서 불러온다. 
-		if(type.equals("t")) { 
-			selectSet.put("teg", name); 
-			quizList = dao.selectAllTegQuiz(selectSet); 			 
 
-		//type이 record이면 아이디와 레코드코드를 사용해서 불러온다. 
-		} else if(type.equals("r")) { 
-			selectSet.put("quizrecordcode", id+name); 
-			System.out.println(selectSet.get("quizrecordcode") + ", " + selectSet.get("id")); 
-			quizList = dao.selectAllRecordQuiz(selectSet); 
-		} 
+
+		selectSet.put("quizrecordcode", id+name); 
+		System.out.println(selectSet.get("quizrecordcode") + ", " + selectSet.get("id")); 
+		quizList = dao.selectAllRecordQuiz(selectSet); 
+		
 		System.out.println("3."+quizList.size()); 
 		for (Map<String, String> map : quizList) { 
 			quizMap.put(map.get("NUM"), map); 
@@ -471,8 +655,6 @@ public class StudyController {
 		ArrayList<Map<String, String>> recordList = null; 
 		Map<String,Map<String, String>> recordMap = new HashMap<>(); 
 		 
-		ArrayList<Map<String, String>> tegList = null; 
-		Map<String, Map<String, String>> tegMap = new HashMap<>(); 
 		 
 		//일단 태그와 레코드목록 불러온다. 
 		if(dao.countQuizrecordlist(id)>0) { 
@@ -481,17 +663,10 @@ public class StudyController {
 				recordMap.put(map.get("NAME"), map); 
 			} 
 		} 
-		if(dao.countTeg(id)>0) { 
-			tegList = dao.selectAllTeg(id); 
-			for (Map<String, String> map : tegList) { 
-				tegMap.put(map.get("TEG"), map); 
-			} 
-		} 
+		
 		System.out.println("recordMapSize:"+recordMap.size()); 
-		System.out.println("tegMapSize:"+tegMap.size()); 
 		 
 		model.addAttribute("recordList", recordList); 
-		model.addAttribute("tegList", tegList); 
 		 
 		return "study/quizSelect"; 
 	} 
@@ -529,6 +704,7 @@ public class StudyController {
 		group.put("id", id);
 		
 		//그룹생성
+		System.out.println("makingGroup/group"+group);
 		int ig = gdao.insertGroup(group);
 		int slmg =  gdao.selectLastMakeGroupseq(id);
 		
@@ -807,6 +983,7 @@ public class StudyController {
 		String id = (String)hs.getAttribute("memberID");
 		Map<String, String> searchParameterMap = new HashMap<>();
 		searchParameterMap.put("search", search);
+		searchParameterMap.put("id", id);
 		int countPerPage = 20;
 		int pagePerGroup = 5;
 		
@@ -830,12 +1007,35 @@ public class StudyController {
 		studyDao dao = sqlSession.getMapper(studyDao.class); 
 		String id = (String)hs.getAttribute("memberID");
 		Map<String, String> SARQ = new HashMap<>();
-		ArrayList<Map<String,String>> quizList = new ArrayList<>(); 
-		Map<String, Map<String,String>> quizMap = new HashMap<>(); 
+		ArrayList<Map<String,String>> quizList1 = new ArrayList<>(); 
+		Map<String, Map<String,String>> quizMap1 = new HashMap<>(); 
 		SARQ.put("quizrecordcode", friendId+title);
 		SARQ.put("id", friendId);
-		quizList = dao.selectAllRecordQuiz(SARQ);
-		System.out.println("quizList//"+quizList.toString());
+		quizList1 = dao.selectAllRecordQuiz(SARQ);
+		System.out.println("quizList//"+quizList1.toString());
+		
+		/*String newCheck = id+quizList1.get(0).get("QUIZRECORDNAME");
+		if(dao.findQuizrecordlist(newCheck)>0) {
+			Map<String, String> searchParameterMap = new HashMap<>();
+			searchParameterMap.put("search", "");
+			searchParameterMap.put("id", id);
+			int countPerPage = 20;
+			int pagePerGroup = 5;
+			
+			System.out.println("2");
+			int total = dao.countSearchingQuizrecordlist(searchParameterMap);
+			PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, 0, total);
+			RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
+			ArrayList<Map<String, String>> searchResultList = dao.selectSearchingQuizrecordlist(searchParameterMap, rb);
+			model.addAttribute("navi", navi);
+			model.addAttribute("page", 0);
+			model.addAttribute("search", "");
+			model.addAttribute("searchResultList", searchResultList);
+			System.out.println("3");
+			return "study/quizSearch"; 
+		}*/
+		
+		
 		//(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ANSWER2}, #{ANSWER3}, #{ANSWER4}, #{ANSWERNUMBER}, #{ID})
 		//(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ID})
 		/*TO_CHAR(q.quizseq) NUM
@@ -851,7 +1051,7 @@ public class StudyController {
 			,l.quizrecordname quizrecordname
 			,l.quizrecordcode quizrecordcode*/
 		
-		for (Map<String, String> map : quizList) {
+		for (Map<String, String> map : quizList1) {
 			map.put("type", map.get("TYPE"));
 			map.remove("TYPE");
 			map.put("teg", map.get("TEG"));
@@ -887,6 +1087,37 @@ public class StudyController {
 			}
 		} 
 		
+		
+		
+		 
+		Map<String,ArrayList<Map<String, String>>> allMap = new HashMap<>(); 
+		 
+		ArrayList<Map<String, String>> recordList = dao.selectAllQuizrecordlist(id); 
+		Map<String,Map<String, String>> recordMap = new HashMap<>(); 
+		 
+		 
+		//일단 태그와 레코드목록 불러온다.
+		
+		if(dao.countQuizrecordlist(id)>0) {
+			for (Map<String, String> map : recordList) { 
+				recordMap.put(map.get("NAME"), map);
+				//System.out.println(map.toString());
+			} 
+		} 
+		
+		
+		allMap.put("recordList", recordList);
+		
+		
+		model.addAttribute("allMap",allMap);
+		
+		
+		
+		
+		
+		
+		
+		
 		return "study/quizSolve"; 
 	}
 	
@@ -916,35 +1147,7 @@ public class StudyController {
 		studyDao dao = sqlSession.getMapper(studyDao.class); 
 		Map<String, String> resultMap = new HashMap<>(); 
 		 
-		//insert the Teg
-		String tegString = quiz.get("teg");
-		String[] tegs;
-		if(tegString.contains("#")) {
-			tegs = quiz.get("teg").split("#"); 
-		}else {
-			tegs = new String[1];
-			tegs[0] = tegString;
-		}
 		
-		Map<String, String> tegMap = new HashMap<>(); 
-		if(tegs.length > 0) { 
-			for(int i=1; i<tegs.length; i++) { 
-				Map<String, String> teg = new HashMap<>(); 
-				teg.put("teg", tegs[i]); 
-				teg.put("id", id); 
-				teg.put("belong", "quiz"); 
-				System.out.println(teg.toString());
-				//이미 있는테그면 update로 숫자증가 
-				if(dao.findTeg(teg)>0) { 
-					teg.put("plus", "plus"); 
-					dao.recountTeg(teg); 
-					 
-				//없는 테그면 새로 추가 
-				} else if(dao.findTeg(teg)<=0) { 
-					dao.insertTeg(teg); 
-				} 
-			} 
-		} 
 		 
 		//System.out.println(quiz.get("answernumber")); 
 		//문제 넣기 
@@ -999,54 +1202,44 @@ public class StudyController {
 	
 	
 	
-	/* 그룹 가입 신청 */
-	@RequestMapping(value = "/groupRegistApply", method = RequestMethod.POST)
-	public @ResponseBody Map<String, String> groupRegistApply(@RequestBody Map<String, String> group, HttpSession hs) {
-		alermDao adao = sqlSession.getMapper(alermDao.class);
-		String id = (String)hs.getAttribute("memberID"); 
-		group.put("content", group.get("groupnumber"));
-		group.put("friendid", group.get("leader"));
-		group.put("id", id);
-		System.out.println(group.toString());
-		ArrayList<Map<String, String>> groupList = new ArrayList<>();
-		Map<String,Map<String, String>> groupMap = new HashMap<>();
-		Map<String, String> check = new HashMap<>();
-		
-		
-		
-		int checkcount = adao.countGroupJoinCheck(group);
-		if(checkcount > 0) {
-			//1 이상일 경우 이미 해당 alerm은 등록된 것 이기에 집어넣지 않고 이미 했던 것임을 알려준다.
-			check.put("result", "already");
-			return check;
-		} else {
-			
-		}
-		
-		int result = adao.insertGroupJoin(group);
-		System.out.println("doGroupRegistApply/result/"+result);
-		check.put("result", "success");
-		
-		return check;
-	}
+	
 	
 	
 	/* 그룹 초대 */
 	@RequestMapping(value = "/inviteGroup", method = RequestMethod.POST)
 	public @ResponseBody Map inviteGroup(@RequestBody Map<String, String> idSet, HttpSession hs) {
 		studyDao sdao = sqlSession.getMapper(studyDao.class);
+		memberDao fdao = sqlSession.getMapper(memberDao.class);
 		ArrayList<Map<String, String>> groupList = new ArrayList<>();
 		Map<String,Map<String, String>> groupMap = new HashMap<>();
 		Map<String, String> resultMap = new HashMap<>();
 		
+		int check = fdao.idDoubleCheck2(idSet.get("id"));
+		if(check<=0) {
+			resultMap.put("result", "존재하지 않는 아이디 입니다.");
+			groupMap.put("resultMap", resultMap);
+			return groupMap;
+		}
+		
+		
+		
 		System.out.println("inviteGroup/idSet"+idSet.toString());
 		int result = sdao.insertGroupMember(idSet);
 		if(result>0) {
-			resultMap.put("result", "invite success");
+			resultMap.put("result", "초대성공");
 		}else {
-			resultMap.put("result", "invite fail");
+			resultMap.put("result", "초대실패");
 		}
 		groupMap.put("resultMap", resultMap);
 		return groupMap;
 	}
+	
+	
+	
+	/*테스트 ===================================================================*/ 
+	@RequestMapping(value = "/sample01", method = RequestMethod.GET) 
+	public String sample01() { 
+		
+		return "sample/sample01"; 
+	} 
 } 

@@ -13,26 +13,46 @@ import com.scit.doujo.vo.member;
 
 public interface friendDao {
 
-	ArrayList<member> listMember(String searchText, int startRecord, int countPerPage);
+	public ArrayList<member> listMember(String searchText, int startRecord, int countPerPage);
 
-	int getTotal(String searchText);
-	ArrayList<friend> listfriend(String searchText, int startRecord, int countPerPage);
+	public int getTotal(String searchText);
 
-	void updateMember(member friend);
+	public ArrayList<friend> listfriend(String searchText, int startRecord, int countPerPage);
 
-	int getRecommendFriendsCount(Map<String,String> map);
+	public void updateMember(member friend);
+
+	public int getRecommendFriendsCount(Map<String,String> map);
+
+	public List<friend> select(String searchItem, String searchWord, int startRecord, int countPerPage);
+
+	public List<friend> select(Map<String, String> map, RowBounds rb);
+
+	public List<member> getRecommendFriends(Map<String, String> map, RowBounds rb);
+
+	public board selectOne(String id);
 	
-	List<member> getRecommendFriends(Map<String, String> map, RowBounds rb);
-	int insert(@Param(value="userid")String userid, @Param(value="id")String id);
-	void beInserted(String userid, String id);
-	void acceptFriend(String userid, String fid);
-	List<friend> getMyFriends(Map<String, String> map, RowBounds rb);
-	int getMyFriendsCount(Map<String, String> map);
-	friend checkFriend(String userid, String id);
-	 int insertBoard(board board);
-	 List<board> selectAllBoard(String userid);
-	 List<board> boardpaging(@Param(value="id") String id, @Param(value="first") int first, @Param(value="second") int second);
-	 List<board> listpaging(@Param(value="id") String id, @Param(value="first") int first, @Param(value="second") int second);
-	 List<board> selectListBoard(String userid);
-	 board selectOne(String path);
+	public int insert(@Param(value="userid")String userid, @Param(value="id")String id);
+		
+	public void acceptFriend(String userid, String fid);
+
+	public List<friend> getMyFriends(Map<String, String> map, RowBounds rb);
+
+	public int getMyFriendsCount(Map<String, String> map);
+	
+	public int checkFriend(String userid, String id);
+
+	public ArrayList<friend> selectFriendLsit(String userid);
+	
+	public int insertBoard(board board);
+
+	public List<board> selectAllBoard(String userid);
+	//친구 등록하기(수락하기)
+	public int insertMyFriend(friend vo2);
+	//친구 목록가져오기
+	public ArrayList<Map<String,String>> selectMyFriendList(String userid);
+
+	public List<board> boardpaging(String userid, int first, int second);
+
+	public List<board> selectListBoard(String userid);
+	
 }

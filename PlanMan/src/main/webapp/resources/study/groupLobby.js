@@ -19,7 +19,10 @@ function showMakeGroup() {
 		result += '<label>태그</label><input type="text" class="form-control" id="teg" name="teg" placeholder="#insert#teg">';
 		result += '<label>공개여부</label><select class="form-control" id="secret" name="secret">';
 		result += '<option value="public">Public</option><option value="private">Private</option></select>';
-		result += '<a href="" class="btn btn-primary btn-block margin-bottom" id="makegroup" onclick="makegroup()">Select</a>';
+		result += '<br/>';
+		result += '<div  align="right">';
+		result += '<a href="" class="btn btn-info btn-block margin-bottom" id="makegroup" onclick="makegroup()" style="width: 20%;">그룹 만들기</a>';
+		result += '</div>';
 		result += '</div>';
 	document.getElementById("functionboard").innerHTML = result;
 	
@@ -41,7 +44,7 @@ function showMakeGroup() {
 					document.getElementById("functionboard").innerHTML = "";
 				}
 				, error: function(request,status,error){
-			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        //swal("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			    }
 					
 			});
@@ -54,6 +57,7 @@ function makegroup() {
 	var group = {
 		"name" : $(".name").val()
 		, "teg" : $(".teg").val()
+		, "secret" : $("#secret").val()
 	};
 	//alert("흠");
 	$.ajax({
@@ -63,8 +67,8 @@ function makegroup() {
 		, dataType : 'json'
 		, contentType : 'application/json; charset=UTF-8'
 		, success: function(resp) {
-			alert(JSON.stringify(resp));
-			alert(resp.username)
+			//alert(JSON.stringify(resp));
+			//alert(resp.username)
 		} 
 			
 	});
@@ -94,7 +98,7 @@ function showMyGroup() {
 				
 			}
 			, error: function(request,status,error){
-		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		        ////alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		        
 		    }
 		});
@@ -109,8 +113,8 @@ function showSearchGroup() {
 	var result = '';
 		result += '<div class="input-group input-group-lg">';
 		result += '<div class="input-group-btn">';
-		result += '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">type';
-		result += '<span class="fa fa-caret-down"></span></button>';
+		result += '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
+		result += '<span class="fa fa-caret-down selectors" id="">Group name</span></button>';
 		result += '<ul class="dropdown-menu">';
 		result += '<li><a id="SBGN">Group name</a></li>';
 		result += '<li><a id="SBGC">Group code</a></li>';
@@ -126,26 +130,41 @@ function showSearchGroup() {
 	
 	
 	$(document).ready(function (){
+		
 		var type = "";
 		$('#SBGN').on('click', function makegroup() {
 			type = "groupname";
-			searchGroup();
+			//searchGroup();
+			$('.selectors').html('Group name');
+			$('.selectors').attr("id", "SBGN");
 		});
 		
 		$('#SBGC').on('click', function makegroup() {
 			type = "groupseq";
-			searchGroup();
+			//searchGroup();
+			$('.selectors').html('Group code');
+			$('.selectors').attr("id", "SBGC");
 		});
 		
 		$('#SBLI').on('click', function makegroup() {
 			type = "groupleader";
-			searchGroup();
+			//searchGroup();
+			$('.selectors').html('leader id');
+			$('.selectors').attr("id", "SBLI");
 		});
 		
 		$('#SBTG').on('click', function makegroup() {
 			type = "groupteg";
-			searchGroup();
+			//searchGroup();
+			$('.selectors').html('TEG');
+			$('.selectors').attr("id", "SBTG");
 		});
+		
+		$("#search").keypress(function (e) {
+	        if (e.which == 13){
+	        	searchGroup();  // 실행할 이벤트
+	        }
+	    });
 		
 		
 		function searchGroup() {
@@ -153,7 +172,7 @@ function showSearchGroup() {
 				"type" : type
 				,"search" : $("#search").val()
 			};
-			
+			//swal(searching.type + searching.search);
 			$.ajax({
 				method   : 'post'
 				, url    : 'searchGroup'
@@ -188,14 +207,14 @@ function showSearchGroup() {
 							, dataType : 'json'
 							, contentType : 'application/json; charset=UTF-8'
 							, success: function(data) {
-								alert("흠"+data.result);
+								//alert("흠"+data.result);
 								
 							} 
 						});
 					});
 				}
 				, error: function(request,status,error){
-			        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 			    }
 					
 			});

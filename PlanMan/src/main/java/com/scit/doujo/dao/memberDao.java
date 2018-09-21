@@ -2,6 +2,7 @@ package com.scit.doujo.dao;
 
 import java.util.ArrayList;
 
+import com.scit.doujo.vo.friend;
 import com.scit.doujo.vo.member;
 import com.scit.doujo.vo.schedule;
 
@@ -37,6 +38,12 @@ public interface memberDao {
 	public void deletemember(member member);
 	//회원 정보 수정하기
 	public int updateMember(member vo);
-
+	//친구스케쥴 가져오기
+	public ArrayList<schedule> selectFriendSchdule(String friendID);
+	//회원 정보 가져오기
+	public member selectOneMember(String sendid);
+	//아이디 중복 확인2
+	public int idDoubleCheck2(String id);
+	
 	
 }

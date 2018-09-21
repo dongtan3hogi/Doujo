@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.scit.doujo.dao.memberDao;
+import com.scit.doujo.vo.friend;
 import com.scit.doujo.vo.member;
 import com.scit.doujo.vo.schedule;
 
@@ -79,7 +80,9 @@ public class HomeController {
 		member result=manager.doLogin(vo);
 		if(result==null) {
 			//로그인 실패시 메인페이지로 이동
-			return "redirect:/";
+			//System.out.println("로그인 실패");
+			model.addAttribute("loginResult", "loginfail");
+			return "home";
 		}else {
 			//로그인 성공시 세션에 member로 회원정보 저장
 			session.setAttribute("member", result);
@@ -184,6 +187,8 @@ public class HomeController {
 			return "fail";
 		}
 	}
+	
+	
 	@RequestMapping(value = "addschdule2", method = RequestMethod.POST)
 	public @ResponseBody String addschdule2(schedule vo, HttpSession session, int plusday) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
@@ -301,6 +306,33 @@ public class HomeController {
 	public String gotologout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	//친구 스케쥴 불러오기
+	@RequestMapping(value = "selectFriendSchdule", method = RequestMethod.POST)
+	public @ResponseBody ArrayList<schedule> selectFriendSchdule(HttpSession session, String friendID) {
+		memberDao manager=sqlSession.getMapper(memberDao.class);
+		ArrayList<schedule> result=new ArrayList<>();
+		result=manager.selectFriendSchdule(friendID);
+		
+	    for(int i=0; i<result.size(); i++) {
+	        try {
+	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date endDate = sdf.parse(result.get(i).getEndday());
+				Date startDate = sdf.parse(result.get(i).getStartday());
+				long diff=endDate.getTime()-startDate.getTime();
+				int diffDays =(int) (diff/(24*60*60*1000));
+				result.get(i).setDiffDay(diffDays);
+				
+				
+	        } catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	       
+	    }
+	    
+		return result;
 	}
 	
 }

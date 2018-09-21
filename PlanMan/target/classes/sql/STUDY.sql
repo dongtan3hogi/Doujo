@@ -1,22 +1,9 @@
 -- CREATE ]==============================================================================
-
-
---TEG TABLE
-CREATE TABLE TEG(
-    teg VARCHAR2(20) NOT NULL,
-    belong VARCHAR2(20) NOT NULL,
-   	count NUMBER DEFAULT 1,
-   	id VARCHAR2(20) REFERENCES member(id)
-);
-ALTER TABLE teg DROP PRIMARY KEY;
-
---?¥Ï¶à ?Öå?ù¥Î∏?
 CREATE TABLE quiz(
-quizseq number PRIMARY KEY,
+    quizseq number PRIMARY KEY,
 	type VARCHAR2(20) CHECK(type in('multiplechoice','shortanswer')),
-	teg VARCHAR2(200),
 	question VARCHAR2(1000) NOT NULL,
-answer1 VARCHAR2(200) NOT NULL,
+    answer1 VARCHAR2(200) NOT NULL,
    	answer2 VARCHAR2(200),
     answer3 VARCHAR2(200),
     answer4 VARCHAR2(200),
@@ -24,16 +11,13 @@ answer1 VARCHAR2(200) NOT NULL,
     id VARCHAR2(20) REFERENCES member(id)
 );
 
-
---Î¨∏Ï†ú?è¥?çî Î™©Î°ù
 CREATE TABLE quizrecordlist(
-	quizrecordcode VARCHAR2(50) PRIMARY KEY,
+	quizrecordcode VARCHAR2(50) NOT NULL,
     id VARCHAR2(20) REFERENCES member(id),
-	quizrecordname VARCHAR2(30) NOT NULL
+	quizrecordname VARCHAR2(30) NOT NULL,
+    recordlistseq VARCHAR2(30) PRIMARY KEY
 );
 
-
---Î¨∏Ï†ú???ù¥ ÏßÑÎèÑ?òÑ?ô© ?Öå?ù¥Î∏?
 CREATE TABLE quizrecord(
 	quizrecordcode VARCHAR2(50) REFERENCES quizrecordlist(quizrecordcode),
 	quizseq NUMBER REFERENCES quiz(quizseq),
@@ -42,7 +26,6 @@ CREATE TABLE quizrecord(
 );
 
 
---Ï±ÑÌåÖÎ∞?
 CREATE TABLE groups(
     groupname VARCHAR2(20) NOT NULL,
     groupseq NUMBER PRIMARY KEY,
@@ -52,8 +35,6 @@ CREATE TABLE groups(
     groupalert VARCHAR2(200)
 );
 
-
---group?óê Í∞??ûÖ?êò ?ûà?äî member?Çò???Ç¥?äî table
 CREATE TABLE groupmember(
     groupseq NUMBER REFERENCES groups(groupseq),
     id VARCHAR2(20) REFERENCES member(id)
@@ -61,3 +42,9 @@ CREATE TABLE groupmember(
 
 CREATE SEQUENCE quizseq;
 CREATE SEQUENCE groupseq;
+CREATE SEQUENCE recordlistseq;
+
+
+commit;
+
+

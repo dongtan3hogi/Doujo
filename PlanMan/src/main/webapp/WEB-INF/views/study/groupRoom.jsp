@@ -22,7 +22,8 @@
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css"> 
   <!-- Google Font --> 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> 
- 
+  <link rel="stylesheet" href="./resources/style/profile.css">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
   <script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
   <script type="text/javascript">
@@ -133,6 +134,7 @@
 	    			leadingZeros2(d.getHours(), 2) + ':' + leadingZeros2(d.getMinutes(), 2);
         if(dataArray[0] == 'chat') {
         	var putMsg = '';
+        	var onErrorResource2="'resources/userData/image/unknown.png'";
         	if(dataArray[1] == document.getElementById("MyID").value) {
         		//동일하다면 우측메시지
         		putMsg += '<div class="direct-chat-msg right">';
@@ -140,7 +142,7 @@
         		putMsg += '<span class="direct-chat-name pull-right">' + dataArray[1] + '</span>';
         		putMsg += '<span class="direct-chat-timestamp pull-left">' + time + '</span>';
         		putMsg += '</div>';
-        		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image">';
+        		putMsg += '<img class="direct-chat-img"  src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image" onError="this.src='+onErrorResource2+';">';
         		putMsg += '<div class="direct-chat-text">';
         		putMsg += dataArray[2];
         		putMsg += '</div>';
@@ -154,7 +156,7 @@
         		putMsg += '<span class="direct-chat-name pull-left">' + dataArray[1] + '</span>';
         		putMsg += '<span class="direct-chat-timestamp pull-right">' + time + '</span>';
         		putMsg += '</div>';
-        		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image">';
+        		putMsg += '<img class="direct-chat-img" src="resources/userData/image/' + dataArray[1] + '.jpg" alt="message user image" onError="this.src='+onErrorResource2+';"';
         		putMsg += '<div class="direct-chat-text">';
         		putMsg += dataArray[2];
         		putMsg += '</div>';
@@ -162,6 +164,8 @@
         		
         	}
         	textarea.innerHTML += putMsg;
+        	$("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
+        	//textarea.scrollTop = objDiv.scrollHeight;
         }
         
         if(dataArray[0] == 'quiznumber'){
@@ -178,7 +182,7 @@
 				, contentType : 'application/json; charset=UTF-8'
 				, success: function(data) {
 					selectedID = dataArray[1];
-		        	var sqlsr = '<select id="quiznumberselect" onchange="qnChange()"><option>=퀴즈번호=</option>';
+		        	var sqlsr = '<select id="quiznumberselect" onchange="qnChange()"  class="form-control"><option>=퀴즈번호=</option>';
 					$.each(data, function(index, item){
 						sqlsr += '<option value="' + item.NUM + '">' + item.NUM + '</option>';
 					});
@@ -186,7 +190,7 @@
 		        	document.getElementById("quiznumberlist").innerHTML = sqlsr;
 				}
 				, error: function(){
-					alert("통신에러");
+					swal("통신에러");
 				}
 			});
         	
@@ -203,15 +207,21 @@
 				, dataType : 'json'
 				, contentType : 'application/json; charset=UTF-8'
 				, success: function(data){
-					var result = '<div>[질문]<br/>' + data.QUESTION + '<input type="hidden" id="quiznum" value="' + data.NUM +'"><input type="hidden" id="type" value="' + data.TYPE + '"></div>';
-					
+					var result = '';
+					result += '<div><label>문제</label> ' + data.QUESTION + '<input type="hidden" id="quiznum" value="' + data.NUM +'"><input type="hidden" id="type" value="' + data.TYPE + '"></div>';
+					result += '';
 					//객관식인지 주관식인지 판정
 					if(data.TYPE == 'multiplechoice'){
-						result += '<input type="radio" name="answer" value="1">' + data.ANSWER1 +'<input type="radio" name="answer" value="2">' + data.ANSWER2 +'<input type="radio" name="answer" value="3">' + data.ANSWER3 +'<input type="radio" name="answer" value="4">' + data.ANSWER4 +'';
+						result += '<input type="radio" name="answer" value="1">' + data.ANSWER1;
+						result += '<input type="radio" name="answer" value="2">' + data.ANSWER2;
+						result += '<input type="radio" name="answer" value="3">' + data.ANSWER3;
+						result += '<input type="radio" name="answer" value="4">' + data.ANSWER4;
 					} else if(data.TYPE == 'shortanswer'){
-						result += '<input type="text" name="answer">' + data.ANSWER1 +'';
+						result += '<input type="text" name="answer">';
 					}
-					result += '<input type="button" id="quizcheck" value="체점">';
+					result += '<div align="right">';
+					result += '<br/><input type="button" class="btn btn-info" id="quizcheck" value="채점">';
+					result += '</div>';
 					document.getElementById("functionboard").innerHTML = result;
 					
 					$(document).ready(function (){
@@ -238,11 +248,11 @@
 							}
 							
 							var solveSet = {
-									"answer": answer
-									,"num": quizseq
+									"answer1": answer
+									,"num1": quizseq
 									,"id": document.getElementById('MyID').value
 							}
-							//alert(solveSet.answer + ", " +solveSet.num + ", " + solveSet.id);
+							//swal(solveSet.answer + ", " +solveSet.num + ", " + solveSet.id);
 							$.ajax({
 								method   : 'post'
 								, url    : 'grading'
@@ -250,7 +260,12 @@
 								, dataType : 'json'
 								, contentType : 'application/json; charset=UTF-8'
 								, success: function(data) {
-									alert(data.result);
+									var quizResult = "";
+									$.each(data, function(index, item){
+										quizResult += item + '\n';
+									});
+									swal(quizResult);
+									//(data.result);
 								} 
 										
 							});
@@ -260,10 +275,9 @@
 						
 					});
 					
-					
 				},
 				error: function(){
-					alert("전송실패");
+					swal("전송실패");
 				} 
 			});
         	
@@ -320,12 +334,8 @@
 					$.each(data.recordMap, function(index, item){
 						qsr += '<option value="r' + item.NAME + '">' + item.NAME + '</option>';
 					});
-					qsr += '<option>=태그명=</option>';
-					$.each(data.tegMap, function(index, item){
-						qsr += '<option value="r' + item.TEG + '">' + item.TEG + '[' + item.NUM + ']' + '</option>';
-					});
-					qsr += '</select><input type="button" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
-					alert(qsr);
+					qsr += '</select><input type="button"  class="form-control btn btn-info" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
+					//swal(qsr);
 					document.getElementById("leaderfunctionview").innerHTML = qsr;
 					$(document).ready(function() {
 				       	$("#quiznumBtn").click(function() {
@@ -334,14 +344,15 @@
 				    });	
 				}
 				, error: function(){
-					alert("통신에러");
+					swal("통신에러");
 				}
 			});
 			
 			
 		} else if(select == 'invite'){
-			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><br/><label for="1"><span style="font-size:20px;">아이디</span><input type="text" class="input-field" name="inviteId" id="inviteId" value="" /><input type="button" id="inviteBtn" value="확인" /></label>';
+			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><br/><label for="1"><span style="font-size:20px;">아이디를 입력하세요.</span><br/><input type="text" class="input-field" name="inviteId" id="inviteId" value="" /><input type="button" class="btn btn-info" id="inviteBtn" value="확인" /></label>';
 			$(document).ready(function() {
+				document.getElementById("functionboard").innerHTML = '';
 		       	$("#inviteBtn").click(function() {
 		       		var inviteId = document.getElementById("inviteId").value;
 		       		var groupseq = document.getElementById("roomnum").value;
@@ -390,7 +401,7 @@
 						qsr += '<option value="r' + item.TEG + '">' + item.TEG + '[' + item.NUM + ']' + '</option>';
 					});
 					qsr += '</select><input type="button" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
-					alert(qsr);
+					swal(qsr);
 					document.getElementById("sharingtargetview").innerHTML = qsr;
 					$(document).ready(function() {
 				       	$("#quiznumBtn").click(function() {
@@ -399,7 +410,7 @@
 				    });	
 				}
 				, error: function(){
-					alert("통신에러");
+					swal("통신에러");
 				}
 			});
 			
@@ -432,10 +443,10 @@
 			, dataType : 'json'
 			, contentType : 'application/json; charset=UTF-8'
 			, success: function(data) {
-				alert(data.resultMap.result);
+				//swal(data.resultMap.result);
 			}
 			, error: function(){
-				alert("통신에러");
+				swal("통신에러");
 			}
 		});
     	
@@ -457,7 +468,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="redirect:/" class="logo">
+    <a href="gotoCalendar" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>Pm</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -482,41 +493,26 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
+				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능1</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능2</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능3</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                <div align="center">
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
+                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
             </ul>
@@ -532,24 +528,14 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src='./resources/userData/image/unknown.png;'">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
+    
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
@@ -575,7 +561,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>   
+            <li><a href="goWC"><i class="fa fa-circle-o text-yellow"></i>Word Cloud</a></li>       
           </ul>
         </li>
         <li class="treeview">
@@ -602,7 +589,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -627,7 +615,8 @@
   <!-- ========================================================================================================== --> 
    
   <!-- Content Wrapper. Contains page content --> 
-  <div class="content-wrapper"> 
+  <div class="content-wrapper">
+    <div id="fortheprofilediv"></div>
     <!-- Content Header (Page header) --> 
     <section class="content-header"> 
       <h1> 
@@ -644,8 +633,8 @@
     <section class="content"> 
       <div class="row"> 
         
-        <div class="col-md-3"> 
-          <div class="box box-solid"> 
+        <div class="col-md-4"> 
+          <div class="box box-info"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">Group</h3> 
               <div class="box-tools"> 
@@ -661,7 +650,7 @@
             <!-- /.box-body --> 
           </div> 
           
-          <div class="box box-solid"> 
+          <div class="box box-info"> 
             <div class="box-header with-border"> 
               <h3 class="box-title">Group</h3> 
               <div class="box-tools"> 
@@ -679,17 +668,29 @@
 	                    <option value="none" selected>==선택==</option>
 						<option value="quiz">퀴즈</option>
 						<option value="invite">초대</option>
-	                  </select> 
-	                </div> 
+	                  </select>
+	                  
+	                </div>
+	                
 	                
 	              </form>
                   <div class="form-group" id="leaderfunctionview">
                   </div>
                   <div class="form-group" id="quizSelectBoard"> 
+                  
+                  </div>
+                  <div class="form-group" id="functionboard" >
+                  	
+                   
                   </div>
                 </li>
               </ul> 
-            </div> 
+            </div>
+            
+            
+           
+            
+            
             <!-- /.box-body --> 
           </div>
           <!-- /. box --> 
@@ -698,61 +699,13 @@
         
         
         
-        <div class="col-md-9"> 
-          
-          <div class="box box-info"> 
-            <div class="box-header with-border"> 
-              <h3 class="box-title">Show Quiz</h3> 
-            </div> 
-            <!-- /.box-header --> 
-            <!-- <div class="box-body">
-               <div class="margin">
-                 <div class="btn-group">
-                  <button type="button" class="btn btn-info">function</button>
-                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a id="authority">권한부여</a></li>
-                    <li><a id="sharing">화면공유</a></li>
-                    <li><a id="invite">초대</a></li>
-                    <li class="divider"></li>
-                  </ul>
-                </div>
-                <span id="leaderfunctionview">
-                
-                </span>
-               </div> -->
-            
-              <form role="form"> 
-                 
-                <!-- Function Key --> 
-                <div class="form-group" id="leaderfunselectspan"> 
-                  <select class="form-control" id="leaderfunselect" onchange="lfsChange()"> 
-                    <option value="none" selected>==선택==</option>
-					<option value="authority">권한 부여</option>
-					<option value="sharing">화면공유</option>
-					<option value="invite">초대</option>
-                  </select> 
-                </div> 
-                 
-                 
-                <div class="form-group" id="leaderfunctionview">
-                	
-                </div>
-                <div class="form-group" id="functionboard"> 
-                </div>
-              </form> 
-            
-          </div>
-          <!-- /. box --> 
-          
+        <div class="col-md-8"> 
+         
           
           
 		<div class="box box-info direct-chat direct-chat-warning">
 			<div class="box-header with-border">
-				<h3 class="box-title">Direct Chat</h3>
+				<h3 class="box-title">Group	 Chat</h3>
 
 				<div class="box-tools pull-right">
 					<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -766,7 +719,7 @@
                     
                     
 					<!-- Message. Default to the left -->
-                    <div class="direct-chat-msg">
+                    <!-- <div class="direct-chat-msg">
                     	<div class="direct-chat-info clearfix">
                     		<span class="direct-chat-name pull-left">{NAME}</span>
                     		<span class="direct-chat-timestamp pull-right">{TIME}</span>
@@ -775,11 +728,11 @@
                     	<div class="direct-chat-text">
                         	{CONTENT}
                     	</div>
-                    </div>
+                    </div> -->
 
 
                     <!-- Message to the right -->
-                    <div class="direct-chat-msg right">
+                    <!-- <div class="direct-chat-msg right">
                     	<div class="direct-chat-info clearfix">
                     		<span class="direct-chat-name pull-right">{NAME}</span>
                         	<span class="direct-chat-timestamp pull-left">{TIME}</span>
@@ -788,7 +741,7 @@
                       	<div class="direct-chat-text">
                         	{CONTENT}
                       	</div>
-                    </div>
+                    </div> -->
 
 
                    
@@ -800,7 +753,7 @@
                     	<div class="input-group">
                    			<input type="text" name="message" id="message" placeholder="Type Message ..." class="form-control">
                       		<span class="input-group-btn">
-                         		<button type="button" class="btn btn-warning btn-flat" id="chatSendBtn">Send</button>
+                         		<button type="button" class="btn btn-info btn-flat" id="chatSendBtn">Send</button>
                       		</span>
                     	</div>
                   	</form>
@@ -809,59 +762,18 @@
 			</div>
           </div>
           
-      	  <!-- general form elements disabled --> 
-      	
-          <div class="box box-primary"> 
-            <div class="box-header with-border"> 
-              <h3 class="box-title">Menu</h3> 
-            </div> 
-            <!-- /.box-header --> 
-            <!-- <div class="box-body">
-               <div class="margin">
-                 <div class="btn-group">
-                  <button type="button" class="btn btn-info">function</button>
-                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a id="authority">권한부여</a></li>
-                    <li><a id="sharing">화면공유</a></li>
-                    <li><a id="invite">초대</a></li>
-                    <li class="divider"></li>
-                  </ul>
-                </div>
-                <span id="leaderfunctionview">
-                
-                </span>
-               </div> -->
-            
-              <form role="form"> 
-                 
-                <!-- Function Key --> 
-                <!-- <div class="form-group" id="leaderfunselectspan"> 
-                  <select class="form-control" id="leaderfunselect" onchange="lfsChange()"> 
-                    <option value="none" selected>==선택==</option>
-					<option value="quiz">퀴즈</option>
-					<option value="invite">초대</option>
-                  </select> 
-                </div>  -->
-                 
-                 
-                <div class="form-group" id="functionboard"> 
-                </div>
-              </form> 
-            </div> 
-            <!-- /.box-body --> 
+      	  
           </div>
-          <!-- /. box --> 
+          <!-- /. col --> 
         </div> 
-        <!-- /.col --> 
+        <!-- /.row --> 
         
       </div> 
-      <!-- /.row --> 
+      <!-- /.content-wrapper --> 
     </section> 
     <!-- /.content --> 
+    
+    
   </div> 
   <!-- /.content-wrapper --> 
    
@@ -870,14 +782,13 @@
   <!-- ========================================================================================================== --> 
   <!-- ========================================================================================================== --> 
    
-   
-  <footer class="main-footer"> 
-    <div class="pull-right hidden-xs"> 
-      <b>Version</b> 2.4.0 
-    </div> 
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
-    reserved. 
-  </footer> 
+    <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 0.0.1
+    </div>
+    <strong>Copyright &copy; 2018 PlanMan.</strong>
+  </footer>
+  
  
 </div> 
 <!-- ./wrapper --> 

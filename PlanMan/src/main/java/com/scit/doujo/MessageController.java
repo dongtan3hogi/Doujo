@@ -1,6 +1,8 @@
 package com.scit.doujo; 
  
 import java.util.ArrayList;
+
+
 import java.util.Collections;
 import java.util.HashMap; 
 import java.util.Map; 
@@ -11,6 +13,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import com.scit.doujo.dao.alermDao;
+import com.scit.doujo.dao.friendDao;
 import com.scit.doujo.dao.messageDao;
 import com.scit.doujo.dao.studyDao;
 import com.scit.doujo.util.PageNavigator;
@@ -33,21 +36,33 @@ public class MessageController {
 	/* 친구 목록을 가져온다.===================================================================*/ 
 	@RequestMapping(value = "/getMyFriendList", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> getMyFriendList(@RequestBody Map<String, String> SFL, HttpSession hs) {
-		//messageDao dao = sqlSession.getMapper(messageDao.class);
+		friendDao fdao = sqlSession.getMapper(friendDao.class);
 		String memberID = (String)hs.getAttribute("memberID");
 		Map<String, Map<String,String>> friendMap = new HashMap<>();
+		ArrayList<Map<String,String>> friendList = new ArrayList<>();
 		//친구목록 가져오는 기능 구현된 이후 친구가져오기 구현.
 		
+		friendList = fdao.selectMyFriendList(memberID);
+		for (Map<String, String> map : friendList) { 
+			friendMap.put(map.get("USERID"), map);
+			//System.out.println(map.toString());
+		}
+		
+		if(friendList.size()<=0) {
+			Map<String, String> friend1 = new HashMap<>();
+			friend1.put("none", "none");
+			friendMap.put("friend1", friend1);
+		}
 		
 		//친구목록 가져오는 기능 구현 전까지 쓸 임시 테스트.
-		Map<String, String> friend1 = new HashMap<>();
+		/*Map<String, String> friend1 = new HashMap<>();
 		friend1.put("USERID", "sop2");
 		friend1.put("NICKNAME", "sop2");
 		friendMap.put(friend1.get("USERID"), friend1);
 		Map<String, String> friend2 = new HashMap<>();
 		friend2.put("USERID", "IDW");
 		friend2.put("NICKNAME", "IDW");
-		friendMap.put(friend2.get("USERID"), friend2);
+		friendMap.put(friend2.get("USERID"), friend2);*/
 		
 		return friendMap; 
 	} 
@@ -122,12 +137,33 @@ public class MessageController {
 		}
 		
 		
-		//System.out.println("what"+friendMap.size());
+		
+		
+		
+		
 		String friendID = idSet.get("friendID");
+		String[] dummyAry;
+		
+		/*ArrayList<String> messOpenFriendList = new ArrayList<>();
+		ArrayList<String> messOpenFriendListBefore  = new ArrayList<>();
+		if(hs.getAttribute("messOpenFriendListBefore")!=null) {
+			messOpenFriendListBefore  = (ArrayList)hs.getAttribute("messOpenFriendListBefore");
+		} else {
+			
+		}
+		System.out.println("friendID:"+friendID);
+		messOpenFriendListBefore.add(friendID);
+		for (int i = 0; i < messOpenFriendListBefore.size(); i++) {
+            if (!messOpenFriendList.contains(messOpenFriendListBefore.get(i))) {
+            	messOpenFriendList.add(messOpenFriendListBefore.get(i));
+            }
+        }
+		hs.setAttribute("messOpenFriendList", messOpenFriendList);*/
+		
+		
+		String dummy = (String)hs.getAttribute("friendID");
 		if(hs.getAttribute("friendID") != null) { //섹션에 friendID가 없다면
-			String hsFriendID = (String)hs.getAttribute("friendID");
-			String dummy = hsFriendID;
-			String[] dummyAry;
+			
 			//#이 있다면 split로 쪼개고 없다면 하나라는 소리니 걍 [0]에 집어넣는다.
 			if(dummy.contains("#")) {	
 				dummyAry = dummy.split("#");
@@ -155,7 +191,9 @@ public class MessageController {
 		} else {
 			hs.setAttribute("friendID", friendID);
 		}
-		System.out.println("최종적인 friendID"+(String)hs.getAttribute("friendID"));
+		
+		
+		//System.out.println("최종적인 friendID"+(String)hs.getAttribute("friendID"));
 		return friendMap; 
 	}
 	
@@ -238,68 +276,4 @@ public class MessageController {
 	}
 	
 	
-	
-	
-	/* 페이지 시작시 alerm 가져오기===================================================================*/ 
-	@RequestMapping(value = "/showAlermList", method = RequestMethod.POST) 
-	public @ResponseBody Map<String, Map<String,String>> showAlermList(@RequestBody Map<String, String> message, HttpSession hs) {
-		alermDao adao = sqlSession.getMapper(alermDao.class);
-		String memberID = (String)hs.getAttribute("memberID");
-		Map<String, String> alerm = new HashMap<>();
-		alerm.put("id", memberID);
-		Map<String, Map<String,String>> alermMap = new HashMap<>();
-		ArrayList<Map<String,String>> alermList = new ArrayList<>();
-		//System.out.println(message.toString());
-		
-		alermList = adao.selectAlerm(alerm);
-		int count = 0;
-		for (Map<String, String> map : alermList) {
-			map.put("count", "ok");
-			alermMap.put(""+count, map);
-			count++;
-		}
-		Map<String,String> AlermCount = new HashMap<>();
-		AlermCount.put("count", ""+count);
-		alermMap.put("alermCount", AlermCount);
-		
-		return alermMap; 
-	}
-	
-	
-	/* alerm에서 수락 ===================================================================*/ 
-	@RequestMapping(value = "/groupAlermOk", method = RequestMethod.POST) 
-	public @ResponseBody Map<String, Map<String,String>> groupAlermOk(@RequestBody Map<String, String> alerm, HttpSession hs) {
-		alermDao adao = sqlSession.getMapper(alermDao.class);
-		studyDao sdao = sqlSession.getMapper(studyDao.class);
-		String memberID = (String)hs.getAttribute("memberID");
-		Map<String, Map<String,String>> alermMap = new HashMap<>();
-		System.out.println("groupAlermOk/alerm/"+alerm.toString());
-		//먼저 group에 해당 맴버를 넣는다.
-		int result1 = sdao.insertGroupMember(alerm);
-		
-		//해당 알람을 지운다.
-		int result2 = adao.deleteAlerm(alerm);
-		Map<String,String> AlermResult = new HashMap<>();
-		AlermResult.put("result1", ""+(result1+result2));
-		AlermResult.put("result2", "groupAlermOk");
-		alermMap.put("alermCount", AlermResult);
-		return alermMap; 
-	}
-	
-	/* alerm에서 거절해서 해당 alerm을 테이블에서 지운다. ===================================================================*/ 
-	@RequestMapping(value = "/groupAlermNoBtn", method = RequestMethod.POST) 
-	public @ResponseBody Map<String, Map<String,String>> groupAlermNoBtn(@RequestBody Map<String, String> alerm, HttpSession hs) {
-		alermDao adao = sqlSession.getMapper(alermDao.class);
-		studyDao sdao = sqlSession.getMapper(studyDao.class);
-		String memberID = (String)hs.getAttribute("memberID");
-		Map<String, Map<String,String>> alermMap = new HashMap<>();
-		
-		//해당 알람을 지운다.
-		int result1 = adao.deleteAlerm(alerm);
-		Map<String,String> AlermResult = new HashMap<>();
-		AlermResult.put("result1", ""+result1);
-		AlermResult.put("result2", "groupAlermNoBtn");
-		alermMap.put("alermCount", AlermResult);
-		return alermMap; 
-	}
 } 

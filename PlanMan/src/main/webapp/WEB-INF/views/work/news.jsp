@@ -5,28 +5,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Welcome PlanMan</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="resources/main/bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="resources/main/bower_components/font-awesome/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="resources/main/bower_components/Ionicons/css/ionicons.min.css">
-  <!-- fullCalendar -->
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css">
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="resources/main/dist/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
-  <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <!-- Date Picker -->
-  <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Welcome PlanMan</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<!-- Bootstrap 3.3.7 -->
+<link rel="stylesheet"
+	href="resources/main/bower_components/bootstrap/dist/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="resources/main/bower_components/font-awesome/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet"
+	href="resources/main/bower_components/Ionicons/css/ionicons.min.css">
+<!-- fullCalendar -->
+<link rel="stylesheet"
+	href="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css">
+<link rel="stylesheet"
+	href="resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css"
+	media="print">
+<!-- Theme style -->
+<link rel="stylesheet" href="resources/main/dist/css/AdminLTE.min.css">
+<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+<link rel="stylesheet"
+	href="resources/main/dist/css/skins/_all-skins.min.css">
+<!-- Google Font -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<!-- Date Picker -->
+<link rel="stylesheet"
+	href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
+<link rel="stylesheet" href="./resources/style/profile.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 .colordate{
 	background:yellow}
@@ -44,12 +57,12 @@ function goPage(a){
 function goSearch(){
 	var search=	document.getElementById("search").value;
 	if(search==""){
-		alert("검색어 입력해주세요 ");
+		swal("검색어 입력해주세요 ");
 		return;
 	}
 	var special_pattern = /[`~!@#$%^&*|\\\";:\/]/gi;
 	if(special_pattern.test(search)==true){
-		alert("특수문자는 사용할 수 없습니다.");
+		swal("특수문자는 사용할 수 없습니다.");
 		return false;
 	}
 	
@@ -58,10 +71,10 @@ function goSearch(){
 		data: {"search" : search},
 		type: "POST",
 		error: function (res) {
-		    alert("error: "+ res);
+		    //swal("error: "+ res);
 		},
 		success: function (res) {
-			alert(res);
+			swal(res);
 			
 		} 
 	});	
@@ -88,7 +101,7 @@ $(document).ready(function(){
 $('#saveMemo').click(function(){
 	var memo = $('#memo').val();
 	memo= memo.replace("\r\n","<br>");
-	alert(memo);
+	//alert(memo);
 	var today = new Date();
 	var mm= today.getMonth()+1; 
 	var dd =today.getDate();
@@ -104,13 +117,13 @@ $('#saveMemo').click(function(){
 		url:"saveMemo",
 		type:"post",
 		//client에서 server로 가는 값
-		data:{"userid": memo, "text":memo,"startDate":td},
+		data:{"userid": "${sessionScope.member.id}", "text":memo,"startDate":td},
 		success: function(data){
 		if(data=="success"){
-			alert("저장 되었습니다");
+			swal("저장 되었습니다");
 		}
 		},fail: function(){
-			alert("다음에 다시 시도해주세요");
+			swal("다음에 다시 시도해주세요");
 		}
 	});
 	});
@@ -120,11 +133,11 @@ $('#translate').on('click',function(){
 		  type:'post',
 		  data:{'text': $('#search').val(),  'src': $('#src').val(), 'target':$('#target').val()},
 		  success: function(data){
-			  alert(data);
+			  //swal(data);
 			  $('#search').val(data);
 		  },error:function(request,status,error){
 			  if(decodeURIComponent(request.responseText)=="undefined"){
-				  alert("잘못된 문자입니다");
+				  swal("잘못된 문자입니다");
 				  return;
 			  }
 			  $('#search').val(decodeURIComponent(request.responseText));
@@ -170,7 +183,7 @@ $('#keylist').on('click',function(){
 					}
 					}
 				result += "<a class='goSearch' href='javascript:void(0)' onclick='goSearch2(this)'>"+data[i].keyword+"</a> ";
-				result += "<input class='deleteBtn' type='button' value='삭제' onclick=\'return deleteKey(" + "\""+data[i].keyword+"\""+ ")\' style ='display:none'> &nbsp";
+				result += "<input class='deleteBtn btn btn-warning' type='button' class='btn btn-warning' value='삭제' onclick=\'return deleteKey(" + "\""+data[i].keyword+"\""+ ")\' style ='display:none'> &nbsp";
 			}
 			if(cnt<4){
 				$('#list'+cnt).html(result);
@@ -178,7 +191,7 @@ $('#keylist').on('click',function(){
 			
 		},
 		error:function(){
-			alert("실패");
+			swal("실패 하셨습니다.");
 		}
 	});	
 });
@@ -189,9 +202,9 @@ $('#ff').on('submit',function(){
 	
 	$.ajax({
 		url:"findFriend",
-		type:"get",
+		type:"post",
 		//client에서 server로 가는 값
-		data:{"userid": "${userid}","sex": sex, "age" : age},
+		data:{"userid": "${sessionScope.member.id}","sex": sex, "age" : age},
 		success: function(data){
 			if(data.length==0){
 				$('#flist').html("");
@@ -206,7 +219,7 @@ $('#ff').on('submit',function(){
 		$('#friendlist').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
 		},
 		error:function(){
-			alert("실패");
+			swal("실패 하셨습니다.");
 		}
 	});	
 	});
@@ -229,7 +242,7 @@ $(document).on("click",".friendBtn",function(){
 		$('#flist0').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
 		},
 		error:function(){
-			alert("실패");
+			swal("실패 하셨습니다.");
 		}
 	});	
 });
@@ -267,13 +280,13 @@ $('#saveMemo').click(function(){
 			url:"saveMemo",
 			type:"post",
 			//client에서 server로 가는 값
-			data:{"userid": memo, "text":memo,"startDate":temp},
+			data:{"userid": "${sessionScope.member.id}", "text":memo,"startDate":temp},
 			success: function(data){
 			if(data=="1"||data=="3"){
-				alert("저장 되었습니다");
+				swal("저장 되었습니다");
 			}else{'오류 발생'};
 			},fail: function(){
-				alert("다음에 다시 시도해주세요");
+				swal("다음에 다시 시도해주세요");
 			}
 		});
 });
@@ -291,11 +304,13 @@ var memodays="";
 	    	
 			},
 	    error: function() {
-	      alert('there was an error while fetching events!');
+	      swal('there was an error while fetching events!');
 	    }
   });
 	
-$( ".datepicker" ).datepicker({ 
+	$('#datepicker1').val("날짜 선택");	
+	
+	$( ".datepicker" ).datepicker({ 
        changeMonth: true, 
        changeYear: true,
        dateFormat: "yy-mm-dd",
@@ -305,7 +320,7 @@ $( ".datepicker" ).datepicker({
             
         },
        onSelect: function(dateText) {  
-    	   alert(dateText);
+    	   //alert(dateText);
     	   $.ajax({
     		   url:'findmemo',
     		    type: 'post',
@@ -314,7 +329,7 @@ $( ".datepicker" ).datepicker({
     		    },
     		    success: function(data){
     				if(data==null)	{
-    					alert("메모가 없습니다");	    			
+    					swal("메모가 없습니다");	    			
     		            }else{
     		            	if(dateText==td){
 	    		            	$('#memoTitle').html("오늘의 메모");
@@ -349,7 +364,7 @@ $( ".datepicker" ).datepicker({
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="redirect:/" class="logo">
+    <a href="gotoCalendar" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>Pm</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -374,41 +389,26 @@ $( ".datepicker" ).datepicker({
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
+				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능1</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능2</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능3</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                <div align="center">
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
+                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
             </ul>
@@ -424,24 +424,14 @@ $( ".datepicker" ).datepicker({
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src='./resources/userData/image/unknown.png;'">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
+     
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
@@ -467,7 +457,8 @@ $( ".datepicker" ).datepicker({
           </a>
           <ul class="treeview-menu">
             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>
+            <li><a href="goWC"><i class="fa fa-circle-o text-yellow"></i>Word Cloud</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -494,7 +485,8 @@ $( ".datepicker" ).datepicker({
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -520,6 +512,7 @@ $( ".datepicker" ).datepicker({
   
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <div id="fortheprofilediv"></div>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -534,8 +527,9 @@ $( ".datepicker" ).datepicker({
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">         
-      	 <div style="margin-left: 20px; float:left; width: 70%;'">
+      <div class="row">
+             
+      	 <div class="col-md-9">
       	  <!-- general form elements disabled -->
           <div class="box box-Warning">
             <div class="box-header with-border">
@@ -544,9 +538,9 @@ $( ".datepicker" ).datepicker({
             <!-- /.box-header -->
           <div class="box-body">
 		    <!--The div element for the map -->
-		    <input type="text" id="search"  >&nbsp<input type="button" onclick="goSearch()"value="검색">&nbsp <select id='src'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>-->
+		    <input type="text" id="search"  >&nbsp<input type="button" class="btn btn-warning" onclick="goSearch()"value="검색">&nbsp <select id='src'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>-->
 	        <select id='target'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>
-	        &nbsp<input type="button" id="translate" value="번역"><br>
+	        &nbsp<input type="button" class="btn btn-warning" id="translate" value="번역"><br>
 	        <c:if test="${!empty result}">
 			<c:forEach var="news" items="${result }">
 			<ul>
@@ -604,7 +598,6 @@ $( ".datepicker" ).datepicker({
             <div class="box-body">
             <div class="row">
 			        <div class="col-md-3 col-sm-6 mb-4" id="list0">
-			          
 			        </div>
 			        <div class="col-md-3 col-sm-6 mb-4" id="list1">         
 			        </div>
@@ -615,30 +608,30 @@ $( ".datepicker" ).datepicker({
 			      </div>
 			            </div>  
 			            <div class="box-header with-border">
-			              <h3 class="box-title"><a href="javascript:;">다른 사람들 키워드 검색	</a></h3>
+			              <h3 class="box-title"><a href="javascript:;">다른 사람들 키워드 검색</a></h3>
 			            </div>
 			            <div class="row2">
 			     <form id= "ff"  method="post">
 					성별:&nbsp<select name="sex"><option value="둘다">상관없음</option><option value="남">남자</option><option value="여">여자</option></select>
 			  나이:&nbsp<select name="age"><option value="0">상관없음</option><option value="10">10대</option><option value="20">20대</option><option value="30">30대</option><option value="40">40대</option><option value="50">50대 이상</option></select>
-			&nbsp<input type="submit" value="찾기" >
+			&nbsp<input type="submit" class="btn btn-warning" value="찾기" >
 			</form>
-			<div class="col-md-3 col-sm-6 mb-4" id="friendlist"></div>
-			  <div class="col-md-3 col-sm-6 mb-4" id="flist0">
-			        </div>
+			<div class="box box-warning" id="friendlist"></div>
+			  <div class="box-body no-padding" id="flist0">
+			  </div>
 			
-			      </div>
+			</div>
           </div>
           <!-- /. box -->
  		</div>
- 		<!-- /style="margin-left: 20px; float:left; width: 70%;'" -->  
- 		<div style="width: 20%; float:left; margin-left: 20px;">  
+ 		
+ 		<div class="col-md-3">
  		  <!-- /. 메모 box -->
           <div class="box box-warning">
             <div class="box-header with-border">
               <h3 class="box-title">MEMO</h3>
               <div class="box-tools">
-                <input type="button" class="datepicker btn btn-block btn-warning"  ></input>
+                <input type="button" class="datepicker btn btn-block btn-warning"  id="datepicker1"></input>
               </div>
             </div>
             <div class="box-body no-padding">
@@ -649,8 +642,8 @@ $( ".datepicker" ).datepicker({
             <!-- /.box-body -->
           </div>
           <!-- /. box -->
- 		</div>
- 		<!-- /style="width: 20%; float:left; margin-left: 20px;" -->    	       
+ 	   </div> 
+ 		  
       </div>
       <!-- /.row -->
     </section>
@@ -663,18 +656,14 @@ $( ".datepicker" ).datepicker({
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
   
+   <footer class="main-footer"> 
+    <div class="pull-right hidden-xs"> 
+      <b>Version</b> 2.4.0 
+    </div> 
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
+    reserved. 
+  </footer> 
   
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
-    </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-    reserved.
-  </footer>
-
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 

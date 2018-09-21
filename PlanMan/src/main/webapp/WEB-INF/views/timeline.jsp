@@ -22,6 +22,8 @@
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet" href="./resources/style/profile.css">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <!-- head -->
 </head>
@@ -32,7 +34,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="redirect:/" class="logo">
+    <a href="gotoCalendar" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>Pm</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -57,41 +59,26 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
+				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능1</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능2</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능3</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                <div align="center">
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
+                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
             </ul>
@@ -107,24 +94,14 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src='./resources/userData/image/unknown.png;'">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
+      
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
@@ -150,7 +127,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>
+            <li><a href="goWC"><i class="fa fa-circle-o text-yellow"></i>Word Cloud</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -177,7 +155,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -203,6 +182,7 @@
   
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <div id="fortheprofilediv"></div>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -286,6 +266,7 @@
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
 
+</div>
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->

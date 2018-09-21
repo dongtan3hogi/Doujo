@@ -13,9 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.json.simple.JSONArray;
@@ -34,8 +36,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.scit.doujo.dao.friendDao;
 import com.scit.doujo.dao.memberDao;
+import com.scit.doujo.dao.workDao;
 import com.scit.doujo.util.MsFaceAPI;
 import com.scit.doujo.util.PageNavigator;
 import com.scit.doujo.util.work_PageNavi;
@@ -43,6 +47,7 @@ import com.scit.doujo.vo.board;
 import com.scit.doujo.vo.friend;
 import com.scit.doujo.vo.member;
 import com.scit.doujo.vo.schedule;
+import com.scit.doujo.vo.work.memo;
 
 
 @Controller
@@ -220,83 +225,21 @@ public class FriendController {
 		return "friend/friendMain";
 	}
 		
-	@RequestMapping(value="/listfriend", method=RequestMethod.GET)
-	public String listfriend(
-		@RequestParam(value="currentPage", defaultValue="1") int currentPage,
-		@RequestParam(value="searchItem", defaultValue="id") String searchItem, 
-		@RequestParam(value="searchWord", defaultValue="") String searchWord, 
-		Model model, @RequestParam(value="startRecord", defaultValue="1") int startRecord
-	)  
-	{
-		Map<String, String> map = new HashMap<>();
-	    System.out.println(searchItem + ", " + searchWord);
-	    
-	    map.put("searchItem", searchItem);
-	    map.put("searchWord", searchWord);
-		friendDao getfriend = sqlSession.getMapper(friendDao.class);
-		int totalRecordCount = getfriend.getRecommendFriendsCount(map);
-		
-		int countPerPage = 10;
-		int pagePerGroup = 5;
-		
-		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, currentPage, totalRecordCount);
-		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
-				
-		List<member> list = getfriend.getRecommendFriends(map,rb);	
-			System.out.println(list.get(0).toString());
-		model.addAttribute("list", list);
-		model.addAttribute("searchWord", searchWord);
-		model.addAttribute("searchItem", searchItem);
-		model.addAttribute("navi", navi);
-		model.addAttribute("currentPage", currentPage);
-				
-		return "friend/friendMain";
-
-	}
 	
-	@RequestMapping(value="/listMyfriend", method=RequestMethod.GET)
-	public String listMyfriend(
-			@RequestParam(value="searchItem", defaultValue="id") String searchItem, 
-			@RequestParam(value="searchWord", defaultValue="") String searchWord, 
-			Model model
-	)  
-	{
-		int currentPage=1;
-		System.out.println();
-		Map<String, String> map = new HashMap<>();
-	    System.out.println(searchItem + ", " + searchWord);
-	    
-	    map.put("searchItem", searchItem);
-	    map.put("searchWord", searchWord);
-		friendDao getfriend = sqlSession.getMapper(friendDao.class);
-		int totalRecordCount = getfriend.getMyFriendsCount(map);
-		
-		int countPerPage = 10;
-		int pagePerGroup = 5;
-		
-		PageNavigator navi = new PageNavigator(countPerPage, pagePerGroup, currentPage, totalRecordCount);
-		RowBounds rb = new RowBounds(navi.getStartRecord(), navi.getCountPerPage());
-				
-		List<friend> newlist = getfriend.getMyFriends(map,rb);	
-			System.out.println(newlist.size());
-		model.addAttribute("newlist", newlist);
-		model.addAttribute("navi", navi);
-
-				
-		return "friend/friendMain1";
-
-	}
 	
 	
 	
 	//프렌드 리스트로 가기
 	@RequestMapping (value="tooldFriend", method=RequestMethod.GET)
-	public String tooldFriend(HttpSession session, Model model) {
-		int currentPage=1;
+	public String tooldFriend(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
+			@RequestParam(value="searchItem", defaultValue="id") String searchItem, 
+			@RequestParam(value="searchWord", defaultValue="") String searchWord, 
+			Model model, @RequestParam(value="startRecord", defaultValue="1") int startRecord,HttpSession session) {
+	
 		Map<String, String> map = new HashMap<>();
 	    
-	    map.put("searchItem", "");
-	    map.put("searchWord", "");
+	    map.put("searchItem", searchItem);
+	    map.put("searchWord", searchWord);
 		friendDao getfriend = sqlSession.getMapper(friendDao.class);
 		int totalRecordCount = getfriend.getMyFriendsCount(map);
 		
@@ -312,16 +255,117 @@ public class FriendController {
 			System.out.println(newlist.size());
 		model.addAttribute("newlist", newlist);
 		model.addAttribute("navi", navi);
+		model.addAttribute("currentPage", navi.getCurrentPage());
+		memberDao manager2=sqlSession.getMapper(memberDao.class);
+		
+		schedule result=new schedule();
+		String eventtype="friend";
+		result.setEventtype(eventtype);
+		result.setId(id);
+		
+		SimpleDateFormat formatter=new SimpleDateFormat("YYYY-MM-dd");
+		Date date=new Date();
+		
+		String countday=formatter.format(date);
+		Calendar cal = Calendar.getInstance();
+		int weekday=cal.get(cal.DAY_OF_WEEK);
+		
+		ArrayList<schedule> schList=new ArrayList<>();
+		
+		switch(weekday) {
+		case 1:
+			String weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			String weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 2:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 6);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 3:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 5);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 4:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 4);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 5:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 3);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 6:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 2);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		case 7:
+			System.out.println(cal.getTime());
+			cal.add(cal.DATE, 1);
+			weekSunday =formatter.format(cal.getTime());
+			System.out.println(weekSunday);
+			cal.add(cal.DATE, -6);
+			weekMonday=formatter.format(cal.getTime());
+			System.out.println(weekMonday);
+			result.setWeekMonday(weekMonday);
+			result.setWeekSunday(weekSunday);
+			schList=manager2.selectEventByType(result);
+			break;
+		default:
+			break;
+		}
+		
+		session.setAttribute("schList", schList);
 
 				
 		return "friend/friendMain1";
 	}
 	
-	@RequestMapping (value="/tonewFriend", method=RequestMethod.GET)
-	public String tonewFriend() {
-		
-		return "friend/friendMain";
-	}
+	
 	@RequestMapping (value="/accept", method=RequestMethod.GET)
 	public String accept(String fid,HttpSession hs) {
 		member a = (member) hs.getAttribute("member");
@@ -333,6 +377,7 @@ public class FriendController {
 		return "redirect: tooldFriend";
 
 	}
+	
 	@RequestMapping(value="/searchRecommendFriends", method=RequestMethod.GET)
 	public String listoldfriend(
 		@RequestParam(value="currentPage", defaultValue="1") int currentPage,
@@ -359,12 +404,11 @@ public class FriendController {
 		map.put("meme", userid);
 		List<member> list = getfriend.getRecommendFriends(map,rb);	
 				
-		System.out.println(list);
 		model.addAttribute("list", list);
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("searchItem", searchItem);
 		model.addAttribute("navi", navi);
-		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("currentPage", navi.getCurrentPage());
 				
 		return "friend/friendMain";
 	}
@@ -419,22 +463,21 @@ public class FriendController {
 
 	}
 	
-	@RequestMapping (value="chooseOnefriend", method=RequestMethod.POST)
-	public @ResponseBody String chooseOnefriend (String id,HttpSession hs) {
-		friendDao chooseone = sqlSession.getMapper(friendDao.class);
-		member a = (member) hs.getAttribute("member");
-		String userid = a.getId();
-		friend check = chooseone.checkFriend(userid, id);
-		System.out.println(check.toString());
-		if(check !=null) {
-			return "already";
-		}
-		int result = chooseone.insert(userid, id);
-		chooseone.beInserted(userid,id);
-		return "result";
+
+	
+	//friendSchedule페이지로 이동하기
+	@RequestMapping (value="friendSchedule", method=RequestMethod.GET)
+	public String friendSchedule(HttpSession session, Model model) {
+		friendDao manager = sqlSession.getMapper(friendDao.class);
+		String userid=(String) session.getAttribute("memberID");
+		ArrayList<friend> fList=new ArrayList<>();
+		fList=manager.selectFriendLsit(userid);
+		model.addAttribute("fList", fList);
+		return "friend/friendCalendar";
 	}
 	
-	@RequestMapping (value="/friend3", method=RequestMethod.GET)
+	//모임장소 추천으로 이동하기
+	@RequestMapping (value="friend3", method=RequestMethod.GET)
 	public String friend3(HttpSession hs ,Model model) {
 		friendDao bd = sqlSession.getMapper(friendDao.class);
 		member a = (member) hs.getAttribute("member");
@@ -544,9 +587,6 @@ public class FriendController {
 					jObject = (JSONObject)jArray.get(i);
 					jObject = (JSONObject) jObject.get("faceAttributes");
 					jObject = (JSONObject) jObject.get("emotion");
-					System.out.println(jObject.toString());
-					System.out.println(jObject.get("happiness").toString()+jObject.get("neutral").toString()+jObject.get("sadness").toString()+jObject.get("surprise").toString());
-					
 					happiness +=Double.parseDouble(jObject.get("happiness").toString());
 					neutral +=Double.parseDouble(jObject.get("neutral").toString());
 					sadness +=Double.parseDouble(jObject.get("sadness").toString());
@@ -558,10 +598,10 @@ public class FriendController {
 				sadness /=(double)jArray.size();
 				surprise /=(double)jArray.size();
 				System.out.println("행복"+happiness+"중립"+neutral+"슬픔:"+sadness+"놀람:"+surprise);
-				happiness = Math.round(happiness*1000)/1000;
-				neutral = Math.round(neutral*1000)/1000;
-				sadness = Math.round(sadness*1000)/1000;
-				surprise = Math.round(surprise*1000)/1000;
+				happiness = (double)Math.round(happiness*1000)/1000.0;
+				neutral = (double)Math.round(neutral*1000)/1000.0;
+				sadness = (double)Math.round(sadness*1000)/1000.0;
+				surprise = (double)Math.round(surprise*1000)/1000.0;
 				board.setHappiness(happiness);	
 				board.setNeutral(neutral);
 				board.setSadness(sadness);
@@ -603,5 +643,30 @@ public class FriendController {
 			
 			return flist;
 		}
+		
+		
+		@RequestMapping(value="/profileImage", method=RequestMethod.POST)
+	    public String profileImage (MultipartFile upload, board board, HttpSession session) {
+	        String saveFilename=(String)session.getAttribute("memberID")+".jpg";
+	        
+	        System.out.println("업로드 파일 :" + upload);
+	        String UPLOADPATH = "C:\\Doujo\\doujo\\PlanMan\\src\\main\\webapp\\resources\\userData\\image\\";
+	        
+	        File saveFile=new File(UPLOADPATH, saveFilename);
+	        //String originalfile = upload.getOriginalFilename();
+	            try {
+	                upload.transferTo(saveFile);
+	            } catch (IllegalStateException e) {
+	                // TODO Auto-generated catch block
+	                e.printStackTrace();
+	            } catch (IOException e) {
+	                // TODO Auto-generated catch block
+	                e.printStackTrace();
+	            } finally {
+	            }
+	            
+	        return "main";
+	    }
+	
 	
 }

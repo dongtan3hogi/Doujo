@@ -28,70 +28,14 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   
   <link rel="stylesheet" href="./resources/style/board.css" />
-  
+  <link rel="stylesheet" href="./resources/style/profile.css">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
-  <style>
+ <style>
 .eImage { height: 80px;
-			width: auto; }
+         width: auto; }
 </style>
-<script type="text/javascript">
-function fn_btnChoice(){
-	 $("input:checkbox[name='selected']:checked").each(function(){
 
-		 var tdArr = new Array(); 
-		 var tr = $("input:checkbox[name=selected]:checked").closest('tr');
-		 
-		 var td = tr.children();
-
-		 td.each(function(index,value){
-			 if(index==0){
-				 return true;
-			 }
-		        tdArr.push(td.eq(index).text());
-		    }); 
-		 
-		 var id = tdArr[0];
-		  $.ajax({
-				url : "chooseOnefriend",
-				method : "POST", 
-				data : {"id":id},
-				success : function(data){
-					if(data="already"){
-						alert("이미 친구 신청을 했습니다.");
-					}else{
-						alert("친구 신청이 접수되었습니다.");
-					}
-					
-				},error : function(data){
-					alert("접속 불량");
-				} 
-				
-			}); 
-			 
-		 });	    	 
-}
-	
-/* function fn_delRow() { 
-
-	 ﻿         if ($("input:checkbox[name='selected']").is(":checked")){ 
-
-	 ﻿            if (confirm("삭제 하시겠습니까?")) { 
-
-	 ﻿                for(var i=$("input:checkbox[name='selected']:checked").length-1; i>-1; i--){ 
-
-	 ﻿                    $("input:checkbox[name='selected']:checked").eq(i).closest("tr").remove(); 
-
-	                 }﻿ 
-	             }﻿ 
-	          } else { 
-
-	 ﻿            alert("선택된 데이터가 없습니다.");  
-
-	          }﻿ 
-
-	     }﻿  */
-	    
-</script>
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -101,7 +45,7 @@ function fn_btnChoice(){
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="redirect:/" class="logo">
+    <a href="gotoCalendar" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>Pm</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -126,41 +70,26 @@ function fn_btnChoice(){
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
+				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능1</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능2</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능3</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                <div align="center">
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
+                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
             </ul>
@@ -176,24 +105,14 @@ function fn_btnChoice(){
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src='./resources/userData/image/unknown.png;'">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
+     
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
@@ -220,6 +139,7 @@ function fn_btnChoice(){
           <ul class="treeview-menu">
             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
             <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
+            <li><a href="goWC"><i class="fa fa-circle-o text-yellow"></i>Word Cloud</a></li>     
           </ul>
         </li>
         <li class="treeview">
@@ -246,7 +166,8 @@ function fn_btnChoice(){
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -272,6 +193,7 @@ function fn_btnChoice(){
   
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <div id="fortheprofilediv"></div>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -286,9 +208,10 @@ function fn_btnChoice(){
 
     <!-- Main content -->
     <section class="content">
-        
+        <div class="row">
+        	<div class="col-md-4">
         	  <!-- TO DO List -->
-	          <div class="box box-success" style="width: 30%; float:left; margin-left:20px;">
+	          <div class="box box-success">
 	            <div class="box-header">
 	              <i class="ion ion-clipboard"></i>
 	
@@ -338,46 +261,66 @@ function fn_btnChoice(){
 	            </div>
 	            <!-- /.box-body -->
 	            <div class="box-footer clearfix no-border">
-	            </div>
+		        </div>
+		        <div class="box box-success">
+		            <div class="box-header">
+		              <i class="ion ion-clipboard"></i>
+		
+		              <h3 class="box-title">Popular Meetings</h3>
+		            </div>
+		            <!-- /.box-header -->
+		            <div class="box-body">
+		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+		              <input type="text" id="searchMeeting">&nbsp;<input type="button" class="btn btn-success" id="goSearch" value="#으로 검색">
+		                
+		              <ul class="eventlist">
+		              </ul>
+		            </div>
+		              <div id="boardfooter"></div>
+	          </div>
 	          </div>
 	          <!-- /.box -->
-
+	          
+	       </div>
+		   <div class="col-md-8">
 				<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 					<script>
-					alert("취미 직업을 등록하러 갑니다");
+					swal("취미 직업을 등록하러 갑니다");
 					location.href="joinfriend";
 					</script>
 				</c:if>
 				 
-				 <div class="box box-success" style="width: 60%; float:left; margin-left:20px;">
+				 <div class="box box-success">
 		            <div class="box-header">
 		              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_Recommendation</h3>
 		
 		              <div class="box-tools">
-		               <div class="input-group input-group-sm"  style="width: 250px;">
+		               <div class="input-group input-group-sm">
 		                
-		                <form class="right" action="searchRecommendFriends" method="get">
-				         <select name="searchItem">
+		                <form class="right" action="searchRecommendFriends" method="get" style="display: inline;">
+				         <select name="searchItem" style="height: 26px;">
 				            <option value="id"${searchItem =='id'? 'selected':''}>ID</option>
 				            <option value="job" ${searchItem =='job'? 'selected':''}>JOB</option>
 				            <option value="hobby" ${searchItem =='hobby'? 'selected':''}>HOBBY</option>
 				         </select>
 				         <input type="text" placeholder="Search" name="searchWord" value="${searchWord}"/>
-				         <button type="submit" value="search"  class="btn btn-default" ><i class="fa fa-search"></i></button>
+				         <button type="submit" value="search"  class="btn btn-success" ><i class="fa fa-search"></i></button>
 				       </form>
+				       
+				       
 		              </div>
 		    
 		             </div>
 		             <br/>
 		             <div>
-				      	<a href="tooldFriend">ToFriend_List</a>
+				      	<a href="tooldFriend"><label class="label label-success">My friend</label></a>
 				      </div>
 		            </div> 
 		            <!-- /.box-header -->
 		            <div class="box-body table-responsive no-padding">
 		              <table class="table table-hover">
 		                <tr>
-		                  <th><input type="checkbox" onClick="fn_allChecked();"/></th>
+		                  <th>ICON</th>
 					      <th>ID</th>
 					      <th>NICKNAME</th>
 					      <th>NAME</th>
@@ -389,7 +332,8 @@ function fn_btnChoice(){
 					   <c:choose>
 					      <c:when test="${!empty list}">
 					       <c:forEach begin="0" var="member" items="${list}" varStatus="index">
-					          <tr class='sibal'><td><input type="checkbox" name='selected'></td>
+					          <tr>
+					              <td><img class="direct-chat-img" src="resources/userData/image/' + ${member.id} + '.jpg"  data-rno="${member.id}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
 					              <td>${member.id}</td>   
 					              <td>${member.nickname}</td>
 					              <td>${member.name}</td>
@@ -408,11 +352,10 @@ function fn_btnChoice(){
 		            </div>
 		            <!-- /.box-body -->
 		            <div>
-				        <a href="#" onClick="fn_btnChoice()">choose</a>
 				   	</div>
 				   	<div class="boardfooter">
-						   <a href="listfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
-						   <a href="listfriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
+						   <a href="searchRecommendFriends?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
+						   <a href="searchRecommendFriends?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
 						   &nbsp; &nbsp;
 						   <c:forEach var="page" begin="${navi.startPageGroup}" end="${navi.endPageGroup}">
 						      <c:if test="${page == currentPage}">
@@ -420,12 +363,12 @@ function fn_btnChoice(){
 						      </c:if>
 						      
 						      <c:if test="${page != currentPage}">
-						         <a href="listfriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
+						         <a href="searchRecommendFriends?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
 						      </c:if>
 						   </c:forEach>
 						   &nbsp; &nbsp;
-						   <a href="listfriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
-						   <a href="listfriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>	   
+						   <a href="searchRecommendFriends?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
+						   <a href="searchRecommendFriends?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>	   
 				   </div>
 				   <script type="text/javascript"> 
 					   	console.log('asdf');
@@ -433,37 +376,26 @@ function fn_btnChoice(){
 				    </script>
 		          </div>
 		          <!-- /.box -->
-          	<div class="box box-primary" style="width: 30%; float:left;margin-right:20px;">
-            <div class="box-header">
-              <i class="ion ion-clipboard"></i>
-
-              <h3 class="box-title">Popular Meetings</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-              <input type="text" id="searchMeeting">&nbsp;<input type="button" id="goSearch" value="#으로 검색">
-                
-              <ul class="eventlist">
-              </ul>
-            </div>
-              <div id="boardfooter"></div>
-          </div>
-				
-
-			  <!-- ========================================================================================================== -->
-			  <!-- ========================================================================================================== -->
-			  <!-- ========================================================================================================== -->
+		     </div>
+		          
+		</div>          
+	</section>
 	
-</div>
-<!-- ./wrapper -->
+  </div>	          	
+  <!-- ./content wrapper -->		
+ <!-- ========================================================================================================== -->
+ <!-- ========================================================================================================== -->
+ <!-- ========================================================================================================== -->
 
-   <footer class="main-footer">
+ <footer class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Version</b> 0.0.1
     </div>
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
+
+</div>
+<!-- ./wrapper -->				
 
 
 <!-- jQuery 3 -->
@@ -527,10 +459,87 @@ function goPage(a){
 			}
 		});
 	}
-  $(function () {    
+  $(function () {
+	  
+	  $(".chkbox").change(function(){
+	        if($(this).is(":checked")){
+	            $.ajax({
+	            	url:'chkschdule'
+	      			,type:'post'
+	      			,data:{
+	      				"schseq":$(this).attr('data-rno')
+	      			}
+	      			,success: function (data){
+	    				if(data="success"){
+	    					swal("스케쥴 확인완료!")
+	    				}	
+	      			}
+	            })
+	            $(this).parent('li').addClass('done');
+	        }else if($(this).is(":not(:checked)")){
+	        	 $.ajax({
+		            	url:'unchkschdule'
+		      			,type:'post'
+		      			,data:{
+		      				"schseq":$(this).attr('data-rno')
+		      			}
+		      			,success: function (data){
+		      				if(data="success"){
+		    					swal("스케쥴 해제하기!")
+		    				}	
+		      			}
+		        })
+	            $(this).parent('li').removeClass('done');
+	        }
+	  });
+	  
+	  $("#goSearch").on("click",function(){
+	      var search= $("#searchMeeting").val();
+	      if(search==""){
+	         swal('입력해주세요.');
+	      }
+	      $.ajax({
+	         url:"searchMeeting",
+	         type:"post",
+	         //client에서 server로 가는 값
+	         data:{"search": search},
+	         success: function(data){
+	            $.each(data.meeting, function(index, item){
+	            
+	            var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
+	            $(".eventlist").append(result);
+	            });
+	            var navi = data.navi;
+	            var line="";
+	            var current= Number(0);
+	            if(navi.currenPage >1){
+	               current = Number(navi.currentPage);
+	               current--;
+	               line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
+	            }
+	            for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
+	               if(navi.currentPage == i){
+	                  line+=    "<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
+	               }else{
+	                  line+=    "<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
+	               }
+	            }
+	            if(navi.currentPage <navi.totalPageCount){
+	               current = Number(navi.currentPage);
+	               
+	               current++;
+	               line+=   "<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
+
+	            }
+	               $('#boardfooter').append(line);
+	         },fail: function(){
+	            swal("다음에 다시 시도해주세요.");
+	         }
+	      });
+	   }); 
      
      $('a.favorite').click(function() {
-        alert("클릭");
+        //alert("클릭");
         var locations = $(this).next().attr('href');
         if($(this).children('i').attr('class')=='fa fa-star text-yellow'){
            $.ajax({
@@ -541,11 +550,11 @@ function goPage(a){
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star-o text-yellow');
-                  }else{alert("다시 시도해주세용");}
+                  }else{swal("다시 시도해주세요.");}
                
            },
                  fail: function(res){
-              alert("다시 시도해주세용");
+              swal("다시 시도해주세요.");
               }
      });
         }
@@ -555,7 +564,7 @@ function goPage(a){
               return;
            }
            var locations = $(this).next().attr('href');
-           alert(title+"\n"+locations);
+           //swal(title+"\n"+locations);
            $.ajax({
                url:"insertFavorites",
                type:"post",
@@ -564,91 +573,46 @@ function goPage(a){
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star text-yellow');
-                  }else{alert("다시 시도해주세용");}
+                  }else{swal("다시 시도해주세요.");}
                
            },
                  fail: function(res){
-              alert("다시 시도해주세용");
+              swal("다시 시도해주세요.");
               }
      });
        
       }
         location.reload();
      });
-    
-   $('#saveMemo').click(function(){
-      var memo = $('#memo').val();
-      memo= memo.replace("\r\n","<br>");
-      alert(memo);
-      var today = new Date();
-      var mm= today.getMonth()+1; 
-      var dd =today.getDate();
-      var yy = today.getFullYear();
-      if(dd<10) {
-          dd='0'+dd;
-      } 
-      if(mm<10) {
-          mm='0'+mm;
-      } 
-      var td=yy+'-'+mm+'-'+dd;
-      $.ajax({
-         url:"saveMemo",
-         type:"post",
-         //client에서 server로 가는 값
-         data:{"userid": memo, "text":memo,"startDate":temp},
-         success: function(data){
-         if(data=="1"||data=="3"){
-            alert("저장 되었습니다");
-         }else{'오류 발생'};
-         },fail: function(){
-            alert("다음에 다시 시도해주세요");
-         }
-      });
-      });
-   $("#goSearch").on("click",function(){
-	   var search= $("#searchMeeting").val();
-	   if(search==""){
-		   alert('입력해');
-	   }
-	   $.ajax({
-			url:"searchMeeting",
-			type:"post",
-			//client에서 server로 가는 값
-			data:{"search": search},
-			success: function(data){
-				$.each(data.meeting, function(index, item){
-				
-				var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
-				$(".eventlist").append(result);
-				});
-				var navi = data.navi;
-				var line="";
-				var current= Number(0);
-				if(navi.currenPage >1){
-					current = Number(navi.currentPage);
-					current--;
-					line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
-				}
-				for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
-					if(navi.currentPage == i){
-						line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
-					}else{
-						line+= 	"<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
-					}
-				}
-				if(navi.currentPage <navi.totalPageCount){
-					current = Number(navi.currentPage);
-					
-					current++;
-					line+=	"<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
-
-				}
-			      $('#boardfooter').append(line);
-			},fail: function(){
-				alert("다음에 다시 시도해주세요");
-			}
-		});
-   });
+     
+     $('.direct-chat-img').on('click',function(){
+    	 var id=$(this).attr('data-rno');
+    	 //alert(id);
+    	 var flag = confirm('친구를 신청하시겠습니까?');
+    	 if(flag){
+    		 $.ajax({
+ 				url : "friendRegistApply",
+ 				method : "POST", 
+ 				data : {"id":id},
+ 				success : function(data){
+ 					if(data=="already"){
+ 						swal("이미 친구 신청을 했습니다.");
+ 					}else{
+ 						swal("친구 신청이 접수되었습니다.");
+ 					}
+ 					
+ 				},error : function(data){
+ 					swal("접속 불량");
+ 				} 
+ 				
+ 		 	}); 	 
+    	 }else{
+    		
+    	 }
+    	 
+     });
+     
+  
   });
 </script>
 <script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>

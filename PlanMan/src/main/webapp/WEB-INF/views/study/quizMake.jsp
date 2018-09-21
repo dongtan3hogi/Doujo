@@ -33,7 +33,8 @@
 <!-- Google Font -->
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
+  <link rel="stylesheet" href="./resources/style/profile.css">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- head -->
 </head>
 <script
@@ -42,10 +43,10 @@
  
 $(function(){ 
 	$(document).ready(function (){ 
-		$('#quiztypeinput').on("click", function(){ 
-			var qt = document.getElementById("quiztypeinput").value; 
-			if(qt == "shortanswer"){ 
-				document.getElementById("quiztypeinput").value = "multiplechoice"; 
+		$('.quiztypeinput').on("click", function(){ 
+			var qt = $(this).val(); 
+			if(qt == "multiplechoice"){ 
+				//document.getElementById("quiztypeinput").value = "multiplechoice"; 
 				document.getElementById("type").value = "multiplechoice"; 
 				 
 				var contentAnswerDIV = '<div>'; 
@@ -61,8 +62,8 @@ $(function(){
 				 
 				$("#answerDIV > div").remove(); 
 				$("#answerDIV").append(contentAnswerDIV);		 
-			} else if(qt == "multiplechoice"){	 
-				document.getElementById("quiztypeinput").value = "shortanswer"; 
+			} else if(qt == "shortanswer"){	 
+				//document.getElementById("quiztypeinput").value = "shortanswer"; 
 				document.getElementById("type").value = "shortanswer"; 
 				$("#answerDIV > div").remove(); 
 				$("#answerDIV").append('<div><label>정답</label><input type="text" class="form-control" name="answer1" id="answer1"></div>'); 
@@ -88,30 +89,29 @@ function check() {
 	var selecter = document.getElementById("quizrecordname"); 
 	 
 	if(selecter.value == 'new' && document.getElementById("newrecord").value.length <= 0){ 
-		alert("새로운 폴더명을 입력하세요."); 
+		swal("새로운 폴더명을 입력하세요."); 
 		document.getElementById("newrecord").focus(); 
 		document.getElementById("newrecord").select(); 
 		return false; 
 	} else if(q.value.length <= 0){ 
-		alert("질문을 입력하세요."); 
+		swal("질문을 입력하세요."); 
 		q.focus(); 
 		q.select(); 
 		return false; 
 	} else if(a.value.length <= 0){ 
-		alert("정답을 입력하세요."); 
+		swal("정답을 입력하세요."); 
 		a.focus(); 
 		a.select(); 
 		return false; 
 	} 
 	 
-	/* alert(a + q); */ 
+	/* swal(a + q); */ 
 	var radioVal = $('input[name="answernumber"]:checked').val(); 
-	//alert(radioVal); 
+	//swal(radioVal); 
 	var quiz = { 
 			"quizrecordname" : $("#quizrecordname").val() 
 			, "newrecord" : $("#newrecord").val() 
-			, "type" : $("#type").val() 
-			, "teg" : $("#teg").val() 
+			, "type" : $("#type").val()
 			, "question" : $("#question").val() 
 			, "answer1" : $("#answer1").val() 
 			, "answer2" : $("#answer2").val() 
@@ -120,11 +120,11 @@ function check() {
 			, "answernumber" : radioVal 
 			, "id" :  $("#id").val() 
 	}; 
-	alert("quizrecordname:" +quiz.quizrecordname + ", newrecord:" + quiz.newrecord + ", type:" + quiz.type  
+	/* swal("quizrecordname:" +quiz.quizrecordname + ", newrecord:" + quiz.newrecord + ", type:" + quiz.type  
 			+ "\n, teg:" + quiz.teg + ", question:" + quiz.question  
 			+ "\n, answer1:" + quiz.answer1 + ", answer2:" + quiz.answer2  
 			+ ",\n answer3:" + quiz.answer3 + ", answer4:" + quiz.answer4 
-			+ ",\n answernumber:" + quiz.answernumber + ",\n id:" + quiz.id);
+			+ ",\n answernumber:" + quiz.answernumber + ",\n id:" + quiz.id);*/
 	$.ajax({ 
 		method   : 'post' 
 		, url    : 'quizInsert' 
@@ -132,7 +132,7 @@ function check() {
 		, dataType : 'json' 
 		, contentType : 'application/json; charset=UTF-8' 
 		, success: function (data){ 
-			alert('[0] '+data.success + ', ' + data.newRecordName); 
+			//swal('[0] '+data.success + ', ' + data.newRecordName); 
 			$("form").each(function() {   
 	            this.reset(); 
 	        }); 
@@ -148,7 +148,7 @@ function check() {
 			//$('#quizrecordname').append(data.newRecordName); 
 		} 
 		, error: function(request,status,error){ 
-	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+	        //swal("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 	    } 
 			 
 	}); 
@@ -162,7 +162,7 @@ function check() {
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="redirect:/" class="logo">
+    <a href="gotoCalendar" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>Pm</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -187,41 +187,26 @@ function check() {
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
+				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능1</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능2</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능3</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                <div align="center">
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
+                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
             </ul>
@@ -237,24 +222,14 @@ function check() {
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src='./resources/userData/image/unknown.png;'">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
+
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
@@ -280,7 +255,8 @@ function check() {
           </a>
           <ul class="treeview-menu">
             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>  
+            <li><a href="goWC"><i class="fa fa-circle-o text-yellow"></i>Word Cloud</a></li>        
           </ul>
         </li>
         <li class="treeview">
@@ -307,7 +283,8 @@ function check() {
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -338,6 +315,8 @@ function check() {
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
+		<div id="fortheprofilediv">
+		</div>
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
@@ -352,7 +331,7 @@ function check() {
 			<!-- Main content -->
 			<section class="content">
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-md-4">
 						<div class="box box-info">
 							<div class="box-header with-border">
 								<h3 class="box-title">STUDY</h3>
@@ -367,7 +346,8 @@ function check() {
 							<div class="box-body no-padding">
 								<ul class="nav nav-pills nav-stacked">
 									<ul class="nav nav-pills nav-stacked">
-										<li><a href="gotoQuiz"><i class="fa fa-file-text-o"></i>QUIZ SOLVE</a></li> 
+										<li><a href="gotoQuiz"><i class="fa fa-file-text-o"></i>QUIZ SOLVE</a></li>
+										<li><a href="gotoQuizSearch"><i class="fa fa-envelope-o"></i>QUIZ SEARCH</a></li>
               							<li><a href="gotoQuizMake"><i class="fa fa-envelope-o"></i>QUIZ MAKE</a></li> 
 									</ul>
 								</ul>
@@ -377,7 +357,7 @@ function check() {
 						<!-- /. box -->
 					</div>
 					<!-- /.col -->
-					<div class="col-md-9">
+					<div class="col-md-8">
 
 						<!-- general form elements disabled -->
 						<div class="box box-info"  style="width: 90%;">
@@ -390,12 +370,16 @@ function check() {
 
 									<input type="hidden" id="id" value="${sessionScope.ID}">
 
-									<!-- TEG -->
+									<!-- TYPE -->
 									<div class="form-group">
-										<label>문제 타입</label> <input type="button" class="form-control"
-											id="quiztypeinput" value="multiplechoice" readonly="readonly">
-										<input type="hidden" id="type" name="type"
-											value="multiplechoice">
+										<label>문제 타입</label>
+										<br/>
+										<div class="btn-group">
+										  <input type="button" class="btn btn-info quiztypeinput" value="multiplechoice" readonly="readonly">
+										  <input type="button" class="btn btn-info quiztypeinput" value="shortanswer" readonly="readonly" style="margin-left: 10px;">
+					                    </div> 
+										
+										<input type="hidden" id="type" name="type" value="multiplechoice">
 									</div>
 
 									<!-- Quiz folder -->
@@ -413,11 +397,7 @@ function check() {
 									</div>
 
 
-									<!-- TEG -->
-									<div class="form-group">
-										<label>태그</label> <input type="text" class="form-control"
-											name="teg" id="teg" placeholder="#JPT450#listen">
-									</div>
+									
 
 
 									<!-- Question -->
@@ -449,7 +429,7 @@ function check() {
 
 
 									<a href="" class="btn btn-info btn-block margin-bottom"
-										onclick="check()">Button</a>
+										onclick="check()">문제 등록하기</a>
 
 
 

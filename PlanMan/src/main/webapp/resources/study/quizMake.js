@@ -46,17 +46,17 @@ function check() {
 	var selecter = document.getElementById("quizrecordname"); 
 	 
 	if(selecter.value == 'new' && document.getElementById("newrecord").value.length <= 0){ 
-		alert("새로운 폴더명을 입력하세요."); 
+		swal("새로운 폴더명을 입력하세요."); 
 		document.getElementById("newrecord").focus(); 
 		document.getElementById("newrecord").select(); 
 		return false; 
 	} else if(q.value.length <= 0){ 
-		alert("질문을 입력하세요."); 
+		swal("질문을 입력하세요."); 
 		q.focus(); 
 		q.select(); 
 		return false; 
 	} else if(a.value.length <= 0){ 
-		alert("정답을 입력하세요."); 
+		swal("정답을 입력하세요."); 
 		a.focus(); 
 		a.select(); 
 		return false; 
@@ -78,11 +78,11 @@ function check() {
 			, "answernumber" : radioVal 
 			, "id" :  $("#id").val() 
 	}; 
-	alert("quizrecordname:" +quiz.quizrecordname + ", newrecord:" + quiz.newrecord + ", type:" + quiz.type  
+	/*alert("quizrecordname:" +quiz.quizrecordname + ", newrecord:" + quiz.newrecord + ", type:" + quiz.type  
 			+ "\n, teg:" + quiz.teg + ", question:" + quiz.question  
 			+ "\n, answer1:" + quiz.answer1 + ", answer2:" + quiz.answer2  
 			+ ",\n answer3:" + quiz.answer3 + ", answer4:" + quiz.answer4 
-			+ ",\n answernumber:" + quiz.answernumber + ",\n id:" + quiz.id);
+			+ ",\n answernumber:" + quiz.answernumber + ",\n id:" + quiz.id);*/
 	$.ajax({ 
 		method   : 'post' 
 		, url    : 'quizInsert' 
@@ -90,7 +90,7 @@ function check() {
 		, dataType : 'json' 
 		, contentType : 'application/json; charset=UTF-8' 
 		, success: function (data){ 
-			alert('[0] '+data.success + ', ' + data.newRecordName); 
+			//alert('[0] '+data.success + ', ' + data.newRecordName); 
 			$("form").each(function() {   
 	            this.reset(); 
 	        }); 
@@ -106,7 +106,7 @@ function check() {
 			//$('#quizrecordname').append(data.newRecordName); 
 		} 
 		, error: function(request,status,error){ 
-	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 	    } 
 			 
 	}); 

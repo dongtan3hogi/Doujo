@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="resources/main/dist/css/blue.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>  
 </head>
 <body class="hold-transition register-page">
 <div class="register-box">
@@ -170,37 +170,37 @@
 	  
 	  
 	  if(!flag2){
-		  alert("잘못된 비밀번호 입니다. 다시 입력해주세요.");
+		  swal("잘못된 비밀번호 입니다. 다시 입력해주세요.");
 		  return false;
 	  }
 	  
 	  if($('#password').val().length==0){
-		  alert("비밀번호를 입력해 주세요");
+		  swal("비밀번호를 입력해 주세요");
 		  return false;
 	  }
 	  
 	  if($('#password2').val().length==0){
-		  alert("비밀번호 확인을 입력해 주세요");
+		  swal("비밀번호 확인을 입력해 주세요");
 		  return false;
 	  }
 	  
 	  if($('#name').val().length==0){
-		  alert("이름을 입력해 주세요");
+		  swal("이름을 입력해 주세요");
 		  return false;
 	  }
 	  
 	  if($('#age').val().length==0){
-		  alert("나이를 입력해 주세요");
+		  swal("나이를 입력해 주세요");
 		  return false;
 	  }
 	  
 	  if($('#height').val().length==0){
-		  alert("나이를 입력해 주세요");
+		  swal("나이를 입력해 주세요");
 		  return false;
 	  }
 	  
 	  if($('#weight').val().length==0){
-		  alert("나이를 입력해 주세요");
+		  swal("나이를 입력해 주세요");
 		  return false;
 	  }
 	  

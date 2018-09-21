@@ -78,6 +78,22 @@
 		update member set password=#{password}, name=#{name}, nickname=#{nickname}, gender=#{gender}, age=#{age}, job=#{job}, hobby=#{hobby}, height=#{height}, weight=#{weight}
 		where id=#{id}
 	</update>
+	
+	<!-- 친구 스케쥴 가져오기-->
+	<select id="selectFriendSchdule" parameterType="String" resultType="Schedule">
+		select * from schedule where id=#{friendID}
+	</select>
 
+	<!-- 회원 정보 가져오기 -->
+	<select id="selectOneMember" parameterType="String" resultType="Member">
+		select * from member where id=#{sendid}
+	</select>
+	
+	<!-- 아이디 중복확인2 -->
+  	<select id="idDoubleCheck2" resultType="integer" parameterType="String">
+  		select count(*) 
+  		from member 
+  		where id = #{id}  			
+  	</select>
 
 </mapper>

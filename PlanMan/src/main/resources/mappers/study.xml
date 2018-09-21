@@ -93,48 +93,18 @@
 	<!-- 1 -->
 	<insert id="insertMQuiz" parameterType="map">
 		INSERT INTO quiz
-		(quizseq, type, teg, question, answer1, answer2, answer3, answer4, answernumber, id)
+		(quizseq, type, question, answer1, answer2, answer3, answer4, answernumber, id)
 		VALUES
-		(quizseq.nextval, #{type}, #{teg}, #{question}, #{answer1}, #{answer2}, #{answer3}, #{answer4}, #{answernumber}, #{id})
+		(quizseq.nextval, #{type}, #{question}, #{answer1}, #{answer2}, #{answer3}, #{answer4}, #{answernumber}, #{id})
 	</insert>
 	
 	<!-- 1 -->
 	<insert id="insertJQuiz" parameterType="map">
 		INSERT INTO quiz
-		(quizseq, type, teg, question, answer1, id)
+		(quizseq, type, question, answer1, id)
 		VALUES
-		(quizseq.nextval, #{type}, #{teg}, #{question}, #{answer1}, #{id})
+		(quizseq.nextval, #{type}, #{question}, #{answer1}, #{id})
 	</insert>
-	
-	<!-- 3 -->
-	<insert id="insertTeg" parameterType="map">
-		INSERT INTO teg
-		(teg, belong, id)
-		VALUES
-		(#{teg}, #{belong}, #{id})
-	</insert>
-	
-	<!-- 4 -->
-	<select id="findTeg" parameterType="map" resultType="integer">
-		SELECT COUNT(*)
-		FROM teg
-		WHERE teg=#{teg}
-		AND id=#{id}
-	</select>
-	
-	
-	<!-- 5 -->
-	<update id="recountTeg" parameterType="map">
-		UPDATE teg
-		<if test="plus != null">
-    		SET count = count + 1
-  		</if>
-  		<if test="minus != null">
-    		SET count = count - 1
-  		</if>
-  		WHERE teg = #{teg}
-  		AND id=#{id}
-	</update>
 	
 	<!--  -->
 	<select id="selectAllQuizrecordlist" resultType="map" parameterType="string">
@@ -143,12 +113,6 @@
 		WHERE id=#{id}
 	</select>
 	
-	<!-- 7 -->
-	<select id="selectAllTeg" resultType="map" parameterType="string">
-		SELECT distinct teg, count num
-		FROM teg
-		WHERE id=#{id}
-	</select>
 	
 	<!-- 8 -->
 	<insert id="insertQuizrecordlist" parameterType="map">
@@ -173,77 +137,11 @@
 		WHERE id=#{id}
 	</select>
 	
-	<!-- 11 -->
-	<select id="countTeg" resultType="integer" parameterType="string">
-		SELECT COUNT(*)
-		FROM Teg
-		WHERE id=#{id}
-	</select>
-	
-	<!-- 12_1 -->
-	<select id="selectTegQuiz" resultType="map" parameterType="map">
-  		SELECT
-  			TO_CHAR(q.quizseq) NUM
-  			,q.type type
-  			,q.teg teg
-  			,q.question question
-  			,q.answer1 answer1
-            ,q.answer2 answer2
-            ,q.answer3 answer3
-            ,q.answer4 answer4
-  			,TO_CHAR(q.answernumber) answernumber
-  			,q.id id
-  			,l.quizrecordname quizrecordname
-		FROM quiz q, quizrecord r , quizrecordlist l
-		WHERE teg like '%' ||  #{teg} || '%'
-		AND q.quizseq = r.quizseq
-		AND r.quizrecordcode = l.quizrecordcode
-		<if test="type != null">
-    		AND type = #{type}
-  		</if>
-		AND q.id=#{id}
-	</select>
-	
-	
-	<!-- 12_2 -->
-	<select id="countTegQuiz" resultType="integer" parameterType="map">
-  		SELECT count(*)
-		FROM quiz
-		WHERE  type = #{type}
-		AND teg like '%' ||  #{teg} || '%'
-		AND q.id=#{id}
-	</select>
-	
-	<!-- 12_3 -->
-	<select id="selectAllTegQuiz" resultType="map" parameterType="map">
-  		SELECT
-  			TO_CHAR(q.quizseq) NUM
-  			,q.type type
-  			,q.teg teg
-  			,q.question question
-  			,q.answer1 answer1
-            ,q.answer2 answer2
-            ,q.answer3 answer3
-            ,q.answer4 answer4
-  			,TO_CHAR(q.answernumber) answernumber
-  			,q.id id
-  			,l.quizrecordname quizrecordname
-		FROM quiz q, quizrecord r , quizrecordlist l
-		WHERE teg like '%' ||  #{teg} || '%'
-		AND q.quizseq = r.quizseq
-		AND r.quizrecordcode = l.quizrecordcode
-		<if test="type != null">
-    		AND type = #{type}
-  		</if>
-		AND q.id=#{id}
-	</select>
-	
 	<!--  -->
 	<select id="selectOneQuiz" resultType="map" parameterType="integer">
   		SELECT 
 			TO_CHAR(q.quizseq) NUM
   			,q.type type
-  			,q.teg teg
   			,q.question question
   			,q.answer1 answer1
             ,q.answer2 answer2
@@ -301,7 +199,6 @@
   		SELECT 
 			TO_CHAR(q.quizseq) NUM
   			,q.type type
-  			,q.teg teg
   			,q.question question
   			,q.answer1 answer1
             ,q.answer2 answer2
@@ -333,7 +230,6 @@
   		SELECT 
 			TO_CHAR(q.quizseq) NUM
   			,q.type type
-  			,q.teg teg
   			,q.question question
   			,q.answer1 answer1
             ,q.answer2 answer2
@@ -363,30 +259,44 @@
 	<select id="selectSearchingQuizrecordlist" resultType="map" parameterType="map">
   		SELECT quizrecordname TITLE, quizrecordcode CODE, id ID
   		FROM quizrecordlist
-  		WHERE quizrecordname like '%' ||  #{search} || '%'
+		WHERE quizrecordname like '%' ||  #{search} || '%'
+		AND id != #{id}
+		AND quizrecordname != 'normal'
+		AND NOT quizrecordname IN (
+		    SELECT quizrecordname
+		    FROM quizrecordlist
+		    WHERE id = #{id}
+		)
 	</select>
 	
 	<!-- 21_2 -->
 	<select id="countSearchingQuizrecordlist" resultType="integer" parameterType="map">
   		SELECT count(*)
-  		FROM quizrecordlist
-  		WHERE quizrecordname like '%' ||  #{search} || '%'
+		FROM quizrecordlist
+		WHERE quizrecordname like '%' ||  #{search} || '%'
+		AND id != #{id}
+		AND quizrecordname != 'normal'
+		AND NOT quizrecordname IN (
+		    SELECT quizrecordname
+		    FROM quizrecordlist
+		    WHERE id = #{id}
+		)
 	</select>
 
 	<!-- 1_DUMMY -->
 	<insert id="insertMQuiz2" parameterType="map">
 		INSERT INTO quiz
-		(quizseq, type, teg, question, answer1, answer2, answer3, answer4, answernumber, id)
+		(quizseq, type, question, answer1, answer2, answer3, answer4, answernumber, id)
 		VALUES
-		(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ANSWER2}, #{ANSWER3}, #{ANSWER4}, #{ANSWERNUMBER}, #{ID})
+		(quizseq.nextval, #{TYPE}, #{QUESTION}, #{ANSWER1}, #{ANSWER2}, #{ANSWER3}, #{ANSWER4}, #{ANSWERNUMBER}, #{ID})
 	</insert>
 	
 	<!-- 1_DUMMY -->
 	<insert id="insertJQuiz2" parameterType="map">
 		INSERT INTO quiz
-		(quizseq, type, teg, question, answer1, id)
+		(quizseq, type, question, answer1, id)
 		VALUES
-		(quizseq.nextval, #{TYPE}, #{TEG}, #{QUESTION}, #{ANSWER1}, #{ID})
+		(quizseq.nextval, #{TYPE}, #{QUESTION}, #{ANSWER1}, #{ID})
 	</insert>
 	
 	<!-- 22 -->

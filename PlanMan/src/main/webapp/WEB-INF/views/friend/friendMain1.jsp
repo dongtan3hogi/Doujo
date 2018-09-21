@@ -29,8 +29,10 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   
   <link rel="stylesheet" href="./resources/style/board.css" />
-  
+  <link rel="stylesheet" href="./resources/style/profile.css">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+  
 <script type="text/javascript">
 /*function fn_btnChoice(){
  	 alert("친구신청이 접수되었습니다.");
@@ -40,7 +42,7 @@
 		 var tr = $("input:checkbox[name=selected]:checked").closest('tr');
 		 
 		 var td = tr.children()
-		alert(td.length);
+		swal(td.length);
 		 td.each(function(index,value){
 			 if(index==0){
 				 return true;
@@ -79,7 +81,7 @@
 	             }﻿ 
 	          } else { 
 
-	 ﻿            alert("선택된 데이터가 없습니다.");  
+	 ﻿            swal("선택된 데이터가 없습니다.");  
 
 	          }﻿ 
 
@@ -95,7 +97,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="redirect:/" class="logo">
+    <a href="gotoCalendar" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>Pm</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -117,44 +119,29 @@
           <li class="dropdown messages-menu" id="pParentMessageBoard">
             
           </li>
-          <!-- User Account: style can be found in dropdown.less -->
+         <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
+				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능1</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능2</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능3</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                <div align="center">
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
+                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
             </ul>
@@ -170,24 +157,14 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src='./resources/userData/image/unknown.png;'">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
+    
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
@@ -214,6 +191,7 @@
           <ul class="treeview-menu">
             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
             <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
+            <li><a href="goWC"><i class="fa fa-circle-o text-yellow"></i>Word Cloud</a></li>       
           </ul>
         </li>
         <li class="treeview">
@@ -240,7 +218,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -266,6 +245,7 @@
   
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <div id="fortheprofilediv"></div>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -280,9 +260,10 @@
 
     <!-- Main content -->
     <section class="content">
-        
+        <div class="row">
+        	<div class="col-md-4">
         	  <!-- TO DO List -->
-	          <div class="box box-success" style="width: 30%; float:left; margin-left:20px;">
+	          <div class="box box-success">
 	            <div class="box-header">
 	              <i class="ion ion-clipboard"></i>
 	
@@ -333,17 +314,34 @@
 	            <!-- /.box-body -->
 	            <div class="box-footer clearfix no-border">
 	            </div>
+	            <div class="box box-success">
+		            <div class="box-header">
+		              <i class="ion ion-clipboard"></i>
+		
+		              <h3 class="box-title">Popular Meetings</h3>
+		            </div>
+		            <!-- /.box-header -->
+		            <div class="box-body">
+		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
+		              <input type="text" id="searchMeeting">&nbsp;<input type="button" class="btn btn-success" id="goSearch" value="#으로 검색">
+		                
+		              <ul class="eventlist">
+		              </ul>
+		            </div>
+		              <div id="boardfooter"></div>
+	          </div>
 	          </div>
 	          <!-- /.box -->
-
+	        </div>
+			<div class="col-md-8">
 				<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 					<script>
-					alert("취미 직업을 등록하러 갑니다");
+					swal("취미 직업을 등록하러 갑니다");
 					location.href="joinfriend";
 					</script>
 				</c:if>
 				 
-				 <div class="box box-success" style="width: 60%; float:left; margin-left:20px;">
+				 <div class="box box-success">
 		            <div class="box-header">
 		              <h3 class="box-title"><i class="ion ion-clipboard"></i>Friend_List</h3>
 		
@@ -357,21 +355,21 @@
 				            <option value="hobby" ${searchItem =='hobby'? 'selected':''}>HOBBY</option>
 				         </select>
 				         <input type="text" placeholder="Search" name="searchWord" value="${searchWord}"/>
-				         <button type="submit" value="search"  class="btn btn-default" ><i class="fa fa-search"></i></button>
+				         <button type="submit" value="search"  class="btn btn-success" ><i class="fa fa-search"></i></button>
 				       </form>
 		              </div>
 		    
 		             </div>
 		             <br/>
 		             <div>
-				      	<a href="tonewFriend">ToFriend_Recommendation</a>
+				      	<a href="gotoSearchFriend"><label class="label label-success">ToFriend_Recommendation</label></a>
 				      </div>
 		            </div> 
 		            <!-- /.box-header -->
 		            <div class="box-body table-responsive no-padding">
 		              <table class="table table-hover">
 		                <tr>
-		                  <th><input type="checkbox" onClick="fn_allChecked();"/></th>
+		                  <th>ICON</th>
 					      <th>ID</th>
 					      <th>NICKNAME</th>
 					      <th>NAME</th>
@@ -379,12 +377,12 @@
 					      <th>AGE</th>
 					      <th>JOB</th>
 					      <th>HOBBY</th>
-					      <th>TYPE</th>
 		                </tr>
 					   <c:choose>
 					      <c:when test="${!empty newlist}">
 					       <c:forEach begin="0" var="friend" items="${newlist}" varStatus="index">
-					          <tr class='sibal'><td><input type="checkbox" name='selected'></td>
+					          <tr>
+					          	  <td><img class="direct-chat-img" src="resources/userData/image/' + ${friend.friendid} + '.jpg"  data-rno="${friend.friendid}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
 					              <td>${friend.friendid}</td>   
 					              <td>${friend.nickname}</td>
 					              <td>${friend.name}</td>
@@ -392,31 +390,21 @@
 					              <td>${friend.age}</td>
 					              <td>${friend.job}</td>
 					              <td>${friend.hobby}</td>
-					              <c:if test="${friend.type==1 }">
-					              <td>내 친구</td></c:if>
-					              <c:if test="${friend.type==2 }">
-					              <td>수락 대기중</td></c:if>
-					              <c:if test="${friend.type==3 }">
-					              <td><input type="button" value="친구 수락" class="acceptFriend"/></td></c:if>
-					             
-					             
 					          </tr>    
 					       </c:forEach>   
 					      </c:when>
 					      <c:otherwise>
-					      <tr><td colspan="7" >No Information</td></tr>
+					      	<tr><td colspan="7" >No Information</td></tr>
 					      </c:otherwise>
 					   </c:choose>
     	              </table>
 		            </div>
 		            <!-- /.box-body -->
-		            <div>
-				        <a href="#" onClick="fn_btnChoice()">choose</a>
-				   	</div>
+		           
 				   	
 				   	<div class="boardfooter">
-						   <a href="listMyfriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
-						   <a href="listMyfriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
+						   <a href="tooldFriend?currentPage=${navi.currentPage - navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">◁◁</a>
+						   <a href="tooldFriend?currentPage=${navi.currentPage - 1}&searchItem=${searchItem}&searchWord=${searchWord}">◀</a>
 						   &nbsp; &nbsp;
 						   <c:forEach var="page" begin="${navi.startPageGroup}" end="${navi.endPageGroup}">
 						      <c:if test="${page == currentPage}">
@@ -424,12 +412,12 @@
 						      </c:if>
 						      
 						      <c:if test="${page != currentPage}">
-						         <a href="listMyfriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
+						         <a href="tooldFriend?currentPage=${page}&searchItem=${searchItem}&searchWord=${searchWord}">${page}</a> &nbsp;
 						      </c:if>
 						   </c:forEach>
 						   &nbsp; &nbsp;
-						   <a href="listMyfriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
-						   <a href="listMyfriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>	   
+						   <a href="tooldFriend?currentPage=${navi.currentPage + 1}&searchItem=${searchItem}&searchWord=${searchWord}">▶</a>
+						   <a href="tooldFriend?currentPage=${navi.currentPage + navi.pagePerGroup}&searchItem=${searchItem}&searchWord=${searchWord}">▷▷</a>	   
 				   </div>
 				   <script type="text/javascript"> 
 					   	console.log('asdf');
@@ -437,17 +425,17 @@
 				    </script>
 		          </div>
 		          <!-- /.box -->
+		       </div>
+		          
+		</div>          
+    </section>
+</div>
           	
-				
+			  <!-- ========================================================================================================== -->
+			  <!-- ========================================================================================================== -->
+			  <!-- ========================================================================================================== -->
+	
 
-			  <!-- ========================================================================================================== -->
-			  <!-- ========================================================================================================== -->
-			  <!-- ========================================================================================================== -->
-	</section>
-</div>
-
-</div>
-<!-- ./wrapper -->
 
    <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -456,6 +444,8 @@
     <strong>Copyright &copy; 2018 PlanMan.</strong>
   </footer>
 
+</div>
+<!-- ./wrapper -->
 
 <!-- jQuery 3 -->
 <script src="resources/main/bower_components/jquery/dist/jquery.min.js"></script>
@@ -478,20 +468,89 @@
 <!-- Page specific script -->
 <script>
 
-  $(function () {    
-     $('.acceptFriend').each(function(index,value){
-    	 $(this).on('click',function(){
-    		 var tr = $(this).closest('tr');
-    		 var td = tr.children();
+  $(function () {
+	  
+	  $(".chkbox").change(function(){
+	        if($(this).is(":checked")){
+	            $.ajax({
+	            	url:'chkschdule'
+	      			,type:'post'
+	      			,data:{
+	      				"schseq":$(this).attr('data-rno')
+	      			}
+	      			,success: function (data){
+	    				if(data="success"){
+	    					swal("스케쥴 확인완료!")
+	    				}	
+	      			}
+	            })
+	            $(this).parent('li').addClass('done');
+	        }else if($(this).is(":not(:checked)")){
+	        	 $.ajax({
+		            	url:'unchkschdule'
+		      			,type:'post'
+		      			,data:{
+		      				"schseq":$(this).attr('data-rno')
+		      			}
+		      			,success: function (data){
+		      				if(data="success"){
+		    					swal("스케쥴 해제하기!")
+		    				}	
+		      			}
+		        })
+	            $(this).parent('li').removeClass('done');
+	        }
+	  });
+	  
+	  $("#goSearch").on("click",function(){
+	      var search= $("#searchMeeting").val();
+	      if(search==""){
+	         swal('입력해주세요.');
+	      }
+	      $.ajax({
+	         url:"searchMeeting",
+	         type:"post",
+	         //client에서 server로 가는 값
+	         data:{"search": search},
+	         success: function(data){
+	            $.each(data.meeting, function(index, item){
+	            
+	            var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
+	            $(".eventlist").append(result);
+	            });
+	            var navi = data.navi;
+	            var line="";
+	            var current= Number(0);
+	            if(navi.currenPage >1){
+	               current = Number(navi.currentPage);
+	               current--;
+	               line += "<a href='javascript:void(0);' onclick='goPage("+current+")'>◀</a>";
+	            }
+	            for( var i=navi.startPageGroup; i<navi.endPageGroup; i++){
+	               if(navi.currentPage == i){
+	                  line+=    "<a href='javascript:void(0);' onclick='goPage("+i+")' style='color : red'>"+i+"</a> &nbsp";
+	               }else{
+	                  line+=    "<a href='javascript:void(0);' onclick='goPage("+i+")'>"+i+"</a> &nbsp";
+	               }
+	            }
+	            if(navi.currentPage <navi.totalPageCount){
+	               current = Number(navi.currentPage);
+	               
+	               current++;
+	               line+=   "<a href='javascript:void(0);' onclick='goPage("+current+")'>▶</a>";
 
-    		 var friend=td.eq(1).text();
-        	 alert(friend);
-        	 location.href="accept?fid="+friend;
-    	 });
-    	
-     });
+	            }
+	               $('#boardfooter').append(line);
+	         },fail: function(){
+	            swal("다음에 다시 시도해주세요");
+	         }
+	      });
+	   }); 
+     
+	  
+	  
      $('a.favorite').click(function() {
-        alert("클릭");
+        //swal("클릭");
         var locations = $(this).next().attr('href');
         if($(this).children('i').attr('class')=='fa fa-star text-yellow'){
            $.ajax({
@@ -502,11 +561,11 @@
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star-o text-yellow');
-                  }else{alert("다시 시도해주세용");}
+                  }else{swal("다시 시도해주세요.");}
                
            },
                  fail: function(res){
-              alert("다시 시도해주세용");
+              swal("다시 시도해주세요.");
               }
      });
         }
@@ -516,7 +575,7 @@
               return;
            }
            var locations = $(this).next().attr('href');
-           alert(title+"\n"+locations);
+           //alert(title+"\n"+locations);
            $.ajax({
                url:"insertFavorites",
                type:"post",
@@ -525,11 +584,11 @@
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star text-yellow');
-                  }else{alert("다시 시도해주세용");}
+                  }else{swal("다시 시도해주세요.");}
                
            },
                  fail: function(res){
-              alert("다시 시도해주세용");
+              swal("다시 시도해주세요.");
               }
      });
        
@@ -537,35 +596,7 @@
         location.reload();
      });
     
-   $('#saveMemo').click(function(){
-      var memo = $('#memo').val();
-      memo= memo.replace("\r\n","<br>");
-      alert(memo);
-      var today = new Date();
-      var mm= today.getMonth()+1; 
-      var dd =today.getDate();
-      var yy = today.getFullYear();
-      if(dd<10) {
-          dd='0'+dd;
-      } 
-      if(mm<10) {
-          mm='0'+mm;
-      } 
-      var td=yy+'-'+mm+'-'+dd;
-      $.ajax({
-         url:"saveMemo",
-         type:"post",
-         //client에서 server로 가는 값
-         data:{"userid": memo, "text":memo,"startDate":temp},
-         success: function(data){
-         if(data=="1"||data=="3"){
-            alert("저장 되었습니다");
-         }else{'오류 발생'};
-         },fail: function(){
-            alert("다음에 다시 시도해주세요");
-         }
-      });
-      });
+   
   });
 </script>
 <script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
