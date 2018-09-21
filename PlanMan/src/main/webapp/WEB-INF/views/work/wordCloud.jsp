@@ -180,7 +180,7 @@ $(document).ready(function(){
 		        name: 'Occurrences'
 		    }],
 		    title: {
-		        text: 'Wordcloud of Lorem Ipsum'
+		        text: '유저 검색 키워드 모음'
 		    }
 		});
 	 /* var color = d3.scale.linear()
@@ -407,7 +407,7 @@ $(document).ready(function(){
          <div class="col-md-9">
             <div class="box box-Warning">
             <div class="box-header with-border">
-              <h3 class="box-title">WORD CLOUD</h3>
+              <h3 class="box-title">USER SERACH WORD</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body" id="wordcloud" align="center">
