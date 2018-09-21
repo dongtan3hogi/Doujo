@@ -26,8 +26,10 @@
   <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
   <link rel="stylesheet" href="./resources/style/profile.css">
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="resources/d3.layout.cloud.js"></script>
+<!--     <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="resources/d3.layout.cloud.js"></script> -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/wordcloud.js"></script>
 <style>
         .legend {
              border: 1px solid #555555;
@@ -41,171 +43,181 @@
          }
 
 .colordate{
-	background:yellow}
+   background:yellow}
 </style>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-	 	var today = new Date();
-		var mm= today.getMonth()+1; 
-		var dd =today.getDate();
-		var yy = today.getFullYear();
-		if(dd<10) {
-		    dd='0'+dd;
-		} 
-		if(mm<10) {
-		    mm='0'+mm;
-		} 
-		var td=yy+'-'+mm+'-'+dd;
-		var temp=td;
+       var today = new Date();
+      var mm= today.getMonth()+1; 
+      var dd =today.getDate();
+      var yy = today.getFullYear();
+      if(dd<10) {
+          dd='0'+dd;
+      } 
+      if(mm<10) {
+          mm='0'+mm;
+      } 
+      var td=yy+'-'+mm+'-'+dd;
+      var temp=td;
   
   
-		$('#saveMemo').click(function(){
-		var memo = $('#memo').val();
-		
-		
-		var today = new Date();
-		var mm= today.getMonth()+1; 
-		var dd =today.getDate();
-		var yy = today.getFullYear();
-		if(dd<10) {
-		    dd='0'+dd;
-		} 
-		if(mm<10) {
-		    mm='0'+mm;
-		} 
-		var td=yy+'-'+mm+'-'+dd;
-		$.ajax({
-			url:"saveMemo",
-			type:"post",
-			//client에서 server로 가는 값
-			data:{"userid": memo, "text":memo,"startDate":temp},
-			success: function(data){
-			if(data=="1"||data=="3"){
-				swal("저장 되었습니다");
-			}else{'오류 발생'};
-			},fail: function(){
-				swal("다음에 다시 시도해주세요");
-			}
-		});
-		});
+      $('#saveMemo').click(function(){
+      var memo = $('#memo').val();
+      
+      
+      var today = new Date();
+      var mm= today.getMonth()+1; 
+      var dd =today.getDate();
+      var yy = today.getFullYear();
+      if(dd<10) {
+          dd='0'+dd;
+      } 
+      if(mm<10) {
+          mm='0'+mm;
+      } 
+      var td=yy+'-'+mm+'-'+dd;
+      $.ajax({
+         url:"saveMemo",
+         type:"post",
+         //client에서 server로 가는 값
+         data:{"userid": memo, "text":memo,"startDate":temp},
+         success: function(data){
+         if(data=="1"||data=="3"){
+            swal("저장 되었습니다");
+         }else{'오류 발생'};
+         },fail: function(){
+            swal("다음에 다시 시도해주세요");
+         }
+      });
+      });
 
 
-		var memodays="";
-   		$.ajax({
- 		   url:'memodays',
- 		    type: 'post',
- 		    data: {
- 		    	'id': '${sessionScope.member.id}'
- 		    },
- 		    success: function(data){
- 		    	memodays=data;
- 		    	
- 				},
- 		    error: function() {
- 		      swal('there was an error while fetching events!');
- 		    }
-		  });
-   		
-   		
-   		$('#datepicker1').val("날짜 선택");	
-   		
-   		$( ".datepicker" ).datepicker({ 
-   	       changeMonth: true, 
-   	       changeYear: true,
-   	       dateFormat: "yy-mm-dd",
-   	       beforeShowDay: function(day) {
-   	    	   if(memodays.indexOf($.datepicker.formatDate('yy-mm-dd', day)) != -1) return [true, "colordate","" ];
-   	            else return [true, "", ""];
-   	            
-   	        },
-   	       onSelect: function(dateText) {  
-   	    	   //alert(dateText);
-   	    	   $.ajax({
-   	    		   url:'findmemo',
-   	    		    type: 'post',
-   	    		    data: {
-   	    		    	'id': '${sessionScope.member.id}', 'startdate': dateText
-   	    		    },
-   	    		    success: function(data){
-   	    				if(data==null)	{
-   	    					swal("메모가 없습니다");	    			
-   	    		            }else{
-   	    		            	if(dateText==td){
-   		    		            	$('#memoTitle').html("오늘의 메모");
-   	    		            	}else{
-   		    		            	$('#memoTitle').html(dateText+"의 메모");            		
-   	    		            	}
-   	    		            	$('#memo').val(data.memo);
-   	    		            }
-   	    				},
-   	    		    error: function() {
-   	    		      alert('there was an error while fetching events!');
-   	    		    }
-   	 		  });
-   	      }
-   		});
-   		
-   		var memodays="";
-   		$.ajax({
- 		   url:'memodays',
- 		    type: 'post',
- 		    data: {
- 		    	'id': '${sessionScope.member.id}'
- 		    },
- 		    success: function(data){
- 		    	memodays=data;
- 		    	
- 				},
- 		    error: function() {
- 		      alert('there was an error while fetching events!');
- 		    }
-		  });
-   		
-   	 var frequency_list = $.ajax({
+      var memodays="";
+         $.ajax({
+          url:'memodays',
+           type: 'post',
+           data: {
+              'id': '${sessionScope.member.id}'
+           },
+           success: function(data){
+              memodays=data;
+              
+             },
+           error: function() {
+             swal('there was an error while fetching events!');
+           }
+        });
+         
+         
+         $('#datepicker1').val("날짜 선택");   
+         
+         $( ".datepicker" ).datepicker({ 
+             changeMonth: true, 
+             changeYear: true,
+             dateFormat: "yy-mm-dd",
+             beforeShowDay: function(day) {
+                if(memodays.indexOf($.datepicker.formatDate('yy-mm-dd', day)) != -1) return [true, "colordate","" ];
+                  else return [true, "", ""];
+                  
+              },
+             onSelect: function(dateText) {  
+                //alert(dateText);
+                $.ajax({
+                   url:'findmemo',
+                    type: 'post',
+                    data: {
+                       'id': '${sessionScope.member.id}', 'startdate': dateText
+                    },
+                    success: function(data){
+                      if(data==null)   {
+                         swal("메모가 없습니다");                
+                            }else{
+                               if(dateText==td){
+                                  $('#memoTitle').html("오늘의 메모");
+                               }else{
+                                  $('#memoTitle').html(dateText+"의 메모");                  
+                               }
+                               $('#memo').val(data.memo);
+                            }
+                      },
+                    error: function() {
+                      alert('there was an error while fetching events!');
+                    }
+               });
+            }
+         });
+         
+         var memodays="";
+         $.ajax({
+          url:'memodays',
+           type: 'post',
+           data: {
+              'id': '${sessionScope.member.id}'
+           },
+           success: function(data){
+              memodays=data;
+              
+             },
+           error: function() {
+             alert('there was an error while fetching events!');
+           }
+        });
+         
+       var frequency_list = $.ajax({
          url: "wordcloud",
          type:'post',
          dataType: "json",
          async: false
      }).responseText;
  
-	 var x = JSON.parse(frequency_list);
-	
-	 var color = d3.scale.linear()
-	         .domain([0,1,2,3,4,5,6,10,15,20,100])
-	         .range(["#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
-	
-	 d3.layout.cloud().size([600, 420])
-	         .words(x)
-	         .rotate(function() { return ~~(Math.random() * 70) - 35 ; })
-	         .fontSize(function(d) { return d.size; })
-	         .on("end", draw)
-	         .start();
+    var x = JSON.parse(frequency_list);
+    Highcharts.chart('wordcloud', {
+          series: [{
+              type: 'wordcloud',
+              data: x,
+              name: 'Occurrences'
+          }],
+          title: {
+              text: 'Wordcloud of Lorem Ipsum'
+          }
+      });
+    /* var color = d3.scale.linear()
+            .domain([0,1,2,3,4,5,6,10,15,20,100])
+            .range(["#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+   
+    d3.layout.cloud().size([600, 420])
+            .words(x)
+            .padding(3)
+            .rotate(function(d) { return 0; })
+            .fontSize(function(d) { return d.size; })
+            .on("end", draw)
+            .start();
 
-	 function draw(words) {
-	     d3.select("#wordcloud").append("svg")
-	             .attr("width", "600")
-	             .attr("height", "420")
-	             .attr("class", "wordcloud")
-	             .append("g")
-	             .attr("transform", "translate(200,200)")
-	             .selectAll("text")
-	             .data(words)
-	             .enter().append("text")
-	             .style("font-size", function(d) { d.size=d.size*10; //여기를 수정하여 글자 크기 조절 가능;
-	            	 return d.size + "px"; })
-	             .style("fill", function(d, i) { return color(i); })
-	             .attr("text-anchor", "middle")
+    function draw(words) {
+        d3.select("#wordcloud").append("svg")
+                .attr("width", "600")
+                .attr("height", "420")
+                .attr("class", "wordcloud")
+                .append("g")
+                .attr("transform", "translate(200,200)")
+                .selectAll("text")
+                .data(words)
+                .enter().append("text")
+                .style("font-size", function(d) { d.size=d.size*10; //여기를 수정하여 글자 크기 조절 가능;
+                   return d.size + "px"; })
+                .style("fill", function(d, i) { return color(i); })
+                .attr("text-anchor", "middle")
         .attr("transform", function(d) {
             return "translate(" + [Math.abs(d.x), d.y] + ")rotate(" + d.rotate + ")";
         })
-	            .text(function(d) { return d.text; });
-	 }  
-	
+               .text(function(d) { return d.text; });
+    }   */
+   
 });
-	
-	
+   
+   
 
 
 </script>
@@ -258,7 +270,7 @@ $(document).ready(function(){
               <!-- User image -->
               <li class="user-header">
                 <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
-				<i class="fa fa-camera upload-button"></i>
+            <i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
@@ -393,26 +405,25 @@ $(document).ready(function(){
       
       
          <div class="col-md-9">
-				<div class="box box-Warning">
+            <div class="box box-Warning">
             <div class="box-header with-border">
               <h3 class="box-title">WORD CLOUD</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
-            <div id="wordcloud" align="center" >
-           </div>
-           <div class="legend"  align="center" style="width:60%;">
-           빈도수가 높은 단어는 크지만 흐립니다. 빈도수가 낮은 단어는 작지만 진합니다.<br>
-           Commonly used words are larger and slightly faded in color.  Less common words are smaller and darker.
-           </div>
-			   </div>
+            <div class="box-body" id="wordcloud" align="center">
+           
+            </div>
             <!-- /.box-body -->
+            <div class="legend">
+           		빈도수가 높은 단어는 크지만 흐립니다. 빈도수가 낮은 단어는 작지만 진합니다.<br>
+           		Commonly used words are larger and slightly faded in color.  Less common words are smaller and darker.
+           </div>
           </div>      
           <!-- /. box -->
-      	 </div>
-      	  
-      	 <div class="col-md-3">
-      	  <!-- /. 메모 box -->
+          </div>
+           
+          <div class="col-md-3">
+           <!-- /. 메모 box -->
           <div class="box box-warning">
             <div class="box-header with-border">
               <h3 class="box-title">MEMO</h3>
@@ -422,15 +433,15 @@ $(document).ready(function(){
             </div>
             <div class="box-body no-padding">
                <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
-	           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
-	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
+              <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
+              <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
             </div>
             <!-- /.box-body -->
           </div>
           <!-- /. box -->
          </div> 
-      	
-      	  	
+         
+              
       </div>
       <!-- /.row -->
     </section>

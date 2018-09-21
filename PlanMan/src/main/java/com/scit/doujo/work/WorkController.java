@@ -324,18 +324,20 @@ public class WorkController {
 		}
 		return result;
 	}
+	
+	
 	@RequestMapping(value = "/wordcloud", method = RequestMethod.POST)
-	public @ResponseBody List<Map<String,Object>> wordcloud( Model model,String id, String startdate) {
-		List<Map<String,Object>> result =new ArrayList<Map<String,Object>>();
-		workDao um= sqlSession.getMapper(workDao.class);
-		List<wordCloud> wordMap=  um.wordList();
-		 for(wordCloud temp:wordMap){
-	                Map<String,Object> map=new LinkedHashMap<String,Object>();
-	                map.put("text",temp.getKeyword());
-	                map.put("size",temp.getCount());
-	                result.add(map);
-	            }
-		 System.out.println(result.toArray().toString());
-		return result;
-	}
+	   public @ResponseBody List<Map<String,Object>> wordcloud( Model model,String id, String startdate) {
+	      List<Map<String,Object>> result =new ArrayList<Map<String,Object>>();
+	      workDao um= sqlSession.getMapper(workDao.class);
+	      List<wordCloud> wordMap=  um.wordList();
+	       for(wordCloud temp:wordMap){
+	                   Map<String,Object> map=new LinkedHashMap<String,Object>();
+	                   map.put("name",temp.getKeyword());
+	                   map.put("weight",temp.getCount());
+	                   result.add(map);
+	               }
+	       System.out.println(result.toArray().toString());
+	      return result;
+	   }
 }
