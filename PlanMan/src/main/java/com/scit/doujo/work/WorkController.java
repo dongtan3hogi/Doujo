@@ -331,8 +331,8 @@ public class WorkController {
 		List<wordCloud> wordMap=  um.wordList();
 		 for(wordCloud temp:wordMap){
 	                Map<String,Object> map=new LinkedHashMap<String,Object>();
-	                map.put("text",temp.getKeyword());
-	                map.put("size",temp.getCount());
+	                map.put("name",temp.getKeyword());
+	                map.put("weight",temp.getCount());
 	                result.add(map);
 	            }
 		 System.out.println(result.toArray().toString());

@@ -26,8 +26,10 @@
   <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
   <link rel="stylesheet" href="./resources/style/profile.css">
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="resources/d3.layout.cloud.js"></script>
+<!--     <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="resources/d3.layout.cloud.js"></script> -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/wordcloud.js"></script>
 <style>
         .legend {
              border: 1px solid #555555;
@@ -171,14 +173,24 @@ $(document).ready(function(){
      }).responseText;
  
 	 var x = JSON.parse(frequency_list);
-	
-	 var color = d3.scale.linear()
+	 Highcharts.chart('wordcloud', {
+		    series: [{
+		        type: 'wordcloud',
+		        data: x,
+		        name: 'Occurrences'
+		    }],
+		    title: {
+		        text: 'Wordcloud of Lorem Ipsum'
+		    }
+		});
+	 /* var color = d3.scale.linear()
 	         .domain([0,1,2,3,4,5,6,10,15,20,100])
 	         .range(["#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
 	
 	 d3.layout.cloud().size([600, 420])
 	         .words(x)
-	         .rotate(function() { return ~~(Math.random() * 70) - 35 ; })
+	         .padding(3)
+	         .rotate(function(d) { return 0; })
 	         .fontSize(function(d) { return d.size; })
 	         .on("end", draw)
 	         .start();
@@ -201,7 +213,7 @@ $(document).ready(function(){
             return "translate(" + [Math.abs(d.x), d.y] + ")rotate(" + d.rotate + ")";
         })
 	            .text(function(d) { return d.text; });
-	 }  
+	 }   */
 	
 });
 	
