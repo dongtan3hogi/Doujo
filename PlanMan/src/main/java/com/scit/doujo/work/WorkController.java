@@ -4,7 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,6 +25,7 @@ import com.scit.doujo.util.naverNews;
 import com.scit.doujo.vo.member;
 import com.scit.doujo.vo.schedule;
 import com.scit.doujo.vo.work.memo;
+import com.scit.doujo.vo.work.wordCloud;
 import com.scit.doujo.vo.work.count;
 import com.scit.doujo.vo.work.favorites;
 import com.scit.doujo.vo.work.friendquery;
@@ -49,6 +53,10 @@ public class WorkController {
 	public String goWork1() {
 		
 		return "redirect:mainWork";
+	}@RequestMapping(value = "/goWC", method = RequestMethod.GET)
+	public String goWC() {
+		
+		return "/work/wordCloud";
 	}
 	@RequestMapping(value = "/mainWork", method = RequestMethod.GET)
 	public String mainWork(HttpSession session ,Model model) {
@@ -312,12 +320,22 @@ public class WorkController {
 				result+=days[i];
 				continue;
 			}
-			
 			result+=days[i]+",";
 		}
-		
 		return result;
-
 	}
-	
+	@RequestMapping(value = "/wordcloud", method = RequestMethod.POST)
+	public @ResponseBody List<Map<String,Object>> wordcloud( Model model,String id, String startdate) {
+		List<Map<String,Object>> result =new ArrayList<Map<String,Object>>();
+		workDao um= sqlSession.getMapper(workDao.class);
+		List<wordCloud> wordMap=  um.wordList();
+		 for(wordCloud temp:wordMap){
+	                Map<String,Object> map=new LinkedHashMap<String,Object>();
+	                map.put("text",temp.getKeyword());
+	                map.put("size",temp.getCount());
+	                result.add(map);
+	            }
+		 System.out.println(result.toArray().toString());
+		return result;
+	}
 }

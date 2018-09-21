@@ -11,6 +11,7 @@
 		<typeAlias type="com.scit.doujo.vo.activity" alias="Activity"/>
 		<typeAlias type="com.scit.doujo.vo.work.memo" alias="memo"/>
 		<typeAlias type="com.scit.doujo.vo.work.keylist" alias="keylist"/>
+		<typeAlias type="com.scit.doujo.vo.work.wordCloud" alias="wordcloud"/>
 
 		<typeAlias type="com.scit.doujo.vo.work.count" alias="count"/>
 		<typeAlias type="com.scit.doujo.vo.work.friendquery" alias="fquery"/>
