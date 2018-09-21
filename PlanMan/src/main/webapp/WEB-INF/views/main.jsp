@@ -310,11 +310,10 @@
         	<div id="sch-button" align="right"><input type="submit" id="eventAdd" style="width: 200px;" value="스케쥴 입력하기" class="btn btn-block btn-primary" onclick="return addevent()"/></div>
         </div>
         
-        <div id="fortheprofilediv"></div>
+   
     </div>
     
-    <div id="fortheprofilediv">
-	</div>
+     <div id="fortheprofilediv"></div>
 
     <!-- Main content -->
     <section class="content">
