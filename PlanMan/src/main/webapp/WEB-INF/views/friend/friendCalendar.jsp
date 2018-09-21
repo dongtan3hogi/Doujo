@@ -26,7 +26,8 @@
   <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
   <!-- Time Picker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.css">
-  
+  <link rel="stylesheet" href="./resources/style/profile.css">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <style type="text/css">
 	 /* The Modal (background) */
      .modal {
@@ -154,7 +155,7 @@
               <li class="user-footer">
                 <div align="center">
                   <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
-                  
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
                   <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
@@ -254,6 +255,7 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <div id="fortheprofilediv"></div>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>

@@ -5,28 +5,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Welcome PlanMan</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="resources/main/bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="resources/main/bower_components/font-awesome/css/font-awesome.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="resources/main/bower_components/Ionicons/css/ionicons.min.css">
-  <!-- fullCalendar -->
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css">
-  <link rel="stylesheet" href="resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css" media="print">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="resources/main/dist/css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
-  <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <!-- Date Picker -->
-  <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Welcome PlanMan</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<!-- Bootstrap 3.3.7 -->
+<link rel="stylesheet"
+	href="resources/main/bower_components/bootstrap/dist/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="resources/main/bower_components/font-awesome/css/font-awesome.min.css">
+<!-- Ionicons -->
+<link rel="stylesheet"
+	href="resources/main/bower_components/Ionicons/css/ionicons.min.css">
+<!-- fullCalendar -->
+<link rel="stylesheet"
+	href="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.css">
+<link rel="stylesheet"
+	href="resources/main/bower_components/fullcalendar/dist/fullcalendar.print.min.css"
+	media="print">
+<!-- Theme style -->
+<link rel="stylesheet" href="resources/main/dist/css/AdminLTE.min.css">
+<!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+<link rel="stylesheet"
+	href="resources/main/dist/css/skins/_all-skins.min.css">
+<!-- Google Font -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<!-- Date Picker -->
+<link rel="stylesheet"
+	href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
+<link rel="stylesheet" href="./resources/style/profile.css">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 .colordate{
 	background:yellow}
@@ -394,7 +407,7 @@ var memodays="";
               <li class="user-footer">
                 <div align="center">
                   <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
-                  
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
                   <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
@@ -498,6 +511,7 @@ var memodays="";
   
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <div id="fortheprofilediv"></div>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>

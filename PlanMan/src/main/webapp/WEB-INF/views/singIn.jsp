@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="resources/main/dist/css/blue.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body class="hold-transition register-page">
 <div class="register-box">

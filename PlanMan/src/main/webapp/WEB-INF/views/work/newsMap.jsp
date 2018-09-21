@@ -24,6 +24,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
    <!-- Date Picker -->
   <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
+  <link rel="stylesheet" href="./resources/style/profile.css">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 .colordate{
 	background:yellow}
@@ -198,7 +200,7 @@ $(document).ready(function(){
               <li class="user-footer">
                 <div align="center">
                   <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
-                  
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
                   <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
@@ -302,6 +304,7 @@ $(document).ready(function(){
   
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <div id="fortheprofilediv"></div>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
