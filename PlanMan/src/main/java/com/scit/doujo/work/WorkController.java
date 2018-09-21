@@ -283,7 +283,7 @@ public class WorkController {
 		System.out.println(result.size());
 		return result;
 	}
-	@RequestMapping(value = "/findFriend", method = RequestMethod.GET)
+	@RequestMapping(value = "/findFriend", method = RequestMethod.POST)
 	public @ResponseBody com.scit.doujo.vo.work.count[] findFriend( Model model,String userid, String sex, int age) {
 		
 		workDao um= sqlSession.getMapper(workDao.class);

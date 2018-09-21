@@ -142,7 +142,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>
+            <li><a href="goWC"><i class="fa fa-circle-o text-yellow"></i>Word Cloud</a></li>          
           </ul>
         </li>
         <li class="treeview">

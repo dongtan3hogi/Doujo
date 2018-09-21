@@ -22,9 +22,11 @@
   <link rel="stylesheet" href="resources/main/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <!-- Date Picker -->
+   <!-- Date Picker -->
   <link rel="stylesheet" href="resources/main/bower_components/bootstrap-datepicker/dist/css/datepicker.css">
-  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <link rel="stylesheet" href="./resources/style/profile.css">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="resources/d3.layout.cloud.js"></script>
 <style>
         .legend {
@@ -81,16 +83,71 @@ $(document).ready(function(){
 			data:{"userid": memo, "text":memo,"startDate":temp},
 			success: function(data){
 			if(data=="1"||data=="3"){
-				alert("저장 되었습니다");
+				swal("저장 되었습니다");
 			}else{'오류 발생'};
 			},fail: function(){
-				alert("다음에 다시 시도해주세요");
+				swal("다음에 다시 시도해주세요");
 			}
 		});
 		});
 
 
 		var memodays="";
+   		$.ajax({
+ 		   url:'memodays',
+ 		    type: 'post',
+ 		    data: {
+ 		    	'id': '${sessionScope.member.id}'
+ 		    },
+ 		    success: function(data){
+ 		    	memodays=data;
+ 		    	
+ 				},
+ 		    error: function() {
+ 		      swal('there was an error while fetching events!');
+ 		    }
+		  });
+   		
+   		
+   		$('#datepicker1').val("날짜 선택");	
+   		
+   		$( ".datepicker" ).datepicker({ 
+   	       changeMonth: true, 
+   	       changeYear: true,
+   	       dateFormat: "yy-mm-dd",
+   	       beforeShowDay: function(day) {
+   	    	   if(memodays.indexOf($.datepicker.formatDate('yy-mm-dd', day)) != -1) return [true, "colordate","" ];
+   	            else return [true, "", ""];
+   	            
+   	        },
+   	       onSelect: function(dateText) {  
+   	    	   //alert(dateText);
+   	    	   $.ajax({
+   	    		   url:'findmemo',
+   	    		    type: 'post',
+   	    		    data: {
+   	    		    	'id': '${sessionScope.member.id}', 'startdate': dateText
+   	    		    },
+   	    		    success: function(data){
+   	    				if(data==null)	{
+   	    					swal("메모가 없습니다");	    			
+   	    		            }else{
+   	    		            	if(dateText==td){
+   		    		            	$('#memoTitle').html("오늘의 메모");
+   	    		            	}else{
+   		    		            	$('#memoTitle').html(dateText+"의 메모");            		
+   	    		            	}
+   	    		            	$('#memo').val(data.memo);
+   	    		            }
+   	    				},
+   	    		    error: function() {
+   	    		      alert('there was an error while fetching events!');
+   	    		    }
+   	 		  });
+   	      }
+   		});
+   		
+   		var memodays="";
    		$.ajax({
  		   url:'memodays',
  		    type: 'post',
@@ -113,18 +170,18 @@ $(document).ready(function(){
          async: false
      }).responseText;
  
- var x = JSON.parse(frequency_list);
-
- var color = d3.scale.linear()
-         .domain([0,1,2,3,4,5,6,10,15,20,100])
-         .range(["#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
-
- d3.layout.cloud().size([600, 420])
-         .words(x)
-         .rotate(function() { return ~~(Math.random() * 70) - 35 ; })
-         .fontSize(function(d) { return d.size; })
-         .on("end", draw)
-         .start();
+	 var x = JSON.parse(frequency_list);
+	
+	 var color = d3.scale.linear()
+	         .domain([0,1,2,3,4,5,6,10,15,20,100])
+	         .range(["#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+	
+	 d3.layout.cloud().size([600, 420])
+	         .words(x)
+	         .rotate(function() { return ~~(Math.random() * 70) - 35 ; })
+	         .fontSize(function(d) { return d.size; })
+	         .on("end", draw)
+	         .start();
 
 	 function draw(words) {
 	     d3.select("#wordcloud").append("svg")
@@ -145,42 +202,6 @@ $(document).ready(function(){
         })
 	            .text(function(d) { return d.text; });
 	 }  
-
-	    $( ".datepicker" ).datepicker({ 
-		       changeMonth: true, 
-		       changeYear: true,
-		       dateFormat: "yy-mm-dd",
-		       beforeShowDay: function(day) {
-		    	   if(memodays.indexOf($.datepicker.formatDate('yy-mm-dd', day)) != -1) return [true, "colordate","" ];
-		            else return [true, "", ""];
-		            
-		        },
-		       onSelect: function(dateText) {  
-		    	   alert(dateText);
-		    	   $.ajax({
-		    		   url:'findmemo',
-		    		    type: 'post',
-		    		    data: {
-		    		    	'id': '${sessionScope.member.id}', 'startdate': dateText
-		    		    },
-		    		    success: function(data){
-		    				if(data==null)	{
-		    					alert("메모가 없습니다");	    			
-		    		            }else{
-		    		            	if(dateText==td){
-			    		            	$('#memoTitle').html("오늘의 메모");
-		    		            	}else{
-			    		            	$('#memoTitle').html(dateText+"의 메모");            		
-		    		            	}
-		    		            	$('#memo').val(data.memo);
-		    		            }
-		    				},
-		    		    error: function() {
-		    		      alert('there was an error while fetching events!');
-		    		    }
-		 		  });
-		      }
- 		});
 	
 });
 	
@@ -205,7 +226,7 @@ $(document).ready(function(){
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="redirect:/" class="logo">
+    <a href="gotoCalendar" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>Pm</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -227,44 +248,29 @@ $(document).ready(function(){
           <li class="dropdown messages-menu" id="pParentMessageBoard">
             
           </li>
-          <!-- User Account: style can be found in dropdown.less -->
+         <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="resources/main/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
               <span class="hidden-xs">${sessionScope.member.id}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
+				<i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능1</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능2</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">기능3</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">개인정보</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">로그아웃</a>
+                <div align="center">
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
+                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
             </ul>
@@ -280,24 +286,14 @@ $(document).ready(function(){
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="resources/main/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" onError="this.src='./resources/userData/image/unknown.png;'">
         </div>
         <div class="pull-left info">
           <p>${sessionScope.member.id}</p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Searchresources.">
-          <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
+      
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MENU</li>
@@ -323,7 +319,8 @@ $(document).ready(function(){
           </a>
           <ul class="treeview-menu">
             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>
+            <li><a href="goWC"><i class="fa fa-circle-o text-yellow"></i>Word Cloud</a></li>          
           </ul>
         </li>
         <li class="treeview">
@@ -350,7 +347,8 @@ $(document).ready(function(){
           </a>
           <ul class="treeview-menu">
             <li><a href="gotoSearchFriend"><i class="fa fa-circle-o text-green"></i> Friend Main</a></li>
-            <li><a href="friend2"><i class="fa fa-circle-o text-green"></i>Club Recommend</a></li>
+            <li><a href="friendSchedule"><i class="fa fa-circle-o text-green"></i>Friend Schedule</a></li>
+            <li><a href="friend3"><i class="fa fa-circle-o text-green"></i>Place Recommend</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -361,7 +359,7 @@ $(document).ready(function(){
             </span>
           </a>
           <ul class="treeview-menu">
-	            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-blue"></i> Calendar</a></li>
+            <li><a href="gotoCalendar"><i class="fa fa-circle-o text-blue"></i> Calendar</a></li>
             <li><a href="gotoTimeline"><i class="fa fa-circle-o text-blue"></i> Timeline</a></li>
           </ul>
         </li>
@@ -376,6 +374,7 @@ $(document).ready(function(){
   
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    <div id="fortheprofilediv"></div>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -391,9 +390,10 @@ $(document).ready(function(){
     <!-- Main content -->
     <section class="content">
       <div class="row">
-          
-      	  <!-- general form elements disabled -->
-          <div class="box box-Warning" style="margin-left: 20px; float:left; width: 70%;'">
+      
+      
+         <div class="col-md-9">
+				<div class="box box-Warning">
             <div class="box-header with-border">
               <h3 class="box-title">WORD CLOUD</h3>
             </div>
@@ -409,13 +409,15 @@ $(document).ready(function(){
             <!-- /.box-body -->
           </div>      
           <!-- /. box -->
+      	 </div>
       	  
+      	 <div class="col-md-3">
       	  <!-- /. 메모 box -->
-          <div class="box box-warning" style="width: 20%; float:left; margin-left: 20px;">
+          <div class="box box-warning">
             <div class="box-header with-border">
               <h3 class="box-title">MEMO</h3>
               <div class="box-tools">
-                <input type="button" class="datepicker btn btn-block btn-warning"  ></input>
+                <input type="button" class="datepicker btn btn-block btn-warning"  id="datepicker1"></input>
               </div>
             </div>
             <div class="box-body no-padding">
@@ -426,6 +428,8 @@ $(document).ready(function(){
             <!-- /.box-body -->
           </div>
           <!-- /. box -->
+         </div> 
+      	
       	  	
       </div>
       <!-- /.row -->
@@ -440,18 +444,14 @@ $(document).ready(function(){
   <!-- ========================================================================================================== -->
   
   
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
-    </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-    reserved.
-  </footer>
-
-
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
+   <footer class="main-footer"> 
+    <div class="pull-right hidden-xs"> 
+      <b>Version</b> 2.4.0 
+    </div> 
+    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights 
+    reserved. 
+  </footer> 
+  
 </div>
 <!-- ./wrapper -->
 

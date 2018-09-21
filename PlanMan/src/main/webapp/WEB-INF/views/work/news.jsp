@@ -117,7 +117,7 @@ $('#saveMemo').click(function(){
 		url:"saveMemo",
 		type:"post",
 		//client에서 server로 가는 값
-		data:{"userid": memo, "text":memo,"startDate":td},
+		data:{"userid": "${sessionScope.member.id}", "text":memo,"startDate":td},
 		success: function(data){
 		if(data=="success"){
 			swal("저장 되었습니다");
@@ -202,9 +202,9 @@ $('#ff').on('submit',function(){
 	
 	$.ajax({
 		url:"findFriend",
-		type:"get",
+		type:"post",
 		//client에서 server로 가는 값
-		data:{"userid": "${userid}","sex": sex, "age" : age},
+		data:{"userid": "${sessionScope.member.id}","sex": sex, "age" : age},
 		success: function(data){
 			if(data.length==0){
 				$('#flist').html("");
@@ -280,7 +280,7 @@ $('#saveMemo').click(function(){
 			url:"saveMemo",
 			type:"post",
 			//client에서 server로 가는 값
-			data:{"userid": memo, "text":memo,"startDate":temp},
+			data:{"userid": "${sessionScope.member.id}", "text":memo,"startDate":temp},
 			success: function(data){
 			if(data=="1"||data=="3"){
 				swal("저장 되었습니다");
@@ -457,7 +457,8 @@ var memodays="";
           </a>
           <ul class="treeview-menu">
             <li><a href="mainWork"><i class="fa fa-circle-o text-yellow"></i> Work Main</a></li>
-            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>         
+            <li><a href="goNewsMap"><i class="fa fa-circle-o text-yellow"></i> News</a></li>
+            <li><a href="goWC"><i class="fa fa-circle-o text-yellow"></i>Word Cloud</a></li>          
           </ul>
         </li>
         <li class="treeview">
