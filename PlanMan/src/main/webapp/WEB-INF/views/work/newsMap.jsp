@@ -28,115 +28,115 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 .colordate{
-	background:yellow}
+   background:yellow}
 </style>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-	 	var today = new Date();
-		var mm= today.getMonth()+1; 
-		var dd =today.getDate();
-		var yy = today.getFullYear();
-		if(dd<10) {
-		    dd='0'+dd;
-		} 
-		if(mm<10) {
-		    mm='0'+mm;
-		} 
-		var td=yy+'-'+mm+'-'+dd;
-		var temp=td;
+       var today = new Date();
+      var mm= today.getMonth()+1; 
+      var dd =today.getDate();
+      var yy = today.getFullYear();
+      if(dd<10) {
+          dd='0'+dd;
+      } 
+      if(mm<10) {
+          mm='0'+mm;
+      } 
+      var td=yy+'-'+mm+'-'+dd;
+      var temp=td;
   
   
-		$('#saveMemo').click(function(){
-		var memo = $('#memo').val();
-		
-		
-		var today = new Date();
-		var mm= today.getMonth()+1; 
-		var dd =today.getDate();
-		var yy = today.getFullYear();
-		if(dd<10) {
-		    dd='0'+dd;
-		} 
-		if(mm<10) {
-		    mm='0'+mm;
-		} 
-		var td=yy+'-'+mm+'-'+dd;
-		$.ajax({
-			url:"saveMemo",
-			type:"post",
-			//client에서 server로 가는 값
-			data:{"userid": memo, "text":memo,"startDate":temp},
-			success: function(data){
-			if(data=="1"||data=="3"){
-				swal("저장 되었습니다");
-			}else{'오류 발생'};
-			},fail: function(){
-				swal("다음에 다시 시도해주세요");
-			}
-		});
-		});
+      $('#saveMemo').click(function(){
+      var memo = $('#memo').val();
+      
+      
+      var today = new Date();
+      var mm= today.getMonth()+1; 
+      var dd =today.getDate();
+      var yy = today.getFullYear();
+      if(dd<10) {
+          dd='0'+dd;
+      } 
+      if(mm<10) {
+          mm='0'+mm;
+      } 
+      var td=yy+'-'+mm+'-'+dd;
+      $.ajax({
+         url:"saveMemo",
+         type:"post",
+         //client에서 server로 가는 값
+         data:{"userid": memo, "text":memo,"startDate":temp},
+         success: function(data){
+         if(data=="1"||data=="3"){
+            swal("저장 되었습니다");
+         }else{'오류 발생'};
+         },fail: function(){
+            swal("다음에 다시 시도해주세요");
+         }
+      });
+      });
 
 
-		var memodays="";
-   		$.ajax({
- 		   url:'memodays',
- 		    type: 'post',
- 		    data: {
- 		    	'id': '${sessionScope.member.id}'
- 		    },
- 		    success: function(data){
- 		    	memodays=data;
- 		    	
- 				},
- 		    error: function() {
- 		      swal('there was an error while fetching events!');
- 		    }
-		  });
-   		
-   		
-   		$('#datepicker1').val("날짜 선택");	
-   		
-   		$( ".datepicker" ).datepicker({ 
-   	       changeMonth: true, 
-   	       changeYear: true,
-   	       dateFormat: "yy-mm-dd",
-   	       beforeShowDay: function(day) {
-   	    	   if(memodays.indexOf($.datepicker.formatDate('yy-mm-dd', day)) != -1) return [true, "colordate","" ];
-   	            else return [true, "", ""];
-   	            
-   	        },
-   	       onSelect: function(dateText) {  
-   	    	   //alert(dateText);
-   	    	   $.ajax({
-   	    		   url:'findmemo',
-   	    		    type: 'post',
-   	    		    data: {
-   	    		    	'id': '${sessionScope.member.id}', 'startdate': dateText
-   	    		    },
-   	    		    success: function(data){
-   	    				if(data==null)	{
-   	    					swal("메모가 없습니다");	    			
-   	    		            }else{
-   	    		            	if(dateText==td){
-   		    		            	$('#memoTitle').html("오늘의 메모");
-   	    		            	}else{
-   		    		            	$('#memoTitle').html(dateText+"의 메모");            		
-   	    		            	}
-   	    		            	$('#memo').val(data.memo);
-   	    		            }
-   	    				},
-   	    		    error: function() {
-   	    		      alert('there was an error while fetching events!');
-   	    		    }
-   	 		  });
-   	      }
-   		});
-	
+      var memodays="";
+         $.ajax({
+          url:'memodays',
+           type: 'post',
+           data: {
+              'id': '${sessionScope.member.id}'
+           },
+           success: function(data){
+              memodays=data;
+              
+             },
+           error: function() {
+             swal('there was an error while fetching events!');
+           }
+        });
+         
+         
+         $('#datepicker1').val("날짜 선택");   
+         
+         $( ".datepicker" ).datepicker({ 
+             changeMonth: true, 
+             changeYear: true,
+             dateFormat: "yy-mm-dd",
+             beforeShowDay: function(day) {
+                if(memodays.indexOf($.datepicker.formatDate('yy-mm-dd', day)) != -1) return [true, "colordate","" ];
+                  else return [true, "", ""];
+                  
+              },
+             onSelect: function(dateText) {  
+                //alert(dateText);
+                $.ajax({
+                   url:'findmemo',
+                    type: 'post',
+                    data: {
+                       'id': '${sessionScope.member.id}', 'startdate': dateText
+                    },
+                    success: function(data){
+                      if(data==null)   {
+                         swal("메모가 없습니다");                
+                            }else{
+                               if(dateText==td){
+                                  $('#memoTitle').html("오늘의 메모");
+                               }else{
+                                  $('#memoTitle').html(dateText+"의 메모");                  
+                               }
+                               $('#memo').val(data.memo);
+                            }
+                      },
+                    error: function() {
+                      alert('there was an error while fetching events!');
+                    }
+               });
+            }
+         });
+   
 });
-	
-	
+   
+   
 
 
 </script>
@@ -189,7 +189,7 @@ $(document).ready(function(){
               <!-- User image -->
               <li class="user-header">
                 <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
-				<i class="fa fa-camera upload-button"></i>
+            <i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
@@ -324,118 +324,113 @@ $(document).ready(function(){
       
       
          <div class="col-md-9">
-      	  <!-- general form elements disabled -->
+           <!-- general form elements disabled -->
           <div class="box box-Warning">
             <div class="box-header with-border">
               <h3 class="box-title">여러 나라 뉴스 검색</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <label>뉴스나 검색엔진 선택</label><select id="selectNews" class="form-control" ><option>naver</option><option>BBC</option><option>NewYorkTimes</option><option>nhk</option><option>google</option><option>baidu</option></select>
-			    <br/><br/><!--The div element for the map -->
-			    <div id="map"></div>
-			    <script>
-			    
-			      var uk = {lat: 51.507, lng:  -0.127};
-				  var usa = {lat: 40.664, lng: -73.938};
-				  var korea = {lat:37.541, lng: 126.986};
-				//  var china = {lat:38.037057, lng:114.468665};
-				  var japan = {lat: 35.41, lng: 139.46};
-				  var google = {lat: 37.3993, lng: -122.079}
-				  var baidu= {lat: 39.9035, lng: 116.388}
-				  var pList=[];
-				  pList.push(usa);
-				  pList.push(korea);
-				//  pList.push(china);
-				  pList.push(uk);
-				  pList.push(japan);
-				  pList.push(google);
-				  pList.push(baidu);
-			    function initMap() { 
-					var choose="";
-					var prev_infowindow=false;
-				  var map = new google.maps.Map(
-				      document.getElementById('map'), {zoom: 2, center: korea});
-				  for (var i = 0; i < 6; i++) {
-			          // init markers
-			          var marker = new google.maps.Marker({
-			              position: pList[i],
-			              map: map,
-			              
-         		  });
+              <label>뉴스나 검색엔진 선택</label><select id="selectNews" class="form-control" ><option> </option><option>naver</option><option>BBC</option><option>nhk</option><option>google</option><option>baidu</option></select>
+             <br/><br/><!--The div element for the map -->
+             <div id="map"></div>
+             <script>
+             
+               var uk = {lat: 51.507, lng:  -0.127};
+              var usa = {lat: 40.664, lng: -73.938};
+              var korea = {lat:37.541, lng: 126.986};
+            //  var china = {lat:38.037057, lng:114.468665};
+              var japan = {lat: 35.41, lng: 139.46};
+              var google = {lat: 37.3993, lng: -122.079}
+              var baidu= {lat: 39.9035, lng: 116.388}
+              var pList=[];
+              pList.push(korea);
+            //  pList.push(china);
+              pList.push(uk);
+              pList.push(japan);
+              pList.push(google);
+              pList.push(baidu);
+             function initMap() { 
+               var choose="";
+               var prev_infowindow=false;
+              var map = new google.maps.Map(
+                  document.getElementById('map'), {zoom: 2, center: korea});
+              for (var i = 0; i < 5; i++) {
+                   // init markers
+                   var marker = new google.maps.Marker({
+                       position: pList[i],
+                       map: map,
+                       
+                 });
 
-		          // process multiple info windows
-		          (function(marker, i) {
-		              // add click event
-		              
-		              google.maps.event.addListener(marker, 'click', function() {
-		            	  
-		            	  if(i==0)choose="NewYorkTimes";
-		                  else if(i==1)choose="naver";
-		                  else if(i==2)choose="BBC";
-		                  else if(i==3)choose="yahoo";
-		                  else if(i==4)choose="google";
-		                  else if(i==5)choose="baidu";
-		            	  
-		                  infowindow = new google.maps.InfoWindow({
-		                      content: "<a href='goNews?type="+choose+"' ><img width='80' src='./resources/work/"+choose+".png' ></a>",
-		                    		  maxWidth:300
-		                  });
-		                  if( prev_infowindow ) {
-		                	  prev_infowindow.close();
-		                   }
-		                  prev_infowindow = infowindow;
-		                  infowindow.open(map, marker);
-		              });
-		          })(marker, i);
-		      }
-				  
-			  $( "#selectNews" ).change(function() {
-				  choose=$(this).val();
-			    	  if($(this).val()=="naver"){
-			    		  var center = new google.maps.LatLng(korea);
-			    		  map.panTo(center);
-			    		  map.setZoom(10);
-			    	  }else if($(this).val()=="BBC"){
-			    		  var center = new google.maps.LatLng(uk);
-			    		  map.panTo(center);
-			    		  map.setZoom(10);
-			    	  }else if($(this).val()=="NewYorkTimes"){
-			    		  var center = new google.maps.LatLng(usa);
-			    		  map.panTo(center);
-			    		  map.setZoom(10);
-			    	  }else if($(this).val()=="yahoo"){
-			    		  var center = new google.maps.LatLng(japan);
-			    		  map.panTo(center);
-			    		  map.setZoom(10);
-			    	  }else if($(this).val()=="google"){
-			    		  var center = new google.maps.LatLng(google);
-			    		  map.panTo(center);
-			    		  map.setZoom(10);
-			    	  }
-			    	  else if($(this).val()=="baidu"){
-			    		  var center = new google.maps.LatLng(baidu);
-			    		  map.panTo(center);
-			    		  map.setZoom(10);
-			    	  }
-			    	  else{
-			    		  var center = new google.maps.LatLng(korea);
-			    		  map.panTo(center);
-			    		  map.setZoom(2);
-			    	  }
-			    	});
-			 }
-	
-	   	 	  </script>
-	    	  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&callback=initMap" type="text/javascript"></script>
+                // process multiple info windows
+                (function(marker, i) {
+                    // add click event
+                    
+                    google.maps.event.addListener(marker, 'click', function() {
+                       
+                       if(i==0)choose="naver";
+                        else if(i==1)choose="BBC";
+                        else if(i==2)choose="yahoo";
+                        else if(i==3)choose="google";
+                        else if(i==4)choose="baidu";
+                        
+                       
+                        infowindow = new google.maps.InfoWindow({
+                            content: "<a href='goNews?type="+choose+"' ><img width='80' src='./resources/work/"+choose+".png' ></a>",
+                                  maxWidth:300
+                        });
+                        if( prev_infowindow ) {
+                           prev_infowindow.close();
+                         }
+                        prev_infowindow = infowindow;
+                        infowindow.open(map, marker);
+                    });
+                })(marker, i);
+            }
+              
+           $( "#selectNews" ).change(function() {
+              choose=$(this).val();
+                  if($(this).val()=="naver"){
+                     var center = new google.maps.LatLng(korea);
+                     map.panTo(center);
+                     map.setZoom(10);
+                  }else if($(this).val()=="BBC"){
+                     var center = new google.maps.LatLng(uk);
+                     map.panTo(center);
+                     map.setZoom(10);
+                  }else if($(this).val()=="yahoo"){
+                     var center = new google.maps.LatLng(japan);
+                     map.panTo(center);
+                     map.setZoom(10);
+                  }else if($(this).val()=="google"){
+                     var center = new google.maps.LatLng(google);
+                     map.panTo(center);
+                     map.setZoom(10);
+                  }
+                  else if($(this).val()=="baidu"){
+                     var center = new google.maps.LatLng(baidu);
+                     map.panTo(center);
+                     map.setZoom(10);
+                  }
+                  else{
+                     var center = new google.maps.LatLng(korea);
+                     map.panTo(center);
+                     map.setZoom(2);
+                  }
+                });
+          }
+   
+               </script>
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCoyqsgIiNF-Zeh9Jl4_Khj59L_T-Cs_o8&callback=initMap" type="text/javascript"></script>
             </div>
             <!-- /.box-body -->
           </div>      
           <!-- /. box -->
          </div>
-      	  
-      	 <div class="col-md-3">
-      	  <!-- /. 메모 box -->
+           
+          <div class="col-md-3">
+           <!-- /. 메모 box -->
           <div class="box box-warning">
             <div class="box-header with-border">
               <h3 class="box-title">MEMO</h3>
@@ -445,15 +440,15 @@ $(document).ready(function(){
             </div>
             <div class="box-body no-padding">
                <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
-	           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
-	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
+              <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
+              <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
             </div>
             <!-- /.box-body -->
           </div>
           <!-- /. box -->
          </div> 
-      	
-      	  	
+         
+              
       </div>
       <!-- /.row -->
     </section>
@@ -467,7 +462,7 @@ $(document).ready(function(){
   <!-- ========================================================================================================== -->
   
   
-  <footer class="main-footer">
+   <footer class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Version</b> 0.0.1
     </div>
