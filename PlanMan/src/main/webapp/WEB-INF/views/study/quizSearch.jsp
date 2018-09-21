@@ -92,7 +92,7 @@
               <li class="user-footer">
                 <div align="center">
                   <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
-                  
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
                   <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
                 </div>
               </li>
@@ -200,6 +200,7 @@
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
+			<div id="fortheprofilediv"></div>
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>

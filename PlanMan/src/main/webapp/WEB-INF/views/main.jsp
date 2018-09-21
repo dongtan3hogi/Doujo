@@ -313,7 +313,8 @@
         <div id="fortheprofilediv"></div>
     </div>
     
-    
+    <div id="fortheprofilediv">
+	</div>
 
     <!-- Main content -->
     <section class="content">

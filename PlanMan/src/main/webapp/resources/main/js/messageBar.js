@@ -8,7 +8,7 @@ $(function(){
 		pprroo += '<div class="modal-content">';
 		pprroo += '<form id="fileForm" action="profileImage"  method="post" enctype="multipart/form-data">';
 		pprroo += '<div class="modal-header">';
-		pprroo += '<span class="close" id="close2">&times;</span>';
+		pprroo += '<span class="close2" id="close2">&times;</span>';
 		pprroo += '프로필 사진 변경';
         pprroo += '</div>';
 		pprroo += '<div class="modal-body">';
@@ -708,7 +708,7 @@ function profileImgBtn(){
     var modal2 = document.getElementById('forProfileDiv');
 
     // Get the <span> element that closes the modal
-    var span2 = document.getElementById('close2');                                      
+    var span2 = document.getElementById('close2');                                          
 
     // When the user clicks on the button, open the modal 
     //$('#sch-button').text('');

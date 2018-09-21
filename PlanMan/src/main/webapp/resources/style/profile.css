@@ -1,0 +1,80 @@
+@charset "UTF-8";
+/* 게시판용 CSS */
+/* The Modal (background) */
+     .modal {
+         display: none; /* Hidden by default */
+         position: fixed; /* Stay in place */
+         z-index: 999; /* Sit on top */
+         left: 0;
+         top: 0;
+         width: 100%; /* Full width */
+         height: 100%; /* Full height */
+         overflow: auto; /* Enable scroll if needed */
+         background-color: rgb(0,0,0); /* Fallback color */
+         background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+     }
+ 
+     /* Modal Content/Box */
+     .modal-content {
+         background-color: #fefefe;
+         margin: 15% auto; /* 15% from the top and centered */
+         padding: 20px;
+         border: 1px solid #888;
+         width: 50%; /* Could be more or less, depending on screen size */                          
+     }
+     /* The Close Button */
+     .close {
+         color: #aaa;
+         float: right;
+         font-size: 28px;
+         font-weight: bold;
+     }
+     .close:hover,
+     .close:focus {
+         color: black;
+         text-decoration: none;
+         cursor: pointer;
+     }
+     
+     .event {
+  		display: none; 
+	 }
+	 
+	 label {
+	  	margin: 0 0 -1px;
+	  	padding: 5px 20px;
+   	    font-weight: 600;
+	    text-align: center;
+	    color: #708090;
+	    border: 1px solid transparent;
+	 }
+	
+	 .event:checked + label {
+	  	color: #d73925;
+	 } 
+	
+	 label:hover {
+	   color: #b0e0e6;
+	   cursor: pointer;
+	 }
+	 #datepicker{
+	   display: inline;
+	 }
+	 
+	 input[type="time"]{
+	 	display: inline;
+	 }
+	 
+	 .sType{
+	 	display: none;
+	 }
+	 
+	 .sType:checked + label {
+	   color: #0000FF;
+	 } 
+	 
+	 .upload-button:hover {
+		  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+		  color: #999;
+	 }
+	 
