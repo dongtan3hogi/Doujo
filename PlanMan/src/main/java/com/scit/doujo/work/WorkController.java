@@ -324,6 +324,8 @@ public class WorkController {
 		}
 		return result;
 	}
+	
+	
 	@RequestMapping(value = "/wordcloud", method = RequestMethod.POST)
 	public @ResponseBody List<Map<String,Object>> wordcloud( Model model,String id, String startdate) {
 		List<Map<String,Object>> result =new ArrayList<Map<String,Object>>();
