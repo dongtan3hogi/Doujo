@@ -202,7 +202,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="goWorkMain"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">title</li>
+        <li class="active">Friend</li>
       </ol>
     </section>
 
@@ -578,7 +578,7 @@ function goPage(a){
            },
                  fail: function(res){
               swal("再び試みてください.");
-              }
+           }
      });
        
       }

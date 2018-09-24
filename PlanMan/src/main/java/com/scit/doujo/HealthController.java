@@ -189,30 +189,30 @@ public class HealthController {
 			
 			System.out.println("최대값"+max);
 			if(max<=80) {
-				message="현재 음식 섭취량이 전체적으로 부족합니다. 음식을 섭취해주세요.";
+				message="現在、食べ物の摂取量が全体的に不足します。 食べ物を摂取してください。";
 			}else if(max<=120) {
-				message="건강한 식생활을 하고 계십니다. 앞으로도 쭉 유지해주세요.";
+				message="健康な食生活をしていらっしゃいます。 これからもずっと維持してください。";
 			}else if(max==kacl) {
-				message="과다한 칼로리 섭취는 체중 증가를 유도하고 비만을 유발합니다. 비만은 만병의 온상이 입니다. 운동을 통해 칼로리를 줄여주세요.";
+				message="過度なカロリー摂取は、体重増加を誘導して肥満を誘発します。 肥満は万病の温床がです。 運動を通じてカロリーを減らしてください。";
 			}else if(max==carbo) {
-				message="탄수화물 중독이 의심되네요. 과다하게 섭취하면 비만에 원인이 됩니다.  통밀빵, 콩, 현미, 채소, 과일, 견과류등 혈당지수가 낮은 식품을 섭취하면 좋습니다.";
+				message="炭水化物中毒が疑われるですね。 過度に摂取すれば、肥満に原因になります。 全粒粉パン、豆、玄米、野菜、果物、堅果類のグリセミック指数が低い食品を摂取すればいいんです。";
 			}else if(max==protein) {
-				message="단백질을 과다 섭취하게 되면 단백질 분해 과정에서 체내 질소 노폐물이 많이 형성되어, 노폐물을 걸러 주는 기능을 담당하는 신장에 과도한 부담을 줄 수 있습니다. 무엇이든 적당히 먹는 것을 추천드립니다.";
+				message="タンパク質を過剰摂取することになれば、タンパク質分解過程で内因性窒素、老廃物が多く形成されて、老廃物を濾過する機能を担当する腎臓に過度な負担を与えることができます。 何でも適当に食べることをお勧めします。";
 			}else if(max==fat) {
-				message="과도한 지방 섭취는 각종 성인병을 발생시킬뿐만 아니라 수면장애, 두뇌활동에도 악영향을 초래합니다. 저지방 식품을 드시는 것을 추천합니다.";
+				message="過度な脂肪の摂取は各種の成人病を発生させるだけでなく、睡眠障害、頭脳活動にも悪影響をもたらします。 低脂肪食品を食べることをおすすめします。";
 			}else if(max==sugar) {
-				message="과도한 당의 섭취는 비만, 당뇨, 심뇌혈관질환 및 충치의 원인이 됩니다. 당류 함유량이 높은 음료수는 피해주세요.";
+				message="過度な党の摂取は肥満、糖尿、心臓や脳血管疾患及び虫歯の原因になります。 糖類含有量が高い飲み物は避けてください。";
 			}else if(max==sodium) {
-				message="나트륨을 과도하게 섭취하면 혈류량이 늘어 혈압이 높아지고 심장질환, 심혈관질환으로 인한 사망률이 올라갑니다. 채소와 과일을 많이 섭취하시고 국물류 음식의 섭취량을 줄여주세요.";
+				message="ナトリウムを過度に摂取すれば、血流量が増えて血圧が高く、心臓疾患、心血管疾患による死亡率が上がります。 野菜と果物をたくさん摂取してスープ類の食べ物の摂取量を減らしてください。";
 			}else if(max==cholesterol) {
-				message="콜레스테롤 과다섭취시 뇌졸중과 심장병 등 생명과 직접적인 관련이 있는 치명적인 질환이 생길 수 있다. 콜레스테롤이 필요 이상으로 많으면 혈관을 좁아지게 만들어 이처럼 치명적인 심뇌혈관 질환의 발생 확률을 높인다.";
+				message="コレステロールの過多摂取市脳卒中と心臓病などの生命と直接的な関連がある致命的な疾患が生じる恐れがある。 コレステロールが必要以上に多ければ、血管を弱くしてこのように致命的な心臓や脳血管疾患の発生確率を高める。";
 			}else if(max==fatty) {
-				message="포화지방산 과다섭취시 심혈관질환 발병률이 올라갑니다. 버터, 우유, 고기, 계란 등 동물성 식품에 많이 함유되어 있으니 섭취시 주의해주세요.";
+				message="飽和脂肪酸、過多摂取市、心血管疾患の発病率が上がります。 バター、牛乳、肉や卵などの動物性食品に多く含まれているので、摂取時の注意してください。";
 			}else if(max==transfat) {
-				message="트랜스지방 과다섭취시 심혈관질환 발병률이 올라갑니다. 굽거나 기름에 튀긴 음식이 대표적입니다. 또한 일부 식당이나 길거리 포장마차에서 사용하는 수소화 식물유에도 다량의 트랜스지방이 포함되어 있으므로 주의해주세요.";
+				message="トランス脂肪過多摂取市、心血管疾患の発病率が上がります。 焼いたり油で揚げた食べ物が代表的です。 また、一部の食堂や屋台で使用する水素化植物性油脂にも多量のトランス脂肪が含まれているので注意してください。";
 			}
 		}else {
-			message="이번주 식단정보가 아직 입력되어 있지 않습니다. 건강한 한주 되세요.";
+			message="今週の献立情報がまだ入力されていません。 健康な一週になってください。";
 		}
 		System.out.println(message);
 		
@@ -636,17 +636,10 @@ public class HealthController {
 		mynut result=new mynut();
 		SimpleDateFormat formatter=new SimpleDateFormat("YYYY-MM-dd");
 		Calendar cal = Calendar.getInstance();
-		String year=countday.split("-")[0];
-		String month=countday.split("-")[1];
-		String day=countday.split("-")[2];
-		cal.set(Calendar.MONTH-1, Integer.parseInt(month));
-		cal.set(Calendar.DATE, Integer.parseInt(day));
 		cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
-		cal.set(Calendar.YEAR, Integer.parseInt(year));
 		String monthendday=formatter.format(cal.getTime());
 		System.out.println(monthendday);
 		cal.set(Calendar.DATE, 1);
-		cal.set(Calendar.YEAR, Integer.parseInt(year));
 		String monthstartday=formatter.format(cal.getTime());
 		System.out.println(monthstartday);
 		result.setMonthstartday(monthstartday);

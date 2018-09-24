@@ -265,7 +265,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Calendar</li>
+        <li class="active">Friend</li>
       </ol>
     </section>
     
@@ -325,7 +325,7 @@
 		            </div> 
 		            <!-- /.box-header -->
 		            <div class="box-body table-responsive no-padding">
-		              <table class="table table-hover">;
+		              <table class="table table-hover">
 		                <tr>
 		                  <th>USER ICON</th>
 					      <th>ID</th>
@@ -486,7 +486,7 @@
  
         // When the user clicks on the button, open the modal 
         $('#sch-button').text('');
-        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='친구에게 스케쥴 신청하기' class='btn btn-block btn-success' onclick='return askevent()'/>");      	  
+        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='友達にスケジュール申請' class='btn btn-block btn-success' onclick='return askevent()'/>");      	  
         modal.style.display = "block";
         $('#startday').val(date.format());
         

@@ -254,7 +254,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="goWorkMain"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">title</li>
+        <li class="active">Friend</li>
       </ol>
     </section>
 
@@ -323,7 +323,7 @@
 		            <!-- /.box-header -->
 		            <div class="box-body">
 		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-		              <input type="text" id="searchMeeting">&nbsp;<input type="button" class="btn btn-success" id="goSearch" value="#으로 검색">
+		              <input type="text" id="searchMeeting">&nbsp;<input type="button" class="btn btn-success" id="goSearch" value="#で検索">
 		                
 		              <ul class="eventlist">
 		              </ul>
@@ -382,7 +382,7 @@
 					      <c:when test="${!empty newlist}">
 					       <c:forEach begin="0" var="friend" items="${newlist}" varStatus="index">
 					          <tr>
-					          	  <td><img class="direct-chat-img" src="resources/userData/image/' + ${friend.friendid} + '.jpg"  data-rno="${friend.friendid}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
+					          	  <td><img class="direct-chat-img" src="resources/userData/image/${friend.friendid}.jpg"  data-rno="${friend.friendid}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
 					              <td>${friend.friendid}</td>   
 					              <td>${friend.nickname}</td>
 					              <td>${friend.name}</td>
@@ -505,7 +505,7 @@
 	  $("#goSearch").on("click",function(){
 	      var search= $("#searchMeeting").val();
 	      if(search==""){
-	         swal('입력해주세요.');
+	         swal('入力してください。');
 	      }
 	      $.ajax({
 	         url:"searchMeeting",

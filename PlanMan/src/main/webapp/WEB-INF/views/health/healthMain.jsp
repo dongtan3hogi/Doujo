@@ -265,8 +265,7 @@
 	                <h3 class="box-title">Health Advice</h3>
             	</div>
             	<div class="box-body">
-            		<br/>
-            		<label class="control-label"><i class="fa fa-heartbeat" style="color: #dd4b39"></i>&nbsp&nbsp${message}</label>
+            		<label class="control-label"><i class="fa fa-heartbeat" style="color: #dd4b39"></i>&nbsp${message}</label>
             	</div>
             	<!-- TO DO List -->
 		          <div class="box box-Danger">

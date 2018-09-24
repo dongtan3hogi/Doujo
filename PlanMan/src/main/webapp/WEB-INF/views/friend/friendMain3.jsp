@@ -75,7 +75,7 @@ div.all-list {
 	position: absolute;
 	left: 0;
 	top: 0;
-	width: 30%;
+	width: 50%;
 }
 </style>
 <script
@@ -264,7 +264,7 @@ div.all-list {
       </h1>
       <ol class="breadcrumb">
         <li><a href="goWorkMain"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">title</li>
+        <li class="active">Friend</li>
       </ol>
     </section>
 
@@ -346,7 +346,7 @@ div.all-list {
 							</c:forEach>  
 						</div>
 						<div id="all-btn-wrap" class="btn-wrap">
-							<a href="javascript:;" class="btn btn-success">더보기</a>
+							<a href="javascript:;" class="btn btn-success">もっと見る</a>
 						</div>
 					</c:if>
 					<c:if test="${!empty flist }">
@@ -360,7 +360,7 @@ div.all-list {
 									<div>
 										<div><strong>內容</strong></div>
 										<div><div>${flist.content}</div> 
-										<img src="/doujo/display.do?path=${flist.savedfile }" width="30%" height="auto" onError="this.style.visibility='hidden'" /></td>
+										<img src="/doujo/display.do?path=${flist.savedfile }" width="50%" height="auto" onError="this.style.visibility='hidden'" /></td>
 									</div>
 									<div>
 										<strong>著者</strong>
@@ -393,7 +393,7 @@ div.all-list {
 								<div>
 									<div><strong>內容</strong></div>
 									<div><div contentEditable="true">${oneboard.content}</div> 
-									<img src="/doujo/display.do?path=${oneboard.savedfile }" width="10%" height="auto" onError="this.style.visibility='hidden'" /></div>
+									<img src="/doujo/display.do?path=${oneboard.savedfile }" width="70%" height="auto" onError="this.style.visibility='hidden'" /></div>
 								</div>
 								<div>
 									<strong>著者</strong>

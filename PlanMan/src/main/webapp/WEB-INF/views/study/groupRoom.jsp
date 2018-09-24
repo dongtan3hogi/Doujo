@@ -182,7 +182,7 @@
 				, contentType : 'application/json; charset=UTF-8'
 				, success: function(data) {
 					selectedID = dataArray[1];
-		        	var sqlsr = '<select id="quiznumberselect" onchange="qnChange()"  class="form-control"><option>=퀴즈번호=</option>';
+		        	var sqlsr = '<select id="quiznumberselect" onchange="qnChange()"  class="form-control"><option>=クイズ番号=</option>';
 					$.each(data, function(index, item){
 						sqlsr += '<option value="' + item.NUM + '">' + item.NUM + '</option>';
 					});
@@ -220,7 +220,7 @@
 						result += '<input type="text" name="answer">';
 					}
 					result += '<div align="right">';
-					result += '<br/><input type="button" class="btn btn-info" id="quizcheck" value="채점">';
+					result += '<br/><input type="button" class="btn btn-info" id="quizcheck" value="採点">';
 					result += '</div>';
 					document.getElementById("functionboard").innerHTML = result;
 					
