@@ -30,7 +30,7 @@
   </div>
 
   <div class="register-box-body">
-    	<p class="login-box-msg">취미 직업 정보 입력하기</p>
+    	<p class="login-box-msg">趣味、職業情報入力</p>
 		<form id="writeform" action="finallyjoinin"  method="post" 	onsubmit="return formCheck();">
 		<div class="form-group has-feedback">
 			<input id="id" type="text" value="${sessionScope.member.id }" class="form-control" readonly="readonly" name="id">
@@ -38,28 +38,28 @@
      	</div>
 		
 		<div class="form-group has-feedback" align="center" >
-        	 <div align="center">직업</div>
+        	 <div align="center">職業</div>
 			    <select id="job" name="job" class="form-control">
-			  	<option value="student" selected="selected">학생</option>
-			  	<option value="salesman">회사원</option>
-			  	<option value="teacher">선생님</option>
-			  	<option value="lawyer">변호사</option>
-			  	<option value="architect">건축가</option>
-			  	<option value="nurse">간호사</option>
-			  	<option value="doctor">의사</option>
-			  	<option value="accountant">회계사</option>
-			  	<option value="nutritionist">영양사</option>
-			  	<option value="soldier">군인</option>
-			  	<option value="marine">해군</option>
-			  	<option value="developer">개발자</option>
-			  	<option value="projectmanager">프로젝트 매니저</option>
-			  	<option value="fireman">소방관</option>
-			  	<option value="scientist">과학자</option>
-			  	<option value="writer">작가</option>
-			  	<option value="photographer">사진가</option>
-			  	<option value="actor">배우</option>
-			  	<option value="singer">가수</option>
-			  	<option value="journalist">기자</option>
+			  	<option value="student" selected="selected">学生</option>
+			  	<option value="salesman">会社員</option>
+			  	<option value="teacher">先生</option>
+			  	<option value="lawyer">弁護士</option>
+			  	<option value="architect">アーキテクト</option>
+			  	<option value="nurse">看護師</option>
+			  	<option value="doctor">医師</option>
+			  	<option value="accountant">会計士</option>
+			  	<option value="nutritionist">栄養士</option>
+			  	<option value="soldier">軍人</option>
+			  	<option value="marine">海軍</option>
+			  	<option value="developer">クリエイター</option>
+			  	<option value="projectmanager">プロジェクトマネージャ</option>
+			  	<option value="fireman">ファイアマン</option>
+			  	<option value="scientist">かがくしゃ</option>
+			  	<option value="writer">作家</option>
+			  	<option value="photographer">写真家</option>
+			  	<option value="actor">俳優</option>
+			  	<option value="singer">歌手</option>
+			  	<option value="journalist">記者</option>
 			  </select>	  
       	</div>
       	
@@ -68,7 +68,7 @@
      	</div>
      	
 		<div>
-		  <input type="submit" class="btn btn-primary btn-block btn-flat" value="직업 취미 입력하기" />	
+		  <input type="submit" class="btn btn-primary btn-block btn-flat" value="職業趣味入力" />	
         </div>
 
 	</form>
@@ -91,13 +91,13 @@ function formCheck() {
 	var hobby = document.getElementById('hobby');
 	
 	if (job.value.length < 1) {
-		swal("직업을 입력해주세요.");
+		swal("職業を入力してください.");
 		id.focus();
 		id.select();
 		return false;
 	}
 	if (hobby.value.length < 1) {
-		swal("취미를 입력해주세요.");
+		swal("趣味を入力してください.");
 		id.focus();
 		id.select();
 		return false;

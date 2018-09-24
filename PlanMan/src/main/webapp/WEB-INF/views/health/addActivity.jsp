@@ -270,7 +270,7 @@
     <section class="content-header">
       <h1>
         Health
-        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -278,33 +278,7 @@
       </ol>
     </section>
 	
-	<!-- The Modal -->
-    <div id="myModal" class="modal">
- 
-    	<!-- Modal content -->
-        <div class="modal-content">
-        	<span class="close">&times;</span>
-        	
-        	<div>
-        		<input type="hidden" id="foodnum">
-        	</div>
-        	<br/>
-        	<div>
-        		음식이름  :  <span id="fName"></span> 
-        	</div>
-        	<br/>
-        	<div>
-        		섭취량    <input type="number" style="width: 50px; height: 30px;" id="fGram" >g
-        	</div>
-        	<br/>
-        	<div>
-        		섭취일 <input type="text" style="width: 150px;" class="datepicker" id="eatday" > 
-        	</div>
-        	<br/>
-        	<div id="sch-button" align="right"><input type="submit" id="addMeal" style="width: 200px;" value="음식 입력하기" class="btn btn-block btn-Danger" onclick="return addMealChk()"/></div>
-        </div>
-    </div>
-
+	
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -317,43 +291,43 @@
 		                <h3 class="box-title">Add Activity</h3>
 	        </div>
 	    	<div align="right">
-	    		날짜 선택&nbsp:&nbsp<input type="text" style="width: 150px;" class="datepicker" name="countday" id="addActDay" >&nbsp
-	    		<input type="button" class="btn btn-Danger" id="addActivity" value="활동 입력하기" style="margin-right: 10px;">
+	    		日付選択&nbsp:&nbsp<input type="text" style="width: 150px;" class="datepicker" name="countday" id="addActDay" >&nbsp
+	    		<input type="button" class="btn btn-Danger" id="addActivity" value="活動入力" style="margin-right: 10px;">
 	    	</div>
 	    	<br/>
 	    	<div id="actType">
-			 	<input id="tab1" value="걷기" type="radio" name="tabs" class="tab">
-			 	<label for="tab1">걷기</label>
-			 	<input id="tab2" value="계단" type="radio" name="tabs" class="tab">
-			 	<label for="tab2">계단</label>
-			 	<input id="tab3" value="등산" type="radio" name="tabs" class="tab">
-			 	<label for="tab3">등산</label>
-			 	<input id="tab4" value="수영" type="radio" name="tabs" class="tab">
-			 	<label for="tab4">수영</label>
-			 	<input id="tab5" value="요가" type="radio" name="tabs" class="tab">
-			 	<label for="tab5">요가</label>
-			 	<input id="tab6" value="복싱" type="radio" name="tabs" class="tab">
-			 	<label for="tab6">복싱</label>
-			 	<input id="tab7" value="줄넘기" type="radio" name="tabs" class="tab">
-			 	<label for="tab7">줄넘기</label>
-			 	<input id="tab8" value="자전거" type="radio" name="tabs" class="tab">
-			 	<label for="tab8">자전거</label>
-			 	<input id="tab9" value="달리기" type="radio" name="tabs" class="tab">
-			 	<label for="tab9">달리기</label>
-			 	<input id="tab10" value="스쿼트" type="radio" name="tabs" class="tab">
-			 	<label for="tab10">스쿼트</label>
-			 	<input id="tab11" value="사이클" type="radio" name="tabs" class="tab">
-			 	<label for="tab11">사이클</label>
-			 	<input id="tab12" value="스쿼시" type="radio" name="tabs" class="tab">
-			 	<label for="tab12">스쿼시</label>
-			 	<input id="tab13" value="훌라후프" type="radio" name="tabs" class="tab">
-			 	<label for="tab13">훌라후프</label>
-			 	<input id="tab14" value="런닝머신" type="radio" name="tabs" class="tab">
-			 	<label for="tab14">런닝머신</label>
-			 	<input id="tab15" value="에어로빅" type="radio" name="tabs" class="tab">
-			 	<label for="tab15">에어로빅</label>
-			 	<input id="tab16" value="윗몸일으키키" type="radio" name="tabs" class="tab">
-			 	<label for="tab16">윗몸일으키키</label>
+			 	<input id="tab1" value="歩き" type="radio" name="tabs" class="tab">
+			 	<label for="tab1">歩き</label>
+			 	<input id="tab2" value="階段" type="radio" name="tabs" class="tab">
+			 	<label for="tab2">階段</label>
+			 	<input id="tab3" value="登山" type="radio" name="tabs" class="tab">
+			 	<label for="tab3">登山</label>
+			 	<input id="tab4" value="水泳" type="radio" name="tabs" class="tab">
+			 	<label for="tab4">水泳</label>
+			 	<input id="tab5" value="ヨガ" type="radio" name="tabs" class="tab">
+			 	<label for="tab5">ヨガ</label>
+			 	<input id="tab6" value="ボクシング" type="radio" name="tabs" class="tab">
+			 	<label for="tab6">ボクシング</label>
+			 	<input id="tab7" value="縄飛び" type="radio" name="tabs" class="tab">
+			 	<label for="tab7">縄飛び</label>
+			 	<input id="tab8" value="自転車" type="radio" name="tabs" class="tab">
+			 	<label for="tab8">自転車</label>
+			 	<input id="tab9" value="ランニング" type="radio" name="tabs" class="tab">
+			 	<label for="tab9">ランニング</label>
+			 	<input id="tab10" value="スクワット" type="radio" name="tabs" class="tab">
+			 	<label for="tab10">スクワット</label>
+			 	<input id="tab11" value="サイクル" type="radio" name="tabs" class="tab">
+			 	<label for="tab11">サイクル</label>
+			 	<input id="tab12" value="スカッシュ" type="radio" name="tabs" class="tab">
+			 	<label for="tab12">スカッシュ</label>
+			 	<input id="tab13" value="フラフープ" type="radio" name="tabs" class="tab">
+			 	<label for="tab13">フラフープ</label>
+			 	<input id="tab14" value="ランニングマシン" type="radio" name="tabs" class="tab">
+			 	<label for="tab14">ランニングマシン</label>
+			 	<input id="tab15" value="ランニングマシン" type="radio" name="tabs" class="tab">
+			 	<label for="tab15">ランニングマシン</label>
+			 	<input id="tab16" value="シットアップ" type="radio" name="tabs" class="tab">
+			 	<label for="tab16">シットアップ</label>
 			</div>
 			
 			<div id="content" align="center" class="t">
@@ -758,12 +732,12 @@ var span = document.getElementsByClassName("close")[0];
 	 
 	 $('#addActivity').on('click',function(){
 		 if($('#addActDay').val().length==0){
-			swal('날짜를 선택해 주세요.');
+			alert('日付を選択してください.');
 			return false;
 		 }
 		 
 		 if(isNaN($('#kacl').val())||$('#kacl').val().length==0||$('#kacl').val()==0){
-			swal('숫자가 아닌 값이 입력되어 있거나 입력할 값이 없습니다.');
+			alert('数字以外の値が入力されていたり、入力する値がありません.');
 			return false;
 		 }else{
 			$.ajax({
@@ -776,9 +750,9 @@ var span = document.getElementsByClassName("close")[0];
 				}
 				,success: function (data){
 					if(data=="success"){
-						swal("활동이 입력 되었습니다.");
+						alert("活動が入力されました.");
 					}else{
-						swal("입력에 실패 했습니다.");
+						alert("入力に失敗しました.");
 					}
 				}
 		    });	

@@ -274,27 +274,28 @@
                   </ul>
                   <!-- /.users-list -->
                 </div>
-            <!-- /.box-body -->
-            <div class="box-footer clearfix">
-              <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="gotoQuizSearch?page=${page-1}&search=${search}">«</a></li>
-                <c:forEach begin="${navi.startPageGroup}" end="${navi.endPageGroup}" step="1" varStatus="status">
-                    <li><a href="gotoQuizSearch?page=${navi.startPageGroup+status.count-1}">${navi.startPageGroup+status.count-1}	</a></li>
-                </c:forEach>
-                <li><a href="gotoQuizSearch?page=${page+1}&search=${search}">»</a></li>
-              </ul>
-            </div>
-          </div>
-          <!-- /.box -->
-        </div>
+                
+	            <!-- /.box-body -->
+	            <div class="box-footer clearfix">
+	              <ul class="pagination pagination-sm no-margin pull-right">
+	                <li><a href="gotoQuizSearch?page=${page-1}&search=${search}">«</a></li>
+	                <c:forEach begin="${navi.startPageGroup}" end="${navi.endPageGroup}" step="1" varStatus="status">
+	                    <li><a href="gotoQuizSearch?page=${navi.startPageGroup+status.count-1}">${navi.startPageGroup+status.count-1}	</a></li>
+	                </c:forEach>
+	                <li><a href="gotoQuizSearch?page=${page+1}&search=${search}">»</a></li>
+	              </ul>
+	            </div>
+	          </div>
+	          <!-- /.box -->
+        
 					
 					
-				</div>
-				<!-- /.col -->
+			</div>
+			<!-- /.col -->
 		</div>
 		<!-- /.row -->
-		</section>
-		<!-- /.content -->
+	</section>
+	<!-- /.content -->
 		
 	<!-- ========================================================================================================== -->
 	<!-- ========================================================================================================== -->

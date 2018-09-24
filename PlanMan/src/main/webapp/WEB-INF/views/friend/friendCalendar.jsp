@@ -154,9 +154,9 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div align="center">
-                  <a href="gotoupdate" class="btn btn-primary btn-flat">My Page</a>
-                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">Profile</a>
-                  <a href="gotologout" class="btn btn-primary btn-flat">Log Out</a>
+                  <a href="gotoupdate" class="btn btn-primary btn-flat">マイページ</a>
+                  <a class="btn btn-primary btn-flat" onclick="profileImgBtn()">プロフィール</a>
+                  <a href="gotologout" class="btn btn-primary btn-flat">ログアウト</a>
                 </div>
               </li>
             </ul>
@@ -182,7 +182,7 @@
      
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MENU</li>
+        <li class="header">メニュー</li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-edit" style="color: #2ECCFA"></i> <span>Study</span>
@@ -261,11 +261,11 @@
     <section class="content-header">
       <h1>
         Calendar
-        <small>${sessionScope.member.id}님의 스케쥴</small>
+        <small>${sessionScope.member.id}のスケジュール</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Calendar</li>
+        <li class="active">Friend</li>
       </ol>
     </section>
     
@@ -276,7 +276,7 @@
         <div class="modal-content">
         	<span class="close">&times;</span>
         	<input type="hidden" id="seq" />     
-        	<div>스케쥴 타입</div>
+        	<div>スケジュールタイプ</div>
         	<div>
         		<input type="radio" id="event1" value="study" class="event" name="event">
         		<label for="event1">Study</label>
@@ -291,22 +291,22 @@
         	</div>
         	<br/>
         	<div>
-        		시작일 <input type="text" style="width: 150px;" class="datepicker" id="startday" > 
+        		開始日 <input type="text" style="width: 150px;" class="datepicker" id="startday" > 
         	</div>
         	<br/>
         	<div>
-        		스케쥴 기간 지정 &nbsp;&nbsp; <input type = "radio" class='sType' id="sType" name='sType' value='sometimes' checked="checked"><label for="sType">반복 스케쥴</label> &nbsp; <input type = "radio" class='sType' id="sType2" name='sType' value='always'><label for="sType2">지속 스케쥴</label> &nbsp;  <input type="number" style="width: 40px; height: 30px;" id="endday" value="1"> 일간 진행
+        		スケジュール期間指定 &nbsp;&nbsp; <input type = "radio" class='sType' id="sType" name='sType' value='sometimes' checked="checked"><label for="sType">繰り返しスケジュール</label> &nbsp; <input type = "radio" class='sType' id="sType2" name='sType' value='always'><label for="sType2">持続スケジュール</label> &nbsp;  <input type="number" style="width: 40px; height: 30px;" id="endday" value="1"> 日刊紙を進行
         	</div>
         	<br/>
-        	<div>시간대 <input id="timepicker" type="text" style="width: 120px;"> ~ <input id="timepicker2" type="text" style="width: 120px;"></div>
+        	<div>時間帯 <input id="timepicker" type="text" style="width: 120px;"> ~ <input id="timepicker2" type="text" style="width: 120px;"></div>
         	<br/>
-        	<div>스케쥴명</div>
+        	<div>スケジュールのタイトル</div>
         	<div><input type="text" class="form-control" id="eventtitle" name="eventtitle" /></div>
         	<br/>
-        	<div>스케쥴내용</div>
+        	<div>スケジュール内容</div>
         	<div><textarea type="text" class="form-control" id="eventcontent" name="eventcontent" style="height: 200px;"></textarea></div>
         	<br/>
-        	<div id="sch-button" align="right"><input type="submit" id="eventAdd" style="width: 200px;" value="친구에게 스케쥴 신청하기" class="btn btn-block btn-success" onclick="return askevent()"/></div>
+        	<div id="sch-button" align="right"><input type="submit" id="eventAdd" style="width: 200px;" value="友達にスケジュール申請する" class="btn btn-block btn-success" onclick="return askevent()"/></div>
         </div>
     </div>
     
@@ -325,7 +325,7 @@
 		            </div> 
 		            <!-- /.box-header -->
 		            <div class="box-body table-responsive no-padding">
-		              <table class="table table-hover">;
+		              <table class="table table-hover">
 		                <tr>
 		                  <th>USER ICON</th>
 					      <th>ID</th>
@@ -402,7 +402,7 @@
 	$('.direct-chat-img').on('click',function(){
 		var friendID=$(this).attr('data-rno');
 		
-		var flag = confirm('친구의 스케쥴을 확인하시겠습니까?');
+		var flag = confirm('友達のスケジュールを確認しますか?');
 		if(flag){
 			
 			$('#calendar').fullCalendar('removeEvents');
@@ -486,7 +486,7 @@
  
         // When the user clicks on the button, open the modal 
         $('#sch-button').text('');
-        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='친구에게 스케쥴 신청하기' class='btn btn-block btn-success' onclick='return askevent()'/>");      	  
+        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='友達にスケジュール申請' class='btn btn-block btn-success' onclick='return askevent()'/>");      	  
         modal.style.display = "block";
         $('#startday').val(date.format());
         
@@ -576,7 +576,7 @@
 		var friendid=$('#nowfriend').val();	
 		
 		if(friendid.length==0){
-			swal("본인에게는 스케쥴을 신청할 수 없습니다.");
+			swal("本人にはスケジュールを申請できません.");
 			return false;
 		}
 		
@@ -598,22 +598,22 @@
 	    var stype = $('input[name="sType"]:checked').val();
 
 		if($('.event:checked').val()==null){
-  			swal("이벤트 타입을 선택해 주세요.");
+  			swal("イベントのタイプを選択してください.");
   			return false;
   		}
   		
   		if($('#endday').val()<=0){
-  			swal("기간을 다시 선택해주세요.");
+  			swal("期間を選択し直してください.");
   			return false;
   		}
 		
   		if($('#timepicker').val()>=$('#timepicker2').val()){
-  			swal("시간대를 다시 선택해주세요.");
+  			swal("時間帯を選択し直してください.");
   			return false;
   		}
   		
   		if($('#eventtitle').val().length==0){
-  			swal("이벤트 타이틀을 입력해주세요.");
+  			swal("イベントタイトルを入力してください.");
   			return false;
   		}else{
   			endday=$('#startday').val()+" "+$('#timepicker2').val();

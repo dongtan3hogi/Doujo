@@ -71,7 +71,7 @@
 
 	 ﻿         if ($("input:checkbox[name='selected']").is(":checked")){ 
 
-	 ﻿            if (confirm("삭제 하시겠습니까?")) { 
+	 ﻿            if (confirm("削除しますか?")) { 
 
 	 ﻿                for(var i=$("input:checkbox[name='selected']:checked").length-1; i>-1; i--){ 
 
@@ -81,7 +81,7 @@
 	             }﻿ 
 	          } else { 
 
-	 ﻿            swal("선택된 데이터가 없습니다.");  
+	 ﻿            swal("選択されたデータがありません.");  
 
 	          }﻿ 
 
@@ -250,11 +250,11 @@
     <section class="content-header">
       <h1>
         Friend
-        <small>${sessionScope.member.id}님의 타임라인 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="goWorkMain"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">title</li>
+        <li class="active">Friend</li>
       </ol>
     </section>
 
@@ -267,7 +267,7 @@
 	            <div class="box-header">
 	              <i class="ion ion-clipboard"></i>
 	
-	              <h3 class="box-title">이번주 Friend Schedule</h3>
+	              <h3 class="box-title">今週 Friend Schedule</h3>
 	            </div>
 	            <!-- /.box-header -->
 	            
@@ -323,7 +323,7 @@
 		            <!-- /.box-header -->
 		            <div class="box-body">
 		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-		              <input type="text" id="searchMeeting">&nbsp;<input type="button" class="btn btn-success" id="goSearch" value="#으로 검색">
+		              <input type="text" id="searchMeeting">&nbsp;<input type="button" class="btn btn-success" id="goSearch" value="#で検索">
 		                
 		              <ul class="eventlist">
 		              </ul>
@@ -382,7 +382,7 @@
 					      <c:when test="${!empty newlist}">
 					       <c:forEach begin="0" var="friend" items="${newlist}" varStatus="index">
 					          <tr>
-					          	  <td><img class="direct-chat-img" src="resources/userData/image/' + ${friend.friendid} + '.jpg"  data-rno="${friend.friendid}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
+					          	  <td><img class="direct-chat-img" src="resources/userData/image/${friend.friendid}.jpg"  data-rno="${friend.friendid}" alt="message user image" onError="this.src='resources/userData/image/unknown.png';" style="width:50px; height:50px;"></td>
 					              <td>${friend.friendid}</td>   
 					              <td>${friend.nickname}</td>
 					              <td>${friend.name}</td>
@@ -480,7 +480,7 @@
 	      			}
 	      			,success: function (data){
 	    				if(data="success"){
-	    					swal("스케쥴 확인완료!")
+	    					swal("スケジュール確認完了!")
 	    				}	
 	      			}
 	            })
@@ -494,7 +494,7 @@
 		      			}
 		      			,success: function (data){
 		      				if(data="success"){
-		    					swal("스케쥴 해제하기!")
+		    					swal("スケジュール確認の取り消し!")
 		    				}	
 		      			}
 		        })
@@ -505,7 +505,7 @@
 	  $("#goSearch").on("click",function(){
 	      var search= $("#searchMeeting").val();
 	      if(search==""){
-	         swal('입력해주세요.');
+	         swal('入力してください。');
 	      }
 	      $.ajax({
 	         url:"searchMeeting",
@@ -542,7 +542,7 @@
 	            }
 	               $('#boardfooter').append(line);
 	         },fail: function(){
-	            swal("다음에 다시 시도해주세요");
+	            swal("次に、再びチャレンジーしてください");
 	         }
 	      });
 	   }); 
@@ -561,11 +561,11 @@
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star-o text-yellow');
-                  }else{swal("다시 시도해주세요.");}
+                  }else{swal("次に、再びチャレンジーしてください.");}
                
            },
                  fail: function(res){
-              swal("다시 시도해주세요.");
+              swal("次に、再びチャレンジーしてください.");
               }
      });
         }
@@ -584,11 +584,11 @@
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star text-yellow');
-                  }else{swal("다시 시도해주세요.");}
+                  }else{swal("次に、再びチャレンジーしてください.");}
                
            },
                  fail: function(res){
-              swal("다시 시도해주세요.");
+              swal("次に、再びチャレンジーしてください.");
               }
      });
        

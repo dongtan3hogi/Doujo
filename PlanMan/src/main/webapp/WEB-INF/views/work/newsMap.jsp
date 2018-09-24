@@ -28,115 +28,115 @@
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 .colordate{
-	background:yellow}
+   background:yellow}
 </style>
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-	 	var today = new Date();
-		var mm= today.getMonth()+1; 
-		var dd =today.getDate();
-		var yy = today.getFullYear();
-		if(dd<10) {
-		    dd='0'+dd;
-		} 
-		if(mm<10) {
-		    mm='0'+mm;
-		} 
-		var td=yy+'-'+mm+'-'+dd;
-		var temp=td;
+       var today = new Date();
+      var mm= today.getMonth()+1; 
+      var dd =today.getDate();
+      var yy = today.getFullYear();
+      if(dd<10) {
+          dd='0'+dd;
+      } 
+      if(mm<10) {
+          mm='0'+mm;
+      } 
+      var td=yy+'-'+mm+'-'+dd;
+      var temp=td;
   
   
-		$('#saveMemo').click(function(){
-		var memo = $('#memo').val();
-		
-		
-		var today = new Date();
-		var mm= today.getMonth()+1; 
-		var dd =today.getDate();
-		var yy = today.getFullYear();
-		if(dd<10) {
-		    dd='0'+dd;
-		} 
-		if(mm<10) {
-		    mm='0'+mm;
-		} 
-		var td=yy+'-'+mm+'-'+dd;
-		$.ajax({
-			url:"saveMemo",
-			type:"post",
-			//client에서 server로 가는 값
-			data:{"userid": memo, "text":memo,"startDate":temp},
-			success: function(data){
-			if(data=="1"||data=="3"){
-				swal("저장 되었습니다");
-			}else{'오류 발생'};
-			},fail: function(){
-				swal("다음에 다시 시도해주세요");
-			}
-		});
-		});
+      $('#saveMemo').click(function(){
+      var memo = $('#memo').val();
+      
+      
+      var today = new Date();
+      var mm= today.getMonth()+1; 
+      var dd =today.getDate();
+      var yy = today.getFullYear();
+      if(dd<10) {
+          dd='0'+dd;
+      } 
+      if(mm<10) {
+          mm='0'+mm;
+      } 
+      var td=yy+'-'+mm+'-'+dd;
+      $.ajax({
+         url:"saveMemo",
+         type:"post",
+         //client에서 server로 가는 값
+         data:{"userid": memo, "text":memo,"startDate":temp},
+         success: function(data){
+         if(data=="1"||data=="3"){
+            alert("保存されました");
+         }else{'오류 발생'};
+         },fail: function(){
+            alert("次に、再びチャレンジーしてください.");
+         }
+      });
+      });
 
 
-		var memodays="";
-   		$.ajax({
- 		   url:'memodays',
- 		    type: 'post',
- 		    data: {
- 		    	'id': '${sessionScope.member.id}'
- 		    },
- 		    success: function(data){
- 		    	memodays=data;
- 		    	
- 				},
- 		    error: function() {
- 		      swal('there was an error while fetching events!');
- 		    }
-		  });
-   		
-   		
-   		$('#datepicker1').val("날짜 선택");	
-   		
-   		$( ".datepicker" ).datepicker({ 
-   	       changeMonth: true, 
-   	       changeYear: true,
-   	       dateFormat: "yy-mm-dd",
-   	       beforeShowDay: function(day) {
-   	    	   if(memodays.indexOf($.datepicker.formatDate('yy-mm-dd', day)) != -1) return [true, "colordate","" ];
-   	            else return [true, "", ""];
-   	            
-   	        },
-   	       onSelect: function(dateText) {  
-   	    	   //alert(dateText);
-   	    	   $.ajax({
-   	    		   url:'findmemo',
-   	    		    type: 'post',
-   	    		    data: {
-   	    		    	'id': '${sessionScope.member.id}', 'startdate': dateText
-   	    		    },
-   	    		    success: function(data){
-   	    				if(data==null)	{
-   	    					swal("메모가 없습니다");	    			
-   	    		            }else{
-   	    		            	if(dateText==td){
-   		    		            	$('#memoTitle').html("오늘의 메모");
-   	    		            	}else{
-   		    		            	$('#memoTitle').html(dateText+"의 메모");            		
-   	    		            	}
-   	    		            	$('#memo').val(data.memo);
-   	    		            }
-   	    				},
-   	    		    error: function() {
-   	    		      alert('there was an error while fetching events!');
-   	    		    }
-   	 		  });
-   	      }
-   		});
-	
+      var memodays="";
+         $.ajax({
+          url:'memodays',
+           type: 'post',
+           data: {
+              'id': '${sessionScope.member.id}'
+           },
+           success: function(data){
+              memodays=data;
+              
+             },
+           error: function() {
+             alert('there was an error while fetching events!');
+           }
+        });
+         
+         
+         $('#datepicker1').val("日付選択");   
+         
+         $( ".datepicker" ).datepicker({ 
+             changeMonth: true, 
+             changeYear: true,
+             dateFormat: "yy-mm-dd",
+             beforeShowDay: function(day) {
+                if(memodays.indexOf($.datepicker.formatDate('yy-mm-dd', day)) != -1) return [true, "colordate","" ];
+                  else return [true, "", ""];
+                  
+              },
+             onSelect: function(dateText) {  
+                //alert(dateText);
+                $.ajax({
+                   url:'findmemo',
+                    type: 'post',
+                    data: {
+                       'id': '${sessionScope.member.id}', 'startdate': dateText
+                    },
+                    success: function(data){
+                      if(data==null)   {
+                         alert("メモがありません");                
+                            }else{
+                               if(dateText==td){
+                                  $('#memoTitle').html("今日のメモ");
+                               }else{
+                                  $('#memoTitle').html(dateText+"のメモ");                  
+                               }
+                               $('#memo').val(data.memo);
+                            }
+                      },
+                    error: function() {
+                      alert('there was an error while fetching events!');
+                    }
+               });
+            }
+         });
+   
 });
-	
-	
+   
+   
 
 
 </script>
@@ -189,7 +189,7 @@ $(document).ready(function(){
               <!-- User image -->
               <li class="user-header">
                 <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
-				<i class="fa fa-camera upload-button"></i>
+            <i class="fa fa-camera upload-button"></i>
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
@@ -310,11 +310,11 @@ $(document).ready(function(){
     <section class="content-header">
       <h1>
         Work
-        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">title</li>
+        <li class="active">work</li>
       </ol>
     </section>
 
@@ -324,14 +324,14 @@ $(document).ready(function(){
       
       
          <div class="col-md-9">
-      	  <!-- general form elements disabled -->
+           <!-- general form elements disabled -->
           <div class="box box-Warning">
             <div class="box-header with-border">
-              <h3 class="box-title">여러 나라 뉴스 검색</h3>
+              <h3 class="box-title">様々な国のニュース検索</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <label>뉴스나 검색엔진 선택</label><select id="selectNews" class="form-control" ><option> </option><option>naver</option><option>BBC</option><option>nhk</option><option>google</option><option>baidu</option></select>
+              <label>ニュースや検索エンジン選択</label><select id="selectNews" class="form-control" ><option> </option><option>naver</option><option>BBC</option><option>nhk</option><option>google</option><option>baidu</option></select>
 			    <br/><br/><!--The div element for the map -->
 			    <div id="map"></div>
 			    <script>
@@ -428,9 +428,9 @@ $(document).ready(function(){
           </div>      
           <!-- /. box -->
          </div>
-      	  
-      	 <div class="col-md-3">
-      	  <!-- /. 메모 box -->
+           
+          <div class="col-md-3">
+           <!-- /. 메모 box -->
           <div class="box box-warning">
             <div class="box-header with-border">
               <h3 class="box-title">MEMO</h3>
@@ -439,16 +439,16 @@ $(document).ready(function(){
               </div>
             </div>
             <div class="box-body no-padding">
-               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
-	           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
-	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
+               <h5 id= 'memoTitle' class="box-title">今日のメモ</h5>         
+              <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
+              <input type="button" class="btn btn-block btn-warning" value="貯蔵" id="saveMemo">   
             </div>
             <!-- /.box-body -->
           </div>
           <!-- /. box -->
          </div> 
-      	
-      	  	
+         
+              
       </div>
       <!-- /.row -->
     </section>
@@ -462,7 +462,7 @@ $(document).ready(function(){
   <!-- ========================================================================================================== -->
   
   
-  <footer class="main-footer">
+   <footer class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Version</b> 0.0.1
     </div>

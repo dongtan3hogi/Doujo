@@ -195,8 +195,8 @@ public class AlermController {
 		}else {
 			vo2.setHobby(vo.getHobby());
 		}
-		System.out.println(vo2.toString());
 		int result1 = sdao.insertMyFriend(vo2);
+		System.out.println("친구신청받은 사람이 기준이 되는 친구신청수락"+vo2.toString());
 		member vo3=mdao.selectOneMember(memberID);
 		vo2.setFriendid(memberID);
 		vo2.setUserid(sendid);
@@ -214,7 +214,7 @@ public class AlermController {
 		}else {
 			vo2.setHobby(vo3.getHobby());
 		}
-		System.out.println(vo2.toString());
+		System.out.println("친구신청한 사람이 기준이 되는 친구신청수락"+vo2.toString());
 		int result3 = sdao.insertMyFriend(vo2);
 		
 		
@@ -349,9 +349,11 @@ public class AlermController {
 			}
 			System.out.println(result.toString()+")))1");
 			
+			result.setId(memberID);
+			
 			result3=mdao.addschdule(result);
 			
-			result.setId(memberID);
+			result.setId(alermMap.get("SENDID"));
 			
 			System.out.println(result.toString()+")))2");
 			
@@ -398,6 +400,5 @@ public class AlermController {
 		int result2 = adao.deleteAlerm(alerm);
 		return alermMap; 
 	}
-	
 	
 } 

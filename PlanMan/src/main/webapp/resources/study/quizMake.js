@@ -7,13 +7,13 @@ $(function(){
 				document.getElementById("type").value = "multiplechoice"; 
 				 
 				var contentAnswerDIV = '<div>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="1" class="minimal" checked>1번'; 
+				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="1" class="minimal" checked>1番'; 
 				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer1" id="answer1"><br/>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="2" class="minimal">2번'; 
+				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="2" class="minimal">2番'; 
 				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer2" id="answer2"><br/>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="3" class="minimal">3번'; 
+				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="3" class="minimal">3番'; 
 				contentAnswerDIV += ' </label><input type="text" class="form-control" name="answer3" id="answer3"><br/>'; 
-				contentAnswerDIV += '<label> <input type="radio" name="answernumber" value="4" class="minimal">4번'; 
+				contentAnswerDIV += '<label> <input type="radio" name="answernumber" value="4" class="minimal">4番'; 
 				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer4" id="answer4">'; 
 				contentAnswerDIV += '</div>'; 
 				 
@@ -23,7 +23,7 @@ $(function(){
 				document.getElementById("quiztypeinput").value = "shortanswer"; 
 				document.getElementById("type").value = "shortanswer"; 
 				$("#answerDIV > div").remove(); 
-				$("#answerDIV").append('<div><label>정답</label><input type="text" class="form-control" name="answer1" id="answer1"></div>'); 
+				$("#answerDIV").append('<div><label>正答</label><input type="text" class="form-control" name="answer1" id="answer1"></div>'); 
 				 
 			} 
 		}); 
@@ -46,17 +46,17 @@ function check() {
 	var selecter = document.getElementById("quizrecordname"); 
 	 
 	if(selecter.value == 'new' && document.getElementById("newrecord").value.length <= 0){ 
-		swal("새로운 폴더명을 입력하세요."); 
+		swal("新しいフォルダ名を入力してください."); 
 		document.getElementById("newrecord").focus(); 
 		document.getElementById("newrecord").select(); 
 		return false; 
 	} else if(q.value.length <= 0){ 
-		swal("질문을 입력하세요."); 
+		swal("質問を入力してください."); 
 		q.focus(); 
 		q.select(); 
 		return false; 
 	} else if(a.value.length <= 0){ 
-		swal("정답을 입력하세요."); 
+		swal("正解を入力してください."); 
 		a.focus(); 
 		a.select(); 
 		return false; 

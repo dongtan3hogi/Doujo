@@ -239,7 +239,7 @@
                 <input type="hidden" id="id" value="${sessionScope.ID}"> 
 			    <div class="form-group">
                   <select class="form-control" id="quizchoice"> 
-                    <option>퀴즈 종류</option>
+                    <option>クイズの種類</option>
                     <c:forEach var="record" items="${allMap.recordList}"> 
 						<option value="r${record.NAME}"> ${record.NAME}</option>
 					</c:forEach>
@@ -270,9 +270,7 @@
             </div> 
             <!-- /.box-body --> 
           </div> 
-             
-          </div> 
-          <!-- /. box --> 
+           
         </div> 
         <!-- /.col --> 
       </div> 
@@ -288,9 +286,7 @@
   <!-- ========================================================================================================== --> 
    
   
-  
-  </div> 
-  <!-- /.content-wrapper --> 
+  </div>
  
   <footer class="main-footer">
     <div class="pull-right hidden-xs">

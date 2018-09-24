@@ -192,11 +192,11 @@
     <section class="content-header">
       <h1>
         Work
-        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="goWorkMain"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">title</li>
+        <li class="active">work</li>
       </ol>
     </section>
 
@@ -211,7 +211,7 @@
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
 
-              <h3 class="box-title">이번주 Work Schedule</h3>
+              <h3 class="box-title">今週 Work Schedule</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -257,7 +257,7 @@
             </div>
             <div class="box box-warning">
 	            <div class="box-header ">
-	              <h3 class="box-title">즐겨찾기</h3>
+	              <h3 class="box-title">ブックマーク</h3>
 	            </div>
 	            <div class="box-body no-padding">
 		          <ul>
@@ -327,9 +327,9 @@
 	              </div>
 	            </div>
 	            <div class="box-body no-padding">
-	               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
+	               <h5 id= 'memoTitle' class="box-title">今日のメモ</h5>         
 		           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
-		           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
+		           <input type="button" class="btn btn-block btn-warning" value="貯蔵" id="saveMemo">   
 	            </div>
 	            <!-- /.box-body -->
 	          </div>
@@ -400,16 +400,16 @@
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star-o text-yellow');
-                  }else{swal("다시 시도해주세요");}
+                  }else{alert("再び試みてください.");}
                
            },
                  fail: function(res){
-              swal("다시 시도해주세요");
+              alert("再び試みてください.");
               }
      });
         }
         else if($(this).children('i').attr('class')=='fa fa-star-o text-yellow'){
-           var title = prompt("이름을 입력해주세요");
+           var title = prompt("名前を入力してください.");
            if(title==null||title==""){
               return;
            }
@@ -423,11 +423,11 @@
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star text-yellow');
-                  }else{swal("다시 시도해주세요.");}
+                  }else{alert("再び試みてください..");}
                
            },
                  fail: function(res){
-              swal("다시 시도해주세요.");
+              alert("再び試みてください..");
               }
      });
        
@@ -445,7 +445,7 @@
 	      			}
 	      			,success: function (data){
 	    				if(data="success"){
-	    					swal("스케쥴 확인완료!")
+	    					alert("スケジュール確認完了!")
 	    				}	
 	      			}
 	            })
@@ -459,7 +459,7 @@
 		      			}
 		      			,success: function (data){
 		      				if(data="success"){
-		    					swal("스케쥴 확인취소!")
+		    					alert("スケジュール確認の取り消し!")
 		    				}	
 		      			}
 		        })
@@ -503,10 +503,10 @@
 			data:{"userid": memo, "text":memo,"startDate":temp},
 			success: function(data){
 			if(data=="1"||data=="3"){
-				swal("저장 되었습니다");
+				alert("保存されました");
 			}else{'오류 발생'};
 			},fail: function(){
-				swal("다음에 다시 시도해주세요");
+				alert("再び試みてください.");
 			}
 		});
 		});
@@ -522,13 +522,13 @@
  		    	memodays=data;
  				},
  		    error: function() {
- 		      swal('there was an error while fetching events!');
+ 		      alert('there was an error while fetching events!');
  		    }
 		  });
    		
    	    
 	    
-	    $('#datepicker1').val("날짜 선택");
+	    $('#datepicker1').val("日付選択");
    		
 	    $( ".datepicker" ).datepicker({ 
 		       changeMonth: true, 
@@ -548,18 +548,18 @@
 		    		    },
 		    		    success: function(data){
 		    				if(data==null)	{
-		    					swal("메모가 없습니다");	    			
+		    					alert("メモがありません");	    			
 		    		            }else{
 		    		            	if(dateText==td){
-			    		            	$('#memoTitle').html("오늘의 메모");
+			    		            	$('#memoTitle').html("今日のメモ");
 		    		            	}else{
-			    		            	$('#memoTitle').html(dateText+"의 메모");            		
+			    		            	$('#memoTitle').html(dateText+"のメモ");            		
 		    		            	}
 		    		            	$('#memo').val(data.memo);
 		    		            }
 		    				},
 		    		    error: function() {
-		    		      swal('there was an error while fetching events!');
+		    		      alert('there was an error while fetching events!');
 		    		    }
 		 		  });
 		      }

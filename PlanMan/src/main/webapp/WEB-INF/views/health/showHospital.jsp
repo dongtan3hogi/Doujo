@@ -196,7 +196,7 @@
     <section class="content-header">
       <h1>
         Health
-        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -393,7 +393,7 @@
 			        });
 		
 			        google.maps.event.addListener(marker, 'click', function() {
-			          infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + '주소 : ' + place.vicinity + '</div>');
+			          infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + '住所 : ' + place.vicinity + '</div>');
 			          infowindow.open(map, this);
 			        });
 			 }

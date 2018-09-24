@@ -24,6 +24,45 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <link rel="stylesheet" href="./resources/style/profile.css">
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 	
+  <style type="text/css">
+	 /* The Modal (background) */
+     .modal {
+         display: none; /* Hidden by default */
+         position: fixed; /* Stay in place */
+         z-index: 5; /* Sit on top */
+         left: 0;
+         top: 0;
+         width: 100%; /* Full width */
+         height: 100%; /* Full height */
+         overflow: auto; /* Enable scroll if needed */
+         background-color: rgb(0,0,0); /* Fallback color */
+         background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+     }
+ 
+     /* Modal Content/Box */
+     .modal-content {
+         background-color: #fefefe;
+         margin: 15% auto; /* 15% from the top and centered */
+         padding: 20px;
+         border: 1px solid #888;
+         width: 30%; /* Could be more or less, depending on screen size */                          
+     }
+     /* The Close Button */
+     .close {
+         color: #aaa;
+         float: right;
+         font-size: 28px;
+         font-weight: bold;
+     }
+     .close:hover,
+     .close:focus {
+         color: black;
+         text-decoration: none;
+         cursor: pointer;
+     }
+     
+  </style>	
+  
 <!-- head -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -179,7 +218,26 @@
   <!-- ========================================================================================================== -->
   <!-- ========================================================================================================== -->
   
-  
+  	<!-- The Modal -->
+    <div id="myModal" class="modal">
+ 
+    	<!-- Modal content -->
+    	<form action="addHeightWeight" method="post">
+        <div class="modal-content">
+        	<div>${sessionScope.member.id}さん歓迎します。</div>
+        	<div>身長と体重を入力してください。</div>
+        	<br/>
+        	<br/>
+        	<div>背</div> 
+        	<div><input type="number" style="width: 100px; height: 30px;" name="height" id="height">cm</div>
+        	<br/>
+        	<div>体重</div>  
+        	<div><input type="number" style="width: 100px; height: 30px;" name="weight" id="weight">kg</div>
+        	<br/>
+        	<div id="sch-button" align="right"><input type="submit" id="addbodyInfo" style="width: 200px;" value="入力" class="btn btn-block btn-primary" onclick="return addbodyInfo()"/></div>
+        </div>
+    </div>
+  	</form>
   	
   	
   <!-- Content Wrapper. Contains page content -->
@@ -189,7 +247,7 @@
     <section class="content-header">
       <h1>
         Health
-        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -207,15 +265,14 @@
 	                <h3 class="box-title">Health Advice</h3>
             	</div>
             	<div class="box-body">
-            		<br/>
-            		<label class="control-label"><i class="fa fa-heartbeat" style="color: #dd4b39"></i>&nbsp&nbsp${message}</label>
+            		<label class="control-label"><i class="fa fa-heartbeat" style="color: #dd4b39"></i>&nbsp${message}</label>
             	</div>
             	<!-- TO DO List -->
 		          <div class="box box-Danger">
 		            <div class="box-header">
 		              <i class="ion ion-clipboard"></i>
 		
-		              <h3 class="box-title">이번주 Health Schedule</h3>
+		              <h3 class="box-title">今週 Health Schedule</h3>
 		            </div>
 		            <!-- /.box-header -->
 		            <div class="box-body">
@@ -275,7 +332,7 @@
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               
               <c:if test="${empty article}">
-	              <h3> 주요 뉴스가 없습니다.</h3>
+	              <h3> 主要ニュースがありません</h3>
 	              </c:if>
               <c:if test="${!empty article}">
 	      		  <c:forEach var="news" items="${article }">
@@ -349,7 +406,7 @@ var modal = document.getElementById('myModal');
 				 }
 			 }
 		     ,error: function(){
-		    	 swal("통신실패");
+		    	 alert("通信失敗");
 		     }
 	  });
 	  
@@ -369,7 +426,7 @@ var modal = document.getElementById('myModal');
 	      			}
 	      			,success: function (data){
 	    				if(data="success"){
-	    					swal("스케쥴 확인완료!")
+	    					alert("スケジュール確認完了!")
 	    				}	
 	      			}
 	            })
@@ -383,7 +440,7 @@ var modal = document.getElementById('myModal');
 		      			}
 		      			,success: function (data){
 		      				if(data="success"){
-		    					swal("스케쥴 해제하기!")
+		    					alert("スケジュール確認の取り消し!")
 		    				}	
 		      			}
 		        })
@@ -417,12 +474,12 @@ var modal = document.getElementById('myModal');
   
   function addbodyInfo(){
 	  if($('#height').val().length==0){
-		  swal("키를 입력하세요.")
+		  alert("背を入力してください.")
 		  return false;
 	  }
 	  
 	  if($('#weight').val().length==0){
-		  swal("몸무게를 입력하세요.")
+		  alert("体重を入力してください.")
 		  return false;
 	  }
 	  

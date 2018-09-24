@@ -182,7 +182,7 @@
 				, contentType : 'application/json; charset=UTF-8'
 				, success: function(data) {
 					selectedID = dataArray[1];
-		        	var sqlsr = '<select id="quiznumberselect" onchange="qnChange()"  class="form-control"><option>=퀴즈번호=</option>';
+		        	var sqlsr = '<select id="quiznumberselect" onchange="qnChange()"  class="form-control"><option>=クイズ番号=</option>';
 					$.each(data, function(index, item){
 						sqlsr += '<option value="' + item.NUM + '">' + item.NUM + '</option>';
 					});
@@ -190,7 +190,7 @@
 		        	document.getElementById("quiznumberlist").innerHTML = sqlsr;
 				}
 				, error: function(){
-					swal("통신에러");
+					alert("通信エラー");
 				}
 			});
         	
@@ -208,7 +208,7 @@
 				, contentType : 'application/json; charset=UTF-8'
 				, success: function(data){
 					var result = '';
-					result += '<div><label>문제</label> ' + data.QUESTION + '<input type="hidden" id="quiznum" value="' + data.NUM +'"><input type="hidden" id="type" value="' + data.TYPE + '"></div>';
+					result += '<div><label>問題</label> ' + data.QUESTION + '<input type="hidden" id="quiznum" value="' + data.NUM +'"><input type="hidden" id="type" value="' + data.TYPE + '"></div>';
 					result += '';
 					//객관식인지 주관식인지 판정
 					if(data.TYPE == 'multiplechoice'){
@@ -220,7 +220,7 @@
 						result += '<input type="text" name="answer">';
 					}
 					result += '<div align="right">';
-					result += '<br/><input type="button" class="btn btn-info" id="quizcheck" value="채점">';
+					result += '<br/><input type="button" class="btn btn-info" id="quizcheck" value="採点">';
 					result += '</div>';
 					document.getElementById("functionboard").innerHTML = result;
 					
@@ -252,7 +252,7 @@
 									,"num1": quizseq
 									,"id": document.getElementById('MyID').value
 							}
-							//swal(solveSet.answer + ", " +solveSet.num + ", " + solveSet.id);
+							//alert(solveSet.answer + ", " +solveSet.num + ", " + solveSet.id);
 							$.ajax({
 								method   : 'post'
 								, url    : 'grading'
@@ -264,7 +264,7 @@
 									$.each(data, function(index, item){
 										quizResult += item + '\n';
 									});
-									swal(quizResult);
+									alert(quizResult);
 									//(data.result);
 								} 
 										
@@ -277,7 +277,7 @@
 					
 				},
 				error: function(){
-					swal("전송실패");
+					alert("送信失敗");
 				} 
 			});
         	
@@ -286,7 +286,7 @@
 
 
     function onClose(evt) {
-        $("#chatboard").append("연결 끊김");
+        $("#chatboard").append("連結途切れる");
     }
     
     
@@ -330,12 +330,12 @@
 		        	//Map[              ]	data
 		        	//	  Map[      ]		data.recordMap, data.tegMap
 		        	//        Map[] 		data.recordMap.name ...
-		        	var qsr = '<select class="form-control" id="quizchoice"><option>=폴더명=</option>';
+		        	var qsr = '<select class="form-control" id="quizchoice"><option>=フォルダ名=</option>';
 					$.each(data.recordMap, function(index, item){
 						qsr += '<option value="r' + item.NAME + '">' + item.NAME + '</option>';
 					});
-					qsr += '</select><input type="button"  class="form-control btn btn-info" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
-					//swal(qsr);
+					qsr += '</select><input type="button"  class="form-control btn btn-info" id="quiznumBtn" value="選択" /><span id="quiznumberlist"></span>';
+					//alert(qsr);
 					document.getElementById("leaderfunctionview").innerHTML = qsr;
 					$(document).ready(function() {
 				       	$("#quiznumBtn").click(function() {
@@ -344,13 +344,13 @@
 				    });	
 				}
 				, error: function(){
-					swal("통신에러");
+					alert("通信エラー");
 				}
 			});
 			
 			
 		} else if(select == 'invite'){
-			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><br/><label for="1"><span style="font-size:20px;">아이디를 입력하세요.</span><br/><input type="text" class="input-field" name="inviteId" id="inviteId" value="" /><input type="button" class="btn btn-info" id="inviteBtn" value="확인" /></label>';
+			document.getElementById("leaderfunctionview").innerHTML = '<div class="form03"><br/><label for="1"><span style="font-size:20px;">ハンドルネームを入力してください.</span><br/><input type="text" class="input-field" name="inviteId" id="inviteId" value="" /><input type="button" class="btn btn-info" id="inviteBtn" value="確認" /></label>';
 			$(document).ready(function() {
 				document.getElementById("functionboard").innerHTML = '';
 		       	$("#inviteBtn").click(function() {
@@ -365,7 +365,7 @@
 			
 			
 		} else if(select == 'fire'){
-			document.getElementById("leaderfunctionview").innerHTML = '강퇴';
+			document.getElementById("leaderfunctionview").innerHTML = '強制退場';
 		
 		} else {
 			document.getElementById("leaderfunctionview").innerHTML = '';
@@ -401,7 +401,7 @@
 						qsr += '<option value="r' + item.TEG + '">' + item.TEG + '[' + item.NUM + ']' + '</option>';
 					});
 					qsr += '</select><input type="button" id="quiznumBtn" value="선택" /><span id="quiznumberlist"></span>';
-					swal(qsr);
+					alert(qsr);
 					document.getElementById("sharingtargetview").innerHTML = qsr;
 					$(document).ready(function() {
 				       	$("#quiznumBtn").click(function() {
@@ -410,7 +410,7 @@
 				    });	
 				}
 				, error: function(){
-					swal("통신에러");
+					alert("通信エラー");
 				}
 			});
 			
@@ -443,10 +443,10 @@
 			, dataType : 'json'
 			, contentType : 'application/json; charset=UTF-8'
 			, success: function(data) {
-				//swal(data.resultMap.result);
+				//alert(data.resultMap.result);
 			}
 			, error: function(){
-				swal("통신에러");
+				alert("通信エラー");
 			}
 		});
     	
@@ -665,9 +665,9 @@
 	                <!-- Function Key --> 
 	                <div class="form-group" id="leaderfunselectspan"> 
 	                  <select class="form-control" id="leaderfunselect" onchange="lfsChange()"> 
-	                    <option value="none" selected>==선택==</option>
-						<option value="quiz">퀴즈</option>
-						<option value="invite">초대</option>
+	                    <option value="none" selected>==選択==</option>
+						<option value="quiz">クイズ</option>
+						<option value="invite">招待</option>
 	                  </select>
 	                  
 	                </div>
@@ -768,8 +768,6 @@
         </div> 
         <!-- /.row --> 
         
-      </div> 
-      <!-- /.content-wrapper --> 
     </section> 
     <!-- /.content --> 
     

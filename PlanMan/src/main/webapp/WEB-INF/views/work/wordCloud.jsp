@@ -85,10 +85,10 @@ $(document).ready(function(){
          data:{"userid": memo, "text":memo,"startDate":temp},
          success: function(data){
          if(data=="1"||data=="3"){
-            swal("저장 되었습니다");
+            alert("保存されました");
          }else{'오류 발생'};
          },fail: function(){
-            swal("다음에 다시 시도해주세요");
+            alert("次に、再びチャレンジーしてください.");
          }
       });
       });
@@ -106,12 +106,12 @@ $(document).ready(function(){
               
              },
            error: function() {
-             swal('there was an error while fetching events!');
+             alert('there was an error while fetching events!');
            }
         });
          
          
-         $('#datepicker1').val("날짜 선택");   
+         $('#datepicker1').val("日付選択");   
          
          $( ".datepicker" ).datepicker({ 
              changeMonth: true, 
@@ -132,12 +132,12 @@ $(document).ready(function(){
                     },
                     success: function(data){
                       if(data==null)   {
-                         swal("메모가 없습니다");                
+                         alert("メモがありません");                
                             }else{
                                if(dateText==td){
-                                  $('#memoTitle').html("오늘의 메모");
+                                  $('#memoTitle').html("今日のメモ");
                                }else{
-                                  $('#memoTitle').html(dateText+"의 메모");                  
+                                  $('#memoTitle').html(dateText+"のメモ");                  
                                }
                                $('#memo').val(data.memo);
                             }
@@ -180,7 +180,7 @@ $(document).ready(function(){
 		        name: 'Occurrences'
 		    }],
 		    title: {
-		        text: 'Wordcloud of Lorem Ipsum'
+		        text: 'ユーザー検索キーワード集合'
 		    }
 		});
 	 /* var color = d3.scale.linear()
@@ -391,11 +391,11 @@ $(document).ready(function(){
     <section class="content-header">
       <h1>
         Work
-        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">title</li>
+        <li class="active">work</li>
       </ol>
     </section>
 
@@ -407,7 +407,7 @@ $(document).ready(function(){
          <div class="col-md-9">
             <div class="box box-Warning">
             <div class="box-header with-border">
-              <h3 class="box-title">WORD CLOUD</h3>
+              <h3 class="box-title">USER SERACH WORD</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body" id="wordcloud" align="center">
@@ -415,7 +415,7 @@ $(document).ready(function(){
             </div>
             <!-- /.box-body -->
             <div class="legend">
-           		빈도수가 높은 단어는 크지만 흐립니다. 빈도수가 낮은 단어는 작지만 진합니다.<br>
+           		頻度が高い単語は大きいが、曇ります。 頻度が低い単語は小さいが、濃いです.<br>
            		Commonly used words are larger and slightly faded in color.  Less common words are smaller and darker.
            </div>
           </div>      
@@ -432,9 +432,9 @@ $(document).ready(function(){
               </div>
             </div>
             <div class="box-body no-padding">
-               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
+               <h5 id= 'memoTitle' class="box-title">今日のメモ</h5>         
               <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
-              <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
+              <input type="button" class="btn btn-block btn-warning" value="貯蔵" id="saveMemo">   
             </div>
             <!-- /.box-body -->
           </div>

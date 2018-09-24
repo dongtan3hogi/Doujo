@@ -187,7 +187,7 @@
     <section class="content-header">
       <h1>
         Timeline
-        <small>${sessionScope.member.id}님의 스케쥴 <span id="clock"></span></small>
+        <small>${sessionScope.member.id}のスケジュール <span id="clock"></span></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -203,7 +203,7 @@
 			    <!-- timeline time label -->
 			    <li class="time-label">
 			        <span class="bg-blue">
-			            ${today} 타임라인
+			            ${today} タイムライン
 			        </span>
 			    </li>
 			    <!-- /.timeline-label -->
@@ -311,31 +311,31 @@
 			 	
 			 if(time >= starttime && time <= endtime){
 				 if(eventtype=='study'){
-					 if(confirm("study 페이지로 이동하시겠습니까?")){
+					 if(confirm("study ページに移動しますか?")){
 						 location.href="gotoStudy?eventtitle="+ eventtitle;
 					 }else{
 						
 					 }
 				 }else if(eventtype=='work'){
-					 if(confirm("work 페이지로 이동하시겠습니까?")){
+					 if(confirm("work ページに移動しますか?")){
 						 location.href="mainWork?eventtitle="+ eventtitle;
 					 }else{
 						
 					 }
 				 }else if(eventtype=='health'){
-					 if(confirm("health 페이지로 이동하시겠습니까?")){
+					 if(confirm("health  ページに移動しますか?")){
 						location.href="gotoHealth?eventtitle="+ eventtitle;
 					 }else{
 					
 					 }
 				 }else if(eventtype=='friend'){
-					 if(confirm("friend 페이지로 이동하시겠습니까?")){
+					 if(confirm("friend  ページに移動しますか?")){
 						 location.href="gotoSearchFriend?eventtitle="+ eventtitle;
 					 }else{
 					
 					 }
 				 }else if(eventtype=='etc'){
-					 if(confirm("기타 페이지로 이동하시겠습니까?")){
+					 if(confirm("その他のページに移動しますか?")){
 						 location.href="gotoHealth?eventtitle="+ eventtitle;
 					 }else{
 					
