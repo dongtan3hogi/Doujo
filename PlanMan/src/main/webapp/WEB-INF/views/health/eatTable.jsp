@@ -191,7 +191,7 @@
     <section class="content-header">
       <h1>
         Health
-        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -206,25 +206,25 @@
       	<div class="box box-danger">
       	<div class="box-header">
               		<i class="fa fa-fw fa fa-heartbeat" style="color: #dd4b39"></i>
-	                <h3 class="box-title">Meal Table : ${eatfoodList[0].countday}일의 식단표</h3>
+	                <h3 class="box-title">Meal Table : ${eatfoodList[0].countday}の献立表</h3>
         </div>
      
 		<table width="100%" class="display" id="example" cellspacing="0">
         <thead>
             <tr>
-                <th>번호</th>
-                <th>식품이름</th>
-                <th>1회제공량(g)</th>
-                <th>열량(kcal)</th>
-                <th>탄수화물(g)</th>
-                <th>단백질(g)</th>
-                <th>지방(g)</th>
-                <th>당류(g)</th>
-                <th>나트륨(mg)</th>
-                <th>콜레스테롤(mg)</th>
-                <th>포화지방산(g)</th>
-                <th>트랜스지방(g)</th>
-                <th>삭제</th>
+                <th>番号</th>
+                <th>食品名</th>
+                <th>1回 提供量(g)</th>
+                <th>カロリー(kcal)</th>
+                <th>カーボハイドレート(g)</th>
+                <th>たんぱく質(g)</th>
+                <th>ファット(g)</th>
+                <th>糖類(g)</th>
+                <th>ナトリウム(mg)</th>
+                <th>コレステロール(mg)</th>
+                <th>飽和脂肪酸(g)</th>
+                <th>トランス脂肪酸(g)</th>
+                <th>削除</th>
             </tr>
         </thead>
         <tbody>
@@ -243,7 +243,7 @@
 				<td>${eatfoodList.NUTR_CONT8}</td>
 				<td>${eatfoodList.NUTR_CONT9}</td>
 				<form action="deleteMeal" method="post">
-				<td><input type="submit" id="deleteMeal" value="삭제"/><input type="hidden" name="eatnum" value="${eatfoodList.eatnum}"><input type="hidden" name="countday" value="${eatfoodList.countday}"></td>
+				<td><input type="submit" id="deleteMeal" value="削除"/><input type="hidden" name="eatnum" value="${eatfoodList.eatnum}"><input type="hidden" name="countday" value="${eatfoodList.countday}"></td>
 				</form>
             </tr>
 		</c:forEach>

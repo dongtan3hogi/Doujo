@@ -29,7 +29,7 @@
   </div>
 
   <div class="register-box-body">
-    <p class="login-box-msg">회원정보수정하기</p>
+    <p class="login-box-msg">会員情報修正</p>
 
    <form action="updateMember" method="post" onsubmit="return insertChk()">
       <div class="form-group has-feedback">
@@ -57,17 +57,17 @@
       </div>
       
       <div class="form-group has-feedback">
-   		 <div align="center">성별</div>
+   		 <div align="center">性別</div>
      	      <c:if test="${sessionScope.member.gender== 'male' }">
      	      <select id="gender" name="gender" class="form-control">
-			  	<option value="male" selected="selected">남자</option>
-			  	<option value="female">여자</option>
+			  	<option value="male" selected="selected">男子</option>
+			  	<option value="female">女子</option>
 			  </select>
 			  </c:if>
 			  <c:if test="${sessionScope.member.gender== 'female' }">
      	      <select id="gender" name="gender" class="form-control">
-			  	<option value="male">남자</option>
-			  	<option value="female" selected="selected">여자</option>
+			  	<option value="male">男子</option>
+			  	<option value="female" selected="selected">女子</option>
 			  </select>
 			  </c:if>
       </div>
@@ -77,10 +77,28 @@
       </div>
       
       <div class="form-group has-feedback" align="center" >
-        <div align="center">직업</div>
+        <div align="center">職業</div>
 			  <select id="job" name="job" class="form-control">
-			  	<option value="student" selected="selected">학생</option>
-			  	<option value="worker">회사원</option>
+			  	<option value="student" selected="selected">学生</option>
+			  	<option value="salesman">会社員</option>
+			  	<option value="teacher">先生</option>
+			  	<option value="lawyer">弁護士</option>
+			  	<option value="architect">アーキテクト</option>
+			  	<option value="nurse">看護師</option>
+			  	<option value="doctor">医師</option>
+			  	<option value="accountant">会計士</option>
+			  	<option value="nutritionist">栄養士</option>
+			  	<option value="soldier">軍人</option>
+			  	<option value="marine">海軍</option>
+			  	<option value="developer">クリエイター</option>
+			  	<option value="projectmanager">プロジェクトマネージャ</option>
+			  	<option value="fireman">ファイアマン</option>
+			  	<option value="scientist">かがくしゃ</option>
+			  	<option value="writer">作家</option>
+			  	<option value="photographer">写真家</option>
+			  	<option value="actor">俳優</option>
+			  	<option value="singer">歌手</option>
+			  	<option value="journalist">記者</option>
 			  </select>	  
       </div>
       
@@ -104,13 +122,13 @@
       <div class="row">
         
         <div>
-          <button type="submit" class="btn btn-primary btn-block btn-flat">회원정보 수정하기</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">会員情報修正</button>
         </div>
         <!-- /.col -->
       </div>
     </form>
     <div align="right">
-    	<a href="gotoLogin" class="text-center">로그인으로 가기</a>
+    	<a href="gotoLogin" class="text-center">ログイン</a>
     </div>
   </div>
   <!-- /.form-box -->
@@ -140,11 +158,11 @@
 		
 		if($('#password').val().length <3 || $('#password').val().length > 15){
 			$('#result4').text('');
-			$('#result3').text("비밀번호 길이는 3~15 사이 입니다.");
+			$('#result3').text("暗証番号の長さは3~15の間です.");
 			flag2=false;
 		}else{
 			$('#result3').text('');	
-			$('#result4').text("사용 가능합니다.");
+			$('#result4').text("使用可能です.");
 			flag2=true;
 		}
 	});
@@ -155,11 +173,11 @@
 		
 		if(password == password2){
 			$('#result6').text('');
-			$('#result5').text("비밀번호가 일치합니다.");
+			$('#result5').text("暗証番号が一致します.");
 			flag2=true;
 		}else{
 			$('#result5').text('');
-			$('#result6').text("비밀번호가 일치하지 않습니다.");
+			$('#result6').text("暗証番号が一致しません.");
 			flag2=false;
 		}		
 	});
@@ -170,37 +188,37 @@
 	  
 	  
 	  if(!flag2){
-		  swal("잘못된 비밀번호 입니다. 다시 입력해주세요.");
+		  swal("間違ったパスワードです。 再入力してください.");
 		  return false;
 	  }
 	  
 	  if($('#password').val().length==0){
-		  swal("비밀번호를 입력해 주세요");
+		  swal("暗証番号をご入力ください.");
 		  return false;
 	  }
 	  
 	  if($('#password2').val().length==0){
-		  swal("비밀번호 확인을 입력해 주세요");
+		  swal("暗証番号確認を入力してください.");
 		  return false;
 	  }
 	  
 	  if($('#name').val().length==0){
-		  swal("이름을 입력해 주세요");
+		  swal("名前を入力してください.");
 		  return false;
 	  }
 	  
 	  if($('#age').val().length==0){
-		  swal("나이를 입력해 주세요");
+		  swal("年齢を入力してください.");
 		  return false;
 	  }
 	  
 	  if($('#height').val().length==0){
-		  swal("나이를 입력해 주세요");
+		  swal("年齢を入力してください.");
 		  return false;
 	  }
 	  
 	  if($('#weight').val().length==0){
-		  swal("나이를 입력해 주세요");
+		  swal("年齢を入力してください.");
 		  return false;
 	  }
 	  

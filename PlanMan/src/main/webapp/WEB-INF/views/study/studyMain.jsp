@@ -186,7 +186,7 @@
     <section class="content-header">
       <h1>
         Study
-        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -203,7 +203,7 @@
             <div class="box-header">
               <i class="ion ion-clipboard"></i>
 
-              <h3 class="box-title">이번주 Study Schedule</h3>
+              <h3 class="box-title">今週 Study Schedule</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -250,7 +250,7 @@
               <!-- DONUT CHART -->
 	          <div class="box box-info">
 	            <div class="box-header with-border">
-	              <h3 class="box-title">전체 스케쥴 진행률</h3>
+	              <h3 class="box-title">全体スケジュール進行率</h3>
 	
 	              <div class="box-tools pull-right">
 	                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -280,9 +280,9 @@
             <div class="box-body">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
 	              <div align="center" style="font-size: 24px;">
-		              ${sessionScope.member.id}님 환영합니다. PlanMan입니다.
+		              ${sessionScope.member.id}さん歓迎します. PlanManです.
 		              <br/>                 
-		                               공부하고 싶은 과목을 선택해 주세요
+		                               勉強したい科目を選択してください.
               	  </div>
               	  <br/>
               	  <div style="display: inline;">
@@ -358,7 +358,7 @@
 	      			}
 	      			,success: function (data){
 	    				if(data="success"){
-	    					swal("스케쥴 확인완료!")
+	    					alert("スケジュール確認完了!")
 	    				}	
 	      			}
 	            })
@@ -372,7 +372,7 @@
 		      			}
 		      			,success: function (data){
 		      				if(data="success"){
-		    					swal("스케쥴 해제하기!")
+		    					alert("スケジュール確認の取り消し!")
 		    				}	
 		      			}
 		        })
@@ -394,13 +394,13 @@
 	        value    : Math.round(sucesspercent*100)/100,
 	        color    : '#00c0ef',
 	        highlight: '#00c0ef',
-	        label    : '완료'
+	        label    : '完了'
 	      },
 	      {
 	        value    : Math.round(failpercent*100)/100,
 	        color    : '#f56954',
 	        highlight: '#f56954',
-	        label    : '미완료'
+	        label    : '未完了'
 	      }
 	    ]
 	    var pieOptions     = {
@@ -447,7 +447,7 @@
 					
 			  		},
 	  				fail: function(res){
-				  		swal("다시 시도해주세용");
+				  		alert("再びチャレンジーしてください.");
 				  	}
 	  		});
 	    });
@@ -470,7 +470,7 @@
 					
 			  		},
 	  				fail: function(res){
-				  		swal("다시 시도해주세용");
+				  		alert("再びチャレンジーしてください.");
 				  	}
 	  		});
 	    });
@@ -493,15 +493,12 @@
 					
 			  		},
 	  				fail: function(res){
-				  		swal("다시 시도해주세용");
+				  		alert("再びチャレンジーしてください.");
 				  	}
 	  		});
 	    });
 	    
-	    $('#Computer').on('click',function(){
-	    	swal("Computer");
-	    });
-	    
+	   
 	    $('#English').trigger('click');
 	    
   })

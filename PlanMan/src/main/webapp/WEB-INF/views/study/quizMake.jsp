@@ -50,13 +50,13 @@ $(function(){
 				document.getElementById("type").value = "multiplechoice"; 
 				 
 				var contentAnswerDIV = '<div>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="1" class="minimal" checked>1번'; 
+				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="1" class="minimal" checked>1番'; 
 				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer1" id="answer1"><br/>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="2" class="minimal">2번'; 
+				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="2" class="minimal">2番'; 
 				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer2" id="answer2"><br/>'; 
-				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="3" class="minimal">3번'; 
+				contentAnswerDIV += '<label><input type="radio" name="answernumber" value="3" class="minimal">3番'; 
 				contentAnswerDIV += ' </label><input type="text" class="form-control" name="answer3" id="answer3"><br/>'; 
-				contentAnswerDIV += '<label> <input type="radio" name="answernumber" value="4" class="minimal">4번'; 
+				contentAnswerDIV += '<label> <input type="radio" name="answernumber" value="4" class="minimal">4番'; 
 				contentAnswerDIV += '</label><input type="text" class="form-control" name="answer4" id="answer4">'; 
 				contentAnswerDIV += '</div>'; 
 				 
@@ -66,7 +66,7 @@ $(function(){
 				//document.getElementById("quiztypeinput").value = "shortanswer"; 
 				document.getElementById("type").value = "shortanswer"; 
 				$("#answerDIV > div").remove(); 
-				$("#answerDIV").append('<div><label>정답</label><input type="text" class="form-control" name="answer1" id="answer1"></div>'); 
+				$("#answerDIV").append('<div><label>正答</label><input type="text" class="form-control" name="answer1" id="answer1"></div>'); 
 				 
 			} 
 		}); 
@@ -89,25 +89,25 @@ function check() {
 	var selecter = document.getElementById("quizrecordname"); 
 	 
 	if(selecter.value == 'new' && document.getElementById("newrecord").value.length <= 0){ 
-		swal("새로운 폴더명을 입력하세요."); 
+		alert("新しいフォルダ名を入力してください."); 
 		document.getElementById("newrecord").focus(); 
 		document.getElementById("newrecord").select(); 
 		return false; 
 	} else if(q.value.length <= 0){ 
-		swal("질문을 입력하세요."); 
+		alert("質問を入力してください."); 
 		q.focus(); 
 		q.select(); 
 		return false; 
 	} else if(a.value.length <= 0){ 
-		swal("정답을 입력하세요."); 
+		alert("正解を入力してください."); 
 		a.focus(); 
 		a.select(); 
 		return false; 
 	} 
 	 
-	/* swal(a + q); */ 
+	/* alert(a + q); */ 
 	var radioVal = $('input[name="answernumber"]:checked').val(); 
-	//swal(radioVal); 
+	//alert(radioVal); 
 	var quiz = { 
 			"quizrecordname" : $("#quizrecordname").val() 
 			, "newrecord" : $("#newrecord").val() 
@@ -120,7 +120,7 @@ function check() {
 			, "answernumber" : radioVal 
 			, "id" :  $("#id").val() 
 	}; 
-	/* swal("quizrecordname:" +quiz.quizrecordname + ", newrecord:" + quiz.newrecord + ", type:" + quiz.type  
+	/* alert("quizrecordname:" +quiz.quizrecordname + ", newrecord:" + quiz.newrecord + ", type:" + quiz.type  
 			+ "\n, teg:" + quiz.teg + ", question:" + quiz.question  
 			+ "\n, answer1:" + quiz.answer1 + ", answer2:" + quiz.answer2  
 			+ ",\n answer3:" + quiz.answer3 + ", answer4:" + quiz.answer4 
@@ -132,7 +132,7 @@ function check() {
 		, dataType : 'json' 
 		, contentType : 'application/json; charset=UTF-8' 
 		, success: function (data){ 
-			//swal('[0] '+data.success + ', ' + data.newRecordName); 
+			//alert('[0] '+data.success + ', ' + data.newRecordName); 
 			$("form").each(function() {   
 	            this.reset(); 
 	        }); 
@@ -148,7 +148,7 @@ function check() {
 			//$('#quizrecordname').append(data.newRecordName); 
 		} 
 		, error: function(request,status,error){ 
-	        //swal("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
+	        //alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); 
 	    } 
 			 
 	}); 
@@ -372,7 +372,7 @@ function check() {
 
 									<!-- TYPE -->
 									<div class="form-group">
-										<label>문제 타입</label>
+										<label>問題タイプ</label>
 										<br/>
 										<div class="btn-group">
 										  <input type="button" class="btn btn-info quiztypeinput" value="multiplechoice" readonly="readonly">
@@ -402,7 +402,7 @@ function check() {
 
 									<!-- Question -->
 									<div class="form-group">
-										<label>질문</label> <input type="text" class="form-control"
+										<label>質問</label> <input type="text" class="form-control"
 											id="question" name="question">
 									</div>
 
@@ -412,24 +412,23 @@ function check() {
 
 										<div>
 											<br /> <label> <input type="radio"
-												name="answernumber" value="1" class="minimal" checked>1번
+												name="answernumber" value="1" class="minimal" checked>1番
 											</label> <input type="text" class="form-control" name="answer1"
 												id="answer1"> <br /> <label> <input
-												type="radio" name="answernumber" value="2" class="minimal">2번
+												type="radio" name="answernumber" value="2" class="minimal">2番
 											</label> <input type="text" class="form-control" name="answer2"
 												id="answer2"> <br /> <label> <input
-												type="radio" name="answernumber" value="3" class="minimal">3번
+												type="radio" name="answernumber" value="3" class="minimal">3番
 											</label> <input type="text" class="form-control" name="answer3"
 												id="answer3"> <br /> <label> <input
-												type="radio" name="answernumber" value="4" class="minimal">4번
+												type="radio" name="answernumber" value="4" class="minimal">4番
 											</label> <input type="text" class="form-control" name="answer4"
 												id="answer4">
 										</div>
 									</div>
 
 
-									<a href="" class="btn btn-info btn-block margin-bottom"
-										onclick="check()">문제 등록하기</a>
+									<a href="" class="btn btn-info btn-block margin-bottom"	onclick="check()">問題登録する</a>
 
 
 

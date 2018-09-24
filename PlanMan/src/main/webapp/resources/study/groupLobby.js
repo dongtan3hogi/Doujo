@@ -15,13 +15,13 @@ $(function(){
 function showMakeGroup() {
 	var result = '';
 		result += '<div class="form-group">';
-		result += '<label>그룹명</label><input type="text" class="form-control" id="name" name="name">';
-		result += '<label>태그</label><input type="text" class="form-control" id="teg" name="teg" placeholder="#insert#teg">';
-		result += '<label>공개여부</label><select class="form-control" id="secret" name="secret">';
+		result += '<label>グループ名</label><input type="text" class="form-control" id="name" name="name">';
+		result += '<label>TEG</label><input type="text" class="form-control" id="teg" name="teg" placeholder="#insert#teg">';
+		result += '<label>公開可否</label><select class="form-control" id="secret" name="secret">';
 		result += '<option value="public">Public</option><option value="private">Private</option></select>';
 		result += '<br/>';
 		result += '<div  align="right">';
-		result += '<a href="" class="btn btn-info btn-block margin-bottom" id="makegroup" onclick="makegroup()" style="width: 20%;">그룹 만들기</a>';
+		result += '<a href="" class="btn btn-info btn-block margin-bottom" id="makegroup" onclick="makegroup()" style="width: 20%;">グループを作る</a>';
 		result += '</div>';
 		result += '</div>';
 	document.getElementById("functionboard").innerHTML = result;

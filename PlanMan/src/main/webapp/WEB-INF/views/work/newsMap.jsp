@@ -70,10 +70,10 @@ $(document).ready(function(){
          data:{"userid": memo, "text":memo,"startDate":temp},
          success: function(data){
          if(data=="1"||data=="3"){
-            swal("저장 되었습니다");
+            alert("保存されました");
          }else{'오류 발생'};
          },fail: function(){
-            swal("다음에 다시 시도해주세요");
+            alert("次に、再びチャレンジーしてください.");
          }
       });
       });
@@ -91,12 +91,12 @@ $(document).ready(function(){
               
              },
            error: function() {
-             swal('there was an error while fetching events!');
+             alert('there was an error while fetching events!');
            }
         });
          
          
-         $('#datepicker1').val("날짜 선택");   
+         $('#datepicker1').val("日付選択");   
          
          $( ".datepicker" ).datepicker({ 
              changeMonth: true, 
@@ -117,12 +117,12 @@ $(document).ready(function(){
                     },
                     success: function(data){
                       if(data==null)   {
-                         swal("메모가 없습니다");                
+                         alert("メモがありません");                
                             }else{
                                if(dateText==td){
-                                  $('#memoTitle').html("오늘의 메모");
+                                  $('#memoTitle').html("今日のメモ");
                                }else{
-                                  $('#memoTitle').html(dateText+"의 메모");                  
+                                  $('#memoTitle').html(dateText+"のメモ");                  
                                }
                                $('#memo').val(data.memo);
                             }
@@ -310,11 +310,11 @@ $(document).ready(function(){
     <section class="content-header">
       <h1>
         Work
-        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">title</li>
+        <li class="active">work</li>
       </ol>
     </section>
 
@@ -327,11 +327,11 @@ $(document).ready(function(){
            <!-- general form elements disabled -->
           <div class="box box-Warning">
             <div class="box-header with-border">
-              <h3 class="box-title">여러 나라 뉴스 검색</h3>
+              <h3 class="box-title">様々な国のニュース検索</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <label>뉴스나 검색엔진 선택</label><select id="selectNews" class="form-control" ><option> </option><option>naver</option><option>BBC</option><option>nhk</option><option>google</option><option>baidu</option></select>
+              <label>ニュースや検索エンジン選択</label><select id="selectNews" class="form-control" ><option> </option><option>naver</option><option>BBC</option><option>nhk</option><option>google</option><option>baidu</option></select>
 			    <br/><br/><!--The div element for the map -->
 			    <div id="map"></div>
 			    <script>
@@ -439,9 +439,9 @@ $(document).ready(function(){
               </div>
             </div>
             <div class="box-body no-padding">
-               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
+               <h5 id= 'memoTitle' class="box-title">今日のメモ</h5>         
               <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
-              <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
+              <input type="button" class="btn btn-block btn-warning" value="貯蔵" id="saveMemo">   
             </div>
             <!-- /.box-body -->
           </div>

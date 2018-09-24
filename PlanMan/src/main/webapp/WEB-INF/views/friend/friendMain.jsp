@@ -198,7 +198,7 @@
     <section class="content-header">
       <h1>
         Friend
-        <small>${sessionScope.member.id}님의 타임라인 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="goWorkMain"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -215,7 +215,7 @@
 	            <div class="box-header">
 	              <i class="ion ion-clipboard"></i>
 	
-	              <h3 class="box-title">이번주 Friend Schedule</h3>
+	              <h3 class="box-title">今週 Friend Schedule</h3>
 	            </div>
 	            <!-- /.box-header -->
 	            
@@ -271,7 +271,7 @@
 		            <!-- /.box-header -->
 		            <div class="box-body">
 		              <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-		              <input type="text" id="searchMeeting">&nbsp;<input type="button" class="btn btn-success" id="goSearch" value="#으로 검색">
+		              <input type="text" id="searchMeeting">&nbsp;<input type="button" class="btn btn-success" id="goSearch" value="#で検索">
 		                
 		              <ul class="eventlist">
 		              </ul>
@@ -285,7 +285,7 @@
 		   <div class="col-md-8">
 				<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 					<script>
-					swal("취미 직업을 등록하러 갑니다");
+					swal("趣味、職業を登録しに行きます.");
 					location.href="joinfriend";
 					</script>
 				</c:if>
@@ -471,7 +471,7 @@ function goPage(a){
 	      			}
 	      			,success: function (data){
 	    				if(data="success"){
-	    					swal("스케쥴 확인완료!")
+	    					swal("スケジュール確認完了!")
 	    				}	
 	      			}
 	            })
@@ -485,7 +485,7 @@ function goPage(a){
 		      			}
 		      			,success: function (data){
 		      				if(data="success"){
-		    					swal("스케쥴 해제하기!")
+		    					swal("スケジュール解除!")
 		    				}	
 		      			}
 		        })
@@ -496,7 +496,7 @@ function goPage(a){
 	  $("#goSearch").on("click",function(){
 	      var search= $("#searchMeeting").val();
 	      if(search==""){
-	         swal('입력해주세요.');
+	         swal('入力してください.');
 	      }
 	      $.ajax({
 	         url:"searchMeeting",
@@ -533,7 +533,7 @@ function goPage(a){
 	            }
 	               $('#boardfooter').append(line);
 	         },fail: function(){
-	            swal("다음에 다시 시도해주세요.");
+	            swal("次に、再びチャレンジーしてください.");
 	         }
 	      });
 	   }); 
@@ -550,16 +550,16 @@ function goPage(a){
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star-o text-yellow');
-                  }else{swal("다시 시도해주세요.");}
+                  }else{swal("再び試みてください.");}
                
            },
                  fail: function(res){
-              swal("다시 시도해주세요.");
+              swal("再び試みてください.");
               }
      });
         }
         else if($(this).children('i').attr('class')=='fa fa-star-o text-yellow'){
-           var title = prompt("이름을 입력해주세요");
+           var title = prompt("名前を入力してください.");
            if(title==null||title==""){
               return;
            }
@@ -573,11 +573,11 @@ function goPage(a){
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star text-yellow');
-                  }else{swal("다시 시도해주세요.");}
+                  }else{swal("再び試みてください.");}
                
            },
                  fail: function(res){
-              swal("다시 시도해주세요.");
+              swal("再び試みてください.");
               }
      });
        
@@ -588,7 +588,7 @@ function goPage(a){
      $('.direct-chat-img').on('click',function(){
     	 var id=$(this).attr('data-rno');
     	 //alert(id);
-    	 var flag = confirm('친구를 신청하시겠습니까?');
+    	 var flag = confirm('友達を申請しますか?');
     	 if(flag){
     		 $.ajax({
  				url : "friendRegistApply",
@@ -596,13 +596,13 @@ function goPage(a){
  				data : {"id":id},
  				success : function(data){
  					if(data=="already"){
- 						swal("이미 친구 신청을 했습니다.");
+ 						swal("もう友達申請をしました.");
  					}else{
- 						swal("친구 신청이 접수되었습니다.");
+ 						swal("友達申請が受付されました.");
  					}
  					
  				},error : function(data){
- 					swal("접속 불량");
+ 					swal("接続不良");
  				} 
  				
  		 	}); 	 

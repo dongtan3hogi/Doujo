@@ -57,12 +57,12 @@ function goPage(a){
 function goSearch(){
 	var search=	document.getElementById("search").value;
 	if(search==""){
-		swal("검색어 입력해주세요 ");
+		alert("検索語入力してください. ");
 		return;
 	}
 	var special_pattern = /[`~!@#$%^&*|\\\";:\/]/gi;
 	if(special_pattern.test(search)==true){
-		swal("특수문자는 사용할 수 없습니다.");
+		alert("特殊文字は使用できません.");
 		return false;
 	}
 	
@@ -71,10 +71,10 @@ function goSearch(){
 		data: {"search" : search},
 		type: "POST",
 		error: function (res) {
-		    //swal("error: "+ res);
+		    //alert("error: "+ res);
 		},
 		success: function (res) {
-			swal(res);
+			alert(res);
 			
 		} 
 	});	
@@ -120,10 +120,10 @@ $('#saveMemo').click(function(){
 		data:{"userid": "${sessionScope.member.id}", "text":memo,"startDate":td},
 		success: function(data){
 		if(data=="success"){
-			swal("저장 되었습니다");
+			alert("保存されました.");
 		}
 		},fail: function(){
-			swal("다음에 다시 시도해주세요");
+			alert("次に、再びチャレンジーしてください.");
 		}
 	});
 	});
@@ -133,11 +133,11 @@ $('#translate').on('click',function(){
 		  type:'post',
 		  data:{'text': $('#search').val(),  'src': $('#src').val(), 'target':$('#target').val()},
 		  success: function(data){
-			  //swal(data);
+			  //alert(data);
 			  $('#search').val(data);
 		  },error:function(request,status,error){
 			  if(decodeURIComponent(request.responseText)=="undefined"){
-				  swal("잘못된 문자입니다");
+				  alert("誤った文字です.");
 				  return;
 			  }
 			  $('#search').val(decodeURIComponent(request.responseText));
@@ -183,7 +183,7 @@ $('#keylist').on('click',function(){
 					}
 					}
 				result += "<a class='goSearch' href='javascript:void(0)' onclick='goSearch2(this)'>"+data[i].keyword+"</a> ";
-				result += "<input class='deleteBtn btn btn-warning' type='button' class='btn btn-warning' value='삭제' onclick=\'return deleteKey(" + "\""+data[i].keyword+"\""+ ")\' style ='display:none'> &nbsp";
+				result += "<input class='deleteBtn btn btn-warning' type='button' class='btn btn-warning' value='削除' onclick=\'return deleteKey(" + "\""+data[i].keyword+"\""+ ")\' style ='display:none'> &nbsp";
 			}
 			if(cnt<4){
 				$('#list'+cnt).html(result);
@@ -191,7 +191,7 @@ $('#keylist').on('click',function(){
 			
 		},
 		error:function(){
-			swal("실패 하셨습니다.");
+			alert("失敗しました.");
 		}
 	});	
 });
@@ -209,7 +209,7 @@ $('#ff').on('submit',function(){
 			if(data.length==0){
 				$('#friendlist').html("");
 				$('#flist').html("");
-				$('#friendlist').html("키워드가 부족하여 친구를 검색할 수 없습니다 ㅠㅠ 좀 더 이용해 주세요");
+				$('#friendlist').html("キーワードが不足して友達を検索することはできません。 もっと利用してください.");
 			return;
 			}
 		
@@ -220,7 +220,7 @@ $('#ff').on('submit',function(){
 		$('#friendlist').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
 		},
 		error:function(){
-			swal("실패 하셨습니다.");
+			alert("失敗しました.");
 		}
 	});	
 	});
@@ -233,7 +233,7 @@ $(document).on("click",".friendBtn",function(){
 		data:{"id": name},
 		success: function(data){
 			if(data.length==0){
-				$('#flist0').html("다시 시도해 주세요");
+				$('#flist0').html("再び試みてください.");
 			return;
 			}
 			var result="<div>"+name+"</div>";
@@ -243,7 +243,7 @@ $(document).on("click",".friendBtn",function(){
 		$('#flist0').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
 		},
 		error:function(){
-			swal("실패 하셨습니다.");
+			alert("失敗しました.");
 		}
 	});	
 });
@@ -284,10 +284,10 @@ $('#saveMemo').click(function(){
 			data:{"userid": "${sessionScope.member.id}", "text":memo,"startDate":temp},
 			success: function(data){
 			if(data=="1"||data=="3"){
-				swal("저장 되었습니다");
+				alert("保存されました");
 			}else{'오류 발생'};
 			},fail: function(){
-				swal("다음에 다시 시도해주세요");
+				alert("次に、再びチャレンジーしてください.");
 			}
 		});
 });
@@ -305,11 +305,11 @@ var memodays="";
 	    	
 			},
 	    error: function() {
-	      swal('there was an error while fetching events!');
+	      alert('there was an error while fetching events!');
 	    }
   });
 	
-	$('#datepicker1').val("날짜 선택");	
+	$('#datepicker1').val("日付選択");	
 	
 	$( ".datepicker" ).datepicker({ 
        changeMonth: true, 
@@ -330,12 +330,12 @@ var memodays="";
     		    },
     		    success: function(data){
     				if(data==null)	{
-    					swal("메모가 없습니다");	    			
+    					alert("メモがありません.");	    			
     		            }else{
     		            	if(dateText==td){
-	    		            	$('#memoTitle').html("오늘의 메모");
+	    		            	$('#memoTitle').html("今日のメモ");
     		            	}else{
-	    		            	$('#memoTitle').html(dateText+"의 메모");            		
+	    		            	$('#memoTitle').html(dateText+"のメモ");            		
     		            	}
     		            	$('#memo').val(data.memo);
     		            }
@@ -518,11 +518,11 @@ var memodays="";
     <section class="content-header">
       <h1>
         Work
-        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">title</li>
+        <li class="active">work</li>
       </ol>
     </section>
 
@@ -534,13 +534,13 @@ var memodays="";
       	  <!-- general form elements disabled -->
           <div class="box box-Warning">
             <div class="box-header with-border">
-              <h3 class="box-title">뉴스를 검색해 주세요 (${type })</h3>
+              <h3 class="box-work">ニュースを検索してください. (${type })</h3>
             </div>
             <!-- /.box-header -->
           <div class="box-body">
 		    <!--The div element for the map -->
-		    <input type="text" id="search"  >&nbsp<input type="button" class="btn btn-warning" onclick="goSearch()"value="검색">&nbsp <select id='src'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>-->
-	        <select id='target'><option value="ko">한글</option><option value="en">영어</option><option value="zh-CN">중국어</option><option value="ja">일본어</option></select>
+		    <input type="text" id="search"  >&nbsp<input type="button" class="btn btn-warning" onclick="goSearch()"value="検索">&nbsp <select id='src'><option value="ko">韓国語</option><option value="en">英語</option><option value="zh-CN">中国語</option><option value="ja">日本語</option></select>-->
+	        <select id='target'><option value="ko">韓国語</option><option value="en">英語</option><option value="zh-CN">中国語</option><option value="ja">日本語</option></select>
 	        &nbsp<input type="button" class="btn btn-warning" id="translate" value="번역"><br>
 	        <c:if test="${!empty result}">
 			<c:forEach var="news" items="${result }">
@@ -593,7 +593,7 @@ var memodays="";
           
           <div class="box box-Warning">
             <div class="box-header with-border">
-              <h3 class="box-title"><a id="keylist" href="javascript:;">내가 검색한 단어들</a></h3>
+              <h3 class="box-title"><a id="keylist" href="javascript:;">私が検索した単語</a></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -609,13 +609,13 @@ var memodays="";
 			      </div>
 			            </div>  
 			            <div class="box-header with-border">
-			              <h3 class="box-title"><a href="javascript:;">다른 사람들 키워드 검색</a></h3>
+			              <h3 class="box-title"><a href="javascript:;">他の人らキーワード検索</a></h3>
 			            </div>
 			            <div class="row2">
 			     <form id= "ff"  method="post">
-					성별:&nbsp<select name="sex"><option value="둘다">상관없음</option><option value="male">남자</option><option value="female">여자</option></select>
-			  나이:&nbsp<select name="age"><option value="0">상관없음</option><option value="10">10대</option><option value="20">20대</option><option value="30">30대</option><option value="40">40대</option><option value="50">50대 이상</option></select>
-			&nbsp<input type="submit" class="btn btn-warning" value="찾기" >
+					性別:&nbsp<select name="sex"><option value="둘다">関係ない</option><option value="male">男子</option><option value="female">女子</option></select>
+			  年:&nbsp<select name="age"><option value="0">関係ない</option><option value="10">10代</option><option value="20">20代</option><option value="30">30代</option><option value="40">40代</option><option value="50">50代 以上</option></select>
+			&nbsp<input type="submit" class="btn btn-warning" value="探す" >
 			</form>
 			<div class="box box-warning" id="friendlist"></div>
 			  <div class="box-body no-padding" id="flist0">
@@ -636,9 +636,9 @@ var memodays="";
               </div>
             </div>
             <div class="box-body no-padding">
-               <h5 id= 'memoTitle' class="box-title">오늘의 메모</h5>         
+               <h5 id= 'memoTitle' class="box-title">今日のメモ</h5>         
 	           <textarea id ="memo" rows="20" value="text" style="min-width: 100%; border: 0;"></textarea> <br/>
-	           <input type="button" class="btn btn-block btn-warning" value="저장" id="saveMemo">   
+	           <input type="button" class="btn btn-block btn-warning" value="貯蔵" id="saveMemo">   
             </div>
             <!-- /.box-body -->
           </div>

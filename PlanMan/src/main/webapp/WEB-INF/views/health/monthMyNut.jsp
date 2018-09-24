@@ -232,7 +232,7 @@
     <section class="content-header">
       <h1>
         Health
-        <small>${sessionScope.member.id}님의 스케쥴 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -240,33 +240,7 @@
       </ol>
     </section>
 	
-	<!-- The Modal -->
-    <div id="myModal" class="modal">
- 
-    	<!-- Modal content -->
-        <div class="modal-content">
-        	<span class="close">&times;</span>
-        	
-        	<div>
-        		<input type="hidden" id="foodnum">
-        	</div>
-        	<br/>
-        	<div>
-        		음식이름  :  <span id="fName"></span> 
-        	</div>
-        	<br/>
-        	<div>
-        		섭취량    <input type="number" style="width: 50px; height: 30px;" id="fGram" >g
-        	</div>
-        	<br/>
-        	<div>
-        		섭취일 <input type="text" style="width: 150px;" class="datepicker" id="eatday" > 
-        	</div>
-        	<br/>
-        	<div id="sch-button" align="right"><input type="submit" id="addMeal" style="width: 200px;" value="음식 입력하기" class="btn btn-block btn-Danger" onclick="return addMealChk()"/></div>
-        </div>
-    </div>
-
+	
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -277,33 +251,33 @@
 	                <h3 class="box-title">My Nutrition</h3>
           </div>
       	  <form action="gotoNutrition" method="get">
-    	  <input type="submit" class="btn btn-Danger" value="오늘의 영양정보 보기">
+    	  <input type="submit" class="btn btn-Danger" value="今日の栄養情報の表示">
     	  </form>
     	  <form action="showWeekNut" method="post">
     	  <input type="hidden" value="${countday}" name="countday">
-    	  <input type="submit" class="btn btn-Danger" value="이번주 영양정보 보기">
+    	  <input type="submit" class="btn btn-Danger" value="今週栄養情報の表示">
     	  </form>
     	  <form action="showMonthNut" method="post">
     	  <input type="hidden" value="${countday}" name="countday">
-    	  <input type="submit" class="btn btn-Danger" 	value="이번달 영양정보 보기">
+    	  <input type="submit" class="btn btn-Danger" 	value="今月栄養情報の表示">
     	  </form>	
     	  <div class="box">
             <div class="box-header">
-              <h3 class="box-title">이번달 영양정보</h3>
+              <h3 class="box-title">今月栄養情報</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <c:if test="${mynut!=null}">
               <table class="table table-striped">
                 <tr>
-                  <th style="width: 5%;">순번</th>
-                  <th style="width: 15%;">영양소</th>
-                  <th style="width: 70%;">1일 권장량 대비 섭취율</th>
-                  <th style="width: 10%">영양상태</th>
+                  <th style="width: 5%;">順番</th>
+                  <th style="width: 15%;">栄養素</th>
+                  <th style="width: 70%;">1日、推奨量対比の摂取率</th>
+                  <th style="width: 10%">栄養状態</th>
                 </tr>
                 <tr>
                   <td>1.</td>
-                  <td>칼로리</td>
+                  <td>カロリー</td>
                   <td>
                     <div class="progress progress-xs">
                       <c:if test="${mynut.kacl<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.kacl}%"></div></c:if>
@@ -317,7 +291,7 @@
                 </tr>
                 <tr>
                   <td>2.</td>
-                  <td>탄수화물</td>
+                  <td>カーボハイドレート</td>
                   <td>
                     <div class="progress progress-xs">
                       <c:if test="${mynut.carbo<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.carbo}%"></div></c:if>
@@ -331,7 +305,7 @@
                 </tr>
                 <tr>
                   <td>3.</td>
-                  <td>단백질</td>
+                  <td>たんぱく質</td>
                   <td>
                     <div class="progress progress-xs progress-striped active">
                      <c:if test="${mynut.protein<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.protein}%"></div></c:if>
@@ -345,7 +319,7 @@
                 </tr>
                 <tr>
                   <td>4.</td>
-                  <td>지방</td>
+                  <td>ファット</td>
                   <td>
                     <div class="progress progress-xs progress-striped active">
                      <c:if test="${mynut.fat<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.fat}%"></div></c:if>
@@ -359,7 +333,7 @@
                 </tr>
                 <tr>
                   <td>5.</td>
-                  <td>당류</td>
+                  <td>糖類</td>
                   <td>
                     <div class="progress progress-xs">
                      <c:if test="${mynut.sugar<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.sugar}%"></div></c:if>
@@ -373,7 +347,7 @@
                 </tr>
                 <tr>
                   <td>6.</td>
-                  <td>나트륨</td>
+                  <td>ナトリウム</td>
                   <td>
                     <div class="progress progress-xs">
                      <c:if test="${mynut.sodium<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.sodium}%"></div></c:if>
@@ -387,7 +361,7 @@
                 </tr>
                 <tr>
                   <td>7.</td>
-                  <td>콜레스테롤</td>
+                  <td>コレステロール</td>
                   <td>
                     <div class="progress progress-xs progress-striped active">
                      <c:if test="${mynut.cholesterol<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.cholesterol}%"></div></c:if>
@@ -401,7 +375,7 @@
                 </tr>
                 <tr>
                   <td>8.</td>
-                  <td>불포화지방</td>
+                  <td>飽和脂肪酸</td>
                   <td>
                     <div class="progress progress-xs progress-striped active">
                      <c:if test="${mynut.fatty<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.fatty}%"></div></c:if>
@@ -415,7 +389,7 @@
                 </tr>
                 <tr>
                   <td>9.</td>
-                  <td>트랜스지방</td>
+                  <td>トランス脂肪酸</td>
                   <td>
                     <div class="progress progress-xs progress-striped active">
                      <c:if test="${mynut.transfat<=100}"><div class="progress-bar progress-bar-success" style="width: ${mynut.transfat}%"></div></c:if>
@@ -430,7 +404,7 @@
               </table>
               </c:if>
                <c:if test="${mynut==null}">
-             	<div align="center"><h3>입력된 이번달 식단표가 존재하지 않습니다.</h3></div>
+             	<div align="center"><h3>入力された今月献立表が存在しません.</h3></div>
               </c:if>
             </div>
             <!-- /.box-body -->

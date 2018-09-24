@@ -87,7 +87,7 @@ div.all-list {
 		var content = document.getElementById("divedit");
 		
 		if ($('#title').val() == "" || $('#divedit').text() == ""|| $('#location').val() == "") {
-			alert('제목과 내용을 입력하세요.');
+			alert('タイトルと内容を入力してください');
 			return false;
 		}
 		$('input[name=content]').val($('#divedit').text());
@@ -260,7 +260,7 @@ div.all-list {
     <section class="content-header">
       <h1>
         Friend
-        <small>${sessionScope.member.id}님의 타임라인 / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 지금 일정: ${sessionScope.eventtitle}</c:if></small>
+        <small>${sessionScope.member.id}のスケジュール  / <span id="clock"></span><c:if test="${sessionScope.eventtitle!=null}"> / 今の日程: ${sessionScope.eventtitle}</c:if></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="goWorkMain"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -273,7 +273,7 @@ div.all-list {
 			<div class="row">
 			<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 				<script>
-					swal("취미 직업을 등록하러 갑니다");
+					swal("趣味、職業を登録しに行きます.");
 					location.href = "joinfriend";
 				</script>
 			</c:if>
@@ -304,18 +304,18 @@ div.all-list {
 								</div>
 							</div>
 							<div>
-								<strong>글쓴이</strong>
+								<strong>著者</strong>
 								${sessionScope.member.id}
 							</div>
 							<div>
-								<strong>첨부파일</strong> <input id="input_img" type="file" name="upload" />
+								<strong>添付ファイル</strong> <input id="input_img" type="file" name="upload" />
 							</div>
 							<div>
-								<strong>위치</strong>
+								<strong>位置</strong>
 								<input type="text" name="location" id="location" />
 							</div>
 							<div align="right">
-								<input type="submit" class="btn btn-success" value="저장">
+								<input type="submit" class="btn btn-success" value="貯蔵">
 							</div>
 						</div>
 					</form>
@@ -354,24 +354,24 @@ div.all-list {
 							  <c:forEach var="flist" items="${ flist}">
 								<div class="flist_table">
 									<div>
-										<strong>제목</strong>
+										<strong>題目</strong>
 										${ flist.title}
 									</div>
 									<div>
-										<div><strong>내용</strong></div>
+										<div><strong>內容</strong></div>
 										<div><div>${flist.content}</div> 
 										<img src="/doujo/display.do?path=${flist.savedfile }" width="30%" height="auto" onError="this.style.visibility='hidden'" /></td>
 									</div>
 									<div>
-										<strong>글쓴이</strong>
+										<strong>著者</strong>
 										${flist.id}
 									</div>
 									<div>
-										<strong>행복도</strong>
-										행복함: ${flist.happiness }, 슬픔: ${flist.sadness }, 중립:
-											${flist.neutral }, 놀람: ${flist.surprise }
+										<strong>幸せも</strong>
+										ハッピー: ${flist.happiness }, 悲しみ: ${flist.sadness }, 中立:
+											${flist.neutral }, 驚き: ${flist.surprise }
 									<div>
-										<strong>위치</strong>
+										<strong>位置</strong>
 										${flist.location }
 									</div>
 								</div>
@@ -380,39 +380,39 @@ div.all-list {
 	
 						</div>
 						<div id="js-btn-wrap" class="btn-wrap">
-							<a href="javascript:;" class="btn btn-success">더보기</a>
+							<a href="javascript:;" class="btn btn-success">もっと見る</a>
 						</div>
 					</c:if>
 					  <c:if test="${!empty oneboard}">
 						<div id="one-list">
 							<div class="flist_table">
 								<div>
-									<strong>제목</strong>
+									<strong>題目</strong>
 									${ oneboard.title}
 								</div>
 								<div>
-									<div><strong>내용</strong></div>
+									<div><strong>內容</strong></div>
 									<div><div contentEditable="true">${oneboard.content}</div> 
 									<img src="/doujo/display.do?path=${oneboard.savedfile }" width="10%" height="auto" onError="this.style.visibility='hidden'" /></div>
 								</div>
 								<div>
-									<strong>글쓴이</strong>
+									<strong>著者</strong>
 									${oneboard.id }
 								</div>
 								<div>
-									<strong>행복도</strong>
-									행복함: ${oneboard.happiness }, 슬픔: ${oneboard.sadness },
-										중립: ${oneboard.neutral }, 놀람: ${oneboard.surprise }
+									<strong>幸せも</strong>
+									ハッピー: ${oneboard.happiness }, 悲しみ: ${oneboard.sadness },
+										中立: ${oneboard.neutral }, 驚き: ${oneboard.surprise }
 						
 								<div>
-									<strong>위치</strong>
+									<strong>位置</strong>
 									${oneboard.location }
 								</div>
 							</div>
 							<br>
 						</div>
 						<div id="back-btn-wrap" class="btn-wrap">
-							<a href="javascript:;" class="btn btn-success">뒤로</a>
+							<a href="javascript:;" class="btn btn-success">後に行く</a>
 						</div>
 					</c:if>  
 				</div>
@@ -466,7 +466,7 @@ div.all-list {
 			var filesArr = Array.prototype.slice.call(files);
 			filesArr.forEach(function(f) {
 				if (!f.type.match("image.*")) {
-					swal("확장자는 이미지 만 가능합니다");
+					swal("拡張子はイメージのみ可能です.");
 					return;
 				}
 				sel_file = f;
@@ -528,7 +528,7 @@ div.all-list {
 											success : function(data) {
 												//alert(data[0].title);
 												if (data.length != 3) {
-													swal("마지막 게시물 입니다");
+													swal("最後の掲示物なんです.");
 
 												}
 												$
@@ -537,9 +537,9 @@ div.all-list {
 																function(index,
 																		item) {
 																	var line = "";
-																	line += "<div class='flist_table'><div><div>제목</div><div>"
+																	line += "<div class='flist_table'><div><div>題目</div><div>"
 																			+ data[index].title
-																			+ "</div></div><div><div>내용</div><div><div>"
+																			+ "</div></div><div><div>內容</div><div><div>"
 																			+ data[index].content
 																			+ "</div>";
 																	if (data[index].originalfile == null
@@ -550,18 +550,18 @@ div.all-list {
 																				+ data[index].savedfile
 																				+ "' width='30%' height='auto' onError='this.style.visibility='hidden''/>";
 																	}
-																	line += "</div></div><div><div>글쓴이</div><div>"
+																	line += "</div></div><div><div>著者</div><div>"
 																			+ data[index].id
-																			+ "</div></div><div><div>행복도</div><div>행복함:"
+																			+ "</div></div><div><div>幸せも</div><div>ハッピー:"
 																			+ data[index].happiness
-																			+ ", 슬픔: "
+																			+ ", 悲しみ: "
 																			+ data[index].sadness
-																			+ " }, 중립: "
+																			+ " }, 中立: "
 																			+ data[index].neutral
-																			+ " }, 놀람: "
+																			+ " }, 驚き: "
 																			+ data[index].surprise
 																			+ " }</tr>";
-																	line += "<div><div>위치</div><div>"
+																	line += "<div><div>位置</div><div>"
 																			+ data[index].location
 																			+ "</div></div></div><div>";
 																	//alert(data[index].originalfile);
@@ -594,16 +594,16 @@ div.all-list {
 																.attr('class',
 																		'fa fa-star-o text-yellow');
 													} else {
-														swal("다시 시도해주세요.");
+														swal("次に、再びチャレンジーしてください.");
 													}
 
 												},
 												fail : function(res) {
-													swal("다시 시도해주세요.");
+													swal("次に、再びチャレンジーしてください.");
 												}
 											});
 								} else if ($(this).children('i').attr('class') == 'fa fa-star-o text-yellow') {
-									var title = prompt("이름을 입력해주세요");
+									var title = prompt("名前を入力してください.");
 									if (title == null || title == "") {
 										return;
 									}
@@ -626,12 +626,12 @@ div.all-list {
 																.attr('class',
 																		'fa fa-star text-yellow');
 													} else {
-														swal("다시 시도해주세요.");
+														swal("次に、再びチャレンジーしてください.");
 													}
 
 												},
 												fail : function(res) {
-													swal("다시 시도해주세요.");
+													swal("次に、再びチャレンジーしてください.");
 												}
 											});
 
@@ -666,14 +666,14 @@ div.all-list {
 					},
 					success : function(data) {
 						if (data == "1" || data == "3") {
-							swal("저장 되었습니다");
+							swal("保存されました");
 						} else {
-							'오류 발생'
+							'エラーが発生した'
 						}
 						;
 					},
 					fail : function() {
-						swal("다음에 다시 시도해주세요");
+						swal("次に、再びチャレンジーしてください");
 					}
 				});
 			});

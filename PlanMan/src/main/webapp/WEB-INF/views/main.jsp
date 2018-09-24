@@ -264,7 +264,7 @@
     <section class="content-header">
       <h1>
         Calendar
-        <small>${sessionScope.member.id}님의 스케쥴</small>
+        <small>${sessionScope.member.id}のスケジュール</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -279,7 +279,7 @@
         <div class="modal-content">
         	<span class="close">&times;</span>
         	<input type="hidden" id="seq" />     
-        	<div>스케쥴 타입</div>
+        	<div>スケジュールタイプ</div>
         	<div>
         		<input type="radio" id="event1" value="study" class="event" name="event">
         		<label for="event1">Study</label>
@@ -294,22 +294,22 @@
         	</div>
         	<br/>
         	<div>
-        		시작일 <input type="text" style="width: 150px;" class="datepicker" id="startday" > 
+        		開始日 <input type="text" style="width: 150px;" class="datepicker" id="startday" > 
         	</div>
         	<br/>
         	<div>
-        		스케쥴 기간 지정 &nbsp;&nbsp; <input type = "radio" class='sType' id="sType" name='sType' value='sometimes' checked="checked"><label for="sType">반복 스케쥴</label> &nbsp; <input type = "radio" class='sType' id="sType2" name='sType' value='always'><label for="sType2">지속 스케쥴</label> &nbsp;  <input type="number" style="width: 40px; height: 30px;" id="endday" value="1"> 일간 진행
+        		スケジュール期間指定&nbsp;&nbsp; <input type = "radio" class='sType' id="sType" name='sType' value='sometimes' checked="checked"><label for="sType">繰り返しスケジュール</label> &nbsp; <input type = "radio" class='sType' id="sType2" name='sType' value='always'><label for="sType2">持続スケジュール</label> &nbsp;  <input type="number" style="width: 40px; height: 30px;" id="endday" value="1">日刊紙を進行
         	</div>
         	<br/>
         	<div class="dropdown">시간대 <input id="timepicker" type="text" style="width: 120px;"> ~ <input id="timepicker2" type="text" style="width: 120px;"></div>
         	<br/>
-        	<div>스케쥴명</div>
+        	<div>スケジュールのタイトル</div>
         	<div><input type="text" class="form-control" id="eventtitle" name="eventtitle" /></div>
         	<br/>
-        	<div>스케쥴내용</div>
+        	<div>スケジュール内容</div>
         	<div><textarea type="text" class="form-control" id="eventcontent" name="eventcontent" style="height: 200px;"></textarea></div>
         	<br/>
-        	<div id="sch-button" align="right"><input type="submit" id="eventAdd" style="width: 200px;" value="스케쥴 입력하기" class="btn btn-block btn-primary" onclick="return addevent()"/></div>
+        	<div id="sch-button" align="right"><input type="submit" id="eventAdd" style="width: 200px;" value="スケジュール入力" class="btn btn-block btn-primary" onclick="return addevent()"/></div>
         </div>
         
    
@@ -415,7 +415,7 @@
  
         // When the user clicks on the button, open the modal 
         $('#sch-button').text('');
-        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='스케쥴 입력하기' class='btn btn-block btn-primary' onclick='return addevent()'/>");      	  
+        $('#sch-button').append("<input type='submit' id='eventAdd' style='width: 200px;' value='スケジュール入力' class='btn btn-block btn-primary' onclick='return addevent()'/>");      	  
         modal.style.display = "block";
         $('#startday').val(date.format());
         
@@ -554,7 +554,7 @@
             });
             $('#timepicker2').timepicker('setTime', e_time);
 
-          $('#sch-button').append("<input type='submit' id='eventUpdate' style='width: 200px;' value='스케쥴 수정하기' class='btn btn-block btn-primary' onclick='return updateevent()'/><input type='submit' id='eventDel' style='width: 200px;' value='스케쥴 삭제하기' class='btn btn-block btn-primary' onclick='return deleteevent()'/>");      	
+          $('#sch-button').append("<input type='submit' id='eventUpdate' style='width: 200px;' value='スケジュールに修正' class='btn btn-block btn-primary' onclick='return updateevent()'/><input type='submit' id='eventDel' style='width: 200px;' value='スケジュールを削除' class='btn btn-block btn-primary' onclick='return deleteevent()'/>");      	
           modal.style.display = "block";
           
           
@@ -622,22 +622,22 @@
 	    var stype = $('input[name="sType"]:checked').val();
 
 		if($('.event:checked').val()==null){
-  			swal("이벤트 타입을 선택해 주세요.");
+  			alert("イベントのタイプを選択してください.");
   			return false;
   		}
   		
   		if($('#endday').val()<=0){
-  			swal("기간을 다시 선택해주세요.");
+  			alert("期間を選択し直してください.");
   			return false;
   		}
 		
   		if($('#timepicker').val()>=$('#timepicker2').val()){
-  			swal("시간대를 다시 선택해주세요.");
+  			alert("時間帯を選択し直してください.");
   			return false;
   		}
   		
   		if($('#eventtitle').val().length==0){
-  			swal("이벤트 타이틀을 입력해주세요.");
+  			alert("イベントタイトルを入力してください.");
   			return false;
   		}else if(stype=='sometimes'){
   			endday=$('#startday').val()+" "+$('#timepicker2').val();
@@ -656,7 +656,7 @@
   				}
   				,success: function (data){
 					if(data=="success"){
-						swal("스케쥴을 입력했습니다.");
+						alert("スケジュールを入力しました.");
 						$('#eventtitle').val('');
 			            $('#eventcontent').val('');
 			            $('#endday').val(1);
@@ -666,7 +666,7 @@
 			            location.reload(); 
 			            return true;
 					}else{
-						swal("스케쥴  입력에 실패했습니다.");
+						alert("スケジュール入力に失敗しました.");
 						return false;
 					}
   				}
@@ -688,7 +688,7 @@
   				}
   				,success: function (data){
 					if(data=="success"){
-						swal("스케쥴을 입력했습니다.");
+						alert("スケジュールを入力しました.");
 						$('#eventtitle').val('');
 			            $('#eventcontent').val('');
 			            $('#endday').val(1);
@@ -698,7 +698,7 @@
 			            location.reload(); 
 			            return true;
 					}else{
-						swal("스케쥴  입력에 실패했습니다.");
+						alert("スケジュール入力に失敗しました.");
 						return false;
 					}
   				}
@@ -726,22 +726,22 @@
 	   var eventcontent=$('#eventcontent').val();  
    
 	   if($('.event:checked').val()==null){
- 			swal("이벤트 타입을 선택해 주세요.");
+ 			alert("イベントのタイプを選択してください.");
  			return false;
  		}
  		
 	    if($('#endday').val()<=0){
-			swal("기간을 다시 선택해주세요.");
+			alert("期間を選択し直してください.");
 			return false;
 		}
 	   
 	    if($('#timepicker').val()>=$('#timepicker2').val()){
- 			swal("시간대를 다시 선택해주세요.");
+ 			alert("時間帯を選択し直してください.");
  			return false;
  		}
  		
  		if($('#eventtitle').val().length==0){
- 			swal("이벤트 타이틀을 입력해주세요.");
+ 			alert("イベントタイトルを入力してください.");
  			return false;
  		}else{
  			$.ajax({
@@ -759,7 +759,7 @@
  				}
  				,success: function (data){
 					if(data=="success"){
-						swal("스케쥴을 변경했습니다.");
+						alert("スケジュールを変更しました.");
 						$('#eventtitle').val('');
 			            $('#eventcontent').val('');
 			            $('#endday').val(1);
@@ -769,7 +769,7 @@
 			            location.reload(); 
 			            return true;
 					}else{
-						swal("스케쥴  변경에 실패했습니다.");
+						alert("スケジュール変更に失敗しました.");
 						return false;
 					}
  				}
@@ -785,7 +785,7 @@
 			,data:{"schseq": schseq}
 			,success: function (data){
 				if(data=="success"){
-					swal("스케쥴을 삭제했습니다.");
+					alert("スケジュールを削除しました.");
 					$('#eventtitle').val('');
 		            $('#eventcontent').val('');
 		            $('#endday').val(1);
@@ -795,7 +795,7 @@
 		            location.reload(); 
 		            return true;
 				}else{
-					swal("스케쥴  삭제에 실패했습니다.");
+					alert("スケジュールの削除に失敗しました.");
 					return false;
 				}
 			}

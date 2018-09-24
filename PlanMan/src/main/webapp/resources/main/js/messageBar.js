@@ -9,7 +9,7 @@ $(function(){
 		pprroo += '<form id="fileForm" action="profileImage"  method="post" enctype="multipart/form-data">';
 		pprroo += '<div class="modal-header">';
 		pprroo += '<span class="close2" id="close2">&times;</span>';
-		pprroo += '프로필 사진 변경';
+		pprroo += 'プロフィール写真の変更';
         pprroo += '</div>';
 		pprroo += '<div class="modal-body">';
 		pprroo += '<br/>';
@@ -18,7 +18,7 @@ $(function(){
         pprroo += '</div>';
         pprroo += '<div class="modal-footer">';
         pprroo += '<input id="input_proImg" type="file" name="upload" />';
-        pprroo += '<div align="right"><input type="submit" id="changeBtn" style="width: 200px;" value="확인" class="btn btn-block btn-primary" onclick="changeProfile()"/></div>';
+        pprroo += '<div align="right"><input type="submit" id="changeBtn" style="width: 200px;" value="確認" class="btn btn-block btn-primary" onclick="changeProfile()"/></div>';
         pprroo += '</div>';
         pprroo += '</form>';
         pprroo += '</div>';
@@ -70,7 +70,7 @@ var messageListBoard = '';
 	messageListBoard += 'USERID01';
 	messageListBoard += '<small><i class="fa fa-clock-o"></i> TIME</small>';
 	messageListBoard += '</h4>';
-	messageListBoard += '<p>내용입니다내용</p>';
+	messageListBoard += '<p>内容</p>';
 	messageListBoard += '</a></li>';
 	messageListBoard += '<!-- end message -->';
 	messageListBoard += '</ul></li>';
@@ -249,7 +249,7 @@ function showFriendList(){
 			var result = '';
 				result += '<li><ul class="menu">';
 			if(data.friend1 != null){
-				swal("친구가 없습니다.");
+				swal("友達がないです.");
 				return;
 			}
 			$.each(data, function(index, item){
@@ -388,7 +388,7 @@ sock.onclose = onClose;
 
 
 function onClose(evt) {
-    $("#data").append("연결 끊김");
+    $("#data").append("連結途切れること");
 }
 
 
@@ -517,7 +517,7 @@ function showAlermList(){
 			result +='<span class="label label-warning">' + data.alermCount.count + '</span>';
 			result +='</a>';
 			result +='<ul class="dropdown-menu">';
-			result +='<li class="header">' + data.alermCount.count + '개의 확인하지 않은 알림이 있습니다.</li>';
+			result +='<li class="header">' + data.alermCount.count + '個の確認していないお知らせがあります.</li>';
 			result +='<li>';
 			result +='<ul class="menu">';
 			$.each(data, function(index, item){
@@ -526,7 +526,7 @@ function showAlermList(){
 						var codes = "'"+ item.CODE +"'";
 						result +='<li id=alermBoardLi"' +item.CODE+ '">';
 						result +='<a>';
-						result +='<i class="fa fa-users text-aqua"></i> '+item.SENDID+'님이 '+item.VARIABLE1+'에 가입을 원합니다. ';
+						result +='<i class="fa fa-users text-aqua"></i> '+item.SENDID+'님이 '+item.VARIABLE1+'に加入を希望します. ';
 						result +='</a>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="groupAlermOkBtn(' +codes+ ')"><i class="fa fa-check-circle-o"></i></button>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="groupAlermNoBtn(' +codes+ ')"><i class="fa fa-remove"></i></button>';
@@ -539,7 +539,7 @@ function showAlermList(){
 						var codes = "'"+ item.CODE +"'";
 						result +='<li id=alermBoardLi"' +item.CODE+ '">';
 						result +='<a>';
-						result +='<i class="fa fa-user text-red"></i> '+item.SENDID+' 님을 친구신청 하시겠습니까?';
+						result +='<i class="fa fa-user text-red"></i> '+item.SENDID+' を友達申請しますか?';
 						result +='</a>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="friendAlermOkBtn(' +codes+ ')"><i class="fa fa-check-circle-o"></i></button>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="friendAlermNoBtn(' +codes+ ')"><i class="fa fa-remove"></i></button>';
@@ -549,9 +549,9 @@ function showAlermList(){
 						var codes = "'"+ item.CODE +"'";
 						result +='<li id=alermBoardLi"' +item.CODE+ '">';
 						result +='<a>';
-						result +='<i class="fa fa-calendar-plus-o text-red"></i> '+ item.SENDID +' 님의  스케쥴 공유하겠습니까?';
+						result +='<i class="fa fa-calendar-plus-o text-red"></i> '+ item.SENDID +' のスケジュール共有しますか?';
 						result +='</a>';
-						result +='<div class="label label-default"><i class="fa fa-clock-o"></i>'+' 이벤트 타이틀 : '+item.VARIABLE2+'<br/><br/> 시간대 :'+item.STARTTIME+'~'+item.ENDTIME+'</div>';
+						result +='<div class="label label-default"><i class="fa fa-clock-o"></i>'+'イベントタイトル : '+item.VARIABLE2+'<br/><br/> 時間帯 :'+item.STARTTIME+'~'+item.ENDTIME+'</div>';
 						result +='<br/><br/>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="scheduleAlermOkBtn(' +codes+ ')"><i class="fa fa-check-circle-o"></i></button>';
 						result +='<button type="button" class="btn btn-default btn-sm" onclick="scheduleAlermNoBtn(' +codes+ ')"><i class="fa fa-remove"></i></button>';
@@ -660,7 +660,7 @@ function friendAlermNoBtn(CODE) {
 		, dataType : 'json'
 		, contentType : 'application/json; charset=UTF-8'
 		, success: function(data) {
-			alert(data.result1+"흠"+data.result2);
+			//alert(data.result1+"흠"+data.result2);
 			location.reload();
 		} 
 	});
@@ -738,7 +738,7 @@ function input_proImgFunction(e) {
 	var filesArr2 = Array.prototype.slice.call(files2);
 	filesArr2.forEach(function(f) {
 		if (!f.type.match("image.*")) {
-			swal("확장자는 이미지 만 가능합니다");
+			swal("拡張子はイメージのみ可能です.");
 			return;
 		}
 		//sel_file = f;

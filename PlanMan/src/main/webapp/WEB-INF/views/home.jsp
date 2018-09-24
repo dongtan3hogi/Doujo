@@ -29,7 +29,7 @@
    </div> 
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">로그인 하기</p>
+    <p class="login-box-msg">ログイン</p>
 
     <form action="doLogin" method="post" onsubmit="return loginChk()">
       <div class="form-group has-feedback">
@@ -44,13 +44,13 @@
        
         <!-- /.col -->
         <div align="right">
-          <button type="submit" style="width: 120px;" class="btn btn-primary btn-block btn-flat">로그인</button>
+          <button type="submit" style="width: 120px;" class="btn btn-primary btn-block btn-flat">ログイン</button>
         </div>
         <!-- /.col -->
       </div>
     </form>
 	<div align="right">
-    <a href="gotoSignIn" class="text-center">회원가입 하기</a>
+    <a href="gotoSignIn" class="text-center">会員加入</a>
 	</div>
 
   </div>
@@ -73,7 +73,7 @@ $(function(){
 		var res = '';
 		res += "${loginResult}";
 		if(res == 'loginfail'){
-			swal("아이디나 비밀번호를 잘못 입력하셨습니다. 다시 입력해주세요.");
+			swal("ハンドルネームや暗証番号を誤って入力しました。 再入力してください。");
 		}
 	});
 });
@@ -81,7 +81,7 @@ $(function(){
 	function loginChk(){
 		
 		if($('#id').val().length==0||$('#password').val().length==0){
-			swal('아이디나 비밀번호가 입력되지 않았습니다.');
+			swal('ハンドルネームや暗証番号が入力されていません。');
 			return false;
 		}
 		

@@ -20,13 +20,13 @@ $(function(){
 						result += '<input class="form-control" type="hidden" id="num' + index + '" value="' + item.NUM + '">';
 						result += '<input class="form-control" type="hidden" id="set' + index + '" value="' + item.set + '">';
 						result += '<input type="hidden" id="name' + index + '" value="' + item.name + '">';
-						result += '<label>질문</label>';
+						result += '<label>質問</label>';
 						result += '<br/>';
 						result += item.QUESTION;
 						result += '</div>';
 						
 						result += '<div class="form-group">';
-						result += '<label>정답</label><br/>';
+						result += '<label>正答</label><br/>';
 						if(item.TYPE == 'multiplechoice'){
 							result += '<label><input type="radio" name="answer' + index + '" value="1" class="minimal" checked>' + item.ANSWER1 + '</label><br/>';
 							result += '<label><input type="radio" name="answer' + index + '" value="2" class="minimal">' + item.ANSWER2 + '</label><br/>';
@@ -40,7 +40,7 @@ $(function(){
 						
 					});
 					result += '<div class="form-group" id="checkDiv">';
-					result += '<input class="form-control" type="button" id="checkBtn" value="체점" onclick="checking()">';
+					result += '<input class="form-control" type="button" id="checkBtn" value="採点" onclick="checking()">';
 					result += '</div>';
 					
 					//$("#quizSolveBoard").innerHTML = result;
@@ -213,7 +213,7 @@ function checking(){
 		, success: function(data) {
 			var quizResult = "";
 			$.each(data, function(index, item){
-				quizResult += index + '번 : ' + item + '\n';
+				quizResult += index + '番 : ' + item + '\n';
 			});
 			swal(quizResult);
 			//alert(quizResult);
@@ -272,7 +272,7 @@ function NextPage(){
 				
 			});
 			result += '<div class="form-group" id="checkDiv">';
-			result += '<input class="form-control" type="button" id="checkBtn" value="체점" onclick="checking()">';
+			result += '<input class="form-control" type="button" id="checkBtn" value="採点" onclick="checking()">';
 			result += '</div>';
 			//$("#quizSolveBoard").innerHTML = result;
 			document.getElementById("quizSolveBoard").innerHTML = result;
