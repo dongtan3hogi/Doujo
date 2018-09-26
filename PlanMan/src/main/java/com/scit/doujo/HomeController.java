@@ -33,7 +33,11 @@ public class HomeController {
 	
 		return "home";
 	}
+	@RequestMapping(value = "/gotohome", method = RequestMethod.GET)
+	public String gotohome() {
 	
+		return "home";
+	}
 	//회원가입 페이지로 이동
 	@RequestMapping(value = "gotoSignIn", method = RequestMethod.GET)
 	public String gotoSignIn() {

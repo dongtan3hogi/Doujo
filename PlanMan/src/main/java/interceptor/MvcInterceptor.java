@@ -45,7 +45,7 @@ public class MvcInterceptor extends HandlerInterceptorAdapter{
 	      
 	      if(obj == null) {
 	         //response.sendRedirect(request.getContextPath()+"/logout");
-	         response.sendRedirect("/gotoHome");
+	         response.sendRedirect("/gotohome");
 	         return false;
 	      }else if (userid != null) {
 	    	 member m = (member)session.getAttribute("member");
