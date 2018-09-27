@@ -506,7 +506,7 @@ function goPage(a){
 	         success: function(data){
 	            $.each(data.meeting, function(index, item){
 	            
-	            var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
+	            var result ="<li><a href='"+item[0]+"' target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
 	            $(".eventlist").append(result);
 	            });
 	            var navi = data.navi;

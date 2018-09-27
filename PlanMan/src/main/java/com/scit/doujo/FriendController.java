@@ -434,6 +434,9 @@ public class FriendController {
 		for (int i = 0; i < a.size(); i++) {
 			String[] ds = new String[3];
 			String link = a.get(i).select("article.event_area.event_state a").attr("href");
+			if(link.contains("/event/")) {
+				link = "https://onoffmix.com/event/"+link.substring(link.length()-6, link.length());
+			}else {continue;}
 			String image = a.get(i).select("div.event_thumbnail img").attr("src");
 			String title = a.get(i).select("h5.title.ellipsis").text();
 			ds[0] = link;

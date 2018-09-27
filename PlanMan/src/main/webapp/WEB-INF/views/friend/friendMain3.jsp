@@ -515,11 +515,9 @@ div.all-list {
 							});
 			$
 			var pageNum = 1;
-			$("#js-btn-wrap .button")
-					.click(
+			$("#js-btn-wrap a").click(
 							function(e) { // Load More를 위한 클릭 이벤트e
-								$
-										.ajax({
+								$.ajax({
 											url : "moreboard",
 											type : "post",
 											data : {
@@ -529,13 +527,8 @@ div.all-list {
 												//alert(data[0].title);
 												if (data.length != 3) {
 													swal("最後の掲示物なんです.");
-
 												}
-												$
-														.each(
-																data,
-																function(index,
-																		item) {
+												$.each(	data,function(index,item) {
 																	var line = "";
 																	line += "<div class='flist_table'><div><div>題目</div><div>"
 																			+ data[index].title
