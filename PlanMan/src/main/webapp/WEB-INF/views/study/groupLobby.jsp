@@ -235,7 +235,7 @@
             </div> 
             <!-- /.box-header --> 
             <div class="box-body"> 
-              <form role="form"> 
+              <form role="form" onsubmit="return false;"> 
                 <div id="functionboard">
                   
                   

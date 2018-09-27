@@ -273,7 +273,7 @@ div.all-list {
 			<div class="row">
 			<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 				<script>
-					swal("趣味、職業を登録しに行きます.");
+					alert("趣味、職業を登録しに行きます.");
 					location.href = "joinfriend";
 				</script>
 			</c:if>
@@ -466,7 +466,7 @@ div.all-list {
 			var filesArr = Array.prototype.slice.call(files);
 			filesArr.forEach(function(f) {
 				if (!f.type.match("image.*")) {
-					swal("拡張子はイメージのみ可能です.");
+					alert("拡張子はイメージのみ可能です.");
 					return;
 				}
 				sel_file = f;
@@ -491,7 +491,7 @@ div.all-list {
 				location.href = "friend3";
 			}); 
 			var listNum = 1;
-			$("#all-btn-wrap .button")
+			$("#all-btn-wrap a")
 					.on('click',function() {
 								$.ajax({
 											url : "morelist",
@@ -515,7 +515,7 @@ div.all-list {
 							});
 			$
 			var pageNum = 1;
-			$("#js-btn-wrap .button")
+			$("#js-btn-wrap a")
 					.click(
 							function(e) { // Load More를 위한 클릭 이벤트e
 								$
@@ -528,7 +528,7 @@ div.all-list {
 											success : function(data) {
 												//alert(data[0].title);
 												if (data.length != 3) {
-													swal("最後の掲示物なんです.");
+													alert("最後の掲示物なんです.");
 
 												}
 												$
@@ -594,12 +594,12 @@ div.all-list {
 																.attr('class',
 																		'fa fa-star-o text-yellow');
 													} else {
-														swal("次に、再びチャレンジーしてください.");
+														alert("次に、再びチャレンジーしてください.");
 													}
 
 												},
 												fail : function(res) {
-													swal("次に、再びチャレンジーしてください.");
+													alert("次に、再びチャレンジーしてください.");
 												}
 											});
 								} else if ($(this).children('i').attr('class') == 'fa fa-star-o text-yellow') {
@@ -626,12 +626,12 @@ div.all-list {
 																.attr('class',
 																		'fa fa-star text-yellow');
 													} else {
-														swal("次に、再びチャレンジーしてください.");
+														alert("次に、再びチャレンジーしてください.");
 													}
 
 												},
 												fail : function(res) {
-													swal("次に、再びチャレンジーしてください.");
+													alert("次に、再びチャレンジーしてください.");
 												}
 											});
 
@@ -643,7 +643,7 @@ div.all-list {
 				var memo = $('#memo').val();
 				if(memo==""){return false;}
 				memo = memo.replace("\r\n", "<br>");
-				//swal(memo);
+				//alert(memo);
 				var today = new Date();
 				var mm = today.getMonth() + 1;
 				var dd = today.getDate();
@@ -666,14 +666,14 @@ div.all-list {
 					},
 					success : function(data) {
 						if (data == "1" || data == "3") {
-							swal("保存されました");
+							alert("保存されました");
 						} else {
 							'エラーが発生した'
 						}
 						;
 					},
 					fail : function() {
-						swal("次に、再びチャレンジーしてください");
+						alert("次に、再びチャレンジーしてください");
 					}
 				});
 			});

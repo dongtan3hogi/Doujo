@@ -413,45 +413,48 @@ public class FriendController {
 		return "friend/friendMain";
 	}
 	@RequestMapping(value = "/searchMeeting", method = RequestMethod.POST)
-	public @ResponseBody Map<String,Object> searchMeeting(String search) {
-		String USER_AGENT = "Mozilla/5.0";
+	   public @ResponseBody Map<String,Object> searchMeeting(String search) {
+	      String USER_AGENT = "Mozilla/5.0";
 
-		String request = "http://onoffmix.com/event/main?s=%23" + search;
-		System.out.println(request);
-		Connection conn = Jsoup.connect(request).header("Content-Type", "application/json;charset=UTF-8")
-				.userAgent(USER_AGENT).method(Connection.Method.GET).ignoreContentType(true);
+	      String request = "http://onoffmix.com/event/main?s=%23" + search;
+	      System.out.println(request);
+	      Connection conn = Jsoup.connect(request).header("Content-Type", "application/json;charset=UTF-8")
+	            .userAgent(USER_AGENT).method(Connection.Method.GET).ignoreContentType(true);
 
-		Document doc = null;
-		try {
-			doc = conn.get();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	      Document doc = null;
+	      try {
+	         doc = conn.get();
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	      }
 
-		List<Element> a = doc.select("ul.event_lists li");
-		System.out.println(a.size());
-		ArrayList<String[]> result = new ArrayList<String[]>();
-		for (int i = 0; i < a.size(); i++) {
-			String[] ds = new String[3];
-			String link = a.get(i).select("article.event_area.event_state a").attr("href");
-			String image = a.get(i).select("div.event_thumbnail img").attr("src");
-			String title = a.get(i).select("h5.title.ellipsis").text();
-			ds[0] = link;
-			ds[1] = image;
-			ds[2] = title;
+	      List<Element> a = doc.select("ul.event_lists li");
+	      System.out.println(a.size());
+	      ArrayList<String[]> result = new ArrayList<String[]>();
+	      for (int i = 0; i < a.size(); i++) {
+	         String[] ds = new String[3];
+	         String link = a.get(i).select("article.event_area.event_state a").attr("href");
+	         if(link.contains("/event/")) {
+	            link = "https://onoffmix.com/event/"+link.substring(link.length()-6, link.length());
+	         }else {continue;}
+	         String image = a.get(i).select("div.event_thumbnail img").attr("src");
+	         String title = a.get(i).select("h5.title.ellipsis").text();
+	         ds[0] = link;
+	         ds[1] = image;
+	         ds[2] = title;
 
-			result.add(ds);
-		}
-		article.setValue(result);
-		work_PageNavi pn = new work_PageNavi(3,1,result.size());
-		Map<String ,Object> data = new HashMap<String,Object>();
-		ArrayList<String[]> ab = article.page(1);
-		data.put("meeting", ab);
-		data.put("navi",pn);
+	         result.add(ds);
+	      }
+	      article.setValue(result);
+	      work_PageNavi pn = new work_PageNavi(3,1,result.size());
+	      Map<String ,Object> data = new HashMap<String,Object>();
+	      ArrayList<String[]> ab = article.page(1);
+	      data.put("meeting", ab);
+	      data.put("navi",pn);
 
-		return data;
+	      return data;
 
-	}
+    }
 	@RequestMapping(value = "/goMPage", method = RequestMethod.POST)
 	public @ResponseBody Map<String ,Object> goMPage( int value) {
 		ArrayList<String[]> ab = article.page(value);

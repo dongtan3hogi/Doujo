@@ -576,7 +576,7 @@
 		var friendid=$('#nowfriend').val();	
 		
 		if(friendid.length==0){
-			swal("本人にはスケジュールを申請できません.");
+			alert("本人にはスケジュールを申請できません.");
 			return false;
 		}
 		
@@ -598,22 +598,22 @@
 	    var stype = $('input[name="sType"]:checked').val();
 
 		if($('.event:checked').val()==null){
-  			swal("イベントのタイプを選択してください.");
+  			alert("イベントのタイプを選択してください.");
   			return false;
   		}
   		
   		if($('#endday').val()<=0){
-  			swal("期間を選択し直してください.");
+  			alert("期間を選択し直してください.");
   			return false;
   		}
 		
   		if($('#timepicker').val()>=$('#timepicker2').val()){
-  			swal("時間帯を選択し直してください.");
+  			alert("時間帯を選択し直してください.");
   			return false;
   		}
   		
   		if($('#eventtitle').val().length==0){
-  			swal("イベントタイトルを入力してください.");
+  			alert("イベントタイトルを入力してください.");
   			return false;
   		}else{
   			endday=$('#startday').val()+" "+$('#timepicker2').val();
@@ -638,7 +638,7 @@
 				, contentType : 'application/json; charset=UTF-8'
   				,success: function (data){
 						
-						swal("스케쥴을 신청했습니다.");
+						alert("스케쥴을 신청했습니다.");
 						$('#eventtitle').val('');
 			            $('#eventcontent').val('');
 			            $('#endday').val(1);
