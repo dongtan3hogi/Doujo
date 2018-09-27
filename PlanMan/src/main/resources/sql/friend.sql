@@ -15,7 +15,7 @@ create table board(
 	 id VARCHAR2(20) not null,
 	 title VARCHAR2(200) not null,
 	 content VARCHAR2(2000) not null,
-	 location VARCHAR2(20) not null,
+	 location VARCHAR2(100) not null,
 	 originalfile VARCHAR2(200),
 	 savedfile VARCHAR2(200),
 	 happiness number,

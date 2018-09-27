@@ -416,7 +416,7 @@ public class FriendController {
 	public @ResponseBody Map<String,Object> searchMeeting(String search) {
 		String USER_AGENT = "Mozilla/5.0";
 
-		String request = "http://search.onoffmix.com/event?s=%23" + search;
+		String request = "http://onoffmix.com/event/main?s=%23" + search;
 		System.out.println(request);
 		Connection conn = Jsoup.connect(request).header("Content-Type", "application/json;charset=UTF-8")
 				.userAgent(USER_AGENT).method(Connection.Method.GET).ignoreContentType(true);
@@ -428,14 +428,14 @@ public class FriendController {
 			e.printStackTrace();
 		}
 
-		List<Element> a = doc.select("ul.todayEvent");
+		List<Element> a = doc.select("ul.event_lists li");
 		System.out.println(a.size());
 		ArrayList<String[]> result = new ArrayList<String[]>();
 		for (int i = 0; i < a.size(); i++) {
 			String[] ds = new String[3];
-			String link = a.get(i).select("li.eventThumbnail a").attr("href");
-			String image = a.get(i).select("li.eventThumbnail img").attr("src");
-			String title = a.get(i).select("li.eventThumbnail img").attr("alt");
+			String link = a.get(i).select("article.event_area.event_state a").attr("href");
+			String image = a.get(i).select("div.event_thumbnail img").attr("src");
+			String title = a.get(i).select("h5.title.ellipsis").text();
 			ds[0] = link;
 			ds[1] = image;
 			ds[2] = title;
