@@ -24,8 +24,8 @@ public class MsFaceAPI {
     // **********************************************
 
     // Replace the subscriptionKey string value with your valid subscription key.
-    public static final String subscriptionKey = "da7e986b48044aa3a8eecae02121df33";
-
+    public static final String subscriptionKey = "04e31e40d4cb49ee90397991eb47eb84";
+    //61f157865c26484198fbc99577fa6b93
     // Replace or verify the region.
     //
     // You must use the same region in your REST API call as you used to obtain your subscription keys.
