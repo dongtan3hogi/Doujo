@@ -41,14 +41,6 @@
 <link rel="stylesheet" href="./resources/style/profile.css">
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
-.footer {
-	position: fixed;
-	left: 0;
-	right: 100;
-	bottom: 0;
-	width: 100%;
-	text-align: right;
-}
 
 #imgs {
 	width: 100%;
@@ -139,7 +131,7 @@ div.all-list {
               <!-- User image -->
               <li class="user-header">
                 <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
-				<i class="fa fa-camera upload-button"></i>
+				
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
@@ -486,7 +478,7 @@ div.all-list {
 				location.href = "friend3";
 			}); 
 			var listNum = 1;
-			$("#all-btn-wrap ")
+			$("#all-btn-wrap a")
 					.on('click',function() {
 								$.ajax({
 											url : "morelist",
@@ -513,7 +505,7 @@ div.all-list {
 							});
 			$
 			var pageNum = 1;
-			$("#js-btn-wrap")
+			$("#js-btn-wrap a")
 					.click(
 							function(e) { // Load More를 위한 클릭 이벤트e
 								$
@@ -677,5 +669,16 @@ div.all-list {
 			});
 		});
 	</script>
+	<script type="text/javascript" src="<c:url value="/resources/study/sockjs-0.3.4.js"/>"></script>
+	<script type="text/javascript">
+	
+	    var sock;
+	
+	    //웸소켓을 지정한 url로 연결한다.
+	    sock = new SockJS("<c:url value="/echo2"/>");
+	    
+	</script>
+	<script src="resources/main/js/messageBar.js"></script> 
+	
 </body>
 </html>
