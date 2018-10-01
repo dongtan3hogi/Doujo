@@ -77,7 +77,7 @@
               <!-- User image -->
               <li class="user-header">
                 <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
-				<i class="fa fa-camera upload-button"></i>
+				
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>

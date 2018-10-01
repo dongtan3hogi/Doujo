@@ -490,7 +490,7 @@
           <li class="dropdown messages-menu" id="pParentMessageBoard">
             
           </li>
-          <!-- User Account: style can be found in dropdown.less -->
+         <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="user-image" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
@@ -500,7 +500,7 @@
               <!-- User image -->
               <li class="user-header">
                 <img src="./resources/userData/image/${sessionScope.member.id}.jpg" class="img-circle" id="profileImg" onError="this.src='./resources/userData/image/unknown.png;'">
-				<i class="fa fa-camera upload-button"></i>
+				
                 <p>
                   ${sessionScope.member.id}
                   <small>${sessionScope.member.nickname}</small>
