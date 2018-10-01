@@ -74,7 +74,7 @@ function goSearch(){
 		    //alert("error: "+ res);
 		},
 		success: function (res) {
-			alert(res);
+			//alert(res);
 			
 		} 
 	});	
