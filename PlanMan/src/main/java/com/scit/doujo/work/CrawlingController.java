@@ -20,6 +20,7 @@ import com.scit.doujo.dao.workDao;
 import com.scit.doujo.util.Selenium;
 import com.scit.doujo.util.work_PageNavi;
 import com.scit.doujo.vo.member;
+import com.scit.doujo.vo.work.favorites;
 import com.scit.doujo.vo.work.memo;
 
 
@@ -75,7 +76,8 @@ public class CrawlingController {
 		String userid=m.getId();		
 		List<memo> result2 = um.allMemo(userid);
 		model.addAttribute("mlist", result2);
-
+		List<favorites> fa = um.allFavorites(userid);
+	      model.addAttribute("fcheck",fa);
 		return "work/news";
 	}
 	
@@ -90,7 +92,8 @@ public class CrawlingController {
 		model.addAttribute("mlist", result2);
 		work_PageNavi pn = new work_PageNavi(10,value,article.getStaticHello().size());
 		model.addAttribute("navi",pn);
-
+		List<favorites> fa = um.allFavorites(userid);
+	      model.addAttribute("fcheck",fa);
 		return "work/news";
 	}
 	 

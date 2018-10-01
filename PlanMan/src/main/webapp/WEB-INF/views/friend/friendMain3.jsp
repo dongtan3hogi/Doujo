@@ -337,8 +337,8 @@ div.all-list {
 									onError="this.style.visibility='hidden'" />
 							</c:forEach>  
 						</div>
-						<div id="all-btn-wrap" class="btn-wrap">
-							<a href="javascript:;" class="btn btn-success">もっと見る</a>
+						<div  class="btn-wrap">
+							<a id="all-btn-wrap" href="javascript:;" class="btn btn-success">もっと見る</a>
 						</div>
 					</c:if>
 					<c:if test="${!empty flist }">
@@ -349,10 +349,10 @@ div.all-list {
 										<strong>題目</strong>
 										${ flist.title}
 									</div>
-									<div>
+									
 										<div><strong>內容</strong></div>
 										<div><div>${flist.content}</div> 
-										<img src="/doujo/display.do?path=${flist.savedfile }" width="50%" height="auto" onError="this.style.visibility='hidden'" /></td>
+										<img src="/doujo/display.do?path=${flist.savedfile }" width="50%" height="auto" onError="this.style.visibility='hidden'" />
 									</div>
 									<div>
 										<strong>著者</strong>
@@ -361,7 +361,7 @@ div.all-list {
 									<div>
 										<strong>幸せも</strong>
 										ハッピー: ${flist.happiness }, 悲しみ: ${flist.sadness }, 中立:
-											${flist.neutral }, 驚き: ${flist.surprise }
+											${flist.neutral }, 驚き: ${flist.surprise }</div>
 									<div>
 										<strong>位置</strong>
 										${flist.location }
@@ -369,10 +369,9 @@ div.all-list {
 								</div>
 								<br>
 							</c:forEach> 
-	
 						</div>
-						<div id="js-btn-wrap" class="btn-wrap">
-							<a href="javascript:;" class="btn btn-success">もっと見る</a>
+						<div  class="btn-wrap">
+							<a id="js-btn-wrap" href="javascript:;" class="btn btn-success">もっと見る</a>
 						</div>
 					</c:if>
 					  <c:if test="${!empty oneboard}">
@@ -395,7 +394,7 @@ div.all-list {
 									<strong>幸せも</strong>
 									ハッピー: ${oneboard.happiness }, 悲しみ: ${oneboard.sadness },
 										中立: ${oneboard.neutral }, 驚き: ${oneboard.surprise }
-						
+								</div>
 								<div>
 									<strong>位置</strong>
 									${oneboard.location }
@@ -404,7 +403,7 @@ div.all-list {
 							<br>
 						</div>
 						<div id="back-btn-wrap" class="btn-wrap">
-							<a href="javascript:;" class="btn btn-success">後に行く</a>
+							<a id="back-btn-wrap" href="javascript:;" class="btn btn-success">後に行く</a>
 						</div>
 					</c:if>  
 				</div>
@@ -414,11 +413,7 @@ div.all-list {
 			
 			</div>
 		</section>
-		
 	</div>	
-		
-	<!-- ========================================================================================================== -->
-	<!-- ========================================================================================================== -->
 	<footer class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Version</b> 0.0.1
@@ -479,7 +474,7 @@ div.all-list {
 			$("#showAll").on('click', function() {
 				location.href = "friend3";
 			});
-			 $("#back-btn-wrap .button").on('click', function() {
+			 $("#back-btn-wrap").on('click', function() {
 				location.href = "friend3";
 			}); 
 			var listNum = 1;
@@ -492,6 +487,9 @@ div.all-list {
 												"number" : listNum
 											},
 											success : function(data) {
+												if(data.length==0){
+													alert("最後のページです。");
+												}
 												$.each(data,function(index,item) {
 																	var line = "";
 																	line += "<img src='/doujo/display.do?path='"
@@ -499,7 +497,7 @@ div.all-list {
 																			+ "' width='19%' height='60'onclick='goDetail('"
 																			+ data[index].savedfile
 																			+ "');' onError='this.style.visibility='hidden''/>";
-																	$(	'#all-list')	.append(line);
+																	$(	'#all-list').append(line);
 																});
 												listNum++;
 											}

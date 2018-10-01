@@ -51,8 +51,8 @@ public interface friendDao {
 	//친구 목록가져오기
 	public ArrayList<Map<String,String>> selectMyFriendList(String userid);
 
-	public List<board> boardpaging(String userid, int first, int second);
+	public List<board> boardpaging(@Param(value="id")String userid, @Param(value="first")int first, @Param(value="second")int second);
 
-	public List<board> selectListBoard(String userid);
+	public List<board> selectListBoard(@Param(value="id")String userid);
 	
 }
