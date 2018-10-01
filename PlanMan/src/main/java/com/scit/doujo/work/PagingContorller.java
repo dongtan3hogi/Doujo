@@ -27,6 +27,7 @@ import com.scit.doujo.dao.workDao;
 import com.scit.doujo.util.naverNews;
 import com.scit.doujo.util.work_PageNavi;
 import com.scit.doujo.vo.member;
+import com.scit.doujo.vo.work.favorites;
 import com.scit.doujo.vo.work.memo;
 
 
@@ -85,7 +86,8 @@ HelloComponent article = new HelloComponent();
 			String userid=m.getId();
 			List<memo> result2 = um.allMemo(userid);
 			model.addAttribute("mlist", result2);
-			
+			List<favorites> fa = um.allFavorites(userid);
+		      model.addAttribute("fcheck",fa);
 		return "work/news";
 	}
 	@RequestMapping(value = "/goPage", method = RequestMethod.GET)
@@ -99,7 +101,8 @@ HelloComponent article = new HelloComponent();
 		model.addAttribute("mlist", result2);
 		work_PageNavi pn = new work_PageNavi(10,value,article.getStaticHello().size());
 		model.addAttribute("navi",pn);
-
+		List<favorites> fa = um.allFavorites(userid);
+	      model.addAttribute("fcheck",fa);
 		return "work/news";
 	}
 	

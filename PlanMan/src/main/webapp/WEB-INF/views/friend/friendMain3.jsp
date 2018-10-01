@@ -273,7 +273,7 @@ div.all-list {
 			<div class="row">
 			<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 				<script>
-					swal("趣味、職業を登録しに行きます.");
+					alert("趣味、職業を登録しに行きます.");
 					location.href = "joinfriend";
 				</script>
 			</c:if>
@@ -345,8 +345,8 @@ div.all-list {
 									onError="this.style.visibility='hidden'" />
 							</c:forEach>  
 						</div>
-						<div id="all-btn-wrap" class="btn-wrap">
-							<a href="javascript:;" class="btn btn-success">もっと見る</a>
+						<div  class="btn-wrap">
+							<a id="all-btn-wrap" href="javascript:;" class="btn btn-success">もっと見る</a>
 						</div>
 					</c:if>
 					<c:if test="${!empty flist }">
@@ -357,10 +357,10 @@ div.all-list {
 										<strong>題目</strong>
 										${ flist.title}
 									</div>
-									<div>
+									
 										<div><strong>內容</strong></div>
 										<div><div>${flist.content}</div> 
-										<img src="/doujo/display.do?path=${flist.savedfile }" width="50%" height="auto" onError="this.style.visibility='hidden'" /></td>
+										<img src="/doujo/display.do?path=${flist.savedfile }" width="50%" height="auto" onError="this.style.visibility='hidden'" />
 									</div>
 									<div>
 										<strong>著者</strong>
@@ -369,7 +369,7 @@ div.all-list {
 									<div>
 										<strong>幸せも</strong>
 										ハッピー: ${flist.happiness }, 悲しみ: ${flist.sadness }, 中立:
-											${flist.neutral }, 驚き: ${flist.surprise }
+											${flist.neutral }, 驚き: ${flist.surprise }</div>
 									<div>
 										<strong>位置</strong>
 										${flist.location }
@@ -377,10 +377,9 @@ div.all-list {
 								</div>
 								<br>
 							</c:forEach> 
-	
 						</div>
-						<div id="js-btn-wrap" class="btn-wrap">
-							<a href="javascript:;" class="btn btn-success">もっと見る</a>
+						<div  class="btn-wrap">
+							<a id="js-btn-wrap" href="javascript:;" class="btn btn-success">もっと見る</a>
 						</div>
 					</c:if>
 					  <c:if test="${!empty oneboard}">
@@ -403,7 +402,7 @@ div.all-list {
 									<strong>幸せも</strong>
 									ハッピー: ${oneboard.happiness }, 悲しみ: ${oneboard.sadness },
 										中立: ${oneboard.neutral }, 驚き: ${oneboard.surprise }
-						
+								</div>
 								<div>
 									<strong>位置</strong>
 									${oneboard.location }
@@ -412,7 +411,7 @@ div.all-list {
 							<br>
 						</div>
 						<div id="back-btn-wrap" class="btn-wrap">
-							<a href="javascript:;" class="btn btn-success">後に行く</a>
+							<a id="back-btn-wrap" href="javascript:;" class="btn btn-success">後に行く</a>
 						</div>
 					</c:if>  
 				</div>
@@ -422,11 +421,7 @@ div.all-list {
 			
 			</div>
 		</section>
-		
 	</div>	
-		
-	<!-- ========================================================================================================== -->
-	<!-- ========================================================================================================== -->
 	<footer class="main-footer">
     <div class="pull-right hidden-xs">
       <b>Version</b> 0.0.1
@@ -466,7 +461,7 @@ div.all-list {
 			var filesArr = Array.prototype.slice.call(files);
 			filesArr.forEach(function(f) {
 				if (!f.type.match("image.*")) {
-					swal("拡張子はイメージのみ可能です.");
+					alert("拡張子はイメージのみ可能です.");
 					return;
 				}
 				sel_file = f;
@@ -487,11 +482,11 @@ div.all-list {
 			$("#showAll").on('click', function() {
 				location.href = "friend3";
 			});
-			 $("#back-btn-wrap .button").on('click', function() {
+			 $("#back-btn-wrap").on('click', function() {
 				location.href = "friend3";
 			}); 
 			var listNum = 1;
-			$("#all-btn-wrap .button")
+			$("#all-btn-wrap ")
 					.on('click',function() {
 								$.ajax({
 											url : "morelist",
@@ -500,6 +495,9 @@ div.all-list {
 												"number" : listNum
 											},
 											success : function(data) {
+												if(data.length==0){
+													alert("最後のページです。");
+												}
 												$.each(data,function(index,item) {
 																	var line = "";
 																	line += "<img src='/doujo/display.do?path='"
@@ -507,7 +505,7 @@ div.all-list {
 																			+ "' width='19%' height='60'onclick='goDetail('"
 																			+ data[index].savedfile
 																			+ "');' onError='this.style.visibility='hidden''/>";
-																	$(	'#all-list')	.append(line);
+																	$(	'#all-list').append(line);
 																});
 												listNum++;
 											}
@@ -515,9 +513,11 @@ div.all-list {
 							});
 			$
 			var pageNum = 1;
-			$("#js-btn-wrap a").click(
+			$("#js-btn-wrap")
+					.click(
 							function(e) { // Load More를 위한 클릭 이벤트e
-								$.ajax({
+								$
+										.ajax({
 											url : "moreboard",
 											type : "post",
 											data : {
@@ -526,9 +526,14 @@ div.all-list {
 											success : function(data) {
 												//alert(data[0].title);
 												if (data.length != 3) {
-													swal("最後の掲示物なんです.");
+													alert("最後の掲示物なんです.");
+
 												}
-												$.each(	data,function(index,item) {
+												$
+														.each(
+																data,
+																function(index,
+																		item) {
 																	var line = "";
 																	line += "<div class='flist_table'><div><div>題目</div><div>"
 																			+ data[index].title
@@ -587,12 +592,12 @@ div.all-list {
 																.attr('class',
 																		'fa fa-star-o text-yellow');
 													} else {
-														swal("次に、再びチャレンジーしてください.");
+														alert("次に、再びチャレンジーしてください.");
 													}
 
 												},
 												fail : function(res) {
-													swal("次に、再びチャレンジーしてください.");
+													alert("次に、再びチャレンジーしてください.");
 												}
 											});
 								} else if ($(this).children('i').attr('class') == 'fa fa-star-o text-yellow') {
@@ -619,12 +624,12 @@ div.all-list {
 																.attr('class',
 																		'fa fa-star text-yellow');
 													} else {
-														swal("次に、再びチャレンジーしてください.");
+														alert("次に、再びチャレンジーしてください.");
 													}
 
 												},
 												fail : function(res) {
-													swal("次に、再びチャレンジーしてください.");
+													alert("次に、再びチャレンジーしてください.");
 												}
 											});
 
@@ -636,7 +641,7 @@ div.all-list {
 				var memo = $('#memo').val();
 				if(memo==""){return false;}
 				memo = memo.replace("\r\n", "<br>");
-				//swal(memo);
+				//alert(memo);
 				var today = new Date();
 				var mm = today.getMonth() + 1;
 				var dd = today.getDate();
@@ -659,14 +664,14 @@ div.all-list {
 					},
 					success : function(data) {
 						if (data == "1" || data == "3") {
-							swal("保存されました");
+							alert("保存されました");
 						} else {
 							'エラーが発生した'
 						}
 						;
 					},
 					fail : function() {
-						swal("次に、再びチャレンジーしてください");
+						alert("次に、再びチャレンジーしてください");
 					}
 				});
 			});

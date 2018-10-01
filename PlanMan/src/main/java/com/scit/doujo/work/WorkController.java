@@ -169,14 +169,6 @@ public class WorkController {
 	      ArrayList<String[]> article = n.search("오늘의 주요뉴스", 5);
 	      workDao wd = sqlSession.getMapper(workDao.class);
 	      List<favorites> fa = wd.allFavorites(id);
-	      /*   ArrayList<Integer> a = new ArrayList<Integer>();
-	      for(int i=0; i<article.size(); i++) {
-	    	  for(int j=0; j<fa.size();j++) {
-	    		  if(article.get(i)[1].toString().equals(fa.get(j).getLocations())){
-	    			  a.add(i);
-	    		  }
-	    	  }
-	      }*/
 	      model.addAttribute("fcheck",fa);
 	      model.addAttribute("article",article );
 	      session.setAttribute("schList", schList);

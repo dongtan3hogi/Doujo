@@ -74,7 +74,6 @@ function goSearch(){
 		    //alert("error: "+ res);
 		},
 		success: function (res) {
-			alert(res);
 			
 		} 
 	});	
@@ -98,6 +97,52 @@ function goSearch2(key){
 	}
 	}	
 $(document).ready(function(){
+	$('a.favorite').click(function() {
+        //alert("클릭");
+        var clicked= $(this).children('i');
+        var locations = $(this).next().attr('href');
+        if($(this).children('i').attr('class')=='fa fa-star text-yellow'){
+           $.ajax({
+               url:"deleteFavorites",
+               type:"post",
+               //client에서 server로 가는 값
+               data:{"id": '${sessionScope.member.id}',"locations":locations},
+               success: function(data){
+                  if(data==1){
+                     clicked.attr('class','fa fa-star-o text-yellow');
+                  }else{alert("再び試みてください.");}
+               
+           },
+                 fail: function(res){
+              alert("再び試みてください.");
+              }
+     });
+        }
+        else if($(this).children('i').attr('class')=='fa fa-star-o text-yellow'){
+           var title = prompt("名前を入力してください.");
+           if(title==null||title==""){
+              return;
+           }
+           var locations = $(this).next().attr('href');
+           //alert(title+"\n"+locations);
+           $.ajax({
+               url:"insertFavorites",
+               type:"post",
+               //client에서 server로 가는 값
+               data:{"id": '${sessionScope.member.id}', "title":title,"locations":locations},
+               success: function(data){
+                  if(data==1){
+                     clicked.attr('class','fa fa-star text-yellow');
+                  }else{alert("再び試みてください..");}
+               
+           },
+                 fail: function(res){
+              alert("再び試みてください..");
+              }
+     });
+       
+      }
+     });
 $('#saveMemo').click(function(){
 	var memo = $('#memo').val();
 	memo= memo.replace("\r\n","<br>");
@@ -544,10 +589,20 @@ var memodays="";
 	        &nbsp<input type="button" class="btn btn-warning" id="translate" value="번역"><br>
 	        <c:if test="${!empty result}">
 			<c:forEach var="news" items="${result }">
-			<ul>
-			<li><a href="${news[1] }" target="_blank">${news[0] }</a><br>
-			<span>${news[2] }</span></li>
-			</ul>
+			 <ul>
+		      <c:set var="loop_flag" value="false" />
+		      <c:forEach var='fcheck' items="${fcheck }">
+		      
+		      <c:if test="${fcheck.locations == news[1] }">
+		       <c:set var="loop_flag" value="true" />
+		      </c:if>
+		      </c:forEach>
+		      <c:if test="${not loop_flag }">      <li><a href="javascript:void(0);" class='favorite'><i class="fa fa-star-o text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+		         <span>${news[2] }</span></li>
+		      </c:if>
+		      <c:if test="${ loop_flag}">         <li><a href="javascript:void(0);" class='favorite'><i class="fa fa-star text-yellow"></i></a>&nbsp;&nbsp;<a href="${news[1] }" target="_blank">${news[0] }</a><br>
+		      <span>${news[2] }</span></li></c:if>
+		      </ul>
 			</c:forEach>
 			<div class="boardfooter">
 			<c:if test="${navi.currentPage <= 5 }">

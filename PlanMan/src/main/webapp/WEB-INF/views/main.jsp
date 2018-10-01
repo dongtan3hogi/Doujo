@@ -301,7 +301,7 @@
         		スケジュール期間指定&nbsp;&nbsp; <input type = "radio" class='sType' id="sType" name='sType' value='sometimes' checked="checked"><label for="sType">繰り返しスケジュール</label> &nbsp; <input type = "radio" class='sType' id="sType2" name='sType' value='always'><label for="sType2">持続スケジュール</label> &nbsp;  <input type="number" style="width: 40px; height: 30px;" id="endday" value="1">日刊紙を進行
         	</div>
         	<br/>
-        	<div class="dropdown">시간대 <input id="timepicker" type="text" style="width: 120px;"> ~ <input id="timepicker2" type="text" style="width: 120px;"></div>
+        	<div class="dropdown">時間帯 <input id="timepicker" type="text" style="width: 120px;"> ~ <input id="timepicker2" type="text" style="width: 120px;"></div>
         	<br/>
         	<div>スケジュールのタイトル</div>
         	<div><input type="text" class="form-control" id="eventtitle" name="eventtitle" /></div>

@@ -42,7 +42,7 @@
 		 var tr = $("input:checkbox[name=selected]:checked").closest('tr');
 		 
 		 var td = tr.children()
-		swal(td.length);
+		alert(td.length);
 		 td.each(function(index,value){
 			 if(index==0){
 				 return true;
@@ -81,7 +81,7 @@
 	             }﻿ 
 	          } else { 
 
-	 ﻿            swal("選択されたデータがありません.");  
+	 ﻿            alert("選択されたデータがありません.");  
 
 	          }﻿ 
 
@@ -336,7 +336,7 @@
 			<div class="col-md-8">
 				<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 					<script>
-					swal("취미 직업을 등록하러 갑니다");
+					alert("취미 직업을 등록하러 갑니다");
 					location.href="joinfriend";
 					</script>
 				</c:if>
@@ -480,7 +480,7 @@
 	      			}
 	      			,success: function (data){
 	    				if(data="success"){
-	    					swal("スケジュール確認完了!")
+	    					alert("スケジュール確認完了!")
 	    				}	
 	      			}
 	            })
@@ -494,7 +494,7 @@
 		      			}
 		      			,success: function (data){
 		      				if(data="success"){
-		    					swal("スケジュール確認の取り消し!")
+		    					alert("スケジュール確認の取り消し!")
 		    				}	
 		      			}
 		        })
@@ -505,7 +505,7 @@
 	  $("#goSearch").on("click",function(){
 	      var search= $("#searchMeeting").val();
 	      if(search==""){
-	         swal('入力してください。');
+	         alert('入力してください。');
 	      }
 	      $.ajax({
 	         url:"searchMeeting",
@@ -515,7 +515,7 @@
 	         success: function(data){
 	            $.each(data.meeting, function(index, item){
 	            
-	            var result ="<li><a href="+item[0]+"target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
+	            	var result ="<li><a href='"+item[0]+"' target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
 	            $(".eventlist").append(result);
 	            });
 	            var navi = data.navi;
@@ -542,7 +542,7 @@
 	            }
 	               $('#boardfooter').append(line);
 	         },fail: function(){
-	            swal("次に、再びチャレンジーしてください");
+	            alert("次に、再びチャレンジーしてください");
 	         }
 	      });
 	   }); 
@@ -550,7 +550,7 @@
 	  
 	  
      $('a.favorite').click(function() {
-        //swal("클릭");
+        //alert("클릭");
         var locations = $(this).next().attr('href');
         if($(this).children('i').attr('class')=='fa fa-star text-yellow'){
            $.ajax({
@@ -561,11 +561,11 @@
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star-o text-yellow');
-                  }else{swal("次に、再びチャレンジーしてください.");}
+                  }else{alert("次に、再びチャレンジーしてください.");}
                
            },
                  fail: function(res){
-              swal("次に、再びチャレンジーしてください.");
+              alert("次に、再びチャレンジーしてください.");
               }
      });
         }
@@ -584,11 +584,11 @@
                success: function(data){
                   if(data==1){
                      $(this).children('i').attr('class','fa fa-star text-yellow');
-                  }else{swal("次に、再びチャレンジーしてください.");}
+                  }else{alert("次に、再びチャレンジーしてください.");}
                
            },
                  fail: function(res){
-              swal("次に、再びチャレンジーしてください.");
+              alert("次に、再びチャレンジーしてください.");
               }
      });
        

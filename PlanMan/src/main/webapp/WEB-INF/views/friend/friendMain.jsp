@@ -285,7 +285,7 @@
 		   <div class="col-md-8">
 				<c:if test="${empty sessionScope.member.job or empty sessionScope.member.hobby }">
 					<script>
-					swal("趣味、職業を登録しに行きます.");
+					alert("趣味、職業を登録しに行きます.");
 					location.href="joinfriend";
 					</script>
 				</c:if>
@@ -505,8 +505,8 @@ function goPage(a){
 	         data:{"search": search},
 	         success: function(data){
 	            $.each(data.meeting, function(index, item){
-	            
-	            var result ="<li><a href='"+item[0]+"' target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
+
+            	var result ="<li><a href='"+item[0]+"' target='_blank' > <image class='eImage' src="+item[1]+">  <span class='text'>"+item[2]+"</span></a></li>";
 	            $(".eventlist").append(result);
 	            });
 	            var navi = data.navi;
