@@ -45,7 +45,7 @@ private void setValue(ArrayList<String[]> hello){
     
 }
 
-public ArrayList<String[]> getStaticHello(){
+public ArrayList<String[]> getArticle(){
     return articles; // spring.profiles.active is default
 }
 public ArrayList<String[]> page(  int page) {
@@ -72,7 +72,7 @@ HelloComponent article = new HelloComponent();
 
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public String search( Model model,String value,HttpSession hs) {
+	public String search( Model model,String value,HttpSession hs) { //naver apiを使って記事を持ってきます。
 		naverNews n = new naverNews();
 		ArrayList<String[]> result= n.search(value,100);
 			
@@ -91,7 +91,7 @@ HelloComponent article = new HelloComponent();
 		return "work/news";
 	}
 	@RequestMapping(value = "/goPage", method = RequestMethod.GET)
-	public String goPage( Model model,int value,HttpSession hs) {
+	public String goPage( Model model,int value,HttpSession hs) {//ページング処理のためのメソッド
 		ArrayList<String[]> result = article.page(value);
 		model.addAttribute("result",result);
 		workDao um= session.getMapper(workDao.class);
@@ -99,21 +99,21 @@ HelloComponent article = new HelloComponent();
 		String userid=m.getId();
 		List<memo> result2 = um.allMemo(userid);
 		model.addAttribute("mlist", result2);
-		work_PageNavi pn = new work_PageNavi(10,value,article.getStaticHello().size());
+		work_PageNavi pn = new work_PageNavi(10,value,article.getArticle().size());
 		model.addAttribute("navi",pn);
 		List<favorites> fa = um.allFavorites(userid);
 	      model.addAttribute("fcheck",fa);
 		return "work/news";
 	}
 	
-	@RequestMapping(value = "/findKeyword", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	@RequestMapping(value = "/findKeyword", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")//使用者が検索した文章から重要キーワードを引き出すメソッド
 	public @ResponseBody String findKeyword( Model model,String search,HttpSession hs) {
-	        String secretKey = "8750682406266725427";//애플리케이션 클라이언트 시크릿값";
+	        String secretKey = "8750682406266725427";//アプリケーションクライアントシークレット値";
 	        StringBuffer response = null;
 	        try {
 	            String text = URLEncoder.encode(search, "UTF-8");
-	            String apiURL = "http://api.datamixi.com/datamixiApi/keywordextract?key="+secretKey+"&text="+text; // json 결과
-	            //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
+	            String apiURL = "http://api.datamixi.com/datamixiApi/keywordextract?key="+secretKey+"&text="+text; // json 結果
+	            //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 結果
 	            URL url = new URL(apiURL);
 	            HttpURLConnection con = (HttpURLConnection)url.openConnection();
 	            con.setRequestMethod("POST");
@@ -122,9 +122,9 @@ HelloComponent article = new HelloComponent();
 	            int responseCode = con.getResponseCode();
 	            BufferedReader br;
 	            System.out.println(responseCode);
-	            if(responseCode==200) { // 정상 호출
+	            if(responseCode==200) { // 正常呼出し
 	                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	            } else {  // 에러 발생
+	            } else {  //error
 	                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 	            }
 	            String inputLine;
@@ -142,12 +142,11 @@ HelloComponent article = new HelloComponent();
 	        JSONParser jsonParser = new JSONParser();
 			JSONObject jsonObj = null;
 			JSONArray temp=null;
-			try {
+			try {//pi値をjson objectで受け取り,json parsorを使って希望する値だけを選ぶ。
 				jsonObj = (JSONObject) jsonParser.parse(response.toString());
 				temp = (JSONArray) jsonObj.get("return_object");
 			} catch (Exception e) {
 				
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return "null";
 			}ArrayList<String> terms= new ArrayList<String>();

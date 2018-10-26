@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.scit.doujo.vo.member;
@@ -13,51 +14,29 @@ public class MvcInterceptor extends HandlerInterceptorAdapter{
    @Override
    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
          throws Exception {
-      /*HttpSession session = request.getSession();
-      String userid="";
-      
-      
-      Object obj = session.getAttribute("member");
-      
-      if(obj == null) {
-         //response.sendRedirect(request.getContextPath()+"/logout");
-         response.sendRedirect("/gotoHome");
-         return false;
-      }else if (userid != null) {
-    	 member m = (member)session.getAttribute("member");
-         userid = m.getId();
-      }
-      return true;*/
-	   
-	   String requestURI = request.getRequestURI();
-       
-       if (requestURI.indexOf("/home") > -1) { //세션체크 예외페이지
+      String requestURI = request.getRequestURI();
+      System.out.println(requestURI);
+      if( handler instanceof HandlerMethod == false ) {
+         response.sendRedirect(request.getContextPath()+"/gotohome");
+            return false;
+          }
+    
+       if (requestURI.indexOf("/home") > -1||requestURI.indexOf("/echo2/info") > -1||requestURI.indexOf("/showAlermList") > -1||requestURI.indexOf("/getMyNewMessageList") > -1
+    		   ||requestURI.indexOf("/messageTypeNewToNor") > -1) { //例外ページ
            return true;
-       } else if (requestURI.indexOf("/") > -1) {
-           return true;
-       } else {//위의 예외페이지 외에는 세션값을 체크해서 있으면 그냥 페이지표시
+       }  else {
         
-    	  HttpSession session = request.getSession();
-	      String userid="";
-	      
-	      
-	      Object obj = session.getAttribute("member");
-	      
-	      if(obj == null) {
-	         //response.sendRedirect(request.getContextPath()+"/logout");
-	         response.sendRedirect("/gotohome");
-	         return false;
-	      }else if (userid != null) {
-	    	 member m = (member)session.getAttribute("member");
-	         userid = m.getId();
-	      }
-	      return true;
+         HttpSession session = request.getSession();
+         
+         Object obj = session.getAttribute("member");
+        
+         if(obj == null) {//セッションが満了したらログアウトページで行く
+            response.sendRedirect(request.getContextPath()+"/logout");
 
+            return false;
+         }
        }
-       
-       //정상적인 세션정보가 없으면 로그인페이지로 이동
-       /*request.getRequestDispatcher(request.getContextPath() + "/gotoHome").forward(request, response);
-       return false;*/
+   return true;
 
    }
    

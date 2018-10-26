@@ -17,7 +17,7 @@ public class naverNews {
 		super();
 		
 	}
-	public ArrayList<String[]> search(String value,int number ){
+	public ArrayList<String[]> search(String value,int number ){//ネイバーで検索した結果をjsonで送るapiを使うメソッド
 		String clientId = "R_QmcaTVRocv7D5el105";//애플리케이션 클라이언트 아이디값";
         String clientSecret = "8SepLUgZQs";//애플리케이션 클라이언트 시크릿값";
         StringBuffer response = null;

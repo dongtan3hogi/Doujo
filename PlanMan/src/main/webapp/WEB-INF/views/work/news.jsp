@@ -47,20 +47,20 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-function goPage(a){
+function goPage(a){//ページに移動するためのメソッド
 	if("${type}"=='naver'){
 		location.href="goPage?value="+a;
 	}else{
 	location.href="goPaging?value="+a;
 	}
 }
-function goSearch(){
+function goSearch(){//検索ためのメソッド
 	var search=	document.getElementById("search").value;
 	if(search==""){
 		alert("検索語入力してください. ");
 		return;
 	}
-	var special_pattern = /[`~!@#$%^&*|\\\";:\/]/gi;
+	var special_pattern = /[`~!@#$%^&*|\\\";:\/]/gi;　//とくしゅもじをにゅりょくできないための正規式
 	if(special_pattern.test(search)==true){
 		alert("特殊文字は使用できません.");
 		return false;
@@ -88,7 +88,7 @@ function goSearch(){
 		return false;
 	} */
 	}
-function goSearch2(key){
+function goSearch2(key){//友たちの検索したキーワードで検索するためのメソッド
 	var search=	key.innerHTML;
 	if("${type}"=="naver"){
 		location.href="search?value="+search;
@@ -97,7 +97,8 @@ function goSearch2(key){
 	}
 	}	
 $(document).ready(function(){
-	$('a.favorite').click(function() {
+	var memodate="";
+	$('a.favorite').click(function() {//気に入りのメソッド
         //alert("클릭");
         var clicked= $(this).children('i');
         var locations = $(this).next().attr('href');
@@ -143,10 +144,9 @@ $(document).ready(function(){
        
       }
      });
-$('#saveMemo').click(function(){
+$('#saveMemo').click(function(){//メモを保存するためのメソッド
 	var memo = $('#memo').val();
 	memo= memo.replace("\r\n","<br>");
-	//alert(memo);
 	var today = new Date();
 	var mm= today.getMonth()+1; 
 	var dd =today.getDate();
@@ -158,11 +158,15 @@ $('#saveMemo').click(function(){
 	    mm='0'+mm;
 	} 
 	var td=yy+'-'+mm+'-'+dd;
+	
+     if(memodate==''){
+   	 memodate = td;
+     }
 	$.ajax({
 		url:"saveMemo",
 		type:"post",
 		//client에서 server로 가는 값
-		data:{"userid": "${sessionScope.member.id}", "text":memo,"startDate":td},
+		data:{"userid": "${sessionScope.member.id}", "text":memo,"startDate":memodate},
 		success: function(data){
 		if(data=="success"){
 			alert("保存されました.");
@@ -171,8 +175,9 @@ $('#saveMemo').click(function(){
 			alert("次に、再びチャレンジーしてください.");
 		}
 	});
+	 location.reload();
 	});
-$('#translate').on('click',function(){
+$('#translate').on('click',function(){//翻訳するメソッド
 	  $.ajax({
 		  url:"translate",
 		  type:'post',
@@ -189,7 +194,7 @@ $('#translate').on('click',function(){
 		  }
 });
 });
-$('#keylist').on('click',function(){
+$('#keylist').on('click',function(){//私のキーワードを見せるメソッド
 	$.ajax({		
 		url:"keylist",
 		type:"get",
@@ -240,7 +245,7 @@ $('#keylist').on('click',function(){
 		}
 	});	
 });
-$('#ff').on('submit',function(){
+$('#ff').on('submit',function(){//私と同じキーワードを多く検索した人のリストを見せるメソッド
 	event.preventDefault();
 	var sex = $(this).find('[name=sex]').val();
 	var age = $(this).find('[name=age]').val();
@@ -269,7 +274,7 @@ $('#ff').on('submit',function(){
 		}
 	});	
 	});
-$(document).on("click",".friendBtn",function(){
+$(document).on("click",".friendBtn",function(){//友たちのキーワードを見せるメソッド
 	var name = $(this).html();
 	$.ajax({
 		url:"friendKey",
@@ -307,35 +312,6 @@ var td=yy+'-'+mm+'-'+dd;
 var temp=td;
 
 
-$('#saveMemo').click(function(){
-		var memo = $('#memo').val();
-		
-		
-		var today = new Date();
-		var mm= today.getMonth()+1; 
-		var dd =today.getDate();
-		var yy = today.getFullYear();
-		if(dd<10) {
-		    dd='0'+dd;
-		} 
-		if(mm<10) {
-		    mm='0'+mm;
-		} 
-		var td=yy+'-'+mm+'-'+dd;
-		$.ajax({
-			url:"saveMemo",
-			type:"post",
-			//client에서 server로 가는 값
-			data:{"userid": "${sessionScope.member.id}", "text":memo,"startDate":temp},
-			success: function(data){
-			if(data=="1"||data=="3"){
-				alert("保存されました");
-			}else{'오류 발생'};
-			},fail: function(){
-				alert("次に、再びチャレンジーしてください.");
-			}
-		});
-});
 
 
 var memodays="";
@@ -356,7 +332,7 @@ var memodays="";
 	
 	$('#datepicker1').val("日付選択");	
 	
-	$( ".datepicker" ).datepicker({ 
+	$( ".datepicker" ).datepicker({ //　メモの暦を見せるメソッド
        changeMonth: true, 
        changeYear: true,
        dateFormat: "yy-mm-dd",
@@ -380,6 +356,7 @@ var memodays="";
     		            	if(dateText==td){
 	    		            	$('#memoTitle').html("今日のメモ");
     		            	}else{
+    		            		memodate=dateText;
 	    		            	$('#memoTitle').html(dateText+"のメモ");            		
     		            	}
     		            	$('#memo').val(data.memo);

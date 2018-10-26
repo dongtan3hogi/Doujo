@@ -21,17 +21,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class TranslateController {
 	
-	@RequestMapping(value = "/translate", method = RequestMethod.POST,produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "/translate", method = RequestMethod.POST,produces = "application/json; charset=utf-8")//naver apiを使って様々な言語を翻訳して検索できるようにするメソッド
 	public @ResponseBody String translate( Model model,String text,String src, String target) {
 		System.out.println(text+src+target);
 		String result="";
-		String clientId = "R_QmcaTVRocv7D5el105";//애플리케이션 클라이언트 아이디값";
-        String clientSecret = "8SepLUgZQs";//애플리케이션 클라이언트 시크릿값";
+		String clientId = "R_QmcaTVRocv7D5el105";
+        String clientSecret = "8SepLUgZQs";//アプリケーションクライアントシークレット値";
 	        try {
 	            text = URLEncoder.encode(text, "UTF-8");
 	            String apiURL = "https://openapi.naver.com/v1/papago/n2mt";
 	            URL url = new URL(apiURL);
-	            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	            HttpURLConnection con = (HttpURLConnection)url.openConnection();//REST方式でurlで接近し,必要な情報を取得します。
 	            con.setRequestMethod("POST");
 	            con.setRequestProperty("X-Naver-Client-Id", clientId);
 	            con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
@@ -44,9 +44,9 @@ public class TranslateController {
 	            wr.close();
 	            int responseCode = con.getResponseCode();
 	            BufferedReader br;
-	            if(responseCode==200) { // 정상 호출
+	            if(responseCode==200) { // 正常呼出し
 	                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	            } else {  // 에러 발생
+	            } else {  // error
 	                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
 	            }
 	            String inputLine;

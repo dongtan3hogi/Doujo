@@ -14,12 +14,12 @@ public class Selenium {
 	 WebDriver driver;
  public Selenium() {
 	
-     System.setProperty("webdriver.chrome.driver", "resFiles/chromedriver.exe"); // 다운받은 ChromeDriver 위치를 넣어줍니다.
-     driver = new ChromeDriver(); // Driver 생성
+     System.setProperty("webdriver.chrome.driver", "resFiles/chromedriver.exe"); // ダウンロードしたChromeDriverの位置を入れます.
+     driver = new ChromeDriver(); // Driver 生成
 		
 	 
  }
- public ArrayList<String[]> wList(String type){
+ public ArrayList<String[]> wList(String type){//複数の言語の今日の単語を検索するメソッド(seleniumの代わりにgsoup使用)
 	String aa = "오늘의 "+type+"단어";
 	String request = "https://search.naver.com/search.naver?ie=utf8&query="+aa;
 	driver.get(request);
@@ -55,8 +55,8 @@ public class Selenium {
 
 	return result;
  }
- public ArrayList<String[]> Search(String value, String type) {
-	 String request =null;
+ public ArrayList<String[]> Search(String value, String type) {//複数の検索サイトの1つで検索結果をもたらしたメソッド
+	 String request =null; //サイトにはyahoo japan, naver, baidu, google, bbc, newyork timesがあります。
 	 String[] token = null;
 	 String temp ="";
 	 token= value.split(" ");
@@ -156,7 +156,7 @@ public class Selenium {
    		 }
    	 }else if(type.equals("yahoo")){
    		for(int i=0; i<10; i++) {
-      		 driver.navigate().to(request+"?b="+i+"1");
+      		 driver.navigate().to(request+"&b="+i+"1");
        		List<WebElement> cheese = (List<WebElement>) driver.findElements((By.cssSelector("div.hd > h3 a[href]")));
        		System.out.println(cheese.size());
                for(WebElement a : cheese) {

@@ -49,6 +49,7 @@
    src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
+	var memodate= "";
        var today = new Date();
       var mm= today.getMonth()+1; 
       var dd =today.getDate();
@@ -65,32 +66,26 @@ $(document).ready(function(){
   
       $('#saveMemo').click(function(){
       var memo = $('#memo').val();
-      
-      
-      var today = new Date();
-      var mm= today.getMonth()+1; 
-      var dd =today.getDate();
-      var yy = today.getFullYear();
-      if(dd<10) {
-          dd='0'+dd;
-      } 
-      if(mm<10) {
-          mm='0'+mm;
-      } 
-      var td=yy+'-'+mm+'-'+dd;
+      memo= memo.replace("\r\n","<br>");
+
+      if(memodate==''){
+ 	   	 memodate = td;
+ 	     }
       $.ajax({
          url:"saveMemo",
          type:"post",
          //client에서 server로 가는 값
-         data:{"userid": memo, "text":memo,"startDate":temp},
+         data:{"userid": memo, "text":memo,"startDate":memodate},
          success: function(data){
          if(data=="1"||data=="3"){
             alert("保存されました");
+           
          }else{'오류 발생'};
          },fail: function(){
             alert("次に、再びチャレンジーしてください.");
          }
       });
+      location.reload();
       });
 
 
@@ -137,6 +132,7 @@ $(document).ready(function(){
                                if(dateText==td){
                                   $('#memoTitle').html("今日のメモ");
                                }else{
+                            	   memodate=dateText;
                                   $('#memoTitle').html(dateText+"のメモ");                  
                                }
                                $('#memo').val(data.memo);
@@ -165,7 +161,7 @@ $(document).ready(function(){
            }
         });
          
-       var frequency_list = $.ajax({
+       var frequency_list = $.ajax({//highchart.jsを利用してwordcloudを具現。 そのために全ユーザーのキーワードを合わせてjson形式で受け取る。
          url: "wordcloud",
          type:'post',
          dataType: "json",

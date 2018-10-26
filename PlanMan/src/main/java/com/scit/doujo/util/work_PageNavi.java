@@ -1,6 +1,6 @@
 package com.scit.doujo.util;
 
-public class work_PageNavi {	//얘는 디비에 갔다오는 애는 아니다. 
+public class work_PageNavi {	//page当たりrecordをいくつか入れていくつかの page を groupで表示するかを決めるクラス
 	// 멤버선언
 	private int COUNT_PER_PAGE ;	//페이지 당 레코드 수
 	private final int PAGE_PER_GROUP = 5;	//그룹 당 페이지 수
@@ -11,7 +11,6 @@ public class work_PageNavi {	//얘는 디비에 갔다오는 애는 아니다.
 	private int startPageGroup;				//현재 그룹의 시작페이지
 	private int endPageGroup;				//현재 그룹의 끝페이지
 	private int startRecord;				//전체 레코드 중 현재 페이지의 첫 글
-	// srow, erow 계산하지 않고, mybatis의 기능의 RowBounds 사용				
 	// 생성자
 	public work_PageNavi(int count_per_page,int currentPage, int totalRecordCount) {
 		this.totalRecordCount = totalRecordCount;

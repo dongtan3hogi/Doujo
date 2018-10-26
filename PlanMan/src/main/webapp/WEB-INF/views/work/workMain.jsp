@@ -259,11 +259,12 @@
 	            <div class="box-header ">
 	              <h3 class="box-title">ブックマーク</h3>
 	            </div>
-	            <div class="box-body no-padding">
+	            <div class="box-body no-padding" id="bookmark">
 		          <ul>
 		               <c:forEach var='fcheck' items="${fcheck }">
-		               <li><a href="javascript:void(0);" class="favorite" ><i class="fa fa-star text-yellow"></i>&nbsp;&nbsp;</a>&nbsp;&nbsp;<a href="${fcheck.locations }" target="_blank">${fcheck.title }</a><br>
-				      <span>${news[2] }</span></li>
+		               <li><a href="javascript:void(0);" class="bk" ><i class="fa fa-star text-yellow"></i>&nbsp;&nbsp;</a>&nbsp;&nbsp;<a href="${fcheck.locations }" target="_blank">${fcheck.title }</a><br>
+				     <span></span>
+				     </li>
 				      </c:forEach>
 		          </ul>
 	            </div>
@@ -282,7 +283,7 @@
               <h3 class="box-title">Main News</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
+            <div class="box-body" id ="mainnews">
               <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
               
               <c:if test="${empty article}">
@@ -385,21 +386,72 @@
 
 <!-- Page specific script -->
 <script>
-
+function loadfv(){// きにいりを受け取るメソッド
+	 $.ajax({
+         url:"loadFavorites",
+         type:"post",
+         //client에서 server로 가는 값
+         data:{"id": '${sessionScope.member.id}'},
+         success: function(data){
+         	var result =" <ul>";
+         	$.each(data, function( index, value ) {
+	              result += " <li><a href='javascript:void(0);' class='bk' ><i class='fa fa-star text-yellow'></i>&nbsp;&nbsp;</a>&nbsp;&nbsp;<a href='"+value.locations+"' target='_blank'>"+value.title+"</a><br>";
+	              result += "</li><span></span>"
+         	});
+         	result += "</ul>";
+         	 $('#bookmark').html(result);
+         },
+         fail: function(res){
+             alert("再び試みてください..");
+         }
+ });
+}
   $(function () {    
+     var memodate="";
      
-     $('a.favorite').click(function() {
+     $(document).on("click","a.bk",function(){ 
+       	 var locations = $(this).next().attr('href');
+       	 $.ajax({
+                url:"deleteFavorites",
+                async: false,
+                type:"post",
+                //client에서 server로 가는 값
+                data:{"id": '${sessionScope.member.id}',"locations":locations},
+                success: function(data){
+                	
+                   if(data==1){
+                   	var li =$("#mainnews ul li");
+                   	$.each(li,function(){
+                   		if($(this).children("a").eq(1).attr("href") ==locations){
+                       		$(this).children("a").children("i").attr('class','fa fa-star-o text-yellow');
+                       		return;
+                   		}
+                   	});
+                   	
+                   }else{alert("再び試みてください.");}
+                
+            },
+                  fail: function(res){
+               alert("再び試みてください.");
+               }
+         
+      });
+       	   loadfv();
+        });
+     $('a.favorite').click(function() {//気に入りを削除と登録のためのメソッド
         //alert("클릭");
         var locations = $(this).next().attr('href');
         if($(this).children('i').attr('class')=='fa fa-star text-yellow'){
+        	 var me = $(this).children('i');
            $.ajax({
                url:"deleteFavorites",
                type:"post",
+               async: false,
                //client에서 server로 가는 값
                data:{"id": '${sessionScope.member.id}',"locations":locations},
                success: function(data){
                   if(data==1){
-                     $(this).children('i').attr('class','fa fa-star-o text-yellow');
+                    me.attr('class','fa fa-star-o text-yellow');
                   }else{alert("再び試みてください.");}
                
            },
@@ -413,16 +465,18 @@
            if(title==null||title==""){
               return;
            }
+           var me = $(this).children('i');
            var locations = $(this).next().attr('href');
            //alert(title+"\n"+locations);
            $.ajax({
                url:"insertFavorites",
                type:"post",
+               async: false,
                //client에서 server로 가는 값
                data:{"id": '${sessionScope.member.id}', "title":title,"locations":locations},
                success: function(data){
                   if(data==1){
-                     $(this).children('i').attr('class','fa fa-star text-yellow');
+                    me.attr('class','fa fa-star text-yellow');
                   }else{alert("再び試みてください..");}
                
            },
@@ -432,7 +486,7 @@
      });
        
       }
-        location.reload();
+        loadfv();
      });
      
      $(".chkbox").change(function(){
@@ -483,24 +537,15 @@
      
    		$('#saveMemo').click(function(){
 		var memo = $('#memo').val();
-		
-		
-		var today = new Date();
-		var mm= today.getMonth()+1; 
-		var dd =today.getDate();
-		var yy = today.getFullYear();
-		if(dd<10) {
-		    dd='0'+dd;
-		} 
-		if(mm<10) {
-		    mm='0'+mm;
-		} 
-		var td=yy+'-'+mm+'-'+dd;
+	      memo= memo.replace("\r\n","<br>");
+	      if(memodate==''){
+	    	   	 memodate = td;
+	    	     }
 		$.ajax({
 			url:"saveMemo",
 			type:"post",
 			//client에서 server로 가는 값
-			data:{"userid": memo, "text":memo,"startDate":temp},
+			data:{"userid": memo, "text":memo,"startDate":memodate},
 			success: function(data){
 			if(data=="1"||data=="3"){
 				alert("保存されました");
@@ -509,6 +554,7 @@
 				alert("再び試みてください.");
 			}
 		});
+		 location.reload();
 		});
    
    		var memodays="";
@@ -526,8 +572,6 @@
  		    }
 		  });
    		
-   	    
-	    
 	    $('#datepicker1').val("日付選択");
    		
 	    $( ".datepicker" ).datepicker({ 
@@ -553,6 +597,7 @@
 		    		            	if(dateText==td){
 			    		            	$('#memoTitle').html("今日のメモ");
 		    		            	}else{
+		    		            		memodate=dateText;
 			    		            	$('#memoTitle').html(dateText+"のメモ");            		
 		    		            	}
 		    		            	$('#memo').val(data.memo);

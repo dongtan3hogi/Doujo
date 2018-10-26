@@ -40,7 +40,7 @@ public class WorkController {
 	@Autowired
 	SqlSession sqlSession;
 
-	@RequestMapping(value = "/goWork1", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/goWork1", method = RequestMethod.GET)
 	public String goWork1(HttpSession hs ,Model model) {
 		workDao wd = sqlSession.getMapper(workDao.class);
 		member m = (member) hs.getAttribute("member");
@@ -53,12 +53,12 @@ public class WorkController {
 	public String goWork1() {
 		
 		return "redirect:mainWork";
-	}@RequestMapping(value = "/goWC", method = RequestMethod.GET)
+	}@RequestMapping(value = "/goWC", method = RequestMethod.GET)//word cloud pageに行くメソッド
 	public String goWC() {
 		
 		return "/work/wordCloud";
-	}
-	@RequestMapping(value = "/mainWork", method = RequestMethod.GET)
+	}*/
+	@RequestMapping(value = "/mainWork", method = RequestMethod.GET)//work main pageに行くメソッド
 	public String mainWork(HttpSession session ,Model model) {
 		memberDao manager2=sqlSession.getMapper(memberDao.class);
 	      String id=(String) session.getAttribute("memberID");
@@ -73,11 +73,9 @@ public class WorkController {
 		  Calendar cal = Calendar.getInstance();
 			
 		  int weekday=cal.get(cal.DAY_OF_WEEK);
-			
-			
 		  ArrayList<schedule> schList=new ArrayList<>();
 		  System.out.println("요일확인"+cal.getTime()+"weekday : "+weekday);
-		  switch(weekday) {
+		  switch(weekday) {//今日から1週間のスケジュールを持つコード
 		  case 1:
 			 String weekSunday =formatter.format(cal.getTime());
 			 System.out.println(weekSunday);
@@ -164,17 +162,16 @@ public class WorkController {
 			 break;
 		}
 			
-			
 	      naverNews n = new naverNews();
-	      ArrayList<String[]> article = n.search("오늘의 주요뉴스", 5);
+	      ArrayList<String[]> article = n.search("오늘의 주요뉴스", 5);//naver apiを使って今日の主要ニュース5つを持ってきます。
 	      workDao wd = sqlSession.getMapper(workDao.class);
-	      List<favorites> fa = wd.allFavorites(id);
+	      List<favorites> fa = wd.allFavorites(id);//使用者がお気に入りの記事を全部読みます。
 	      model.addAttribute("fcheck",fa);
 	      model.addAttribute("article",article );
 	      session.setAttribute("schList", schList);
 		return "/work/workMain";
 	}
-	@RequestMapping(value = "/goNews", method = RequestMethod.GET)
+	@RequestMapping(value = "/goNews", method = RequestMethod.GET)//ニュース検索サイトへ移動します。
 	public String goNews(String type, HttpSession hs, Model model) {
 		workDao um= sqlSession.getMapper(workDao.class);
 		member m = (member)hs.getAttribute("member");
@@ -185,17 +182,14 @@ public class WorkController {
 		hs.setAttribute("type",type);
 		return "/work/news";			
 	}
-	@RequestMapping(value = "/goNewsMap", method = RequestMethod.GET)
+	@RequestMapping(value = "/goNewsMap", method = RequestMethod.GET)//ニュースマップのページに移動
 	public String goNewsMap() {
 		return "/work/newsMap";			
 	}
-	@RequestMapping(value = "/saveMemo", method = RequestMethod.POST)
+	@RequestMapping(value = "/saveMemo", method = RequestMethod.POST)//日つけ別にメモを保存するためのメソッド
 	public @ResponseBody int saveTodayMemo(String text,String startDate, HttpSession hs) {
 		workDao wd = sqlSession.getMapper(workDao.class);
-		
 		text=text.replaceAll("(\r\n|\r|\n|\n\r)", "<br>");;
-	
-
 		member m = (member) hs.getAttribute("member");
 		String userid = m.getId();
 		memo a = new memo(userid,text,startDate,startDate);		
@@ -210,29 +204,17 @@ public class WorkController {
 		}
 		
 	}
-	@RequestMapping(value = "/insertmemo", method = RequestMethod.POST)
-	public @ResponseBody int insertmemo( Model model,memo m) {
-		workDao um= sqlSession.getMapper(workDao.class);
-		memo mm = um.findMemo(m);
-		int i=0;
-		if(mm ==null) {
-			i = um.insertMemo(m);
-			return i;
-		} else {
-			if(um.updateMemo(m)) return 3;
-			else return 0;
-		}
-		
-	}
 	
-	@RequestMapping(value = "/insertFavorites", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertFavorites", method = RequestMethod.POST)//お気に入り保存メソッド
 	public @ResponseBody int insertFavorites( favorites fv) {
 		workDao um= sqlSession.getMapper(workDao.class);
 		int mm = um.insertFavorites(fv);
 		return mm;
 		
+	
 	}
-	@RequestMapping(value = "/deleteFavorites", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteFavorites", method = RequestMethod.POST)//お気に入り削除メソッド
+
 	public @ResponseBody int deleteFavorites( favorites fv) {
 		workDao um= sqlSession.getMapper(workDao.class);
 		System.out.println(fv.toString());
@@ -240,7 +222,14 @@ public class WorkController {
 		return mm;
 		
 	}
-	@RequestMapping(value = "/findmemo", method = RequestMethod.POST)
+	@RequestMapping(value = "/loadFavorites", method = RequestMethod.POST)//	お気に入りを持ってくるメソッド
+	public @ResponseBody List<favorites> loadFavorites( String id) {
+		workDao um= sqlSession.getMapper(workDao.class);
+		List<favorites> fa = um.allFavorites(id);
+		return fa;
+		
+	}
+	@RequestMapping(value = "/findmemo", method = RequestMethod.POST)//メモを持ってくるメソッド
 	public @ResponseBody memo findmemo( Model model,String id, String startdate) {
 		workDao um= sqlSession.getMapper(workDao.class);
 		memo m = new memo();
@@ -257,7 +246,7 @@ public class WorkController {
 		return mm;
 
 	}
-	@RequestMapping(value = "/deletememo", method = RequestMethod.POST)
+	@RequestMapping(value = "/deletememo", method = RequestMethod.POST)//メモ削除メソッド
 	public @ResponseBody int delete( Model model,String id, String startdate) {
 		workDao um= sqlSession.getMapper(workDao.class);
 		memo m = new memo();
@@ -267,7 +256,7 @@ public class WorkController {
 		return result;
 
 	}
-	@RequestMapping(value = "/keylist", method = RequestMethod.GET)
+	@RequestMapping(value = "/keylist", method = RequestMethod.GET)//私が検索したキーワードをロードするメソッド
 	public @ResponseBody List<keylist> keylist( Model model,String userid) {
 		workDao um= sqlSession.getMapper(workDao.class);
 		System.out.println(userid);
@@ -275,7 +264,7 @@ public class WorkController {
 		System.out.println(result.size());
 		return result;
 	}
-	@RequestMapping(value = "/findFriend", method = RequestMethod.POST)
+	@RequestMapping(value = "/findFriend", method = RequestMethod.POST)//私と同じキーワードをたくさん検索した人々を探し出すメソッド
 	public @ResponseBody com.scit.doujo.vo.work.count[] findFriend( Model model,String userid, String sex, int age) {
 		
 		workDao um= sqlSession.getMapper(workDao.class);
@@ -284,14 +273,14 @@ public class WorkController {
 		return result;
 
 	}
-	@RequestMapping(value = "/friendKey", method = RequestMethod.GET)
+	@RequestMapping(value = "/friendKey", method = RequestMethod.GET)//友達のキーワードを検索するメソッド
 	public @ResponseBody List<keylist> friendKey( Model model,String id) {
 		workDao um= sqlSession.getMapper(workDao.class);
 		List<keylist> result= um.friendKeyword(id);
 		return result;
 		
 	}
-	@RequestMapping(value = "/deleteKeyword", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteKeyword", method = RequestMethod.POST)//私が検索したキーワードを削除するメソッド
 	public @ResponseBody String deleteKeyword( Model model,String value,HttpSession hs) {
 		String userid = (String) hs.getAttribute("userid");
 		workDao um= sqlSession.getMapper(workDao.class);
@@ -302,7 +291,7 @@ public class WorkController {
 		
 	}
 	
-	@RequestMapping(value = "/memodays", method = RequestMethod.POST)
+	@RequestMapping(value = "/memodays", method = RequestMethod.POST)//ユーザーが選択した日付のメモを読み込むメソッド
 	public @ResponseBody String memodays( Model model,String id, String startdate) {
 		workDao um= sqlSession.getMapper(workDao.class);
 		String[] days = um.memodays(id);
@@ -318,7 +307,7 @@ public class WorkController {
 	}
 	
 	
-	@RequestMapping(value = "/wordcloud", method = RequestMethod.POST)
+	@RequestMapping(value = "/wordcloud", method = RequestMethod.POST)//ユーザーが検索したキーワードをまとめて表示してくれるword cloudを作るメソッド
 	public @ResponseBody List<Map<String,Object>> wordcloud( Model model,String id, String startdate) {
 		List<Map<String,Object>> result =new ArrayList<Map<String,Object>>();
 		workDao um= sqlSession.getMapper(workDao.class);

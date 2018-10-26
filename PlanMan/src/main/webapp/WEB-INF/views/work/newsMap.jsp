@@ -34,6 +34,7 @@
    src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
+	var memodate= "";
        var today = new Date();
       var mm= today.getMonth()+1; 
       var dd =today.getDate();
@@ -50,24 +51,16 @@ $(document).ready(function(){
   
       $('#saveMemo').click(function(){
       var memo = $('#memo').val();
-      
-      
-      var today = new Date();
-      var mm= today.getMonth()+1; 
-      var dd =today.getDate();
-      var yy = today.getFullYear();
-      if(dd<10) {
-          dd='0'+dd;
-      } 
-      if(mm<10) {
-          mm='0'+mm;
-      } 
-      var td=yy+'-'+mm+'-'+dd;
+  	memo= memo.replace("\r\n","<br>");
+
+  	if(memodate==''){
+  	   	 memodate = td;
+  	     }
       $.ajax({
          url:"saveMemo",
          type:"post",
          //client에서 server로 가는 값
-         data:{"userid": memo, "text":memo,"startDate":temp},
+         data:{"userid": memo, "text":memo,"startDate":memodate},
          success: function(data){
          if(data=="1"||data=="3"){
             alert("保存されました");
@@ -76,11 +69,12 @@ $(document).ready(function(){
             alert("次に、再びチャレンジーしてください.");
          }
       });
+      location.reload();
       });
 
 
       var memodays="";
-         $.ajax({
+         $.ajax(
           url:'memodays',
            type: 'post',
            data: {
@@ -122,6 +116,7 @@ $(document).ready(function(){
                                if(dateText==td){
                                   $('#memoTitle').html("今日のメモ");
                                }else{
+                            	   memodate=dateText;
                                   $('#memoTitle').html(dateText+"のメモ");                  
                                }
                                $('#memo').val(data.memo);
@@ -331,9 +326,10 @@ $(document).ready(function(){
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <label>ニュースや検索エンジン選択</label><select id="selectNews" class="form-control" ><option> </option><option>naver</option><option>BBC</option><option>nhk</option><option>google</option><option>baidu</option></select>
+              <label>ニュースや検索エンジン選択</label><select id="selectNews" class="form-control" ><option> </option><option>naver</option><option>BBC</option><option>yahoo japan</option><option>google</option><option>baidu</option></select>
 			    <br/><br/><!--The div element for the map -->
 			    <div id="map"></div>
+			   <!--  //グーグルの地図apiを使って世界地図を見せて,有名なサイトがある国をマーキングして見せてくれるように具現する。 -->
 			    <script>
 			    
 			      var uk = {lat: 51.507, lng:  -0.127};

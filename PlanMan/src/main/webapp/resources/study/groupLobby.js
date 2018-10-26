@@ -114,7 +114,7 @@ function showSearchGroup() {
 		result += '<div class="input-group input-group-lg">';
 		result += '<div class="input-group-btn">';
 		result += '<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">';
-		result += '<span class="fa fa-caret-down selectors" id="">Group name</span></button>';
+		result += '<span class="fa fa-caret-down selectors" id=""> TYPE</span></button>';
 		result += '<ul class="dropdown-menu">';
 		result += '<li><a id="SBGN">Group name</a></li>';
 		result += '<li><a id="SBGC">Group code</a></li>';
