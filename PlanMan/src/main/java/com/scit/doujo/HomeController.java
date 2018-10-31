@@ -38,14 +38,12 @@ public class HomeController {
 	
 		return "home";
 	}
-	//회원가입 페이지로 이동
 	@RequestMapping(value = "gotoSignIn", method = RequestMethod.GET)
 	public String gotoSignIn() {
 	
 		return "singIn";
 	}
 	
-	//회원아이디 중복 확인
 	@RequestMapping(value = "idcheck", method=RequestMethod.GET)
 	public @ResponseBody String idcheck(String id){
 		System.out.println(id);
@@ -55,7 +53,6 @@ public class HomeController {
 		return result;			
 	}
 		
-	//회원등록완료
 	@RequestMapping(value = "insertMember", method=RequestMethod.POST)
 	public String insertMember(member vo){
 		
@@ -70,25 +67,21 @@ public class HomeController {
 		return "redirect:/";
 	}
 	
-	//로그인 페이지로 이동
 	@RequestMapping(value = "gotoLogin", method = RequestMethod.GET)
 	public String gotoLogin() {
 	
 		return "home";
 	}
 
-	//로그인 페이지로 이동
 	@RequestMapping(value = "doLogin", method = RequestMethod.POST)
 	public String doLogin(member vo, HttpSession session, Model model) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
 		member result=manager.doLogin(vo);
 		if(result==null) {
-			//로그인 실패시 메인페이지로 이동
 			//System.out.println("로그인 실패");
 			model.addAttribute("loginResult", "loginfail");
 			return "home";
 		}else {
-			//로그인 성공시 세션에 member로 회원정보 저장
 			session.setAttribute("member", result);
 			session.setAttribute("memberID", result.getId());
 			Date date = new Date();
@@ -113,7 +106,6 @@ public class HomeController {
 		}
 	}
 	
-	//타임라인 페이지로 이동
 	@RequestMapping(value = "gotoTimeline", method = RequestMethod.GET)
 	public String gotoTimeline(HttpSession session, Model model) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
@@ -137,7 +129,6 @@ public class HomeController {
 	    }
 	}
 	
-	//로그인 페이지로 이동
 	@RequestMapping(value = "gotoCalendar", method = RequestMethod.GET)
 	public String gotoCalendar(HttpSession session) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
@@ -145,14 +136,12 @@ public class HomeController {
 		return "main";
 	}
 	
-	//회원가입 페이지로 이동
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "home";
 	}
 	
-	//스케쥴 달력에 보여주기selectSchdule
 	@RequestMapping(value = "selectSchdule", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<schedule> selectSchdule(HttpSession session) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
@@ -179,7 +168,6 @@ public class HomeController {
 		return result;
 	}
 	
-	//스케쥴 입력하기
 	@RequestMapping(value = "addschdule", method = RequestMethod.POST)
 	public @ResponseBody String addschdule(schedule vo, HttpSession session) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
@@ -230,7 +218,6 @@ public class HomeController {
 			return "fail";
 		}
 	}
-	//스케쥴 변경하기
 	@RequestMapping(value = "updateschdule", method = RequestMethod.POST)
 	public @ResponseBody String updateschdule(schedule vo, HttpSession session) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
@@ -244,7 +231,6 @@ public class HomeController {
 		}
 	}
 	
-	//스케쥴 삭제하기
 	@RequestMapping(value = "deleteschdule", method = RequestMethod.POST)
 	public @ResponseBody String deleteschdule(int schseq, HttpSession session) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
@@ -258,7 +244,6 @@ public class HomeController {
 		}
 	}
 	
-	//스케쥴 완료 체크하기
 	@RequestMapping(value = "chkschdule", method = RequestMethod.POST)
 	public @ResponseBody String chkschdule(int schseq, HttpSession session) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
@@ -272,7 +257,6 @@ public class HomeController {
 		}
 	}
 	
-	//스케쥴 완료 해제하기
 	@RequestMapping(value = "unchkschdule", method = RequestMethod.POST)
 	public @ResponseBody String unchkschdule(int schseq, HttpSession session) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
@@ -286,7 +270,6 @@ public class HomeController {
 		}
 	}
 	
-	//회원정보 수정페이지 이동하기
 	@RequestMapping(value = "gotoupdate", method = RequestMethod.GET)
 	public String updatemember(Model model) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
@@ -295,7 +278,6 @@ public class HomeController {
 	}
 	
 	
-	//멤버정보수정하기
 	@RequestMapping(value = "updateMember", method = RequestMethod.POST)
 	public String updateMember(Model model, member vo) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);
@@ -305,14 +287,12 @@ public class HomeController {
 	}
 	
 	
-	//로그아웃하기
 	@RequestMapping(value = "gotologout", method = RequestMethod.GET)
 	public String gotologout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
 	}
 	
-	//친구 스케쥴 불러오기
 	@RequestMapping(value = "selectFriendSchdule", method = RequestMethod.POST)
 	public @ResponseBody ArrayList<schedule> selectFriendSchdule(HttpSession session, String friendID) {
 		memberDao manager=sqlSession.getMapper(memberDao.class);

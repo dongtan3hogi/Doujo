@@ -55,7 +55,7 @@ public class FriendController {
 			
 	@Autowired
 	SqlSession sqlSession;
-	
+	//検索結果を保存するためのコンポーネント
 	@Component
 	public class HelloComponent {
 
@@ -85,7 +85,7 @@ public class FriendController {
 	}
 	}
 	HelloComponent article = new HelloComponent();
-	
+	//今日から1週間のスケジュールを持つコード
 	@RequestMapping (value="gotoSearchFriend", method=RequestMethod.GET)
 	public String friendMain(HttpSession session, String eventtitle) {
 		memberDao manager2=sqlSession.getMapper(memberDao.class);
@@ -199,19 +199,19 @@ public class FriendController {
 		
 		return "friend/searchnewfriend";
 	}*/
-	
+	//しようしゃの関心事や趣味を登録ページに行く
 	@RequestMapping (value="joinfriend", method=RequestMethod.GET)
 	public String joinfriend() {
 		
 		return "friend/joinfriend";
 	}
-	
+	//友たちのメインに行く
 	@RequestMapping (value="joinnewfriend", method=RequestMethod.GET)
 	public String joinnewfriend() {
 		
 		return "friend/friendMain";
 	}
-		
+		//友達申請
 	@RequestMapping (value="finallyjoinin", method=RequestMethod.POST)
 	public String joinfriend(member friend, HttpSession session, Model model) {
 		friendDao getfriend = sqlSession.getMapper(friendDao.class);
@@ -229,7 +229,7 @@ public class FriendController {
 	
 	
 	
-	//프렌드 리스트로 가기
+	//友たちのリストに行く
 	@RequestMapping (value="tooldFriend", method=RequestMethod.GET)
 	public String tooldFriend(@RequestParam(value="currentPage", defaultValue="1") int currentPage,
 			@RequestParam(value="searchItem", defaultValue="id") String searchItem, 
@@ -272,7 +272,7 @@ public class FriendController {
 		
 		ArrayList<schedule> schList=new ArrayList<>();
 		
-		switch(weekday) {
+		switch(weekday) {//今日から1週間のスケジュールを持つコード
 		case 1:
 			String weekSunday =formatter.format(cal.getTime());
 			System.out.println(weekSunday);
@@ -365,7 +365,7 @@ public class FriendController {
 		return "friend/friendMain1";
 	}
 	
-	
+	//友達申請後,友達目録ページへ移動。
 	@RequestMapping (value="/accept", method=RequestMethod.GET)
 	public String accept(String fid,HttpSession hs) {
 		member a = (member) hs.getAttribute("member");
@@ -377,7 +377,7 @@ public class FriendController {
 		return "redirect: tooldFriend";
 
 	}
-	
+	//友達ようになかよくしたいこ人を検索するメソッド
 	@RequestMapping(value="/searchRecommendFriends", method=RequestMethod.GET)
 	public String listoldfriend(
 		@RequestParam(value="currentPage", defaultValue="1") int currentPage,
@@ -412,6 +412,7 @@ public class FriendController {
 				
 		return "friend/friendMain";
 	}
+	//有名な集まり紹介サイトで集まり情報をもたらすメソッド
 	@RequestMapping(value = "/searchMeeting", method = RequestMethod.POST)
 	   public @ResponseBody Map<String,Object> searchMeeting(String search) {
 	      String USER_AGENT = "Mozilla/5.0";
@@ -455,6 +456,7 @@ public class FriendController {
 	      return data;
 
     }
+	//ページを移動するためのメソッド
 	@RequestMapping(value = "/goMPage", method = RequestMethod.POST)
 	public @ResponseBody Map<String ,Object> goMPage( int value) {
 		ArrayList<String[]> ab = article.page(value);
@@ -468,7 +470,7 @@ public class FriendController {
 	
 
 	
-	//friendSchedule페이지로 이동하기
+	//friendScheduleページに移動
 	@RequestMapping (value="friendSchedule", method=RequestMethod.GET)
 	public String friendSchedule(HttpSession session, Model model) {
 		friendDao manager = sqlSession.getMapper(friendDao.class);
@@ -479,7 +481,8 @@ public class FriendController {
 		return "friend/friendCalendar";
 	}
 	
-	//모임장소 추천으로 이동하기
+	//集い場所おすすめページに移動
+	
 	@RequestMapping (value="friend3", method=RequestMethod.GET)
 	public String friend3(HttpSession hs ,Model model) {
 		friendDao bd = sqlSession.getMapper(friendDao.class);
@@ -495,6 +498,7 @@ public class FriendController {
 		System.out.println(flist.size());
 		return "friend/friendMain3";
 	}
+	//集い場所おすすめページに移動
 	@RequestMapping (value="showFriendList", method=RequestMethod.GET)
 	public String showFriendList(HttpSession hs ,Model model) {
 		friendDao bd = sqlSession.getMapper(friendDao.class);
@@ -510,7 +514,8 @@ public class FriendController {
 
 		return "friend/friendMain3";
 	}
-	@RequestMapping (value="showDetail", method=RequestMethod.GET) //한장의 사진 만 가져오기
+	//一枚の写真だけ持ってくる
+	@RequestMapping (value="showDetail", method=RequestMethod.GET) 
 	public String showDetail(HttpSession hs ,Model model,String path) {
 		friendDao bd = sqlSession.getMapper(friendDao.class);
 		board flist = bd.selectOne(path);
@@ -522,7 +527,7 @@ public class FriendController {
 
 		return "friend/friendMain3";
 	}
-	@RequestMapping("/display.do") //사진 불러오기
+	@RequestMapping("/display.do") //写真読み込む
 	public void getImage(String path,HttpServletRequest req, HttpSession session, HttpServletResponse res, @RequestParam HashMap<String, String> map) throws Exception {
 	      String UPLOADPATH = "C:\\Doujo\\Doujo\\images\\"+path;
 		String realFile = "C:\\\\Doujo\\\\Doujo\\\\images\\\\";
@@ -552,6 +557,7 @@ public class FriendController {
 		}
 		
 	}
+	//掲示板の保存のためのメソッド
 	   @RequestMapping(value="/saveboard", method=RequestMethod.POST)
 	   public String writeboard(board board, MultipartFile upload, HttpSession session) {
 	      System.out.println(board.toString());
@@ -576,6 +582,7 @@ public class FriendController {
 				e.printStackTrace();
 			}
 			MsFaceAPI fpi = new MsFaceAPI();
+			//MS社のface APIを利用して人々の表情を分析してどんな表情か結果を探してみる
 			String faceResult =fpi.getImgInfo(saveFile);
 			JSONParser jParser = new JSONParser();
 			JSONObject jObject = new JSONObject();
@@ -619,7 +626,7 @@ public class FriendController {
 			return "redirect:friend3";
 	  
 	   }
-
+	   //次の三件の掲示物を読み込む
 		@RequestMapping (value="moreboard", method=RequestMethod.POST)
 		public @ResponseBody List<board> moreboard (int number,HttpSession hs) {
 			friendDao chooseone = sqlSession.getMapper(friendDao.class);
@@ -633,6 +640,7 @@ public class FriendController {
 			
 			return flist;
 		}
+		//次の30個の掲示物を読み込む
 		@RequestMapping (value="morelist", method=RequestMethod.POST)
 		public @ResponseBody List<board> morelist (int number,HttpSession hs) {
 			friendDao chooseone = sqlSession.getMapper(friendDao.class);
@@ -646,7 +654,6 @@ public class FriendController {
 			
 			return flist;
 		}
-		
 		
 		@RequestMapping(value="/profileImage", method=RequestMethod.POST)
 	    public String profileImage (MultipartFile upload, board board, HttpSession session) {

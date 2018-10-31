@@ -40,7 +40,6 @@ public class AlermController {
 	SqlSession sqlSession;
 	
 	
-	/* 그룹 가입 신청 */
 	@RequestMapping(value = "/groupRegistApply", method = RequestMethod.POST)
 	public @ResponseBody Map<String, String> groupRegistApply(@RequestBody Map<String, String> group, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
@@ -56,7 +55,6 @@ public class AlermController {
 		
 		int checkcount = adao.countGroupJoinCheck(group);
 		if(checkcount > 0) {
-			//1 이상일 경우 이미 해당 alerm은 등록된 것 이기에 집어넣지 않고 이미 했던 것임을 알려준다.
 			check.put("result", "already");
 			return check;
 		} else {
@@ -71,7 +69,6 @@ public class AlermController {
 	}
 	
 	
-	/* 페이지 시작시 alerm 가져오기===================================================================*/ 
 	@RequestMapping(value = "/showAlermList", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> showAlermList(@RequestBody Map<String, String> message, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
@@ -97,7 +94,6 @@ public class AlermController {
 	}
 	
 	
-	/* alerm에서 수락 ===================================================================*/ 
 	@RequestMapping(value = "/groupAlermOk", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> groupAlermOk(@RequestBody Map<String, String> alerm, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
@@ -105,10 +101,8 @@ public class AlermController {
 		String memberID = (String)hs.getAttribute("memberID");
 		Map<String, Map<String,String>> alermMap = new HashMap<>();
 		System.out.println("groupAlermOk/alerm/"+alerm.toString());
-		//먼저 group에 해당 맴버를 넣는다.
 		int result1 = sdao.insertGroupMember(alerm);
 		
-		//해당 알람을 지운다.
 		int result2 = adao.deleteAlerm(alerm);
 		Map<String,String> AlermResult = new HashMap<>();
 		AlermResult.put("result1", ""+(result1+result2));
@@ -117,7 +111,6 @@ public class AlermController {
 		return alermMap; 
 	}
 	
-	/* alerm에서 거절해서 해당 alerm을 테이블에서 지운다. ===================================================================*/ 
 	@RequestMapping(value = "/groupAlermNoBtn", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> groupAlermNoBtn(@RequestBody Map<String, String> alerm, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
@@ -125,7 +118,6 @@ public class AlermController {
 		String memberID = (String)hs.getAttribute("memberID");
 		Map<String, Map<String,String>> alermMap = new HashMap<>();
 		
-		//해당 알람을 지운다.
 		int result1 = adao.deleteAlerm(alerm);
 		Map<String,String> AlermResult = new HashMap<>();
 		AlermResult.put("result1", ""+result1);
@@ -135,7 +127,6 @@ public class AlermController {
 	}
 	
 	
-	/* 친구신청, 알람TABLE에 등록 ===================================================================*/ 
 	@RequestMapping(value = "/friendRegistApply", method = RequestMethod.POST) 
 	public @ResponseBody String friendRegistApply(String id, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
@@ -166,7 +157,6 @@ public class AlermController {
 	
 	
 	
-	/* alerm에서 친구 신청수락 ===================================================================*/ 
 	@RequestMapping(value = "/friendAlermOkBtn", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> friendAlermOkBtn(@RequestBody Map<String, String> alerm, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
@@ -175,7 +165,6 @@ public class AlermController {
 		String memberID = (String)hs.getAttribute("memberID");
 		Map<String, Map<String,String>> alermMap = new HashMap<>();
 		System.out.println("friendAlermOkBtn/alerm/"+alerm.toString());
-		//DB에 친구등록
 		String sendid=alerm.get("sendid");
 		member vo=mdao.selectOneMember(sendid);
 		friend vo2=new friend();
@@ -219,7 +208,6 @@ public class AlermController {
 		
 		
 		
-		//해당 알람을 지운다.
 		int result2 = adao.deleteAlerm(alerm);
 		Map<String,String> AlermResult = new HashMap<>();
 		AlermResult.put("result1", ""+(result1+result2));
@@ -230,14 +218,12 @@ public class AlermController {
 	
 	
 	
-	/* alerm에서 거절해서 해당 alerm을 테이블에서 지운다. ===================================================================*/ 
 	@RequestMapping(value = "/friendAlermNoBtn", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> friendAlermNoBtn(@RequestBody Map<String, String> alerm, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
 		studyDao sdao = sqlSession.getMapper(studyDao.class);
 		Map<String, Map<String,String>> alermMap = new HashMap<>();
 		
-		//해당 알람을 지운다.
 		int result1 = adao.deleteAlerm(alerm);
 		Map<String,String> AlermResult = new HashMap<>();
 		AlermResult.put("result1", ""+result1);
@@ -248,7 +234,6 @@ public class AlermController {
 	}
 	
 	
-	/* FRIEND에게 스케쥴Schedule 신청하기 ===================================================================*/ 
 	@RequestMapping(value = "/askShareSchedule", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> askShareSchedule(@RequestBody Map<String, String> alerm, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
@@ -264,14 +249,12 @@ public class AlermController {
 		return alermMap; 
 	}
 	
-	/* alerm에서  스케쥴 공유 거절해서 해당 alerm을 테이블에서 지운다. ===================================================================*/ 
 	@RequestMapping(value = "/scheduleAlermNoBtn", method = RequestMethod.POST) 
 	public @ResponseBody Map<String, Map<String,String>> scheduleAlermNoBtn(@RequestBody Map<String, String> alerm, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
 		studyDao sdao = sqlSession.getMapper(studyDao.class);
 		Map<String, Map<String,String>> alermMap = new HashMap<>();
 		
-		//해당 알람을 지운다.
 		int result1 = adao.deleteAlerm(alerm);
 		Map<String,String> AlermResult = new HashMap<>();
 		AlermResult.put("result1", ""+result1);
@@ -281,7 +264,6 @@ public class AlermController {
 		
 	}
 	
-	/* alerm에서 스케쥴 공유 신청 수락 ===================================================================*/ 
 	@RequestMapping(value = "/scheduleAlermOkBtn", method = RequestMethod.POST) 
 	public @ResponseBody  Map<String, String> scheduleAlermOkBtn(@RequestBody Map<String, String> alerm, HttpSession hs) {
 		alermDao adao = sqlSession.getMapper(alermDao.class);
@@ -290,7 +272,6 @@ public class AlermController {
 		String memberID = (String)hs.getAttribute("memberID");
 		Map<String,String> alermMap = new HashMap<>();
 		System.out.println("scheduleAlermOkBtn/alerm/"+alerm.toString());
-		//DB에 친구등록
 		String aseq=alerm.get("alermseq");
 		int alermseq=Integer.parseInt(aseq);
 		
@@ -394,9 +375,6 @@ public class AlermController {
 			result4=mdao.addschdule(result);
 			
 		}
-		
-		
-		//해당 알람을 지운다.
 		int result2 = adao.deleteAlerm(alerm);
 		return alermMap; 
 	}

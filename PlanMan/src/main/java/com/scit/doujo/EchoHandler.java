@@ -57,7 +57,6 @@ private static Logger logger = LoggerFactory.getLogger(EchoHandler.class);
     	logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
     	String[] messageAry = message.getPayload().split(":");
     	
-    	//내 채팅방의 인원이 존재할경우
     	if(sessions.containsKey(messageAry[1])) {
     		
     		//start
@@ -84,7 +83,6 @@ private static Logger logger = LoggerFactory.getLogger(EchoHandler.class);
    			 	}
         		
         	}  else if(messageAry[0].equals("quiz")) {
-        		//퀴즈번호가 일치하는 퀴즈 하나를 가져오기 위한 기능.
         		for(WebSocketSession sess : sessions.get(messageAry[1])){
     				sess.sendMessage(new TextMessage(message.getPayload()));
    			 	}
@@ -97,7 +95,6 @@ private static Logger logger = LoggerFactory.getLogger(EchoHandler.class);
     		
     	} else {
     	
-    		//logger.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
 	        for(WebSocketSession sess : sessionList){
 	        	
 	        	//ArrayList<Quiz> quizList = null;
@@ -112,63 +109,6 @@ private static Logger logger = LoggerFactory.getLogger(EchoHandler.class);
 	        	}
         }
         	
-        	
-        	
-        	/*if(messageAry[0].equals("message")) {
-        		//���� messageŸ���̸� message:���̵�:�����ҳ��� ���κ�����.
-        		
-        		sess.sendMessage(new TextMessage(message.getPayload()));
-        		
-        		
-        		//sess.sendMessage(new TextMessage(message.getPayload()));
-        		
-        		
-        		
-        		
-        	} else if(messageAry[0].equals("quiznumber")) {
-        		//�����ȣ��� ������������ ���
-        		//���� �����ȣŸ���̸� quiz:quizseq ���� ������.
-        		QuizDAO dao = sqlsession.getMapper(QuizDAO.class);	
-        		Quiz quiz = new Quiz();
-        		quiz.setId(messageAry[1]);
-        		String result = "";
-        		int check = 0;
-        		//tegŸ������ recordŸ������ ���� Ȯ���Ѵ�.
-        		String type = messageAry[2].substring(0, 1);
-        		String name = messageAry[2].substring(1);
-        		if(type.equals("t")) {
-        			//type�� teg�̸� �±׸� ����ؼ� �ҷ��´�.
-        			quiz.setTeg(name);
-        			quizList = dao.selectTegQuiz(quiz);
-        		} else if(type.equals("r")) {
-        			//type�� record�̸� ���̵�� ���ڵ��ڵ带 ����ؼ� �ҷ��´�.
-        			quiz.setQuizrecordname(name);
-            		quiz.setQuizrecordcode(messageAry[1]+name);
-        			quizList = dao.selectRecordQuiz(quiz);
-        		}
-        		//quizList�� �ϳ��� String���� �����.
-        		for(Quiz var : quizList) {
-        			result += var.getQuizseq();
-        			if(check < quizList.size()-1) {
-        				check++;
-        				result += ",";
-        			}
-        		}
-        		System.out.println("grouptesting"+result);
-        		
-        		sess.sendMessage(new TextMessage("quiznumber:"+messageAry[1]+":"+result));
-        		
-        		
-        		
-        	}  else if(messageAry[0].equals("quiz")) {
-        		//�����ȣ�� ��ġ�ϴ� ���� �ϳ��� �������� ���� ���.
-        		
-        		QuizDAO dao = sqlsession.getMapper(QuizDAO.class);	
-        		Quiz quiz = dao.selectOneQuiz(Integer.parseInt(messageAry[2]));
-        		
-        		sess.sendMessage(new TextMessage("quiz:"+messageAry[2]));
-        		
-        	}*/
         	
         	
         }

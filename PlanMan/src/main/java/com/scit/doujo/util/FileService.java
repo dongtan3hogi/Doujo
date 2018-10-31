@@ -19,13 +19,13 @@ public class FileService {
     * @return 저장된 파일명
     */
    public static String saveFile(MultipartFile upload, String uploadPath) {
-      //저장 폴더가 없으면 생성
+      //保存フォルダがなければ生成
       File path = new File(uploadPath);
       if (!path.isDirectory()) {
          path.mkdirs();
       }
 
-      //원본 파일명
+    
       String originalFilename = upload.getOriginalFilename();
       if (originalFilename.trim().length() == 0) {
          return "";
@@ -33,48 +33,43 @@ public class FileService {
       
       //저장할 파일명 뒤에 을 오늘 날짜의 년월일로 생성
       //SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
-      // 날짜나 랜덤값을 붙여 저장할 파일명을 작성한다. 랜덤 데이터 크기 36
+      // 日付やランダム値をつけて保存するファイル名を作成する。 ランダムデータサイズは36
        String sdf = UUID.randomUUID().toString();
       
-      //원본 파일의 확장자와 파일명 분리
-      String filename;      // 확장자를 뺀 파일명
-      String ext;            // 확장명
-      String savedFilename;   // 디스크에 저장할 이름
+      //原型ファイルの拡張子とファイル名分離
+      String filename;      // 拡張子を外したファイル名
+      String ext;            // 拡張子
+      String savedFilename;   // ディスク名
       
       int lastIndex = originalFilename.lastIndexOf('.');
       
       
-      //확장자가 없는 경우
+     
       if (lastIndex == -1) {
          ext = "";
          filename = originalFilename;
       }
       
-      //확장자가 있는 경우
+      
       else {
          ext = "." + originalFilename.substring(lastIndex + 1);
          filename = originalFilename.substring(0, lastIndex);
       }
       
-      // DB에 저장될 파일명
-      // savedFilename = filename+"_"+sdf.format(new Date()) + ext;
+      // DBに保存されるファイル名
       savedFilename = filename+"_"+sdf + ext;
-
-      //저장할 전체 경로를 포함한 File 객체
       File serverFile = null;
-      
-      //HDD에 저장할 파일명. 같은 이름의 파일이 있는 경우의 처리
+    //HDDに保存するファイル名。 同じ名前のファイルがある場合の処理
       while (true) {
          serverFile = new File(uploadPath + "/" + savedFilename);
-         //같은 이름의 파일이 없으면 나감.
+         //同じ名前のファイルがなければbreak
          if ( !serverFile.isFile()) break;   
-         //같은 이름의 파일이 있으면 이름 뒤에 long 타입의 시간정보를 덧붙임.
+         //同じ名前のファイルがあれば名前の後ろにlong タイプの時間情報を付け足す。
          savedFilename = savedFilename + new Date().getTime();
       }      
       
-      //파일 저장
       try {
-         upload.transferTo(serverFile);  // 지정된 이름으로 지정된 위치에 파일 저장(Buffer등을 활용하지 않아도 된다.) 
+         upload.transferTo(serverFile);  // 指定された名前の指定位置にファイル保存 
       } catch (Exception e) {
          savedFilename = null;
          e.printStackTrace();
@@ -84,18 +79,16 @@ public class FileService {
    }
    
    /**
-    * 서버에 저장된 파일의 전체 경로를 전달받아, 해당 파일을 삭제
+    * サーバに保存されたファイルの全経路を受信し,該当ファイルを削除
     * @param fullpath 삭제할 파일의 경로
     * @return 삭제 여부
     */
    public static boolean deleteFile(String fullpath) {
-      //파일 삭제 여부를 리턴할 변수
+      
       boolean result = false;
       
-      //전달된 전체 경로로 File객체 생성
       File delFile = new File(fullpath);
       
-      //해당 파일이 존재하면 삭제
       if (delFile.isFile()) {
          delFile.delete();
          result = true;
