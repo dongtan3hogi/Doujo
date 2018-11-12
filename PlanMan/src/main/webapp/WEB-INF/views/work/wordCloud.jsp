@@ -74,7 +74,7 @@ $(document).ready(function(){
       $.ajax({
          url:"saveMemo",
          type:"post",
-         //client에서 server로 가는 값
+         //クライアントからサーバーへの値
          data:{"userid": memo, "text":memo,"startDate":memodate},
          success: function(data){
          if(data=="1"||data=="3"){
@@ -179,37 +179,7 @@ $(document).ready(function(){
 		        text: 'ユーザー検索キーワード集合'
 		    }
 		});
-	 /* var color = d3.scale.linear()
-	         .domain([0,1,2,3,4,5,6,10,15,20,100])
-	         .range(["#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
-	
-	 d3.layout.cloud().size([600, 420])
-	         .words(x)
-	         .padding(3)
-	         .rotate(function(d) { return 0; })
-	         .fontSize(function(d) { return d.size; })
-	         .on("end", draw)
-	         .start();
 
-    function draw(words) {
-        d3.select("#wordcloud").append("svg")
-                .attr("width", "600")
-                .attr("height", "420")
-                .attr("class", "wordcloud")
-                .append("g")
-                .attr("transform", "translate(200,200)")
-                .selectAll("text")
-                .data(words)
-                .enter().append("text")
-                .style("font-size", function(d) { d.size=d.size*10; //여기를 수정하여 글자 크기 조절 가능;
-                   return d.size + "px"; })
-                .style("fill", function(d, i) { return color(i); })
-                .attr("text-anchor", "middle")
-        .attr("transform", function(d) {
-            return "translate(" + [Math.abs(d.x), d.y] + ")rotate(" + d.rotate + ")";
-        })
-	            .text(function(d) { return d.text; });
-	 }   */
 	
 });
    

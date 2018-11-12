@@ -422,7 +422,7 @@ function goPage(a){
 	   $.ajax({
 			url:"goMPage",
 			type:"post",
-			//client에서 server로 가는 값
+			//クライアントからサーバーへの値
 			data:{"value": a},
 			success: function(data){
 				$(".eventlist").empty();
@@ -463,7 +463,7 @@ function goPage(a){
 	  
 	  $(".chkbox").change(function(){
 	        if($(this).is(":checked")){
-	            $.ajax({
+	            $.ajax({//ユーザの日程を読み組む
 	            	url:'chkschdule'
 	      			,type:'post'
 	      			,data:{
@@ -501,7 +501,7 @@ function goPage(a){
 	      $.ajax({
 	         url:"searchMeeting",
 	         type:"post",
-	         //client에서 server로 가는 값
+	         //クライアントからサーバーへの値
 	         data:{"search": search},
 	         success: function(data){
 	            $.each(data.meeting, function(index, item){
@@ -545,7 +545,7 @@ function goPage(a){
            $.ajax({
                url:"deleteFavorites",
                type:"post",
-               //client에서 server로 가는 값
+               //クライアントからサーバーへの値
                data:{"id": '${sessionScope.member.id}',"locations":locations},
                success: function(data){
                   if(data==1){

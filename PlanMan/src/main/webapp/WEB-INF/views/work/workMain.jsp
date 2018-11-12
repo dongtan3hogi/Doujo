@@ -411,11 +411,11 @@ function loadfv(){// きにいりを受け取るメソッド
      
      $(document).on("click","a.bk",function(){ 
        	 var locations = $(this).next().attr('href');
-       	 $.ajax({
+       	 $.ajax({//気に入りを削除ためのメソッド
                 url:"deleteFavorites",
                 async: false,
                 type:"post",
-                //client에서 server로 가는 값
+                //クライアントからサーバーへの値
                 data:{"id": '${sessionScope.member.id}',"locations":locations},
                 success: function(data){
                 	
@@ -544,7 +544,7 @@ function loadfv(){// きにいりを受け取るメソッド
 		$.ajax({
 			url:"saveMemo",
 			type:"post",
-			//client에서 server로 가는 값
+			//クライアントからサーバーへの値
 			data:{"userid": memo, "text":memo,"startDate":memodate},
 			success: function(data){
 			if(data=="1"||data=="3"){

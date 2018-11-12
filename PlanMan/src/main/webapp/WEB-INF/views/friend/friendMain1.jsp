@@ -472,7 +472,7 @@
 	  
 	  $(".chkbox").change(function(){
 	        if($(this).is(":checked")){
-	            $.ajax({
+	            $.ajax({//ユーザの日程を読み組む
 	            	url:'chkschdule'
 	      			,type:'post'
 	      			,data:{
@@ -502,7 +502,7 @@
 	        }
 	  });
 	  
-	  $("#goSearch").on("click",function(){
+	  $("#goSearch").on("click",function(){//集まりを検索する機能
 	      var search= $("#searchMeeting").val();
 	      if(search==""){
 	         alert('入力してください。');

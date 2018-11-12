@@ -49,7 +49,7 @@ $(document).ready(function(){
       var temp=td;
   
   
-      $('#saveMemo').click(function(){
+      $('#saveMemo').click(function(){//メモを保存するためのメソッド
       var memo = $('#memo').val();
   	memo= memo.replace("\r\n","<br>");
 
@@ -59,7 +59,7 @@ $(document).ready(function(){
       $.ajax({
          url:"saveMemo",
          type:"post",
-         //client에서 server로 가는 값
+         //クライアントからサーバーへの値
          data:{"userid": memo, "text":memo,"startDate":memodate},
          success: function(data){
          if(data=="1"||data=="3"){
@@ -96,14 +96,14 @@ $(document).ready(function(){
              changeMonth: true, 
              changeYear: true,
              dateFormat: "yy-mm-dd",
-             beforeShowDay: function(day) {
+             beforeShowDay: function(day) {//メモのある日付を調べてカレンダーに表示してくれるメソッド
                 if(memodays.indexOf($.datepicker.formatDate('yy-mm-dd', day)) != -1) return [true, "colordate","" ];
                   else return [true, "", ""];
                   
               },
              onSelect: function(dateText) {  
                 //alert(dateText);
-                $.ajax({
+                $.ajax({//えらんだひづけのめもを読み込む
                    url:'findmemo',
                     type: 'post',
                     data: {
@@ -385,7 +385,7 @@ $(document).ready(function(){
 		          })(marker, i);
 		      }
 				  
-			  $( "#selectNews" ).change(function() {
+			  $( "#selectNews" ).change(function() {//選んだ国の検索したサイトに移動
 				  choose=$(this).val();
 			    	  if($(this).val()=="naver"){
 			    		  var center = new google.maps.LatLng(korea);
@@ -494,7 +494,7 @@ $(document).ready(function(){
 
     var sock;
 
-    //웸소켓을 지정한 url로 연결한다.
+    //ウェブソケットを指定したurlでつなげる。
     sock = new SockJS("<c:url value="/echo2"/>");
     
 </script>

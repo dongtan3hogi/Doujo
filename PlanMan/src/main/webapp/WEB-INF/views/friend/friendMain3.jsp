@@ -448,7 +448,7 @@ div.all-list {
 		src="resources/main/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 	<!-- Page specific script -->
 	<script>
-		function handleImgFileSelect(e) {
+		function handleImgFileSelect(e) {//イメージを先読みするための機能
 			var files = e.target.files;
 			var filesArr = Array.prototype.slice.call(files);
 			filesArr.forEach(function(f) {
@@ -464,10 +464,10 @@ div.all-list {
 				reader.readAsDataURL(f);
 			});
 		}
-		function goDetail(data) {
+		function goDetail(data) {//掲示板の掲示物を詳しく見るための機能
 			location.href = "showDetail?path=" + data;
 		} 
-		$(function() {
+		$(function() {//いろいろなミル方を変えるための機能
 			$("#showList").on('click', function() {
 				location.href = "showFriendList";
 			});
@@ -507,7 +507,7 @@ div.all-list {
 			var pageNum = 1;
 			$("#js-btn-wrap a")
 					.click(
-							function(e) { // Load More를 위한 클릭 이벤트e
+							function(e) { //掲示物をもっと見るための機能
 								$
 										.ajax({
 											url : "moreboard",

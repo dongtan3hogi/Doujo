@@ -106,7 +106,7 @@ $(document).ready(function(){
            $.ajax({
                url:"deleteFavorites",
                type:"post",
-               //client에서 server로 가는 값
+               //clientからserverに行く値
                data:{"id": '${sessionScope.member.id}',"locations":locations},
                success: function(data){
                   if(data==1){
@@ -129,7 +129,7 @@ $(document).ready(function(){
            $.ajax({
                url:"insertFavorites",
                type:"post",
-               //client에서 server로 가는 값
+               //clientからserverに行く値
                data:{"id": '${sessionScope.member.id}', "title":title,"locations":locations},
                success: function(data){
                   if(data==1){
@@ -165,7 +165,7 @@ $('#saveMemo').click(function(){//メモを保存するためのメソッド
 	$.ajax({
 		url:"saveMemo",
 		type:"post",
-		//client에서 server로 가는 값
+		//clientからserverに行く値
 		data:{"userid": "${sessionScope.member.id}", "text":memo,"startDate":memodate},
 		success: function(data){
 		if(data=="success"){
@@ -198,7 +198,7 @@ $('#keylist').on('click',function(){//私のキーワードを見せるメソッ
 	$.ajax({		
 		url:"keylist",
 		type:"get",
-		//client에서 server로 가는 값
+		//clientからserverに行く値
 		data:{"userid": "${sessionScope.member.id}"},
 		success: function(data){
 			var today = new Date();
@@ -253,7 +253,7 @@ $('#ff').on('submit',function(){//私と同じキーワードを多く検索し�
 	$.ajax({
 		url:"findFriend",
 		type:"post",
-		//client에서 server로 가는 값
+		//clientからserverに行く値
 		data:{"userid": "${sessionScope.member.id}","sex": sex, "age" : age},
 		success: function(data){
 			if(data.length==0){
@@ -267,7 +267,7 @@ $('#ff').on('submit',function(){//私と同じキーワードを多く検索し�
 			for(var i=0; i<data.length;i++){	
 			result += "<a href='javascript:void(0)' class='friendBtn'>"+data[i].id+"</a> &nbsp";
 		}
-		$('#friendlist').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
+		$('#friendlist').html(result);
 		},
 		error:function(){
 			alert("失敗しました.");
@@ -279,7 +279,7 @@ $(document).on("click",".friendBtn",function(){//友たちのキーワードを�
 	$.ajax({
 		url:"friendKey",
 		type:"get",
-		//client에서 server로 가는 값
+		//clientからserverに行く値
 		data:{"id": name},
 		success: function(data){
 			if(data.length==0){
@@ -290,7 +290,7 @@ $(document).on("click",".friendBtn",function(){//友たちのキーワードを�
 			for(var i=0; i<data.length;i++){	
 				result += "<a  href='javascript:void(0)' onclick='goSearch2(this)'>"+data[i].keyword+"</a> &nbsp";
 		}
-		$('#flist0').html(result);//data.userid ㅐobject를 내가 원래 사용하던 형변화를 하려할 때, 다음과 같이 사용하면 됌
+		$('#flist0').html(result);
 		},
 		error:function(){
 			alert("失敗しました.");
@@ -724,7 +724,7 @@ var memodays="";
 
     var sock;
 
-    //웸소켓을 지정한 url로 연결한다.
+    //ウェブソケットを指定したurlでつなげる。.
     sock = new SockJS("<c:url value="/echo2"/>");
     
 </script>
